@@ -1,0 +1,41 @@
+components:
+  schemas:
+    HalLink:
+      title: HalLink
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://api.dwolla.com
+        type:
+          type: string
+          example: application/vnd.dwolla.v1.hal+json
+        resource-type:
+          type: string
+          example: resource-type
+    Address:
+      title: Address
+      type: object
+      properties:
+        address1:
+          type: string
+          example: 462 Main Street
+        city:
+          type: string
+          example: Des Moines
+        state:
+          type: string
+          example: IA
+        postalCode:
+          type: string
+          example: '50309'
+    TransferAmount:
+      title: TransferAmount
+      type: object
+      properties:
+        value:
+          type: string
+          example: '5.00'
+        currency:
+          type: string
+          example: 'USD'

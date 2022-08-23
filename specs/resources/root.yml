@@ -1,0 +1,25 @@
+get:
+  tags:
+    - root
+  summary: root
+  description: Entry point to the Dwolla API.
+  operationId: root
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RootResponse'
+  deprecated: false
+components:
+  schemas:
+    RootResponse:
+      title: RootResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '../schemas/commonSchemas.yml#/components/schemas/HalLink'

@@ -1,0 +1,60 @@
+get:
+  tags:
+    - funding sources
+  summary: List customer funding sources
+  description: List customer funding sources
+  operationId: listCustomerFundingSources
+  parameters:
+    - name: id
+      in: path
+      description: Customer funding sources
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../accounts/listAccountFundingSources.yml#/components/schemas/ListAccountFundingSources'
+post:
+  tags:
+    - funding source
+  summary: Create a customer funding source
+  description: Create a customer funding source
+  operationId: createCustomerFundingSource
+  parameters:
+    - name: id
+      in: path
+      description: customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+components:
+  schemas:
+    listCustomerFundingSourcesResponse:
+      title: listCustomerFundingSourcesResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            funding-sources:
+              type: array
+              items:
+                type: object
+                properties:

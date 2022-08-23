@@ -1,0 +1,56 @@
+get:
+  tags:
+    - beneficial owners
+  summary: Retrieve beneficial ownership status
+  description: Retrieve beneficial ownership status
+  operationId: retrieveBeneficialOwnershipStatus
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/BeneficialOwnershipResponse'
+post:
+  tags:
+    - beneficial owners
+  summary: certify beneficial ownership status
+  description: certify beneficial ownership status
+  operationId: certifyBeneficialOwnershipStatus
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/BeneficialOwnershipResponse'
+components:
+  schemas:
+    BeneficialOwnershipResponse:
+      title: BeneficialOwnershipResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        status:
+          type: string
+          example: uncertified

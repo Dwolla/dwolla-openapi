@@ -1,0 +1,100 @@
+get:
+  tags:
+    - webhook subscriptions
+  summary: Retrieve webhook subscriptions
+  description: Retrieve webhook subscriptions
+  operationId: retrieveWebhookSubscriptions
+  parameters:
+    - name: id
+      in: path
+      description: Webhook subscription unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
+                  webhooks:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
+              id:
+                type: string
+                example: 077dfffb-4852-412f-96b6-0fe668066589
+              url:
+                type: string
+                example: http://myapplication.com/webhooks
+              created:
+                type: string
+                format: date-time
+                example: 2015-10-28T16:20:47+00:00
+post:
+  tags:
+    - webhook subscriptions
+  summary: Update webhook subscriptions
+  description: Update webhook subscriptions
+  operationId: updateWebhookSubscriptions
+  parameters:
+    - name: id
+      in: path
+      description: Webhook unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to update a webhook subscription
+    content:
+      application/json:
+        schema:
+          required:
+            - paused
+          type: object
+          properties:
+            paused:
+              type: boolean
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+delete:
+  tags:
+    - webhook subscriptions
+  summary: Delete webhook subscriptions
+  description: Delete webhook subscriptions
+  operationId: deleteWebhookSubscriptions
+  parameters:
+    - name: id
+      in: path
+      description: Webhook unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

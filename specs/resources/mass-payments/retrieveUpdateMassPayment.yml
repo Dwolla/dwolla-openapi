@@ -1,0 +1,85 @@
+get:
+  tags:
+    - mass payments
+  summary: Retrieve a mass payment
+  description: Retrieve a mass payment
+  operationId: retrieveMassPayment
+  parameters:
+    - name: id
+      in: path
+      description: Mass payment ID
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563
+                  source:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
+                  items:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
+              id:
+                type: string
+                example: eb467252-808c-4bc0-b86f-a5cd01454563
+              status:
+                type: string
+                example: processing
+              created:
+                type: string
+                example: '2016-03-18T19:44:16.000Z'
+              metadata:
+                type: object
+post:
+  tags:
+    - mass payments
+  summary: Update masss payment
+  description: Update mass payment
+  parameters:
+    - name: id
+      in: path
+      description: ID of mass payment to update
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters for updating a mass payment
+    content:
+      application/json:
+        schema:
+          required:
+            - status
+          type: object
+          properties:
+            status:
+              type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

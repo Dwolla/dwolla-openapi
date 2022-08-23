@@ -1,0 +1,44 @@
+post:
+  tags:
+    - labels
+  summary: Create label reallocation
+  description: Create label reallocation
+  operationId: createLabelReallocation
+  requestBody:
+    description: Parameters to create a label reallocation
+    content:
+      application/json:
+        schema:
+          required:
+            - _links
+            - amount
+          type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                source:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                description:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+            amount:
+              type: object
+              properties:
+                currency:
+                  type: string
+                value:
+                  type: string
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

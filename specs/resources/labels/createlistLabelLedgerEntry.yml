@@ -1,0 +1,162 @@
+get:
+  tags:
+    - labels
+  summary: List label ledger entries
+  description: List label ledger entries
+  operationId: listLabelLedgerEntries
+  parameters:
+    - name: id
+      in: path
+      description: A label unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to filter label ledge entries by
+    content:
+      application/json:
+        type: object
+        properties:
+          limit:
+            type: integer
+          offset:
+            type: integer
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: ledger-entry
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: ledger-entry
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: ledger-entry
+              _embedded:
+                type: object
+                properties:
+                  ledger-entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _links:
+                          type: object
+                          properties:
+                            self:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/ledger-entries/32d68709-62dd-43d6-a6df-562f4baec526
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: ledger-entry
+                            label:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: label
+                        id:
+                          type: string
+                          example: 32d68709-62dd-43d6-a6df-562f4baec526
+                        amount:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: -5.00
+                            currency:
+                              type: string
+                              example: USD
+                        created:
+                          type: string
+                          example: 2019-05-16T01:54:58.062Z
+              total:
+                type: integer
+                format: int32
+                example: 2
+post:
+  tags:
+    - labels
+  summary: Create label ledger entries
+  description: Create label ledger entries
+  operationId: createLabelLedgerEntries
+  parameters:
+    - name: id
+      in: path
+      description: A label unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to create label ledger entry
+    content:
+      application/json:
+        schema:
+          required:
+            - amount
+          type: object
+          properties:
+            amount:
+              type: object
+              properties:
+                value:
+                  type: string
+                currency:
+                  type: string
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

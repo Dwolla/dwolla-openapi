@@ -1,0 +1,108 @@
+get:
+  tags:
+    - account
+  summary: List and search transers for an account
+  description: List and search transers for an account
+  operationId: listAndSearchAccountTransfers
+  parameters:
+    - name: id
+      in: path
+      description: Account's unique identifier
+      required: true
+      schema:
+        type: string
+    - name: search
+      in: query
+      description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`
+      required: false
+      schema:
+        type: string
+    - name: startAmount
+      in: query
+      description: Only include transactions with an amount equal to or greater than `startAmount`
+      required: false
+      schema:
+        type: string
+    - name: endAmount
+      in: query
+      description: Only include transactions with an amount equal to or less than `endAmount`
+      required: false
+      schema:
+        type: string
+    - name: startDate
+      in: query
+      description: Only include transactions created after this date. ISO-8601 format `YYYY-MM-DD`
+      required: false
+      schema:
+        type: string
+    - name: endDate
+      in: query
+      description: Only include transactions created before this date. ISO-8601 format `YYYY-MM-DD`
+      required: false
+      schema:
+        type: string
+    - name: status
+      in: query
+      description: Filter on transaction status. Possible values are `pending`, `processed`, `failed`, or `cancelled`
+      required: false
+      schema:
+        type: string
+    - name: correlationId
+      in: query
+      description: A string value to search on if `correlationId` was specified for a transaction
+      required: false
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: Number of search results to return. Defaults to 25
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: Number of search results to skip. Use for pagination
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/ListAndSearchAccountTransfersResponse'
+components:
+  schemas:
+    ListAndSearchAccountTransfersResponse:
+      title: ListAndSearchAccountTransfersResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            transfers:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    additionalProperties:
+                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  id:
+                    type: string
+                    example: '37b16b5f-187a-ec11-813d-ca84ae5ee1fb'
+                  status:
+                    type: string
+                    example: processed
+                  amount:
+                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
+                  created:
+                    type: string
+                    example: '2022-01-20T17:42:52.787Z'
+        total:
+          type: integer
+          example: 100

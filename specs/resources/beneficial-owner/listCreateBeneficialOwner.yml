@@ -1,0 +1,117 @@
+get:
+  tags:
+    - beneficial owners
+  summary: List beneficial owners
+  description: List beneficial owners
+  operationId: listBeneficialOwners
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/ListBeneficialOwnerResponse'
+post:
+  tags:
+    - beneficial owners
+  summary: Create a beneficial owners
+  description: Create a beneficial owners
+  operationId: createBeneficialOwner
+  requestBody:
+    description: Parameters for creating a beneficial owners
+    content:
+      application/json:
+        schema:
+          required:
+            - firstName
+            - lastName
+            - dateOfBirth
+            - address
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            ssn:
+              type: string
+            dateOfBirth:
+              type: string
+            address:
+              type: object
+              properties:
+                address1:
+                  type: string
+                address2:
+                  type: string
+                address3:
+                  type: string
+                city:
+                  type: string
+                stateProvinceRegion:
+                  type: string
+                country:
+                  type: string
+                postalCode:
+                  type: string
+            passport:
+              type: object
+              properties:
+                number:
+                  type: string
+                country:
+                  type: string
+  responses:
+    '201':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+components:
+  schemas:
+    ListBeneficialOwnerResponse:
+      title: ListBeneficialOwnerResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            beneficial-owners:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    additionalProperties:
+                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  id:
+                    type: string
+                    example: 55469604-40ab-44b6-962f-de2c0837ba98
+                  firstName:
+                    type: string
+                    example: Jane
+                  lastName:
+                    type: string
+                    example: Doe
+                  address:
+                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/Address'
+                  verificationStatus:
+                    type: string
+                    example: documet

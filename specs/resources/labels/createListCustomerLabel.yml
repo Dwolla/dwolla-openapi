@@ -1,0 +1,198 @@
+get:
+  tags:
+    - labels
+  summary: List labels for a customer
+  description: List labels for a customer
+  operationId: listCustomerLabels
+  parameters:
+    - name: id
+      in: path
+      description: ID of customer
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to filter customer labels
+    content:
+      application/json:
+        type: object
+        properties:
+          limit:
+            type: integer
+          offset:
+            type: integer
+  responses:
+    '200':
+      description: success operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+                  customer:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: customer
+              _embedded:
+                type: object
+                properties:
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _links:
+                          type: object
+                          properties:
+                            self:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: label
+                            update:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: ledger-entry
+                            ledger-entries:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: ledger-entry
+                            customer:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: customer
+                        id:
+                          type: string
+                          example: 7e042ffe-e25e-40d2-b86e-748b98845ecc
+                        created:
+                          type: string
+                          example: 2019-05-15T22:19:09.635Z
+                        amount:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: 5.00
+                            currency:
+                              type: string
+                              example: USD
+              total:
+                type: integer
+                format: int32
+                example: 1
+post:
+  tags:
+    - labels
+  summary: Create labels for a customer
+  description: Create labels for a customer
+  operationId: createCustomerLabel
+  parameters:
+    - name: id
+      in: path
+      description: ID of customer
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to create a customer label
+    content:
+      application/json:
+        schema:
+          required:
+            - amount
+          type: object
+          properties:
+            amount:
+              type: object
+              properties:
+                currency:
+                  type: string
+                value:
+                  type: string
+  responses:
+    '201':
+      description: create
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

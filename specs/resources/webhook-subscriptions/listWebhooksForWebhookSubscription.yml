@@ -1,0 +1,125 @@
+get:
+  tags:
+    - webhook subscriptions
+  summary: List webhooks for a webhook subscription
+  description: List webhooks for a webhook subscription
+  operationId: listWebhooksForWebhookSubscription
+  parameters:
+    - name: id
+      in: path
+      description: Webhook subscription unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to filter webhooks to list
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            limit:
+              type: integer
+            offset:
+              type: integer
+            startDate:
+              type: string
+            endDate:
+              type: string
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+              total:
+                type: integer
+                format: int32
+                example: 0
+              _embedded:
+                type: object
+                properties:
+                  webhooks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _links:
+                          type: object
+                          properties:
+                        id:
+                          type: string
+                          example: string
+                        topic:
+                          type: string
+                          example: string
+                        accountId:
+                          type: string
+                          example: string
+                        eventId:
+                          type: string
+                          example: string
+                        subscriptionId:
+                          type: string
+                          example: string
+                        attempts:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: string
+                              request:
+                                type: object
+                                properties:
+                                  created:
+                                    type: string
+                                    example: 2015-07-23T14:19:37.006Z
+                                  url:
+                                    type: string
+                                    example: string
+                                  headers:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                          example: string
+                                        value:
+                                          type: string
+                                          example: string
+                                  body:
+                                    type: string
+                                    example: string
+                              response:
+                                type: object
+                                properties:
+                                  created:
+                                    type: string
+                                    example: 2015-07-23T14:19:37.006Z
+                                  headers:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                          example: string
+                                        value:
+                                          type: string
+                                          example: string
+                                  statusCode:
+                                    type: integer
+                                    format: int32
+                                    example: 0
+                                  body:
+                                    type: string
+                                    example: string

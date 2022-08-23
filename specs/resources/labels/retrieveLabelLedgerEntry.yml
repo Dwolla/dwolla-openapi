@@ -1,0 +1,64 @@
+get:
+  tags:
+    - labels
+  summary: Retrieve a label ledger entry
+  description: Retrieve a label ledger entry
+  operationId: retrieveLabelLedgerEntry
+  parameters:
+    - name: id
+      in: path
+      description: A label ledger entry unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/ledger-entries/32d68709-62dd-43d6-a6df-562f4baec526
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: ledger-entry
+                  label:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+              id:
+                type: string
+                example: 32d68709-62dd-43d6-a6df-562f4baec526
+              amount:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    example: -5.00
+                  currency:
+                    type: string
+                    example: USD
+              created:
+                type: string
+                example: 2019-05-16T01:54:58.062Z

@@ -1,0 +1,81 @@
+get:
+  tags:
+    - transfers
+  summary: Retrieve a transfer
+  description: Retrieve a transfer
+  operationId: retrieveTransfer
+  parameters:
+    - name: id
+      in: paths
+      description: ID of transfer to be retrieved
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                additionalProperties:
+                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+              id:
+                type: string
+                example: 15c6bcce-46f7-e811-8112-e8dd3bececa8
+              status:
+                type: string
+                example: pending
+              amount:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    example: '42.00'
+                  currency:
+                    type: string
+                    example: USD
+              created:
+                type: string
+                example: '2018-12-03T22:00:22.970Z'
+              clearing:
+                type: object
+                properties:
+                  source:
+                    type: string
+                    example: standard
+post:
+  tags:
+    - transfers
+  summary: Cancel a transfer
+  description: Cancel a transfer
+  operationId: cancelTransfer
+  parameters:
+    - name: id
+      in: path
+      description: ID of transfer
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to cancel a transfer
+    content:
+      application/json:
+        required:
+          - status
+        type: object
+        properties:
+          status:
+            type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

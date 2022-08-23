@@ -1,0 +1,62 @@
+get:
+  tags:
+    - funding source
+  summary: Retrieve micro-deposits details
+  description: Retrieve micro-deposits details
+  operationId: retrieveMicroDepositsDetails
+  parameters:
+    - name: id
+      in: path
+      description: ID of funding source to intiate micro-deposits to
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                additionalProperties:
+                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+              created:
+                type: string
+                example: 'INSERRT TIMESTAMP'
+              status:
+                type: string
+                example: failed
+              failure:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: R03
+                  description:
+                    type: string
+                    example: No Account/Unable to locate account
+post:
+  tags:
+    - funding sources
+  summary: Initiate micro-deposits
+  description: Initiate micro-deposits
+  operationId: initiateMicroDeposit
+  parameters:
+    - name: id
+      in: path
+      description: ID of funding source to intiate micro-deposits to
+      required: true
+      schema:
+        type: string
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

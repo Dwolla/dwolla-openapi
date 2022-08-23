@@ -1,0 +1,89 @@
+get:
+  tags:
+    - account
+  summary: List mass payments for an account
+  description: List mass payments for an account
+  operation: ListAccountMassPayments
+  parameters:
+    - name: id
+      in: path
+      description: Account ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: How many results to return.
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 200
+        default: 25
+        example: 25
+    - name: offset
+      in: query
+      description: How many results to skip.
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int32
+        default: 0
+        example: 0
+    - name: correlationId
+      in: query
+      description: Correlation ID to search by.
+      style: form
+      explode: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schema/ListAccountMassPaymentsResponse'
+components:
+  schema:
+    ListAccountMassPaymentsResponse:
+      title: ListAccountMassPaymentsResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            mass-payments:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    additionalProperties:
+                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  id:
+                    type: string
+                    example: 11ac4051-7b76-44fc-87ab-ae23012393f0
+                  status:
+                    type: string
+                    example: complete
+                  created:
+                    type: string
+                    example: '2022-01-20T17:41:41.000Z'
+                  metaData:
+                    type: object
+                  total:
+                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
+                  totalFees:
+                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'

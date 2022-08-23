@@ -1,0 +1,56 @@
+get:
+  tags:
+    - documents
+  summary: Retrieve a document
+  description: Retrieve a document
+  operationId: retrieveDocument
+  parameters:
+    - name: id
+      in: path
+      description: document unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+              id:
+                type: string
+                example: 56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc
+              status:
+                type: string
+                example: reviewed
+              type:
+                type: string
+                example: passport
+              created:
+                type: string
+                example: '2015-09-29T21:42:16.000Z'
+              documentVerificationStatus:
+                type: string
+                example: rejected
+              failureReason:
+                type: string
+                example: ScanDobMismatch
+              allFailureReasons:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    reason:
+                      type: string
+                      example: ScanDobMismatch
+                    description:
+                      type: string
+                      example: Scan DOB does not match DOB on account

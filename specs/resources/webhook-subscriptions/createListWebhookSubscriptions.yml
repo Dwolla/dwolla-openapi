@@ -1,0 +1,88 @@
+get:
+  tags:
+    - webhook subscriptions
+  summary: List webhook subscriptions
+  description: List webhook subscriptions
+  operationId: listWebhookSubscriptions
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions
+              _embedded:
+                type: object
+                properties:
+                  webhook-subscriptions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _links:
+                          type: object
+                          properties:
+                            self:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/f4d21628-fde2-4d3a-b69a-0a7cb42adc4c
+                            webhooks:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/f4d21628-fde2-4d3a-b69a-0a7cb42adc4c/webhooks
+                        id:
+                          type: string
+                          example: f4d21628-fde2-4d3a-b69a-0a7cb42adc4c
+                        url:
+                          type: string
+                          example: https://destination.url
+                        created:
+                          type: string
+                          example: 2015-08-19T21:43:49.000Z
+              total:
+                type: integer
+                format: int32
+                example: 1
+post:
+  tags:
+    - webhook subscriptions
+  summary: Create webhook subscriptions
+  description: Create webhook subscriptions
+  operationId: createWebhookSubscriptions
+  requestBody:
+    description: Parameters to create a webhook subscriptions
+    content:
+      application/json:
+        schema:
+          required:
+            - url
+            - secret
+          type: object
+          properties:
+            url:
+              type: string
+            secret:
+              type: string
+  responses:
+    '201':
+      description: create
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

@@ -1,0 +1,36 @@
+post:
+  tags:
+    - account
+  summary: Create a funding source for an account
+  description: Create a funding source for an account
+  operationId: createAccountFundingSource
+  requestBody:
+    description: Parameters for the funding source to be created
+    content:
+      application/json:
+        schema:
+          required:
+            - accountNumber
+            - routingNumber
+            - bankAccountType
+            - name
+          type: object
+          properties:
+            accountNumber:
+              type: string
+            routingNumber:
+              type: string
+            bankAccountType:
+              type: string
+            name:
+              type: string
+            channels:
+              type: array
+  responses:
+    '201':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

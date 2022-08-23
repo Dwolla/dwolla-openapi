@@ -1,0 +1,92 @@
+get:
+  tags:
+    - customers
+  summary: Retrieve a customer
+  description: Retrieve a customer
+  operationId: retrieveCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveCustomerResponse'
+post:
+  tags:
+    - customer
+  summary: Update a customer
+  description: Update a customer
+  operationId: updateCustomer
+  requestBody:
+    description: Parameters for customer to be created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            businessName:
+              type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveCustomerResponse'
+components:
+  schemas:
+    RetrieveCustomerResponse:
+      title: RetrieveCustomerResponse
+      type: object
+      properties:
+        _links:
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        id:
+          type: string
+          example: c41125c5-99c4-4303-a9f6-d066d28a61e3
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: janedoe@mail.com
+        type:
+          type: string
+          example: unverified
+        status:
+          type: string
+          example: unverified
+        created:
+          type: string
+          example: '2022-06-03T16:39:40.457Z'
+        address1:
+          type: string
+          example: 123 Main Street
+        city:
+          type: string
+          example: Des Moines
+        state:
+          type: string
+          example: IA
+        postalCode:
+          type: string
+          example: '50309'

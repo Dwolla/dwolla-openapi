@@ -1,0 +1,101 @@
+get:
+  tags:
+    - transfers
+  summary: Initiate a transfer
+  description: Initiate a transfer
+  operationId: initiateTransfer
+  requestBody:
+    description: Parameters to create initiate a transfer
+    content:
+      application/json:
+        schema:
+          required:
+            - _links
+            - amount
+          type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                source:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                description:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+            amount:
+              type: object
+              properties:
+                currency:
+                  type: string
+                value:
+                  type: string
+            metadata:
+              type: object
+              properties:
+                paymentId:
+                  type: string
+                note:
+                  type: string
+            fees:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      charge-to:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                  amount:
+                    type: object
+                    properties:
+                      amount:
+                        type: string
+                      currency:
+                        type: string
+            clearing:
+              type: object
+              properties:
+                destination:
+                  type: string
+            achDetails:
+              type: object
+              properties:
+                source:
+                  type: object
+                  properties:
+                    addenda:
+                      type: object
+                      properties:
+                        values:
+                          type: array
+                          items:
+                            type: string
+                destination:
+                  type: object
+                  properties:
+                    addenda:
+                      type: object
+                      properties:
+                        values:
+                          type: array
+                          items:
+                            type: string
+            correlationId:
+              type: string
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object

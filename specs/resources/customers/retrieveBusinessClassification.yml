@@ -1,0 +1,21 @@
+get:
+  tags:
+    - customers
+  summary: Retrieve a business classification
+  description: Retrieve a business classification
+  operationId: retrieveBusinessClassification
+  parameters:
+    - name: id
+      in: path
+      description: business classification unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: './listBusinessClassification.yml#/components/schemas/ListBusinessClassificationResponse'

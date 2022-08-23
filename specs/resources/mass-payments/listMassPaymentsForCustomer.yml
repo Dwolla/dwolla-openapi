@@ -1,0 +1,107 @@
+get:
+  tags:
+    - mass payments
+  summary: List mass payments for customer
+  description: List mass payments for customer
+  operationId: listCustomerMassPayments
+  parameters:
+    - name: id
+      in: path
+      description: Customer ID to get mass payments for
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to list items of a mass payment for customer
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            limit:
+              type: integer
+            offset:
+              type: integer
+            correlationId:
+              type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments?limit=25&offset=0
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments?limit=25&offset=0
+              _embedded:
+                type: object
+                properties:
+                  mass-payments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _links:
+                          type: object
+                          properties:
+                            self:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/mass-payments/89ca72d2-63bf-4a8f-92ef-a5d00140aefa
+                            source:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/funding-sources/e1c972d4-d8d9-4c30-861a-9081dcbaf4ab
+                            items:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api-sandbox.dwolla.com/mass-payments/89ca72d2-63bf-4a8f-92ef-a5d00140aefa/items
+                        id:
+                          type: string
+                          example: 89ca72d2-63bf-4a8f-92ef-a5d00140aefa
+                        status:
+                          type: string
+                          example: complete
+                        created:
+                          type: string
+                          example: 2016-03-21T19:27:34.000Z
+                        metadata:
+                          type: object
+                          properties:
+                            masspay1:
+                              type: string
+                              example: masspay1
+                        correlationId:
+                          type: string
+                          example: 8a2cdc8d-629d-4a24-98ac-40b735229fe2
+              total:
+                type: integer
+                format: int32
+                example: 1
