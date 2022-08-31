@@ -2,16 +2,28 @@ get:
   tags:
     - root
   summary: root
-  description: Entry point to the Dwolla API.
+  description: Entry point to the Dwolla API
   operationId: root
   responses:
-    '200':
-      description: successful operation
-      headers: {}
+    '200 OK':
+      description: sucessful operation
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RootResponse'
+    '401 Unauthorized':
+      description: unauthorized
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidAccessToken
+              message:
+                type: string
+                example: Invalid access token.
   deprecated: false
 components:
   schemas:
