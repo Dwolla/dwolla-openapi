@@ -3,7 +3,7 @@ get:
     - labels
   summary: List label ledger entries
   description: List label ledger entries
-  operationId: listLabelLedgerEntries
+  operationId: listLedgerEntries
   parameters:
     - name: id
       in: path
@@ -11,16 +11,18 @@ get:
       required: true
       schema:
         type: string
-  requestBody:
-    description: Parameters to filter label ledge entries by
-    content:
-      application/json:
-        type: object
-        properties:
-          limit:
-            type: integer
-          offset:
-            type: integer
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       description: successful operation
@@ -75,54 +77,11 @@ get:
                   ledger-entries:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _links:
-                          type: object
-                          properties:
-                            self:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/ledger-entries/32d68709-62dd-43d6-a6df-562f4baec526
-                                type:
-                                  type: string
-                                  example: application/vnd.dwolla.v1.hal+json
-                                resource-type:
-                                  type: string
-                                  example: ledger-entry
-                            label:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
-                                type:
-                                  type: string
-                                  example: application/vnd.dwolla.v1.hal+json
-                                resource-type:
-                                  type: string
-                                  example: label
-                        id:
-                          type: string
-                          example: 32d68709-62dd-43d6-a6df-562f4baec526
-                        amount:
-                          type: object
-                          properties:
-                            value:
-                              type: string
-                              example: -5.00
-                            currency:
-                              type: string
-                              example: USD
-                        created:
-                          type: string
-                          example: 2019-05-16T01:54:58.062Z
+                      $ref: './retrieveLabelLedgerEntry.yml#/components/schemas/RetrieveLabelLedgerEntryResponse'
               total:
                 type: integer
                 format: int32
-                example: 2
+                example: 1
 post:
   tags:
     - labels

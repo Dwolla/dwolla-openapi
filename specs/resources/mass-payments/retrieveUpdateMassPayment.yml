@@ -3,11 +3,11 @@ get:
     - mass payments
   summary: Retrieve a mass payment
   description: Retrieve a mass payment
-  operationId: retrieveMassPayment
+  operationId: get
   parameters:
     - name: id
       in: path
-      description: Mass payment ID
+      description: Mass payment unique identifier
       required: true
       schema:
         type: string
@@ -18,45 +18,14 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563
-                  source:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
-                  items:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
-              id:
-                type: string
-                example: eb467252-808c-4bc0-b86f-a5cd01454563
-              status:
-                type: string
-                example: processing
-              created:
-                type: string
-                example: '2016-03-18T19:44:16.000Z'
-              metadata:
-                type: object
+            $ref: '#/components/schemas/RetrieveMassPaymentResponse'
+
 post:
   tags:
     - mass payments
-  summary: Update masss payment
-  description: Update mass payment
+  summary: Update a mass payment to process or cancel it
+  description: Update a mass payment to process or cancel it
+  operationId: update
   parameters:
     - name: id
       in: path
@@ -75,6 +44,7 @@ post:
           properties:
             status:
               type: string
+              example: pending
   responses:
     '200':
       description: successful operation
@@ -82,4 +52,42 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
+            $ref: '#/components/schemas/RetrieveMassPaymentResponse'
+components:
+  schemas:
+    RetrieveMassPaymentResponse:
+      title: RetrieveMassPaymentResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563
+            source:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
+        id:
+          type: string
+          example: eb467252-808c-4bc0-b86f-a5cd01454563
+        status:
+          type: string
+          example: processing
+        created:
+          type: string
+          example: '2016-03-18T19:44:16.000Z'
+        metadata:
+          type: object

@@ -96,6 +96,12 @@ post:
                       type: string
             correlationId:
               type: string
+            processingChannel:
+              type: object
+              properties:
+                destination:
+                  type: string
+                  example: real-time-payments
   responses:
     '201':
       description: created

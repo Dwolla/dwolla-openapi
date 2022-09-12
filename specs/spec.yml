@@ -112,4 +112,4 @@ paths:
   /webhooks/{id}:
     $ref: 'resources/webhooks/retrieveWebhook.yml'
   /webhooks/{id}/retries:
-    $ref: 'resources/webhooks/listRetriesAndRetyWebhook.yml'
+    $ref: 'resources/webhooks/listRetriesAndRetryWebhook.yml'

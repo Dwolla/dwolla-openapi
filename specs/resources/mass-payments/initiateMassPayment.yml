@@ -3,14 +3,14 @@ post:
     - mass payments
   summary: Initiate a mass payment
   description: Initiate a mass payment
-  operationId: initiateMassPayment
+  operationId: initiate
   requestBody:
     description: Parameters for initiating a mass payment
     content:
       application/json:
         schema:
           required:
-            - links
+            - _links
             - items
           type: object
           properties:
@@ -22,6 +22,69 @@ post:
                   properties:
                     href:
                       type: string
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      destination:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                  amount:
+                    type: object
+                    properties:
+                      currency:
+                        type: string
+                      value:
+                        type: string
+                  processingChannel:
+                    type: object
+                    properties:
+                      destination:
+                        type: string
+                        example: real-time-payments
+                  metadata:
+                    type: object
+                  clearing:
+                    type: object
+                    properties:
+                      source:
+                        type: string
+                      destination:
+                        type: string
+                  achDetails:
+                    type: object
+                    properties:
+                      source:
+                        type: object
+                        properties:
+                          addenda:
+                            type: object
+                            properties:
+                              values:
+                                type: array
+                                items:
+                                  type: string
+                      destination:
+                        type: object
+                        properties:
+                          addenda:
+                            type: object
+                            properties:
+                              values:
+                                type: array
+                                items:
+                                  type: string
+                  correlationId:
+                    type: string
+            status:
+              type: string
+              example: deferred
             achDetails:
               type: object
               properties:
@@ -40,10 +103,6 @@ post:
               properties:
                 source:
                   type: string
-            items:
-              type: array
-              items:
-                type: object
             metadata:
               type: object
               properties:
