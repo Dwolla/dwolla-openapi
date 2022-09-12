@@ -1,6 +1,0 @@
-{
-  "yaml.schemas": {
-    "swaggerviewer:openapi": "file:///Users/sthapa/Documents/Projects/DevRel/dwolla-openapi/specs/spec.yml"
-  },
-  "swaggerViewer.previewInBrowser": true
-}
