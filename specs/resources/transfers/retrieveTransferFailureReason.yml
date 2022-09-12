@@ -3,7 +3,7 @@ get:
     - transfers
   summary: Retrieve a transfer failure reason
   description: Retrieve a transfer failure reason
-  operationId: retrieveTransferFailureReason
+  operationId: getFailureReason
   parameters:
     - name: id
       in: path

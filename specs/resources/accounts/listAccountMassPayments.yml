@@ -87,3 +87,6 @@ components:
                     $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
                   totalFees:
                     $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
+                  correlationId:
+                    type: string
+                    example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'

@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: List customer funding sources
   description: List customer funding sources
-  operationId: listCustomerFundingSources
+  operationId: listForCustomer
   parameters:
     - name: id
       in: path
@@ -18,12 +18,14 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../accounts/listAccountFundingSources.yml#/components/schemas/ListAccountFundingSources'
+            type: array
+            items:
+              $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'
 post:
   tags:
-    - funding source
-  summary: Create a customer funding source
-  description: Create a customer funding source
+    - funding sources
+  summary: Create customer funding source for a Customer
+  description: Create customer funding source for a Customer
   operationId: createCustomerFundingSource
   parameters:
     - name: id
@@ -32,6 +34,32 @@ post:
       required: true
       schema:
         type: string
+  requestBody:
+    description: Parameters for creating a funding-source
+    content:
+      application/json:
+        schema:
+          required:
+            - routingNumber
+            - accountNumber
+            - bankAccountType
+            - name
+          type: object
+          properties:
+            _links:
+              type: string
+            routingNumber:
+              type: string
+            accountNumber:
+              type: string
+            bankAccountType:
+              type: string
+            name:
+              type: string
+            plaidToken:
+              type: string
+            channels:
+              type: array
   responses:
     '201':
       description: created
@@ -56,5 +84,4 @@ components:
             funding-sources:
               type: array
               items:
-                type: object
-                properties:
+                $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'

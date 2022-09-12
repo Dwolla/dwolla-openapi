@@ -3,7 +3,7 @@ get:
     - events
   summary: List events
   description: List events
-  operationId: listEvents
+  operationId: list
   requestBody:
     description: Parameters to filter events
     content:

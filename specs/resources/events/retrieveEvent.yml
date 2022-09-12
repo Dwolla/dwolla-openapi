@@ -3,7 +3,7 @@ get:
     - events
   summary: Retrieve events
   description: Retrieve events
-  operationId: retrieveEvents
+  operationId: get
   parameters:
     - name: id
       in: paths

@@ -3,7 +3,7 @@ get:
     - documents
   summary: List documents for customer
   description: List documents for customer
-  operationId: listCustomerDocuments
+  operationId: listForCustomer
   parameters:
     - name: id
       in: path
@@ -24,7 +24,7 @@ post:
     - documents
   summary: Create a document for customer
   description: Create a document for customer
-  operationId: createCustomerDocument
+  operationId: createForCustomer
   parameters:
     - name: id
       in: path
@@ -66,39 +66,4 @@ components:
             documents:
               type: array
               items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        id:
-          type: string
-          example: 20988444-c7e1-40cf-ab1a-a20da878e568
-        status:
-          type: string
-          example: reviewed
-        type:
-          type: string
-          example: licence
-        created:
-          type: string
-          example: '2019-05-30T22:01:40.000Z'
-        documentVerificationStatus:
-          type: string
-          example: rejected
-        failureReason:
-          type: string
-          example: ScanDobMismatch
-        allFailureReasons:
-          type: array
-          items:
-            type: object
-            properties:
-              reason:
-                type: string
-                example: ScanDobMismatch
-              description:
-                type: string
-                example: Scan DOB does not match DOB on account
+                $ref: './retrieveDocument.yml#/components/schemas/RetrieveDocumentResponse'

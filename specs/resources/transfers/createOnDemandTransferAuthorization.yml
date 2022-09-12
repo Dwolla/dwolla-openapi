@@ -3,7 +3,7 @@ post:
     - transfers
   summary: Create an on-demand transfer authorization
   description: Create an on-demand transfer authorization
-  operationId: createOnDemandTransferAuthorization
+  operationId: create
   responses:
     '201':
       description: created

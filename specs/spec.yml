@@ -30,7 +30,7 @@ paths:
   /accounts/{id}/mass-payments:
     $ref: './resources/accounts/listAccountMassPayments.yml'
   /customers:
-    $ref: './resources/customers/createGetCustomer.yml'
+    $ref: './resources/customers/createListCustomer.yml'
   /customers/{id}:
     $ref: './resources/customers/retrieveUpdateCustomer.yml'
   /business-classifications:
@@ -46,7 +46,7 @@ paths:
   /customers/{id}/documents:
     $ref: 'resources/documents/createListCustomerDocument.yml'
   /beneficial-owners/{id}/documents:
-    $ref: 'resources/documents/createListCustomerDocument.yml'
+    $ref: 'resources/documents/createListBeneficialOwnerDocument.yml'
   /documents/{id}:
     $ref: 'resources/documents/retrieveDocument.yml'
   /customers/{id}/funding-sources:
@@ -54,9 +54,9 @@ paths:
   /customers/{id}/funding-sources-token:
     $ref: 'resources/funding-sources/createFundingSourceTokenDwollajs.yml'
   /customers/{id}/iav-token:
-    $ref: 'resources/funding-sources/createFundingSourceTokenDwollajs.yml'
+    $ref: 'resources/funding-sources/createIavTokenDwollajs.yml'
   /customers/{id}/card-funding-sources-token:
-    $ref: 'resources/funding-sources/createFundingSourceTokenDwollaCardjs.yml'
+    $ref: 'resources/funding-sources/createCardFundingSourceTokenDwollaCardjs.yml'
   /funding-sources/{id}:
     $ref: 'resources/funding-sources/retrieveUpdateRemoveFundingSource.yml'
   /funding-sources/{id}/micro-deposits:

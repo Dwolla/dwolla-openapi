@@ -3,7 +3,7 @@ get:
     - beneficial owners
   summary: Retrieve beneficial ownership status
   description: Retrieve beneficial ownership status
-  operationId: retrieveBeneficialOwnershipStatus
+  operationId: getBeneficialOwnershipStatusForCustomer
   parameters:
     - name: id
       in: path
@@ -22,9 +22,9 @@ get:
 post:
   tags:
     - beneficial owners
-  summary: certify beneficial ownership status
+  summary: Certify beneficial ownership status
   description: certify beneficial ownership status
-  operationId: certifyBeneficialOwnershipStatus
+  operationId: certifyBeneficialOwnershipForCustomer
   parameters:
     - name: id
       in: path
@@ -32,6 +32,18 @@ post:
       required: true
       schema:
         type: string
+  requestBody:
+    description: Parameters for certifying beneficial ownership for a Customer
+    content:
+      application/json:
+        schema:
+          required:
+            - status
+          type: object
+          properties:
+            status:
+              type: string
+
   responses:
     '200':
       description: successful operation

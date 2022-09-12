@@ -1,9 +1,9 @@
 get:
   tags:
     - transfers
-  summary: List and search transers for an customer
-  description: List and search transers for an customer
-  operationId: listAndSearchCustomerTransfers
+  summary: List and search transers for a customer
+  description: List and search transers for a customer
+  operationId: listForCustomer
   parameters:
     - name: id
       in: path
@@ -69,4 +69,16 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../accounts/listAndSearchAccountTransfers.yml#/components/schemas/ListAndSearchAccountTransfersResponse'
+            type: object
+            properties:
+              _links:
+                type: object
+                additionalProperties:
+                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+              _embedded:
+                type: object
+                properties:
+                  transfers:
+                    type: array
+                    items:
+                      $ref: './retrieveCancelTransfer.yml#/components/schemas/RetrieveTransferResponse'

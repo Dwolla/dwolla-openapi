@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve a funding source
   description: Retrieve a funding source
-  operationId: retrieveCustomerFundingSource
+  operationId: get
   parameters:
     - name: id
       in: path
@@ -24,7 +24,7 @@ post:
     - funding sources
   summary: Update a funding source
   description: Update a funding source
-  operationId: updateCustomerFundingSource
+  operationId: update
   parameters:
     - name: id
       in: path
@@ -36,15 +36,19 @@ post:
     description: Parameters to update a customer funding source
     content:
       application/json:
-        name:
-          type: string
-          required: yes
-        bankAccountType:
-          type: string
-        routingNumber:
-          type: string
-        accountNumber:
-          type: string
+        schema:
+          required:
+            - name
+          type: object
+          properties:
+            name:
+              type: string
+            bankAccountType:
+              type: string
+            routingNumber:
+              type: string
+            accountNumber:
+              type: string
   responses:
     '200':
       description: successful operation
@@ -71,7 +75,7 @@ components:
           example: verified
         type:
           type: string
-          example: banks
+          example: bank
         bankAccountType:
           type: string
           example: checking
@@ -89,7 +93,9 @@ components:
           items:
             type: string
             example: ach
-        bankName: SANDBOX TEST BANK
+        bankName:
+          type: string
+          example: SANDBOX TEST BANK
         fingerprint:
           type: string
           example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c3a

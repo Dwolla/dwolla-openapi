@@ -3,7 +3,7 @@ get:
     - customers
   summary: List and search customers
   description: List and search customer
-  operationId: listSearchCustomers
+  operationId: list
   parameters:
     - name: limit
       in: query
@@ -19,7 +19,7 @@ get:
         type: string
     - name: search
       in: query
-      description: Searches on certian fields
+      description: Searches on certain fields
       required: false
       schema:
         type: string
@@ -42,7 +42,7 @@ post:
     - customers
   summary: Create a customer
   description: Create a customer
-  operationId: createCustomer
+  operationId: create
   requestBody:
     description: Parameters for customer to be created
     content:
@@ -130,3 +130,6 @@ components:
                   postalCode:
                     type: string
                     example: '50309'
+                  correlationId:
+                    type: string
+                    example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'

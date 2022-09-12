@@ -3,7 +3,7 @@ get:
     - documents
   summary: List document for beneficial owner
   description: List document for beneficial owner
-  operationId: listBeneficialOwnerDocuments
+  operationId: listForBeneficialOwner
   parameters:
     - name: id
       in: path
@@ -24,7 +24,7 @@ post:
     - documents
   summary: Create a document for beneficial owner
   description: Create a document for beneficial owner
-  operationId: createBeneficialOwnerDocument
+  operationId: createForBeneficialOwner
   parameters:
     - name: id
       in: path

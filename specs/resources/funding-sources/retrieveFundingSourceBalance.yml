@@ -1,13 +1,13 @@
 get:
   tags:
     - funding sources
-  summary: Retrieve funding sources balance
+  summary: Retrieve funding source balance
   description: Retrieve funding source balance
-  operationId: retrieveFundingSourceBalance
+  operationId: getBalance
   parameters:
     - name: id
       in: path
-      description: ID of funding sources to retrieve a balance for
+      description: ID of funding source to retrieve the balance for
       required: true
       schema:
         type: string

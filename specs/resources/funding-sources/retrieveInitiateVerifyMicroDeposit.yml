@@ -1,9 +1,9 @@
 get:
   tags:
-    - funding source
+    - funding sources
   summary: Retrieve micro-deposits details
   description: Retrieve micro-deposits details
-  operationId: retrieveMicroDepositsDetails
+  operationId: getMicroDeposits
   parameters:
     - name: id
       in: path
@@ -26,7 +26,7 @@ get:
                   $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
               created:
                 type: string
-                example: 'INSERRT TIMESTAMP'
+                example: '2022-12-30T20:56:53.000Z'
               status:
                 type: string
                 example: failed
@@ -44,7 +44,7 @@ post:
     - funding sources
   summary: Initiate micro-deposits
   description: Initiate micro-deposits
-  operationId: initiateMicroDeposit
+  operationId: initiateMicroDeposits
   parameters:
     - name: id
       in: path
