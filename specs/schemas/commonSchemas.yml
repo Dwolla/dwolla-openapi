@@ -16,6 +16,12 @@ components:
     Address:
       title: Address
       type: object
+      required:
+        - address1
+        - city
+        - country
+        - postalCode
+        - state
       properties:
         address1:
           type: string
@@ -35,6 +41,11 @@ components:
     InternationalAddress:
       title: InternationalAddress
       type: object
+      required:
+        - address1
+        - city
+        - country
+        - stateProvinceRegion
       properties:
         address1:
           type: string
@@ -57,9 +68,23 @@ components:
         stateProvinceRegion:
           type: string
           example: 'IA'
+    Passport:
+      title: Passport
+      type: object
+      required:
+        - number
+        - country
+      properties:
+        number:
+          type: string
+        country:
+          type: string
     TransferAmount:
       title: TransferAmount
       type: object
+      required:
+        - value
+        - currency
       properties:
         value:
           type: string

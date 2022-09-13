@@ -39,9 +39,9 @@ post:
     content:
       application/json:
         schema:
-          $anyOf:
-            - $ref: '#/components/requestBodies/CreateBeneficialOwnerWithSsnRequest'
-            - $ref: '#/components/requestBodies/CreateBeneficialOwnerWithPassportRequest'
+          oneOf:
+            - $ref: '#/components/requestBodies/BeneficialOwnerWithSsn'
+            - $ref: '#/components/requestBodies/BeneficialOwnerWithPassport'
   responses:
     '201':
       description: successful operation
@@ -69,81 +69,43 @@ components:
               type: array
               items:
                 $ref: './retrieveUpdateRemoveBeneficialOwner.yml#/components/schemas/BeneficialOwnerResponse'
+    BeneficialOwnerRequestSharedModel:
+      description: Shareed Request body model for creating a Beneficial Owner
+      required:
+        - firstName
+        - lastName
+        - dateOfBirth
+        - address
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+        address:
+          $ref: '../../schemas/commonSchemas.yml#/components/schemas/InternationalAddress'
   requestBodies:
-    CreateBeneficialOwnerWithSsnRequest:
+    BeneficialOwnerWithSsn:
+      title: BeneficialOwnerWithSsn
       description: Request body for creating and updating a Beneficial Owner with an SSN
-      required:
-        - firstName
-        - lastName
-        - dateOfBirth
-        - address
-        - ssn
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        ssn:
-          type: string
-        dateOfBirth:
-          type: string
-        address:
-          type: object
+      allOf:
+        - $ref: '#/components/schemas/BeneficialOwnerRequestSharedModel'
+        - type: object
+          required:
+            - ssn
           properties:
-            address1:
+            ssn:
               type: string
-            address2:
-              type: string
-            address3:
-              type: string
-            city:
-              type: string
-            stateProvinceRegion:
-              type: string
-            country:
-              type: string
-            postalCode:
-              type: string
-    CreateBeneficialOwnerWithPassportRequest:
+    BeneficialOwnerWithPassport:
+      title: BeneficialOwnerWithPassport
       description: Request body for creating and updating a Beneficial Owner with a Passport
-      required:
-        - firstName
-        - lastName
-        - dateOfBirth
-        - address
-        - passport
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        ssn:
-          type: string
-        dateOfBirth:
-          type: string
-        address:
-          type: object
+      allOf:
+        - $ref: '#/components/schemas/BeneficialOwnerRequestSharedModel'
+        - type: object
+          required:
+            - passport
           properties:
-            address1:
-              type: string
-            address2:
-              type: string
-            address3:
-              type: string
-            city:
-              type: string
-            stateProvinceRegion:
-              type: string
-            country:
-              type: string
-            postalCode:
-              type: string
-        passport:
-          type: object
-          properties:
-            number:
-              type: string
-            country:
-              type: string
+            passport:
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/Passport'

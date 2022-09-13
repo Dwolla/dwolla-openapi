@@ -43,7 +43,6 @@ post:
           properties:
             status:
               type: string
-
   responses:
     '200':
       description: successful operation

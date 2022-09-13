@@ -1,0 +1,66 @@
+post:
+  tags:
+    - kba
+  summary: Initiate a KBA session
+  description: Initiate a KBA session
+  operationId: initiateForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the Customer for initiating a KBA session
+      required: true
+      schema:
+        type: string
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '404':
+      description: 404 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: The requested resource was not found.
+    '403':
+      description: 403 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidResourceStateResponse'
+              - $ref: '#/components/schemas/ForbiddenResponse'
+components:
+  schemas:
+    InvalidResourceStateResponse:
+      title: InvalidResourceStateResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: InvalidResourceState
+        message:
+          type: string
+          example: Customer verification status is not valid for kba.
+    ForbiddenResponse:
+      title: ForbiddenResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: The supplied credentials are not authorized for this resource. Not authorized to create KBA questions.

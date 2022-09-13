@@ -48,27 +48,12 @@ post:
     content:
       application/json:
         schema:
-          required:
-            - firstName
-            - lastName
-            - email
-            - type
-          type: object
-          properties:
-            firstName:
-              type: string
-            lastName:
-              type: string
-            email:
-              type: string
-            type:
-              type: string
-            businessName:
-              type: string
-            ipAddress:
-              type: string
-            correlationId:
-              type: string
+          oneOf:
+            - $ref: '#/components/requestBodies/CreateReceiveOnly'
+            - $ref: '#/components/requestBodies/CreateUnverified'
+            - $ref: '#/components/requestBodies/CreateVerifiedPersonal'
+            - $ref: '#/components/requestBodies/CreateVerifiedSoleProp'
+            - $ref: '#/components/requestBodies/CreateVerifiedBusiness'
   responses:
     '201':
       description: successful operation
@@ -133,3 +118,217 @@ components:
                   correlationId:
                     type: string
                     example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'
+    UnverifiedCustomerSharedModel:
+      Description: Shared models between all Customer types
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        phone:
+          type: string
+          example: 5555555555
+        correlationId:
+          type: string
+          example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    VerifiedCustomerSharedModel:
+      Description: Shared models between Verified customers
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - type: object
+          required:
+            - address1
+            - city
+            - state
+            - postalCode
+            - dateOfBirth
+            - ssn
+          properties:
+            address1:
+              type: string
+              example: 99-99 33rd St
+            address2:
+              type: string
+              example: 99-99 33rd St
+            city:
+              type: string
+              example: Some City
+            state:
+              type: string
+              example: NY
+            postalCode:
+              type: string
+              example: 11101
+    BusinessCustomerSharedModel:
+      Description: Shared models between Business Verified Customers
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+            - businessName
+            - businessClassification
+            - ein
+          properties:
+            type:
+              type: string
+              example: business
+            businessClassification:
+              type: string
+              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+            businessName:
+              type: string
+              example: Jane Corp
+            doingBusinessAs:
+              type: string
+              example: Jane's Electronics
+            ein:
+              type: string
+              example: 00-0000000
+    ControllerSharedModel:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - title
+        - dateOfBirth
+        - address
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Controller
+        title:
+          type: string
+          example: CEO
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1980-01-31
+        address:
+          $ref: '../../schemas/commonSchemas.yml#/components/schemas/InternationalAddress'
+    ControllerWithSsn:
+      title: ControllerWithSsn
+      description: Controller object with SSN
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ControllerSharedModel'
+        - type: object
+          required:
+            - ssn
+          properties:
+            ssn:
+              type: string
+              example: '1234'
+    ControllerWithPassport:
+      title: ControllerWithPassport
+      description: Controller object with Passport
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ControllerSharedModel'
+        - type: object
+          required:
+            - passport
+          properties:
+            passport:
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/Passport'
+  requestBodies:
+    CreateReceiveOnly:
+      title: CreateReceiveOnly
+      description: Create a Recieve Only User
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              example: receive-only
+            businessName:
+              type: string
+              example: Jane Corp llc
+    CreateUnverified:
+      title: CreateUnverified
+      description: Create an Unverified Customer
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - type: object
+          properties:
+            businessName:
+              type: string
+              example: Jane Corp llc
+    CreateVerifiedPersonal:
+      title: CreateVerifiedPersonal
+      description: Create a Verified Personal customer
+      allOf:
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+            - ssn
+          properties:
+            type:
+              type: string
+              example: personal
+            ssn:
+              type: string
+              example: 1234
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+    CreateVerifiedBusiness:
+      title: CreateVerifiedBusiness
+      description: Create a Verified Business customer
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - controller
+          properties:
+            controller:
+              oneOf:
+                - $ref: '#/components/schemas/ControllerWithSsn'
+                - $ref: '#/components/schemas/ControllerWithPassport'
+            businessType:
+              type: string
+              example: llc
+    CreateVerifiedSoleProp:
+      title: CreateVerifiedSoleProp
+      description: Create a Verified Business customer (Sole Proprietorship)
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - ssn
+            - dateOfBirth
+          properties:
+            ssn:
+              type: string
+              example: 1234
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+            businessType:
+              type: string
+              example: soleProprietorship

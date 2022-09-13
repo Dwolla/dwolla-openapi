@@ -49,6 +49,10 @@ paths:
     $ref: 'resources/documents/createListBeneficialOwnerDocument.yml'
   /documents/{id}:
     $ref: 'resources/documents/retrieveDocument.yml'
+  /customrs/{id}/kba:
+    $ref: './resources/kba/initiateKba.yml'
+  /kba/{id}:
+    $ref: './resources/kba/verifyRetrieveKba.yml'
   /customers/{id}/funding-sources:
     $ref: 'resources/funding-sources/createListCustomerFundingSources.yml'
   /customers/{id}/funding-sources-token:

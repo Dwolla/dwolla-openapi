@@ -37,9 +37,9 @@ post:
     content:
       application/json:
         schema:
-          $anyOf:
-            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/CreateBeneficialOwnerWithSsnRequest'
-            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/CreateBeneficialOwnerWithPassportRequest'
+          $oneOf:
+            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithSsn'
+            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithPassport'
   responses:
     '200':
       description: successful operation
