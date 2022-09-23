@@ -3,11 +3,11 @@ post:
     - funding sources
   summary: Create a funding sources token for dwolla.js
   description: Create a funding sources token for dwolla.js
-  operationId: createDwollajsFundingSourceTokenDwollajs
+  operationId: createTokenForCustomer
   parameters:
     - name: id
       in: path
-      description: Account's unique identifier
+      description: Customer's unique identifier
       required: true
       schema:
         type: string

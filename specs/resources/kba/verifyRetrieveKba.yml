@@ -1,0 +1,200 @@
+get:
+  tags:
+    - kba
+  summary: Retrieve KBA Questions
+  description: Retrieve KBA Questions
+  operationId: get
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the KBA session to retrieve questions for
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  answer:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/kba/62dac6f3-bf8f-4961-9af8-428de8ecd9a4
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: kba
+              id:
+                type: string
+                example: 62dac6f3-bf8f-4961-9af8-428de8ecd9a4
+              questions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 2355953375
+                    text:
+                      type: string
+                      example: In what county do you currently live?
+                    answers:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: 2687969295
+                          text:
+                            type: string
+                            example: Pulaski
+    '404':
+      description: 404 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: KBA questions not found. Check KBA id.
+    '403':
+      description: 403 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidKbaSessionResponse'
+              - $ref: '#/components/schemas/ForbiddenResponse'
+post:
+  tags:
+    - kba
+  summary: Verify KBA Questions
+  description: Verify KBA Questions
+  operationId: verify
+  parameters:
+    - name: id
+      in: path
+      description: The id of the KBA session to verify questions for.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters for verifying KBA questions
+    content:
+      application/json:
+        schema:
+          required:
+            - answers
+          type: object
+          properties:
+            answers:
+              type: array
+              items:
+                type: object
+                properties:
+                  questionId:
+                    type: string
+                    example: 2355953375
+                  answerId:
+                    type: string
+                    example: 2687969335
+  responses:
+    '200':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  customer:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/b5fd802d-d8c7-43ce-94a8-7c14485b7042
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: customer
+              verificationStatus:
+                type: string
+                example: verified
+    '404':
+      description: 404 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: KBA session not found.
+    '403':
+      description: 403 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidKbaSessionResponse'
+              - $ref: '#/components/schemas/ExpiredKbaSessionResponse'
+components:
+  schemas:
+    InvalidKbaSessionResponse:
+      title: InvalidResourceStateResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: InvalidResourceState
+        message:
+          type: string
+          example: The kba session is no longer valid.
+    ForbiddenResponse:
+      title: ForbiddenResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: Not authorized to retrieve KBA questions.
+    ExpiredKbaSessionResponse:
+      title: ExpiredKbaSessionResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: The kba session has expired.

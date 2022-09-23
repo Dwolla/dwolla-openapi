@@ -1,13 +1,13 @@
 post:
   tags:
     - funding sources
-  summary: Create a funding sources token for dwolla.js IAV
-  description: Create a funding sources token for dwolla.js IAV
-  operationId: createDwollajsFundingSourceTokenIAV
+  summary: Create an IAV token for dwolla.js
+  description: Create an IAV token for dwolla.js
+  operationId: createIavTokenForCustomer
   parameters:
     - name: id
       in: path
-      description: Account's unique identifier
+      description: Customer's unique identifier
       required: true
       schema:
         type: string
@@ -28,7 +28,7 @@ post:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/funding-sources-token
+                        example: https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/iav-token
               token:
                 type: object
                 example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY

@@ -3,7 +3,7 @@ get:
     - account
   summary: Retrieve Account Details
   description: Retrieve Account Details
-  operationId: retrieveAccountDetails
+  operationId: get
   parameters:
     - name: id
       in: path

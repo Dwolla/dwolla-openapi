@@ -28,32 +28,7 @@ get:
                   webhook-subscriptions:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _links:
-                          type: object
-                          properties:
-                            self:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/f4d21628-fde2-4d3a-b69a-0a7cb42adc4c
-                            webhooks:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/f4d21628-fde2-4d3a-b69a-0a7cb42adc4c/webhooks
-                        id:
-                          type: string
-                          example: f4d21628-fde2-4d3a-b69a-0a7cb42adc4c
-                        url:
-                          type: string
-                          example: https://destination.url
-                        created:
-                          type: string
-                          example: 2015-08-19T21:43:49.000Z
+                      $ref: './retrieveUpdateDeleteWebhookSubscription.yml#/components/schemas/RetrieveWebhookSubscriptionResponse'
               total:
                 type: integer
                 format: int32
@@ -61,9 +36,9 @@ get:
 post:
   tags:
     - webhook subscriptions
-  summary: Create webhook subscriptions
-  description: Create webhook subscriptions
-  operationId: createWebhookSubscriptions
+  summary: Create a webhook subscription
+  description: Create a webhook subscription
+  operationId: create
   requestBody:
     description: Parameters to create a webhook subscriptions
     content:
@@ -76,8 +51,10 @@ post:
           properties:
             url:
               type: string
+              example: http://myapplication.com/webhooks
             secret:
               type: string
+              example: sshhhhhh
   responses:
     '201':
       description: create

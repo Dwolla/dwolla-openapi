@@ -34,3 +34,25 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '400':
+      description: Bad Request
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                example: Validation error(s) present. See embedded errors list for more details.
+              _embedded:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: Validation error(s) present. See embedded errors list for more details.

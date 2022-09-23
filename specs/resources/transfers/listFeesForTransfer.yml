@@ -3,7 +3,7 @@ get:
     - transfers
   summary: List fees for a transfer
   description: List fees for a transfer
-  operationId: listFeesForTransfer
+  operationId: listFees
   parameters:
     - name: id
       in: path

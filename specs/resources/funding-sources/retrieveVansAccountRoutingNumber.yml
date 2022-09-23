@@ -1,13 +1,13 @@
 get:
   tags:
     - funding sources
-  summary: Retrieve a VAN account and routing number
-  description: Retrieve a VAN account and routing number
-  operationId: retrieveVANAccountRoutingNumber
+  summary: Retrieve account and routing numbers for a VAN (Virtual Account Number)
+  description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
+  operationId: getAchRouting
   parameters:
     - name: id
       in: path
-      description: ID of funding source to retrieve
+      description: ID of VAN funding source to retrieve ACH details
       required: true
       schema:
         type: string

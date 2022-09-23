@@ -1,9 +1,9 @@
 get:
   tags:
     - webhooks
-  summary: List webhook retries
-  description: List webhook retries
-  operationId: listWebhookRetries
+  summary: List retries for a webhook
+  description: List retries for a webhook
+  operationId: listRetries
   parameters:
     - name: id
       in: path
@@ -57,7 +57,7 @@ get:
                           example: 5aa27a0f-cf99-418d-a3ee-67c0ff99a494
                         timestamp:
                           type: string
-                          example: 2015-11-02T17:43:26.000Z
+                          example: 2022-11-02T17:43:26.000Z
               total:
                 type: integer
                 format: int32
@@ -65,9 +65,9 @@ get:
 post:
   tags:
     - webhooks
-  summary: Retry webhook
-  description: Retry webhook
-  operationId: retryWebhook
+  summary: Retry a webhook
+  description: Retry a webhook
+  operationId: retry
   parameters:
     - name: id
       in: path

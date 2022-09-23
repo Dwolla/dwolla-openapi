@@ -3,7 +3,7 @@ get:
     - mass payments
   summary: List mass payments for customer
   description: List mass payments for customer
-  operationId: listCustomerMassPayments
+  operationId: listForCustomer
   parameters:
     - name: id
       in: path
@@ -11,19 +11,24 @@ get:
       required: true
       schema:
         type: string
-  requestBody:
-    description: Parameters to list items of a mass payment for customer
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            limit:
-              type: integer
-            offset:
-              type: integer
-            correlationId:
-              type: string
+    - name: correlationId
+      in: query
+      description: A string value to search on if `correlationId` was specified for a transaction
+      required: false
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: Number of search results to return. Defaults to 25
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: Number of search results to skip. Use for pagination
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       description: successful operation
@@ -60,48 +65,4 @@ get:
                   mass-payments:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _links:
-                          type: object
-                          properties:
-                            self:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/mass-payments/89ca72d2-63bf-4a8f-92ef-a5d00140aefa
-                            source:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/funding-sources/e1c972d4-d8d9-4c30-861a-9081dcbaf4ab
-                            items:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/mass-payments/89ca72d2-63bf-4a8f-92ef-a5d00140aefa/items
-                        id:
-                          type: string
-                          example: 89ca72d2-63bf-4a8f-92ef-a5d00140aefa
-                        status:
-                          type: string
-                          example: complete
-                        created:
-                          type: string
-                          example: 2016-03-21T19:27:34.000Z
-                        metadata:
-                          type: object
-                          properties:
-                            masspay1:
-                              type: string
-                              example: masspay1
-                        correlationId:
-                          type: string
-                          example: 8a2cdc8d-629d-4a24-98ac-40b735229fe2
-              total:
-                type: integer
-                format: int32
-                example: 1
+                      $ref: './retrieveUpdateMassPayment.yml#/components/schemas/RetrieveMassPaymentResponse'

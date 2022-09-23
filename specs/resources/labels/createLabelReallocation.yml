@@ -1,9 +1,9 @@
 post:
   tags:
     - labels
-  summary: Create label reallocation
-  description: Create label reallocation
-  operationId: createLabelReallocation
+  summary: Create a label reallocation
+  description: Create a label reallocation
+  operationId: createReallocation
   requestBody:
     description: Parameters to create a label reallocation
     content:
@@ -17,23 +17,27 @@ post:
             _links:
               type: object
               properties:
-                source:
+                from:
                   type: object
                   properties:
                     href:
                       type: string
-                description:
+                      example: https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45
+                to:
                   type: object
                   properties:
                     href:
                       type: string
+                      example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
             amount:
               type: object
               properties:
                 currency:
                   type: string
+                  example: '15.00'
                 value:
                   type: string
+                  example: USD
   responses:
     '201':
       description: created

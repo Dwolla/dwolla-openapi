@@ -21,61 +21,25 @@ get:
             $ref: '#/components/schemas/BeneficialOwnerResponse'
 post:
   tags:
-    - beneficial owner
+    - beneficial owners
   summary: Update beneficial owner
   description: Update beneficial owner
-  operationId: updateBeneficialOwner
+  operationId: update
   parameters:
     - name: id
       in: path
-      description: beneficial owner unique identifier
+      description: Beneficial owner unique identifier
       required: true
       schema:
         type: string
   requestBody:
-    description: Parameters for creating a beneficial owners
+    description: Parameters for updating a beneficial owner
     content:
       application/json:
         schema:
-          required:
-            - firstName
-            - lastName
-            - dateOfBirth
-            - address
-          type: object
-          properties:
-            firstName:
-              type: string
-            lastName:
-              type: string
-            ssn:
-              type: string
-            dateOfBirth:
-              type: string
-            address:
-              type: object
-              properties:
-                address1:
-                  type: string
-                address2:
-                  type: string
-                address3:
-                  type: string
-                city:
-                  type: string
-                stateProvinceRegion:
-                  type: string
-                country:
-                  type: string
-                postalCode:
-                  type: string
-            passport:
-              type: object
-              properties:
-                number:
-                  type: string
-                country:
-                  type: string
+          $oneOf:
+            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithSsn'
+            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithPassport'
   responses:
     '200':
       description: successful operation
@@ -86,10 +50,10 @@ post:
             $ref: '#/components/schemas/BeneficialOwnerResponse'
 delete:
   tags:
-    - beneficial owner
+    - beneficial owners
   summary: Delete beneficial owner
   description: Delete beneficial owner
-  operationId: deleteBeneficialOwner
+  operationId: remove
   parameters:
     - name: id
       in: path
@@ -120,12 +84,12 @@ components:
           example: 55469604-40ab-44b6-962f-de2c0837ba98
         firstName:
           type: string
-          example: Jane
+          example: Janice
         lastName:
           type: string
           example: Doe
         address:
-          $ref: '../../schemas/commonSchemas.yml#/components/schemas/Address'
+          $ref: '../../schemas/commonSchemas.yml#/components/schemas/InternationalAddress'
         verificationStatus:
           type: string
-          example: documet
+          example: document

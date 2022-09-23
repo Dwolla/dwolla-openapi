@@ -1,11 +1,11 @@
-get:
+post:
   tags:
     - transfers
   summary: Initiate a transfer
   description: Initiate a transfer
-  operationId: initiateTransfer
+  operationId: initiate
   requestBody:
-    description: Parameters to create initiate a transfer
+    description: Parameters to initiate a transfer
     content:
       application/json:
         schema:
@@ -36,11 +36,6 @@ get:
                   type: string
             metadata:
               type: object
-              properties:
-                paymentId:
-                  type: string
-                note:
-                  type: string
             fees:
               type: array
               items:
@@ -64,6 +59,8 @@ get:
             clearing:
               type: object
               properties:
+                source:
+                  type: string
                 destination:
                   type: string
             achDetails:
@@ -89,8 +86,22 @@ get:
                           type: array
                           items:
                             type: string
+            rtpDetails:
+              type: object
+              properties:
+                destination:
+                  type: object
+                  properties:
+                    remittanceData:
+                      type: string
             correlationId:
               type: string
+            processingChannel:
+              type: object
+              properties:
+                destination:
+                  type: string
+                  example: real-time-payments
   responses:
     '201':
       description: created

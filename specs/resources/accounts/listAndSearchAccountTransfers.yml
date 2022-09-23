@@ -13,7 +13,7 @@ get:
         type: string
     - name: search
       in: query
-      description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`
+      description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`, Customer ID, and Account ID
       required: false
       schema:
         type: string
@@ -103,6 +103,9 @@ components:
                   created:
                     type: string
                     example: '2022-01-20T17:42:52.787Z'
+                  correlationId:
+                    type: string
+                    example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'
         total:
           type: integer
           example: 100

@@ -3,7 +3,7 @@ get:
     - customers
   summary: Retrieve a customer
   description: Retrieve a customer
-  operationId: retrieveCustomer
+  operationId: get
   parameters:
     - name: id
       in: path
@@ -21,10 +21,10 @@ get:
             $ref: '#/components/schemas/RetrieveCustomerResponse'
 post:
   tags:
-    - customer
+    - customers
   summary: Update a customer
   description: Update a customer
-  operationId: updateCustomer
+  operationId: update
   requestBody:
     description: Parameters for customer to be created
     content:

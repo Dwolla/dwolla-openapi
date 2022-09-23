@@ -16,22 +16,75 @@ components:
     Address:
       title: Address
       type: object
+      required:
+        - address1
+        - city
+        - country
+        - postalCode
+        - state
       properties:
         address1:
           type: string
           example: 462 Main Street
+        address2:
+          type: string
+          example: Suite 124
         city:
           type: string
           example: Des Moines
-        state:
-          type: string
-          example: IA
         postalCode:
           type: string
           example: '50309'
+        state:
+          type: string
+          example: IA
+    InternationalAddress:
+      title: InternationalAddress
+      type: object
+      required:
+        - address1
+        - city
+        - country
+        - stateProvinceRegion
+      properties:
+        address1:
+          type: string
+          example: 462 Main Street
+        address2:
+          type: string
+          example: Suite 123
+        address3:
+          type: string
+          example: Unit 123
+        city:
+          type: string
+          example: Des Moines
+        postalCode:
+          type: string
+          example: '50309'
+        country:
+          type: string
+          example: USA
+        stateProvinceRegion:
+          type: string
+          example: 'IA'
+    Passport:
+      title: Passport
+      type: object
+      required:
+        - number
+        - country
+      properties:
+        number:
+          type: string
+        country:
+          type: string
     TransferAmount:
       title: TransferAmount
       type: object
+      required:
+        - value
+        - currency
       properties:
         value:
           type: string

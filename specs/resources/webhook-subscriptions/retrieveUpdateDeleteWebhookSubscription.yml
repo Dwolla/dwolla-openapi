@@ -1,9 +1,9 @@
 get:
   tags:
     - webhook subscriptions
-  summary: Retrieve webhook subscriptions
-  description: Retrieve webhook subscriptions
-  operationId: retrieveWebhookSubscriptions
+  summary: Retrieve a webhook subscription
+  description: Retrieve a webhook subscription
+  operationId: get
   parameters:
     - name: id
       in: path
@@ -18,39 +18,13 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
-                  webhooks:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
-              id:
-                type: string
-                example: 077dfffb-4852-412f-96b6-0fe668066589
-              url:
-                type: string
-                example: http://myapplication.com/webhooks
-              created:
-                type: string
-                format: date-time
-                example: 2015-10-28T16:20:47+00:00
+            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
 post:
   tags:
     - webhook subscriptions
-  summary: Update webhook subscriptions
-  description: Update webhook subscriptions
-  operationId: updateWebhookSubscriptions
+  summary: Update a webhook subscription
+  description: Update a webhook subscription
+  operationId: update
   parameters:
     - name: id
       in: path
@@ -69,6 +43,7 @@ post:
           properties:
             paused:
               type: boolean
+              example: true
   responses:
     '200':
       description: sucessful operation
@@ -76,13 +51,13 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
+            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
 delete:
   tags:
     - webhook subscriptions
-  summary: Delete webhook subscriptions
-  description: Delete webhook subscriptions
-  operationId: deleteWebhookSubscriptions
+  summary: Delete a webhook subscription
+  description: Delete a webhook subscription
+  operationId: delete
   parameters:
     - name: id
       in: path
@@ -97,4 +72,38 @@ delete:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
+            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+components:
+  schemas:
+    RetrieveWebhookSubscriptionResponse:
+      title: RetrieveWebhookSubscriptionResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
+            webhooks:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
+        id:
+          type: string
+          example: 077dfffb-4852-412f-96b6-0fe668066589
+        url:
+          type: string
+          example: http://myapplication.com/webhooks
+        paused:
+          type: boolean
+          example: true
+        created:
+          type: string
+          format: date-time
+          example: 2022-10-28T16:20:47+00:00
