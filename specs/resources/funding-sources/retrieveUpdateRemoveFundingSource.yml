@@ -36,9 +36,9 @@ get:
 post:
   tags:
     - funding sources
-  summary: Update a funding source
-  description: Update a funding source
-  operationId: update
+  summary: Update or remove a funding source
+  description: Update or remove a funding source
+  operationId: updateOrRemove
   parameters:
     - name: id
       in: path
@@ -51,18 +51,10 @@ post:
     content:
       application/json:
         schema:
-          required:
-            - name
-          type: object
-          properties:
-            name:
-              type: string
-            bankAccountType:
-              type: string
-            routingNumber:
-              type: string
-            accountNumber:
-              type: string
+          oneOf:
+            - $ref: '#/components/requestBodies/UpdateUnverifiedBank'
+            - $ref: '#/components/requestBodies/UpdateVerifiedBank'
+            - $ref: '#/components/requestBodies/RemoveBank'
   responses:
     '200':
       description: successful operation
@@ -141,3 +133,43 @@ components:
         fingerprint:
           type: string
           example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c3a
+  requestBodies:
+    UpdateUnverifiedBank:
+      title: UpdateUnverifiedBank
+      description: Request body for updating information of an unverified bank funding source
+      type: object
+      required:
+        - name
+      properties:
+        routingNumber:
+          type: string
+          example: 222222226
+        accountNumber:
+          type: string
+          example: 123456789
+        bankAccountType:
+          type: string
+          example: checking
+        name:
+          type: string
+          example: Jane Doe’s Checking
+    UpdateVerifiedBank:
+      title: UpdateVerifiedBank
+      description: Request body for updating information of a Verified bank funding source
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Jane Doe’s Checking
+    RemoveBank:
+      title: RemoveBank
+      description: Request body for removing a bank funding source
+      type: object
+      required:
+        - removed
+      properties:
+        removed:
+          type: boolean
+          example: true
