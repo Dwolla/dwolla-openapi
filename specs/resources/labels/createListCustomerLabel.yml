@@ -128,8 +128,6 @@ post:
   responses:
     '201':
       description: create
-      headers: {}
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            type: object
+      headers:
+        Location:
+          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'

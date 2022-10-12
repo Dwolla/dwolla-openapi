@@ -48,4 +48,6 @@ post:
   responses:
     '201':
       description: document created
-      headers: {}
+      headers:
+        Location:
+          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
