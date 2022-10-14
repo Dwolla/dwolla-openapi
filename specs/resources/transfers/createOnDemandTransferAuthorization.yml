@@ -5,11 +5,9 @@ post:
   description: Create an on-demand transfer authorization
   operationId: create
   responses:
-    '201':
-      description: created
-      headers:
-        Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+    '200':
+      description: Ok
+      headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
