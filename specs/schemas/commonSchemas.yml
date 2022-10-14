@@ -1,5 +1,27 @@
 components:
   schemas:
+    400BadRequestErrorResponse:
+      title: 400BadRequestErrorResponse
+      description: Error response schema for 400 Bad Request
+      type: object
+      properties:
+        code:
+          type: string
+          example: BadRequest
+        message:
+          type: string
+          example: The request body contains bad syntax or is incomplete.
+    404NotFoundErrorResponse:
+      title: 404NotFoundErrorResponse
+      description: Error response schema for 404 NotFound
+      type: object
+      properties:
+        code:
+          type: string
+          example: NotFound
+        message:
+          type: string
+          example: The requested resource was not found.
     HalLink:
       title: HalLink
       type: object
