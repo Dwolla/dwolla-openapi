@@ -62,4 +62,102 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
+    '400':
+      description: Bad request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidUrlFormatErrorResponse'
+              - $ref: '#/components/schemas/SecretTooLongErrorResponse'
+              - $ref: '#/components/schemas/MaxSubscriptionsReachedErrorResponse'
+    '429':
+      description: Too Many Requests
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsErrorResponse'
+components:
+  schemas:
+    InvalidUrlFormatErrorResponse:
+      title: InvalidUrlFormatErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Url must be a valid url.
+                  path:
+                    type: string
+                    example: /url
+                  _links:
+                    type: object
+                    example: {}
+    MaxSubscriptionsReachedErrorResponse:
+      title: MaxSubscriptionsReachedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: MaxNumberOfResources
+        message:
+          type: string
+          example: The maximum number of subscriptions has been reached.
+    SecretTooLongErrorResponse:
+      title: SecretTooLongErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Secret must be 128 or fewer characters.
+                  path:
+                    type: string
+                    example: /secret
+                  _links:
+                    type: object
+                    example: {}
+    TooManyRequestsErrorResponse:
+      title: TooManyRequestsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Too Many Requests
+        message:
+          type: string
+          example: Please wait a short period of time before re-attempting the request.

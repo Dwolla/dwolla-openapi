@@ -52,6 +52,20 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/400BadRequestErrorResponse'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
 delete:
   tags:
     - webhook subscriptions
@@ -73,6 +87,13 @@ delete:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
 components:
   schemas:
     RetrieveWebhookSubscriptionResponse:
