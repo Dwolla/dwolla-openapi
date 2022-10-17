@@ -30,3 +30,17 @@ get:
               routingNumber:
                 type: string
                 example: '084106768'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Funding source not found.

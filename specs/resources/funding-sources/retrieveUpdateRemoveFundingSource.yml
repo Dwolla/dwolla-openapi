@@ -19,6 +19,20 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveFundingSourceResponse'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Funding source not found.
 post:
   tags:
     - funding sources
@@ -57,6 +71,34 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '400':
+      description: validation error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: validationError
+              message:
+                type: string
+                example: Only funding sources of type="bank" can be updated.
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidResourceState
+              message:
+                type: string
+                example: A removed bank cannot be updated.
 components:
   schemas:
     RetrieveFundingSourceResponse:

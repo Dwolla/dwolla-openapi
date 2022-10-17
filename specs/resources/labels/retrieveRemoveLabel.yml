@@ -40,6 +40,20 @@ delete:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveLabelResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidResourceState
+              message:
+                type: string
+                example: Amount must be zero to remove label.
 components:
   schemas:
     RetrieveLabelResponse:

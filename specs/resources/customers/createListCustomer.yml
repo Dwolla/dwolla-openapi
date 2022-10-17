@@ -62,6 +62,38 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '400':
+      oneOf:
+        - $ref: '#/components/schemas/BadRequestSchema'
+        - $ref: '#/components/schemas/DuplicateResourceSchema'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to create customers.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: not found.
 components:
   schemas:
     ListCustomersResponse:
@@ -332,3 +364,33 @@ components:
             businessType:
               type: string
               example: soleProprietorship
+    BadRequestSchema:
+      title: BadRequestSchema
+      description: Bad Request
+      type: object
+      properties:
+        code:
+          type: string
+          example: bad request
+        message:
+          type: string
+          example: The request body contains bad syntax or is incomplete.
+    ValidationErrorSchema:
+      title: ValidationErrorSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.

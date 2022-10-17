@@ -32,3 +32,17 @@ post:
               token:
                 type: object
                 example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Customer not found.
