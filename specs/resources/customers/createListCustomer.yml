@@ -63,9 +63,12 @@ post:
           schema:
             type: object
     '400':
-      oneOf:
-        - $ref: '#/components/schemas/BadRequestSchema'
-        - $ref: '#/components/schemas/DuplicateResourceSchema'
+      description: Bad Resuest
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/400BadRequestErrorResponse'
     '403':
       description: forbidden
       headers: {}
@@ -280,6 +283,26 @@ components:
           properties:
             passport:
               $ref: '../../schemas/commonSchemas.yml#/components/schemas/Passport'
+    # Error Responses
+    ValidationErrorSchema:
+      title: ValidationErrorSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
   requestBodies:
     CreateReceiveOnly:
       title: CreateReceiveOnly
@@ -364,33 +387,3 @@ components:
             businessType:
               type: string
               example: soleProprietorship
-    BadRequestSchema:
-      title: BadRequestSchema
-      description: Bad Request
-      type: object
-      properties:
-        code:
-          type: string
-          example: bad request
-        message:
-          type: string
-          example: The request body contains bad syntax or is incomplete.
-    ValidationErrorSchema:
-      title: ValidationErrorSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: ValidationError
-        message:
-          type: string
-          example: Validation error(s) present. See embedded errors list for more details.
-        _embedded:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ValidationError
-            message:
-              type: string
-              example: Validation error(s) present. See embedded errors list for more details.

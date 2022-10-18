@@ -50,14 +50,24 @@ post:
       description: document created
       headers: {}
     '400':
-      oneOf:
-        - $ref: '#/components/schemas/MaximumNumberOfResourcesSchema'
-        - $ref: '#/components/schemas/InvalidFileTypeSchema'
-        - $ref: '#/components/schemas/DuplicateResourceSchema'
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/MaximumNumberOfResourcesSchema'
+              - $ref: '#/components/schemas/InvalidFileTypeSchema'
+              - $ref: '#/components/schemas/DuplicateResourceSchema'
     '403':
-      oneOf:
-        - $ref: '#/components/schemas/InvalidResourceStateSchema'
-        - $ref: '#/components/schemas/NotAuthorizedSchema'
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidResourceStateSchema'
+              - $ref: '#/components/schemas/NotAuthorizedSchema'
     '404':
       description: not found
       headers: {}
@@ -86,7 +96,6 @@ post:
               message:
                 type: string
                 example: Document requests are limited to 10 MiB.
-
 components:
   schemas:
     ListCustomerDocumentsResponse:
@@ -105,8 +114,6 @@ components:
               type: array
               items:
                 $ref: './retrieveDocument.yml#/components/schemas/RetrieveDocumentResponse'
-content:
-  schemas:
     MaximumNumberOfResourcesSchema:
       title: MaximumNumberOfResourcesSchema
       type: object
