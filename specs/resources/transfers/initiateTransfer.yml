@@ -132,6 +132,7 @@ post:
               - $ref: '#/components/schemas/FacilitatorFeeBelowMinimumErrorResponse'
               - $ref: '#/components/schemas/HighRiskErrorResponse'
               - $ref: '#/components/schemas/IncompatibleHoldingsErrorResponse'
+              - $ref: '#/components/schemas/DirectAccountWithoutBankErrorResponse'
               - $ref: '#/components/schemas/SourceSameAsDestinationErrorResponse'
               - $ref: '#/components/schemas/InvalidFacilitatorErrorResponse'
               - $ref: '#/components/schemas/InvalidFacilitatorFeeCollectFromErrorResponse'
@@ -652,6 +653,37 @@ components:
                   _links:
                     type: object
                     example: {}
+    DirectAccountWithoutBankErrorResponse:
+      title: DirectAccountWithoutBankErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: RequiresFundingSource
+                  message:
+                    type: string
+                    example: Receiver requires funding source.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+
     SourceSameAsDestinationErrorResponse:
       title: SourceSameAsDestinationErrorResponse
       type: object
