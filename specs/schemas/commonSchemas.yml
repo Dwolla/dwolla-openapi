@@ -11,6 +11,17 @@ components:
         message:
           type: string
           example: The request body contains bad syntax or is incomplete.
+    403ForbiddenErrorResponse:
+      title: ForbiddenErrorResponse
+      description: Error response schema for 403 Forbidden
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: The supplied credentials are not authorized for this resource.
     404NotFoundErrorResponse:
       title: 404NotFoundErrorResponse
       description: Error response schema for 404 NotFound

@@ -33,3 +33,17 @@ get:
               explanation:
                 type: string
                 example: The account number does not correspond to the individual identified in the entry or a valid account.
+    '403':
+      description: 403 Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/403ForbiddenErrorResponse'
+    '404':
+      description: 404 Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
