@@ -1,5 +1,38 @@
 components:
   schemas:
+    400BadRequestErrorResponse:
+      title: 400BadRequestErrorResponse
+      description: Error response schema for 400 Bad Request
+      type: object
+      properties:
+        code:
+          type: string
+          example: BadRequest
+        message:
+          type: string
+          example: The request body contains bad syntax or is incomplete.
+    403ForbiddenErrorResponse:
+      title: ForbiddenErrorResponse
+      description: Error response schema for 403 Forbidden
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: The supplied credentials are not authorized for this resource.
+    404NotFoundErrorResponse:
+      title: 404NotFoundErrorResponse
+      description: Error response schema for 404 NotFound
+      type: object
+      properties:
+        code:
+          type: string
+          example: NotFound
+        message:
+          type: string
+          example: The requested resource was not found.
     HalLink:
       title: HalLink
       type: object

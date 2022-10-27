@@ -19,6 +19,34 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveCustomerResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to get a customer by id.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Customer not found.
 post:
   tags:
     - customers
@@ -48,6 +76,34 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveCustomerResponse'
+    '400':
+      description: bad request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: badRequest
+              message:
+                type: string
+                example: Duplicate customer or validation error.
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to update a customer.
 components:
   schemas:
     RetrieveCustomerResponse:

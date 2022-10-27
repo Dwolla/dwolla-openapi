@@ -110,3 +110,2099 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/SourceNotFoundErrorResponse'
+              - $ref: '#/components/schemas/ReceiverNotFoundErrorResponse'
+              - $ref: '#/components/schemas/InvalidSourceFundingSourceErrorResponse'
+              - $ref: '#/components/schemas/SenderRestrictedErrorResponse'
+              - $ref: '#/components/schemas/ReceiverRestrictedErrorResponse'
+              - $ref: '#/components/schemas/InvalidMetadataErrorResponse'
+              - $ref: '#/components/schemas/OperationBlockedErrorResponse'
+              - $ref: '#/components/schemas/InvalidAmountLimitErrorResponse'
+              - $ref: '#/components/schemas/CannotParseAmountErrorResponse'
+              - $ref: '#/components/schemas/InsufficientFundsErrorResponse'
+              - $ref: '#/components/schemas/FacilitatorFeeAccountNotFoundErrorResponse'
+              - $ref: '#/components/schemas/FacilitatorFeeSumTooLargeErrorResponse'
+              - $ref: '#/components/schemas/FacilitatorFeeBelowMinimumErrorResponse'
+              - $ref: '#/components/schemas/HighRiskErrorResponse'
+              - $ref: '#/components/schemas/IncompatibleHoldingsErrorResponse'
+              - $ref: '#/components/schemas/DirectAccountWithoutBankErrorResponse'
+              - $ref: '#/components/schemas/SourceSameAsDestinationErrorResponse'
+              - $ref: '#/components/schemas/InvalidFacilitatorErrorResponse'
+              - $ref: '#/components/schemas/InvalidFacilitatorFeeCollectFromErrorResponse'
+              - $ref: '#/components/schemas/InvalidFacilitatorFeeCollectFromCombinationErrorResponse'
+              - $ref: '#/components/schemas/InvalidDestinationFundingSourceErrorResponse'
+              - $ref: '#/components/schemas/InvalidFacilitatorFeeAmountErrorResponse'
+              - $ref: '#/components/schemas/WeeklyReceiveLimitReachedErrorResponse'
+              - $ref: '#/components/schemas/InvalidDestinationClearingTypeErrorResponse'
+              - $ref: '#/components/schemas/InvalidAmountForDestinationClearingTypeErrorResponse'
+              - $ref: '#/components/schemas/InvalidCorrelationIdErrorResponse'
+              - $ref: '#/components/schemas/SourceAddendaMaxLengthErrorResponse'
+              - $ref: '#/components/schemas/DestinationAddendaMaxLengthErrorResponse'
+              - $ref: '#/components/schemas/AchAddendaEntriesNotEnabledForAccountErrorResponse'
+              - $ref: '#/components/schemas/PointOfSaleAddendaEntriesNotEnabledForAccountErrorResponse'
+              - $ref: '#/components/schemas/IncompatibleAddendaEntriesErrorResponse'
+              - $ref: '#/components/schemas/InvalidPointOfSaleAddendaIdentificationCodeErrorResponse'
+              - $ref: '#/components/schemas/InvalidPointOfSaleAddendaSerialNumberErrorResponse'
+              - $ref: '#/components/schemas/InvalidPointOfSaleAddendaDateErrorResponse'
+              - $ref: '#/components/schemas/InvalidPointOfSaleAddendaAddressErrorResponse'
+              - $ref: '#/components/schemas/InvalidPointOfSaleAddendaCityErrorResponse'
+              - $ref: '#/components/schemas/InvalidPointOfSaleAddendaStateErrorResponse'
+              - $ref: '#/components/schemas/TransferExpiredForFeeErrorResponse'
+              - $ref: '#/components/schemas/InvalidFeeOdfiErrorResponse'
+              - $ref: '#/components/schemas/InvalidSourceBankAccountTypeErrorResponse'
+              - $ref: '#/components/schemas/InvalidDestinationBankAccountTypeErrorResponse'
+              - $ref: '#/components/schemas/IncompatibleSourceAndDestinationTypesErrorResponse'
+              - $ref: '#/components/schemas/IncompatibleSourceForRtpDestinationErrorResponse'
+              - $ref: '#/components/schemas/InvalidAmountForDestinationProcessingChannelErrorResponse'
+              - $ref: '#/components/schemas/RtpFacilitatorFeeNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/RtpUnverifiedSenderNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/RtpPersonalToPersonalNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/DestinationProcessingChannelNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/DestinationRemittanceDataMaxLengthErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidAmountErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidFundingSourceErrorResponse'
+              - $ref: '#/components/schemas/WithdrawAccountRestrictedErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidAmountForClearingTypeErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidWireBeneficiaryLocalityErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidWireBeneficiaryRegionErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidWireBeneficiaryCountryErrorResponse'
+              - $ref: '#/components/schemas/WithdrawInvalidWireOriginatorToBeneficiaryErrorResponse'
+              - $ref: '#/components/schemas/WithdrawProcessingChannelNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/WithdrawRtpUnverifiedSenderNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/WithdrawRtpPersonalWithdrawalNotSupportedErrorResponse'
+              - $ref: '#/components/schemas/DepositAccountRestrictedErrorResponse'
+              - $ref: '#/components/schemas/WireInvalidImadErrorResponse'
+              - $ref: '#/components/schemas/WireAccountRestrictedErrorResponse'
+              - $ref: '#/components/schemas/WireNotEnabledErrorResponse'
+              - $ref: '#/components/schemas/WireAccountNotFoundErrorResponse'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidAttemptToFacilitateFundsErrorResponse'
+              - $ref: '#/components/schemas/InvalidAttemptToPayInFundsErrorResponse'
+              - $ref: '#/components/schemas/InvalidAttemptToPayOutFundsErrorResponse'
+              - $ref: '#/components/schemas/RtpAccountSettingNotEnabledErrorResponse'
+    '429':
+      description: Too Many Requests
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsErrorErrorResponse'
+components:
+  schemas:
+    # Validation Errors (400)
+    SourceNotFoundErrorResponse:
+      title: SourceNotFoundErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Funding source not found.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    ReceiverNotFoundErrorResponse:
+      title: ReceiverNotFoundErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Receiver not found.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidSourceFundingSourceErrorResponse:
+      title: InvalidSourceFundingSourceErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid funding source.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    SenderRestrictedErrorResponse:
+      title: SenderRestrictedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Sender restricted.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    ReceiverRestrictedErrorResponse:
+      title: ReceiverRestrictedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Receiver restricted.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidMetadataErrorResponse:
+      title: InvalidMetadataErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid metadata.
+                  path:
+                    type: string
+                    example: /metadata
+                  _links:
+                    type: object
+                    example: {}
+    OperationBlockedErrorResponse:
+      title: OperationBlockedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Receiver cannot receive from sender.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidAmountLimitErrorResponse:
+      title: InvalidAmountLimitErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid amount. The supplied amount is greater than your transaction limit.
+                  path:
+                    type: string
+                    example: /amount/value
+                  _links:
+                    type: object
+                    example: {}
+    CannotParseAmountErrorResponse:
+      title: CannotParseAmountErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Invalid amount. The supplied amount must be a positive number.
+                  path:
+                    type: string
+                    example: /amount/value
+                  _links:
+                    type: object
+                    example: {}
+    InsufficientFundsErrorResponse:
+      title: InsufficientFundsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InsufficientFunds
+                  message:
+                    type: string
+                    example: Insufficient funds.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    FacilitatorFeeAccountNotFoundErrorResponse:
+      title: FacilitatorFeeAccountNotFoundErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Facilitator fee account not found.
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    FacilitatorFeeSumTooLargeErrorResponse:
+      title: FacilitatorFeeSumTooLargeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Facilitator fee sum too large.
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    FacilitatorFeeBelowMinimumErrorResponse:
+      title: FacilitatorFeeBelowMinimumErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Facilitator fee below minimum.
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    HighRiskErrorResponse:
+      title: HighRiskErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Due to account restrictions, we are unable to process this transaction.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    IncompatibleHoldingsErrorResponse:
+      title: IncompatibleHoldingsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Receiver cannot receive from sender.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    DirectAccountWithoutBankErrorResponse:
+      title: DirectAccountWithoutBankErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: RequiresFundingSource
+                  message:
+                    type: string
+                    example: Receiver requires funding source.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+
+    SourceSameAsDestinationErrorResponse:
+      title: SourceSameAsDestinationErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Receiver cannot be the owner of the source funding source.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidFacilitatorErrorResponse:
+      title: InvalidFacilitatorErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Account cannot facilitate this transaction.
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    InvalidFacilitatorFeeCollectFromErrorResponse:
+      title: InvalidFacilitatorFeeCollectFromErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Unable to charge fee to specified destination.
+                  path:
+                    type: string
+                    example: /fees/_links/charge-to/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidFacilitatorFeeCollectFromCombinationErrorResponse:
+      title: InvalidFacilitatorFeeCollectFromCombinationErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Currently, all fees must be paid by same destination."
+                  path:
+                    type: string
+                    example: /fees/_links/charge-to/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidDestinationFundingSourceErrorResponse:
+      title: InvalidDestinationFundingSourceErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid destination funding source.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidFacilitatorFeeAmountErrorResponse:
+      title: InvalidFacilitatorFeeAmountErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid facilitator fee amount.
+                  path:
+                    type: string
+                    example: /fees/_links/charge-to/href
+                  _links:
+                    type: object
+                    example: {}
+    WeeklyReceiveLimitReachedErrorResponse:
+      title: WeeklyReceiveLimitReachedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Destination customer has reached its weekly receive limit.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidDestinationClearingTypeErrorResponse:
+      title: InvalidDestinationClearingTypeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Destination clearing type is currently not enabled.
+                  path:
+                    type: string
+                    example: /clearing/destination
+                  _links:
+                    type: object
+                    example: {}
+    InvalidAmountForDestinationClearingTypeErrorResponse:
+      title: InvalidAmountForDestinationClearingTypeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Amount is above the allowed threshold for the specified destination clearing type.
+                  path:
+                    type: string
+                    example: /amount/value
+                  _links:
+                    type: object
+                    example: {}
+    InvalidCorrelationIdErrorResponse:
+      title: InvalidCorrelationIdErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Correlation id must be at least one character and up to 255 characters when supplied.
+                  path:
+                    type: string
+                    example: /correlationId
+                  _links:
+                    type: object
+                    example: {}
+    SourceAddendaMaxLengthErrorResponse:
+      title: SourceAddendaMaxLengthErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Ach addenda entries can be up to 80 characters when supplied.
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/values
+                  _links:
+                    type: object
+                    example: {}
+    DestinationAddendaMaxLengthErrorResponse:
+      title: DestinationAddendaMaxLengthErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Ach addenda entries can be up to 80 characters when supplied.
+                  path:
+                    type: string
+                    example: /achDetails/destination/addenda/values
+                  _links:
+                    type: object
+                    example: {}
+    AchAddendaEntriesNotEnabledForAccountErrorResponse:
+      title: AchAddendaEntriesNotEnabledForAccountErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Supplying ach addenda entries is currently not enabled.
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    PointOfSaleAddendaEntriesNotEnabledForAccountErrorResponse:
+      title: PointOfSaleAddendaEntriesNotEnabledForAccountErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Supplying point of sale addenda entries is currently not enabled.
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    IncompatibleAddendaEntriesErrorResponse:
+      title: IncompatibleAddendaEntriesErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Addenda must not include both 'values' and 'pointOfSale addenda
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale
+                  _links:
+                    type: object
+                    example: {}
+    InvalidPointOfSaleAddendaIdentificationCodeErrorResponse:
+      title: InvalidPointOfSaleAddendaIdentificationCodeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Identification code on a Point of Sale addenda entry is required and can be up to 6 characters.
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale/identificationCode
+                  _links:
+                    type: object
+                    example: {}
+    InvalidPointOfSaleAddendaSerialNumberErrorResponse:
+      title: InvalidPointOfSaleAddendaSerialNumberErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Serial number on a Point of Sale addenda entry is required and can be up to 6 characters.
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale/serialNumber
+                  _links:
+                    type: object
+                    example: {}
+    InvalidPointOfSaleAddendaDateErrorResponse:
+      title: InvalidPointOfSaleAddendaDateErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: 'Date on a Point of Sale addenda entry is required and should be ISO-8601 format: YYYY-MM-DD.'
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale/date
+                  _links:
+                    type: object
+                    example: {}
+    InvalidPointOfSaleAddendaAddressErrorResponse:
+      title: InvalidPointOfSaleAddendaAddressErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Address on a Point of Sale addenda entry is required and can be up to 27 characters.
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale/address
+                  _links:
+                    type: object
+                    example: {}
+    InvalidPointOfSaleAddendaCityErrorResponse:
+      title: InvalidPointOfSaleAddendaCityErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: City on a Point of Sale addenda entry is required and can be up to 15 characters.
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale/city
+                  _links:
+                    type: object
+                    example: {}
+    InvalidPointOfSaleAddendaStateErrorResponse:
+      title: InvalidPointOfSaleAddendaStateErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: State on a Point of Sale addenda entry is required and should be a valid 2-letter abbreviation.
+                  path:
+                    type: string
+                    example: /achDetails/source/addenda/pointOfSale/state
+                  _links:
+                    type: object
+                    example: {}
+    TransferExpiredForFeeErrorResponse:
+      title: TransferExpiredForFeeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Return fees can only be charged within 45 days of the original transfer's settlement date.
+                  path:
+                    type: string
+                    example: /_links/failed-transfer/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidFeeOdfiErrorResponse:
+      title: InvalidFeeOdfiErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Transfer ineligible.
+                  path:
+                    type: string
+                    example: /_links/failed-transfer/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidSourceBankAccountTypeErrorResponse:
+      title: InvalidBankAccountTypeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid bank account type
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidDestinationBankAccountTypeErrorResponse:
+      title: InvalidDestinationBankAccountTypeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid bank account type
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    IncompatibleSourceAndDestinationTypesErrorResponse:
+      title: IncompatibleSourceAndDestinationTypesErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Card type funding sources can only accept payments directly from a balance
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    IncompatibleSourceForRtpDestinationErrorResponse:
+      title: IncompatibleSourceForRtpDestinationErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Transfers using the Real Time Payments processing channel must be funded by a balance
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    InvalidAmountForDestinationProcessingChannelErrorResponse:
+      title: InvalidAmountForDestinationProcessingChannelErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Amount is greater than the allowed threshold for the specified destination processing channel.
+                  path:
+                    type: string
+                    example: /amount/value
+                  _links:
+                    type: object
+                    example: {}
+    RtpFacilitatorFeeNotSupportedErrorResponse:
+      title: RtpFacilitatorFeeNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Real Time Payments does not currently support facilitator fees
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    RtpUnverifiedSenderNotSupportedErrorResponse:
+      title: RtpUnverifiedSenderNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Real Time Payments does not currently support unverified senders
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    RtpPersonalToPersonalNotSupportedErrorResponse:
+      title: RtpPersonalToPersonalNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Real Time Payments does not currently support transfers between personal accounts
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    DestinationProcessingChannelNotSupportedErrorResponse:
+      title: DestinationProcessingChannelNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Destination funding source does not support processing channel
+                  path:
+                    type: string
+                    example: /processingChannel/destination
+                  _links:
+                    type: object
+                    example: {}
+    DestinationRemittanceDataMaxLengthErrorResponse:
+      title: DestinationRemittanceDataMaxLengthErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Remittance data entries can be up to 140 characters when supplied.
+                  path:
+                    type: string
+                    example: /rtpDetails/destination/remittanceData
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidAmountErrorResponse:
+      title: WithdrawInvalidAmountErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Invalid amount.
+                  path:
+                    type: string
+                    example: /amount/value
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidFundingSourceErrorResponse:
+      title: WithdrawInvalidFundingSourceErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Destination funding source is either removed or does not exist.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawAccountRestrictedErrorResponse:
+      title: WithdrawAccountRestrictedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Account or customer restricted.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidAmountForClearingTypeErrorResponse:
+      title: WithdrawInvalidAmountForClearingTypeErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Amount is above the allowed threshold for the specified clearing type.
+                  path:
+                    type: string
+                    example: /amount/value
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidWireBeneficiaryLocalityErrorResponse:
+      title: WithdrawInvalidWireBeneficiaryLocalityErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: "Beneficiary locality must not exceed 35 characters and contain only alphanumeric, white space, '.' or '#' characters."
+                  path:
+                    type: string
+                    example: /wireInstructions/beneficiaryLocality
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidWireBeneficiaryRegionErrorResponse:
+      title: WithdrawInvalidWireBeneficiaryRegionErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: "Beneficiary region must not exceed 35 characters and contain only alphanumeric, white space, '.' or '#' characters."
+                  path:
+                    type: string
+                    example: /wireInstructions/beneficiaryRegion
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidWireBeneficiaryCountryErrorResponse:
+      title: WithdrawInvalidWireBeneficiaryCountryErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: "Beneficiary country must not exceed 35 characters and contain only alphanumeric, white space, '.' or '#' characters."
+                  path:
+                    type: string
+                    example: /wireInstructions/beneficiaryCountry
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawInvalidWireOriginatorToBeneficiaryErrorResponse:
+      title: WithdrawInvalidWireOriginatorToBeneficiaryErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: "Originator to beneficiary items must not exceed 35 characters and contain only alphanumeric, white space, '.' or '#' characters."
+                  path:
+                    type: string
+                    example: /wireInstructions/originatorToBeneficiary
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawProcessingChannelNotSupportedErrorResponse:
+      title: WithdrawProcessingChannelNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Unsupported processing channel.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawRtpUnverifiedSenderNotSupportedErrorResponse:
+      title: WithdrawRtpUnverifiedSenderNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Real Time Payments does not currently support unverified senders
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    WithdrawRtpPersonalWithdrawalNotSupportedErrorResponse:
+      title: WithdrawRtpPersonalWithdrawalNotSupportedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Real Time Payments withdrawal from a personal account is currently not supported
+                  path:
+                    type: string
+                    example: ''
+                  _links:
+                    type: object
+                    example: {}
+    DepositAccountRestrictedErrorResponse:
+      title: DepositAccountRestrictedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Account is restricted.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    WireInvalidImadErrorResponse:
+      title: WireInvalidImadErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Missing or invalid IMAD.
+                  path:
+                    type: string
+                    example: /imad
+                  _links:
+                    type: object
+                    example: {}
+    WireAccountRestrictedErrorResponse:
+      title: WireAccountRestrictedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Restricted
+                  message:
+                    type: string
+                    example: Account or customer restricted.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    WireNotEnabledErrorResponse:
+      title: WireNotEnabledErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Wire transfers are currently not enabled.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    WireAccountNotFoundErrorResponse:
+      title: WireAccountNotFoundErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Account or customer invalid.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    # API errors (403)
+    InvalidAttemptToFacilitateFundsErrorResponse:
+      title: InvalidAttemptToFacilitateFundsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: "Invalid Funds Flow: this operation requires the funds flow 'Facilitate' to be enabled"
+    InvalidAttemptToPayInFundsErrorResponse:
+      title: InvalidAttemptToPayInFundsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: "Invalid Funds Flow: this operation requires the funds flow 'Receive' to be enabled"
+    InvalidAttemptToPayOutFundsErrorResponse:
+      title: InvalidAttemptToPayOutFundsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: "Invalid Funds Flow: this operation requires the funds flow 'Send' to be enabled"
+    RtpAccountSettingNotEnabledErrorResponse:
+      title: RtpAccountSettingNotEnabledErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: 'Real Time Payments not enabled for this account'
+    # Too many requests error (429)
+    TooManyRequestsErrorErrorResponse:
+      title: TooManyRequestsErrorErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: TooManyRequests
+        message:
+          type: string
+          example: Concurrent transfers with the given funding source are not supported. Please wait a short period of time before re-attempting the request.

@@ -21,6 +21,34 @@ get:
             type: array
             items:
               $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to list funding sources.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Customer not found.
 post:
   tags:
     - funding sources
@@ -68,6 +96,24 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '400':
+      description: validation error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                example: 'Can be: Duplicate funding source or validation error. Authorization already associated to a funding source.'
+    '403':
+      oneOf:
+        - $ref: '#/components/schemas/NotAuthorizedToCreateFundingSourceSchema'
+        - $ref: '#/components/schemas/VANSNotEnabledSchema'
 components:
   schemas:
     listCustomerFundingSourcesResponse:
@@ -85,3 +131,23 @@ components:
               type: array
               items:
                 $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'
+    NotAuthorizedToCreateFundingSourceSchema:
+      title: NotAuthorizedToCreateFundingSourceSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: forbidden
+        message:
+          type: string
+          example: Not authorized to create funding source.
+    VANSNotEnabledSchema:
+      title: VANSNotEnabledSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: forbidden
+        message:
+          type: string
+          example: Virtual account numbers are not enabled for this account.

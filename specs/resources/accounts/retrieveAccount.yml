@@ -19,6 +19,27 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveAccountDetailsResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to retrieve an Account by id.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
 components:
   schemas:
     RetrieveAccountDetailsResponse:

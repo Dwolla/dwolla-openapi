@@ -49,6 +49,53 @@ post:
     '201':
       description: document created
       headers: {}
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/MaximumNumberOfResourcesSchema'
+              - $ref: '#/components/schemas/InvalidFileTypeSchema'
+              - $ref: '#/components/schemas/DuplicateResourceSchema'
+    '403':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidResourceStateSchema'
+              - $ref: '#/components/schemas/NotAuthorizedSchema'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Customer not found. Check CustomerId.
+    '413':
+      description: request entity too large
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: fileTooLarge
+              message:
+                type: string
+                example: Document requests are limited to 10 MiB.
 components:
   schemas:
     ListCustomerDocumentsResponse:
@@ -67,3 +114,53 @@ components:
               type: array
               items:
                 $ref: './retrieveDocument.yml#/components/schemas/RetrieveDocumentResponse'
+    MaximumNumberOfResourcesSchema:
+      title: MaximumNumberOfResourcesSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: maximumNumberOfResources
+        message:
+          type: string
+          example: Max of four files upload allowed. Please wait for Dwolla to manually check the documents.
+    InvalidFileTypeSchema:
+      title: InvalidFileTypeSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: invalidFileType
+        message:
+          type: string
+          example: 'File types supported: Personal IDs - .jpg, .jpeg or .png. Business Documents - .jpg, .jpeg, .png, or .pdf.'
+    DuplicateResourceSchema:
+      title: DuplicateResourceSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: duplicateResource
+        message:
+          type: string
+          example: Document already exists. Follow the link to find the existing document for the Customer.
+    InvalidResourceStateSchema:
+      title: InvalidResourceStateSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: invalidResourceState
+        message:
+          type: string
+          example: Resource cannot be modified. Document creation not allowed for already verified Customers or non-verified Customer types.
+    NotAuthorizedSchema:
+      title: NotAuthorizedSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: notAuthorized
+        message:
+          type: string
+          example: Not authorized to create documents.

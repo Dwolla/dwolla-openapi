@@ -19,6 +19,20 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/BeneficialOwnerResponse'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: not found.
 post:
   tags:
     - beneficial owners
@@ -48,6 +62,52 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/BeneficialOwnerResponse'
+    '400':
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to update beneficial owner.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: owner not found.
 delete:
   tags:
     - beneficial owners
@@ -69,6 +129,20 @@ delete:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: Beneficial owner not found.
 components:
   schemas:
     BeneficialOwnerResponse:

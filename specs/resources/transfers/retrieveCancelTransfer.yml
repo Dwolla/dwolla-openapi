@@ -19,6 +19,13 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '#/components/schemas/RetrieveTransferResponse'
+    '404':
+      description: 404 Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
 post:
   tags:
     - transfers
@@ -36,12 +43,14 @@ post:
     description: Parameters to cancel a transfer
     content:
       application/json:
-        required:
-          - status
-        type: object
-        properties:
-          status:
-            type: string
+        schema:
+          required:
+            - status
+          type: object
+          properties:
+            status:
+              type: string
+              example: cancelled
   responses:
     '200':
       description: successful operation
@@ -50,6 +59,23 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+    '400':
+      description: 400 Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '../../schemas/commonSchemas.yml#/components/schemas/400BadRequestErrorResponse'
+              - $ref: '#/components/schemas/StatusInvalidErrorResponse'
+              - $ref: '#/components/schemas/StatusNotAllowedErrorResponse'
+    '404':
+      description: 404 Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
 components:
   schemas:
     RetrieveTransferResponse:
@@ -139,3 +165,63 @@ components:
             destination:
               type: string
               example: real-time-payments
+    StatusInvalidErrorResponse:
+      title: StatusInvalidErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Status invalid.
+                  path:
+                    type: string
+                    example: /status
+                  _links:
+                    type: object
+                    example: {}
+    StatusNotAllowedErrorResponse:
+      title: StatusNotAllowedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Status not allowed.
+                  path:
+                    type: string
+                    example: /status
+                  _links:
+                    type: object
+                    example: {}
