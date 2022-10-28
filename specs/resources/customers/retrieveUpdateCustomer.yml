@@ -54,20 +54,23 @@ post:
   description: Update a customer
   operationId: update
   requestBody:
-    description: Parameters for customer to be created
+    description: Parameters for updating a Customer
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            firstName:
-              type: string
-            lastName:
-              type: string
-            email:
-              type: string
-            businessName:
-              type: string
+          oneOf:
+            - $ref: '#/components/requestBodies/DeactivateCustomer'
+            - $ref: '#/components/requestBodies/ReactivateCustomer'
+            - $ref: '#/components/requestBodies/SuspendCustomer'
+            - $ref: '#/components/requestBodies/UpdateUnverifiedAndRecieveOnly'
+            - $ref: '#/components/requestBodies/UpdateVerifiedPersonal'
+            - $ref: '#/components/requestBodies/UpdateVerifiedBusiness'
+            - $ref: '#/components/requestBodies/UpgradeToVerifiedPersonal'
+            - $ref: '#/components/requestBodies/UpgradeToVerifiedBusiness'
+            - $ref: '#/components/requestBodies/UpgradeToVerifiedSoleProp'
+            - $ref: '#/components/requestBodies/RetryVerifiedPersonal'
+            - $ref: '#/components/requestBodies/RetryVerifiedBusiness'
+            - $ref: '#/components/requestBodies/RetryVerifiedSoleProp'
   responses:
     '200':
       description: successful operation
@@ -146,3 +149,217 @@ components:
         postalCode:
           type: string
           example: '50309'
+    UpdateVerifiedCustomerSharedModel:
+      Description: Shared models between Verified Customer types
+      type: object
+      properties:
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        address1:
+          type: string
+          example: 123 Main Street
+        address2:
+          type: string
+          example: XYZ Suite
+        city:
+          type: string
+          example: Des Moines
+        state:
+          type: string
+          example: IA
+        postalCode:
+          type: string
+          example: '50309'
+        phone:
+          type: string
+          example: 5555555555
+  requestBodies:
+    DeactivateCustomer:
+      title: DeactivateCustomer
+      description: Deactivate a Customer
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: deactivated
+    ReactivateCustomer:
+      title: ReactivateCustomer
+      description: Reactivate a Customer
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: reactivated
+    SuspendCustomer:
+      title: SuspendCustomer
+      description: Suspend a Customer
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: suspended
+    UpdateUnverifiedAndRecieveOnly:
+      title: UpdateUnverifiedAndRecieveOnly
+      description: Update Unverified Customer or Recieve Only User Information
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: accountAdmin@email.com
+        businessName:
+          type: string
+          example: Jane Corp
+    UpdateVerifiedPersonal:
+      title: UpdateVerifiedPersonal
+      description: Update Verified Personal Customer Information
+      allOf:
+        - $ref: '#/components/schemas/UpdateVerifiedCustomerSharedModel'
+    UpdateVerifiedBusiness:
+      title: UpdateVerifiedBusiness
+      description: Update Verified Business Customer Information (both Sole Proprietorship and Non-Sole Proprietorship)
+      allOf:
+        - $ref: '#/components/schemas/UpdateVerifiedCustomerSharedModel'
+        - type: object
+          properties:
+            doingBusinessAs:
+              type: string
+              example: Jane's Electronics
+            website:
+              type: string
+              example: https://www.domain.com
+    UpgradeToVerifiedPersonal:
+      title: UpgradeToVerifiedPersonal
+      description: Upgrade Unverified Customer to Verified Personal Customer
+      allOf:
+        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+            - ssn
+          properties:
+            type:
+              type: string
+              example: personal
+            ssn:
+              type: string
+              example: 1234
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+    UpgradeToVerifiedBusiness:
+      title: UpgradeToVerifiedBusiness
+      description: Upgrade Unverified Customer to Verified Business Customer
+      allOf:
+        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - controller
+          properties:
+            controller:
+              oneOf:
+                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithSsn'
+                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithPassport'
+            businessType:
+              type: string
+              example: llc
+    UpgradeToVerifiedSoleProp:
+      title: UpgradeToVerifiedSoleProp
+      description: Upgrade Unverified Customer to Verified Business Customer (Sole Proprietorship)
+      allOf:
+        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - ssn
+            - dateOfBirth
+          properties:
+            ssn:
+              type: string
+              example: 1234
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+            businessType:
+              type: string
+              example: soleProprietorship
+    RetryVerifiedPersonal:
+      title: RetryVerifiedPersonal
+      description: Retry Verification for Verified Personal Customer
+      allOf:
+        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+            - ssn
+          properties:
+            type:
+              type: string
+              example: personal
+            ssn:
+              type: string
+              example: 123456789
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+    RetryVerifiedBusiness:
+      title: RetryVerifiedBusiness
+      description: Retry Verification for Verified Business Customer
+      allOf:
+        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - controller
+          properties:
+            controller:
+              oneOf:
+                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithSsn'
+                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithPassport'
+            businessType:
+              type: string
+              example: llc
+    RetryVerifiedSoleProp:
+      title: RetryVerifiedSoleProp
+      description: Retry Verification for Verified Business Customer (Sole Proprietorship)
+      allOf:
+        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - ssn
+            - dateOfBirth
+          properties:
+            ssn:
+              type: string
+              example: 123456789
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+            businessType:
+              type: string
+              example: soleProprietorship

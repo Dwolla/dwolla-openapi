@@ -234,6 +234,9 @@ components:
             ein:
               type: string
               example: 00-0000000
+            website:
+              type: string
+              example: https://www.domain.com
     ControllerSharedModel:
       type: object
       required:
@@ -354,6 +357,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
         - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/BusinessCustomerSharedModel'
         - type: object
           required:
             - businessType
@@ -372,6 +376,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
         - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/BusinessCustomerSharedModel'
         - type: object
           required:
             - businessType
