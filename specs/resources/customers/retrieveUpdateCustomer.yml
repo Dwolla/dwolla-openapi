@@ -18,7 +18,12 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveCustomerResponse'
+            oneOf:
+              - $ref: '#/components/schemas/RetrieveReceiveOnlyCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveUnverifiedCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveVerifiedPersonalCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveVerifiedSolePropCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveVerifiedBusinessCustomerResponse'
     '403':
       description: forbidden
       headers: {}
@@ -78,7 +83,12 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveCustomerResponse'
+            oneOf:
+              - $ref: '#/components/schemas/RetrieveReceiveOnlyCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveUnverifiedCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveVerifiedPersonalCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveVerifiedSolePropCustomerResponse'
+              - $ref: '#/components/schemas/RetrieveVerifiedBusinessCustomerResponse'
     '400':
       description: bad request
       headers: {}
@@ -109,8 +119,9 @@ post:
                 example: Not authorized to update a customer.
 components:
   schemas:
-    RetrieveCustomerResponse:
-      title: RetrieveCustomerResponse
+    RetrieveCustomerSharedModel:
+      title: RetrieveCustomerSharedModel
+      Description: Shared models between all Customer types
       type: object
       properties:
         _links:
@@ -128,27 +139,192 @@ components:
         email:
           type: string
           example: janedoe@mail.com
-        type:
+        correlationId:
           type: string
-          example: unverified
-        status:
-          type: string
-          example: unverified
+          example: 'CID-abe2bb3d-d2ff-433b-95a3-0debd960ed25'
         created:
           type: string
-          example: '2022-06-03T16:39:40.457Z'
-        address1:
+          example: '2022-10-07T16:46:13.023Z'
+    RetrieveReceiveOnlyCustomerResponse:
+      title: RetrieveReceiveOnlyCustomerResponse
+      allOf:
+        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
+        - type: object
+          properties:
+            type:
+              type: string
+              example: receive-only
+            status:
+              type: string
+              example: unverified
+            businessName:
+              type: string
+              example: Jane Corp llc
+    RetrieveUnverifiedCustomerResponse:
+      title: RetrieveUnverifiedCustomerResponse
+      allOf:
+        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
+        - type: object
+          properties:
+            type:
+              type: string
+              example: unverified
+            status:
+              type: string
+              example: unverified
+            businessName:
+              type: string
+              example: Jane Corp llc
+    RetrieveVerifiedPersonalCustomerResponse:
+      title: RetrieveVerifiedPersonalCustomerResponse
+      allOf:
+        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
+        - type: object
+          properties:
+            type:
+              type: string
+              example: personal
+            status:
+              type: string
+              example: verified
+            address1:
+              type: string
+              example: 123 Main Street
+            address2:
+              type: string
+              example: Ste 123
+            city:
+              type: string
+              example: Des Moines
+            state:
+              type: string
+              example: IA
+            postalCode:
+              type: string
+              example: '50309'
+    RetrieveVerifiedSolePropCustomerResponse:
+      title: RetrieveVerifiedSolePropCustomerResponse
+      allOf:
+        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
+        - type: object
+          properties:
+            type:
+              type: string
+              example: business
+            status:
+              type: string
+              example: verified
+            address1:
+              type: string
+              example: 123 Main Street
+            address2:
+              type: string
+              example: Ste 123
+            city:
+              type: string
+              example: Des Moines
+            state:
+              type: string
+              example: IA
+            postalCode:
+              type: string
+              example: '50309'
+            businessName:
+              type: string
+              example: Jane Corp
+            businessType:
+              type: string
+              example: soleProprietorship
+            businessClassification:
+              type: string
+              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    RetrieveVerifiedBusinessCustomerResponse:
+      title: RetrieveVerifiedBusinessCustomerResponse
+      allOf:
+        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
+        - type: object
+          properties:
+            type:
+              type: string
+              example: business
+            status:
+              type: string
+              example: verified
+            address1:
+              type: string
+              example: 123 Main Street
+            address2:
+              type: string
+              example: Ste 123
+            city:
+              type: string
+              example: Des Moines
+            state:
+              type: string
+              example: IA
+            postalCode:
+              type: string
+              example: '50309'
+            phone:
+              type: string
+              example: '555555555'
+            website:
+              type: string
+              example: https://www.dwolla.com
+            businessName:
+              type: string
+              example: Jane Corp
+            doingBusinessAs:
+              type: string
+              example: Jane's Coffee and Sweets
+            businessType:
+              type: string
+              example: llc
+            businessClassification:
+              type: string
+              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+            controller:
+              type: object
+              $ref: '#/components/schemas/ControllerObject'
+    # Customer Update models
+    ControllerObject:
+      title: ControllerObject
+      Description: Controller JSON Object for Customer responses
+      type: object
+      properties:
+        firstName:
           type: string
-          example: 123 Main Street
-        city:
+          example: John
+        lastName:
           type: string
-          example: Des Moines
-        state:
+          example: Controller
+        title:
           type: string
-          example: IA
-        postalCode:
-          type: string
-          example: '50309'
+          example: CEO
+        address:
+          type: object
+          properties:
+            address1:
+              type: string
+              example: 462 Main Street
+            address2:
+              type: string
+              example: Suite 123
+            address3:
+              type: string
+              example: Unit 123
+            city:
+              type: string
+              example: Des Moines
+            postalCode:
+              type: string
+              example: '50309'
+            country:
+              type: string
+              example: USA
+            stateProvinceRegion:
+              type: string
+              example: 'IA'
     UpdateVerifiedCustomerSharedModel:
       Description: Shared models between Verified Customer types
       type: object
