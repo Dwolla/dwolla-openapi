@@ -125,3 +125,7 @@ components:
         currency:
           type: string
           example: 'USD'
+  headers:
+    Location:
+      type: string
+      description: URL location of newly created resource.

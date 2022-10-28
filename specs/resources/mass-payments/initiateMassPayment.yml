@@ -22,6 +22,7 @@ post:
                   properties:
                     href:
                       type: string
+                      example: https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
             items:
               type: array
               items:
@@ -35,6 +36,7 @@ post:
                         properties:
                           href:
                             type: string
+                            example: https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db
                   amount:
                     $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
                   processingChannel:
@@ -48,23 +50,12 @@ post:
                   clearing:
                     type: object
                     properties:
-                      source:
-                        type: string
                       destination:
                         type: string
+                        example: next-available
                   achDetails:
                     type: object
                     properties:
-                      source:
-                        type: object
-                        properties:
-                          addenda:
-                            type: object
-                            properties:
-                              values:
-                                type: array
-                                items:
-                                  type: string
                       destination:
                         type: object
                         properties:
@@ -75,8 +66,10 @@ post:
                                 type: array
                                 items:
                                   type: string
+                                  example: XYZ987_AddendaValue
                   correlationId:
                     type: string
+                    example: ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841
             status:
               type: string
               example: deferred
@@ -93,120 +86,21 @@ post:
                           type: array
                           items:
                             type: string
+                            example: ZYX987_AddendaValue
             clearing:
               type: object
               properties:
                 source:
                   type: string
+                  example: next-available
             metadata:
               type: object
-              properties:
-                batch1:
-                  type: string
             correlationId:
               type: string
+              example: ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841
   responses:
     '201':
       description: created
-      headers: {}
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  source:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
-              achDetails:
-                type: object
-                properties:
-                  source:
-                    type: object
-                    properties:
-                      addenda:
-                        type: object
-                        properties:
-                          values:
-                            type: array
-                            items:
-                              type: string
-                              example: ABC123_AddendaValue
-              clearing:
-                type: object
-                properties:
-                  source:
-                    type: string
-                    example: next-available
-              items:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    _links:
-                      type: object
-                      properties:
-                        destination:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              example: https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db
-                    amount:
-                      type: object
-                      properties:
-                        currency:
-                          type: string
-                          example: USD
-                        value:
-                          type: string
-                          example: 1.00
-                    clearing:
-                      type: object
-                      properties:
-                        destination:
-                          type: string
-                          example: next-available
-                    metadata:
-                      type: object
-                      properties:
-                        payment1:
-                          type: string
-                          example: payment1
-                    achDetails:
-                      type: object
-                      properties:
-                        destination:
-                          type: object
-                          properties:
-                            addenda:
-                              type: object
-                              properties:
-                                values:
-                                  type: array
-                                  items:
-                                    type: string
-                                    example: ZYX987_AddendaValue
-                    correlationId:
-                      type: string
-                      example: ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841
-                    processingChannel:
-                      type: object
-                      properties:
-                        destination:
-                          type: string
-                          example: real-time-payments
-              metadata:
-                type: object
-                properties:
-                  batch1:
-                    type: string
-                    example: batch1
-              correlationId:
-                type: string
-                example: 6d127333-69e9-4c2b-8cae-df850228e130
+      headers:
+        Location:
+          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
