@@ -117,3 +117,5 @@ paths:
     $ref: 'resources/webhooks/retrieveWebhook.yml'
   /webhooks/{id}/retries:
     $ref: 'resources/webhooks/listRetriesAndRetryWebhook.yml'
+  /exchange-partners:
+    $ref: 'resources/exchanges/listExchangePartners.yml'
