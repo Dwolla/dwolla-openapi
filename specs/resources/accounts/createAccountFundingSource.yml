@@ -1,0 +1,97 @@
+post:
+  tags:
+    - account
+  summary: Create a funding source for an account
+  description: Create a funding source for an account
+  operationId: createAccountFundingSource
+  requestBody:
+    description: Parameters for the funding source to be created
+    content:
+      application/json:
+        schema:
+          required:
+            - accountNumber
+            - routingNumber
+            - bankAccountType
+            - name
+          type: object
+          properties:
+            accountNumber:
+              type: string
+            routingNumber:
+              type: string
+            bankAccountType:
+              type: string
+            name:
+              type: string
+            channels:
+              type: array
+  responses:
+    '201':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '400':
+      oneOf:
+        - $ref: '#/components/schemas/BadRequestSchema'
+        - $ref: '#/components/schemas/DuplicateResourceSchema'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to create funding source.
+components:
+  schemas:
+    BadRequestSchema:
+      title: BadRequestSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
+    DuplicateResourceSchema:
+      title: DuplicateResourceSchema
+      type: string
+      example: DuplicateResource
+    message:
+      type: string
+      example: 'Bank already exists: id=df8392e5-4c06-42ed-b247-c098ed6f5a11'
+    _links:
+      type: object
+      properties:
+        about:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api-sandbox.dwolla.com/funding-sources/df8392e5-4c06-42ed-b247-c098ed6f5a11
+            type:
+              type: string
+              example: application/vnd.dwolla.v1.hal+json
+            resource-type:
+              type: string
+              example: funding-source

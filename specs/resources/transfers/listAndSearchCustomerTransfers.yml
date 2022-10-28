@@ -1,0 +1,94 @@
+get:
+  tags:
+    - transfers
+  summary: List and search transers for a customer
+  description: List and search transers for a customer
+  operationId: listForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer's unique identifier
+      required: true
+      schema:
+        type: string
+    - name: search
+      in: query
+      description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`
+      required: false
+      schema:
+        type: string
+    - name: startAmount
+      in: query
+      description: Only include transactions with an amount equal to or greater than `startAmount`
+      required: false
+      schema:
+        type: string
+    - name: endAmount
+      in: query
+      description: Only include transactions with an amount equal to or less than `endAmount`
+      required: false
+      schema:
+        type: string
+    - name: startDate
+      in: query
+      description: Only include transactions created after this date. ISO-8601 format `YYYY-MM-DD`
+      required: false
+      schema:
+        type: string
+    - name: endDate
+      in: query
+      description: Only include transactions created before this date. ISO-8601 format `YYYY-MM-DD`
+      required: false
+      schema:
+        type: string
+    - name: status
+      in: query
+      description: Filter on transaction status. Possible values are `pending`, `processed`, `failed`, or `cancelled`
+      required: false
+      schema:
+        type: string
+    - name: correlationId
+      in: query
+      description: A string value to search on if `correlationId` was specified for a transaction
+      required: false
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: Number of search results to return. Defaults to 25
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: Number of search results to skip. Use for pagination
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                additionalProperties:
+                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+              _embedded:
+                type: object
+                properties:
+                  transfers:
+                    type: array
+                    items:
+                      $ref: './retrieveCancelTransfer.yml#/components/schemas/RetrieveTransferResponse'
+    '404':
+      description: 404 Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'

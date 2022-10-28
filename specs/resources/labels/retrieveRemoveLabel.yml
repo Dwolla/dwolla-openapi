@@ -1,0 +1,128 @@
+get:
+  tags:
+    - labels
+  summary: Retrieve a label
+  description: Retrieve a label
+  operationId: retrieveLabel
+  parameters:
+    - name: id
+      in: path
+      description: Label unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveLabelResponse'
+delete:
+  tags:
+    - labels
+  summary: Remove a label
+  description: Remove a label
+  operationId: remove
+  parameters:
+    - name: id
+      in: path
+      description: A label unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveLabelResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidResourceState
+              message:
+                type: string
+                example: Amount must be zero to remove label.
+components:
+  schemas:
+    RetrieveLabelResponse:
+      title: RetrieveLabelResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: label
+            update:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: ledger-entry
+            ledger-entries:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: ledger-entry
+            customer:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: customer
+        id:
+          type: string
+          example: 7e042ffe-e25e-40d2-b86e-748b98845ecc
+        created:
+          type: string
+          example: 2022-05-15T22:19:09.635Z
+        amount:
+          type: object
+          properties:
+            value:
+              type: string
+              example: 10.00
+            currency:
+              type: string
+              example: USD

@@ -1,0 +1,68 @@
+get:
+  tags:
+    - mass payments
+  summary: List mass payments for customer
+  description: List mass payments for customer
+  operationId: listForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer ID to get mass payments for
+      required: true
+      schema:
+        type: string
+    - name: correlationId
+      in: query
+      description: A string value to search on if `correlationId` was specified for a transaction
+      required: false
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: Number of search results to return. Defaults to 25
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: Number of search results to skip. Use for pagination
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments?limit=25&offset=0
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments?limit=25&offset=0
+              _embedded:
+                type: object
+                properties:
+                  mass-payments:
+                    type: array
+                    items:
+                      $ref: './retrieveUpdateMassPayment.yml#/components/schemas/RetrieveMassPaymentResponse'

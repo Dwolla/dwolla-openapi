@@ -1,0 +1,127 @@
+get:
+  tags:
+    - beneficial owners
+  summary: Retrieve beneficial ownership status
+  description: Retrieve beneficial ownership status
+  operationId: getBeneficialOwnershipStatusForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/BeneficialOwnershipResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to get certification status.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: Ownership certification status not found.
+post:
+  tags:
+    - beneficial owners
+  summary: Certify beneficial ownership status
+  description: certify beneficial ownership status
+  operationId: certifyBeneficialOwnershipForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters for certifying beneficial ownership for a Customer
+    content:
+      application/json:
+        schema:
+          required:
+            - status
+          type: object
+          properties:
+            status:
+              type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/BeneficialOwnershipResponse'
+    '400':
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Forbidden from updating beneficial ownership status for this customer.
+components:
+  schemas:
+    BeneficialOwnershipResponse:
+      title: BeneficialOwnershipResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        status:
+          type: string
+          example: uncertified

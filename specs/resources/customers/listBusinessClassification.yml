@@ -1,0 +1,24 @@
+get:
+  tags:
+    - customers
+  summary: List business classification
+  description: List business classifications
+  operationId: listBusinessClassifications
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+              _embedded:
+                type: object
+                properties:
+                  business-classifications:
+                    type: array
+                    items:
+                      $ref: './retrieveBusinessClassification.yml#/components/schemas/RetrieveBusinessClassificationResponse'

@@ -1,0 +1,59 @@
+get:
+  tags:
+    - transfers
+  summary: List fees for a transfer
+  description: List fees for a transfer
+  operationId: listFees
+  parameters:
+    - name: id
+      in: path
+      description: ID of transfer to retrieve fees for
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              transactions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _links:
+                      type: object
+                      additionalProperties:
+                        $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                    id:
+                      type: string
+                      example: 416a2857-c887-4cca-bd02-8c3f75c4bb0e
+                    status:
+                      type: string
+                      example: pending
+                    amount:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                          example: '2.00'
+                        currency:
+                          type: string
+                          example: USD
+                    created:
+                      type: string
+                      example: '2016-02-22T20:46:38.777Z'
+              total:
+                type: string
+                example: '1'
+    '404':
+      description: 404 Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'

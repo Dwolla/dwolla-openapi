@@ -1,0 +1,163 @@
+get:
+  tags:
+    - webhook subscriptions
+  summary: List webhook subscriptions
+  description: List webhook subscriptions
+  operationId: listWebhookSubscriptions
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions
+              _embedded:
+                type: object
+                properties:
+                  webhook-subscriptions:
+                    type: array
+                    items:
+                      $ref: './retrieveUpdateDeleteWebhookSubscription.yml#/components/schemas/RetrieveWebhookSubscriptionResponse'
+              total:
+                type: integer
+                format: int32
+                example: 1
+post:
+  tags:
+    - webhook subscriptions
+  summary: Create a webhook subscription
+  description: Create a webhook subscription
+  operationId: create
+  requestBody:
+    description: Parameters to create a webhook subscriptions
+    content:
+      application/json:
+        schema:
+          required:
+            - url
+            - secret
+          type: object
+          properties:
+            url:
+              type: string
+              example: http://myapplication.com/webhooks
+            secret:
+              type: string
+              example: sshhhhhh
+  responses:
+    '201':
+      description: create
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+    '400':
+      description: Bad request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidUrlFormatErrorResponse'
+              - $ref: '#/components/schemas/SecretTooLongErrorResponse'
+              - $ref: '#/components/schemas/MaxSubscriptionsReachedErrorResponse'
+    '429':
+      description: Too Many Requests
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsErrorResponse'
+components:
+  schemas:
+    InvalidUrlFormatErrorResponse:
+      title: InvalidUrlFormatErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Url must be a valid url.
+                  path:
+                    type: string
+                    example: /url
+                  _links:
+                    type: object
+                    example: {}
+    MaxSubscriptionsReachedErrorResponse:
+      title: MaxSubscriptionsReachedErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: MaxNumberOfResources
+        message:
+          type: string
+          example: The maximum number of subscriptions has been reached.
+    SecretTooLongErrorResponse:
+      title: SecretTooLongErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidFormat
+                  message:
+                    type: string
+                    example: Secret must be 128 or fewer characters.
+                  path:
+                    type: string
+                    example: /secret
+                  _links:
+                    type: object
+                    example: {}
+    TooManyRequestsErrorResponse:
+      title: TooManyRequestsErrorResponse
+      type: object
+      properties:
+        code:
+          type: string
+          example: Too Many Requests
+        message:
+          type: string
+          example: Please wait a short period of time before re-attempting the request.

@@ -1,0 +1,130 @@
+get:
+  tags:
+    - webhook subscriptions
+  summary: Retrieve a webhook subscription
+  description: Retrieve a webhook subscription
+  operationId: get
+  parameters:
+    - name: id
+      in: path
+      description: Webhook subscription unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+post:
+  tags:
+    - webhook subscriptions
+  summary: Update a webhook subscription
+  description: Update a webhook subscription
+  operationId: update
+  parameters:
+    - name: id
+      in: path
+      description: Webhook unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to update a webhook subscription
+    content:
+      application/json:
+        schema:
+          required:
+            - paused
+          type: object
+          properties:
+            paused:
+              type: boolean
+              example: true
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/400BadRequestErrorResponse'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+delete:
+  tags:
+    - webhook subscriptions
+  summary: Delete a webhook subscription
+  description: Delete a webhook subscription
+  operationId: delete
+  parameters:
+    - name: id
+      in: path
+      description: Webhook unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+components:
+  schemas:
+    RetrieveWebhookSubscriptionResponse:
+      title: RetrieveWebhookSubscriptionResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
+            webhooks:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
+        id:
+          type: string
+          example: 077dfffb-4852-412f-96b6-0fe668066589
+        url:
+          type: string
+          example: http://myapplication.com/webhooks
+        paused:
+          type: boolean
+          example: true
+        created:
+          type: string
+          format: date-time
+          example: 2022-10-28T16:20:47+00:00

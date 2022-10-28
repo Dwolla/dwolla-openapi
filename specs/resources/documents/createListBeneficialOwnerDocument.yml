@@ -1,0 +1,51 @@
+get:
+  tags:
+    - documents
+  summary: List document for beneficial owner
+  description: List document for beneficial owner
+  operationId: listForBeneficialOwner
+  parameters:
+    - name: id
+      in: path
+      description: beneficial owner unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: './createListCustomerDocument.yml#/components/schemas/ListCustomerDocumentsResponse'
+post:
+  tags:
+    - documents
+  summary: Create a document for beneficial owner
+  description: Create a document for beneficial owner
+  operationId: createForBeneficialOwner
+  parameters:
+    - name: id
+      in: path
+      description: beneficial owner unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Upload a document for a beneficial owner.
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            documentType:
+              type: string
+            file:
+              type: string
+              format: binary
+  responses:
+    '201':
+      description: document created
+      headers: {}

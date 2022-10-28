@@ -1,0 +1,119 @@
+openapi: 3.0.3
+info:
+  title: Dwolla API
+  description: Dwolla API Documentation
+  contact:
+    name: Dwolla Developer Relations Team
+    url: 'https://developers.dwolla.com'
+    email: api@dwolla.com
+  version: '2.0'
+  termsOfService: 'https://www.dwolla.com/legal/tos/'
+  license:
+    name: MIT
+    url: 'https://github.com/Dwolla/dwolla-openapi/blob/master/LICENSE'
+servers:
+  - url: 'https://api.dwolla.com'
+    description: Production server
+  - url: 'https://api-sandbox.dwolla.com'
+    description: Sandbox server
+paths:
+  /:
+    $ref: './resources/root.yml'
+  /accounts/{id}:
+    $ref: './resources/accounts/retrieveAccount.yml'
+  /funding-sources:
+    $ref: './resources/accounts/createAccountFundingSource.yml'
+  /accounts/{id}/funding-sources:
+    $ref: './resources/accounts/listAccountFundingSources.yml'
+  /accounts/{id}/transfers:
+    $ref: './resources/accounts/listAndSearchAccountTransfers.yml'
+  /accounts/{id}/mass-payments:
+    $ref: './resources/accounts/listAccountMassPayments.yml'
+  /customers:
+    $ref: './resources/customers/createListCustomer.yml'
+  /customers/{id}:
+    $ref: './resources/customers/retrieveUpdateCustomer.yml'
+  /business-classifications:
+    $ref: './resources/customers/listBusinessClassification.yml'
+  /business-classifications/{id}:
+    $ref: './resources/customers/retrieveBusinessClassification.yml'
+  /customers/{id}/beneficial-owners:
+    $ref: './resources/beneficial-owner/listCreateBeneficialOwner.yml'
+  /beneficial-owners/{id}:
+    $ref: 'resources/beneficial-owner/retrieveUpdateRemoveBeneficialOwner.yml'
+  /customers/{id}/beneficial-ownership:
+    $ref: 'resources/beneficial-owner/retrieveCerfifyBeneficialOwnership.yml'
+  /customers/{id}/documents:
+    $ref: 'resources/documents/createListCustomerDocument.yml'
+  /beneficial-owners/{id}/documents:
+    $ref: 'resources/documents/createListBeneficialOwnerDocument.yml'
+  /documents/{id}:
+    $ref: 'resources/documents/retrieveDocument.yml'
+  /customrs/{id}/kba:
+    $ref: './resources/kba/initiateKba.yml'
+  /kba/{id}:
+    $ref: './resources/kba/verifyRetrieveKba.yml'
+  /customers/{id}/funding-sources:
+    $ref: 'resources/funding-sources/createListCustomerFundingSources.yml'
+  /customers/{id}/funding-sources-token:
+    $ref: 'resources/funding-sources/createFundingSourceTokenDwollajs.yml'
+  /customers/{id}/iav-token:
+    $ref: 'resources/funding-sources/createIavTokenDwollajs.yml'
+  /customers/{id}/card-funding-sources-token:
+    $ref: 'resources/funding-sources/createCardFundingSourceTokenDwollaCardjs.yml'
+  /funding-sources/{id}:
+    $ref: 'resources/funding-sources/retrieveUpdateRemoveFundingSource.yml'
+  /funding-sources/{id}/micro-deposits:
+    $ref: 'resources/funding-sources/retrieveInitiateVerifyMicroDeposit.yml'
+  /funding-sources/{id}/balance:
+    $ref: 'resources/funding-sources/retrieveFundingSourceBalance.yml'
+  /funding-sources/{id}/ach-routing:
+    $ref: 'resources/funding-sources/retrieveVansAccountRoutingNumber.yml'
+  /transfers:
+    $ref: 'resources/transfers/initiateTransfer.yml'
+  /transfers/{id}:
+    $ref: 'resources/transfers/retrieveCancelTransfer.yml'
+  /customers/{id}/transfers:
+    $ref: 'resources/transfers/listAndSearchCustomerTransfers.yml'
+  /transfers/{id}/fees:
+    $ref: 'resources/transfers/listFeesForTransfer.yml'
+  /transfers/{id}/failure:
+    $ref: 'resources/transfers/retrieveTransferFailureReason.yml'
+  /on-demand-authorizations:
+    $ref: 'resources/transfers/createOnDemandTransferAuthorization.yml'
+  /mass-payments:
+    $ref: 'resources/mass-payments/initiateMassPayment.yml'
+  /mass-payments/{id}:
+    $ref: 'resources/mass-payments/retrieveUpdateMassPayment.yml'
+  /mass-payments/{id}/items:
+    $ref: 'resources/mass-payments/listMassPaymentItems.yml'
+  /mass-payment-items/{id}:
+    $ref: 'resources/mass-payments/retrieveMassPaymentItem.yml'
+  /customers/{id}/mass-payments:
+    $ref: 'resources/mass-payments/listMassPaymentsForCustomer.yml'
+  /labels/{id}:
+    $ref: 'resources/labels/retrieveRemoveLabel.yml'
+  /customers/{id}/labels:
+    $ref: 'resources/labels/createListCustomerLabel.yml'
+  /labels/{id}/ledger-entries:
+    $ref: 'resources/labels/createlistLabelLedgerEntry.yml'
+  /ledger-entries/{id}:
+    $ref: 'resources/labels/retrieveLabelLedgerEntry.yml'
+  /label-reallocations:
+    $ref: 'resources/labels/createLabelReallocation.yml'
+  /label-reallocations/{id}:
+    $ref: 'resources/labels/retrieveLabelReallocation.yml'
+  /events:
+    $ref: 'resources/events/listEvents.yml'
+  /events/{id}:
+    $ref: 'resources/events/retrieveEvent.yml'
+  /webhook-subscriptions:
+    $ref: 'resources/webhook-subscriptions/createListWebhookSubscriptions.yml'
+  /webhook-subscriptions/{id}:
+    $ref: 'resources/webhook-subscriptions/retrieveUpdateDeleteWebhookSubscription.yml'
+  /webhook-subscriptions/{id}/webhooks:
+    $ref: 'resources/webhook-subscriptions/listWebhooksForWebhookSubscription.yml'
+  /webhooks/{id}:
+    $ref: 'resources/webhooks/retrieveWebhook.yml'
+  /webhooks/{id}/retries:
+    $ref: 'resources/webhooks/listRetriesAndRetryWebhook.yml'

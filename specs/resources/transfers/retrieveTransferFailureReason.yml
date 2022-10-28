@@ -1,0 +1,49 @@
+get:
+  tags:
+    - transfers
+  summary: Retrieve a transfer failure reason
+  description: Retrieve a transfer failure reason
+  operationId: getFailureReason
+  parameters:
+    - name: id
+      in: path
+      description: Transfer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                additionalProperties:
+                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+              code:
+                type: string
+                example: R03
+              description:
+                type: string
+                example: No Account/Unable to Locate Account
+              explanation:
+                type: string
+                example: The account number does not correspond to the individual identified in the entry or a valid account.
+    '403':
+      description: 403 Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/403ForbiddenErrorResponse'
+    '404':
+      description: 404 Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'

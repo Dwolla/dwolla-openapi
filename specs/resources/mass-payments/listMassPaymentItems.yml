@@ -1,0 +1,68 @@
+get:
+  tags:
+    - mass payments
+  summary: List items for a mass payment
+  description: List items for a mass payment
+  operationId: listItems
+  parameters:
+    - name: id
+      in: path
+      description: Mass payment unique identifier
+      required: true
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: string
+    - name: status
+      in: query
+      description: Filter by item status
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items?limit=25&offset=0
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items?limit=25&offset=0
+              _embedded:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: './retrieveMassPaymentItem.yml#/components/schemas/RetrieveMassPaymanetItemResponse'

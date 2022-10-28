@@ -1,0 +1,103 @@
+get:
+  tags:
+    - account
+  summary: List funding sources for an account
+  description: List funding source for an account
+  operationId: listAccountFundingSources
+  parameters:
+    - name: id
+      in: path
+      description: Account's unique identifier
+      required: true
+      schema:
+        type: string
+    - name: removed
+      in: query
+      description: Filter removed funding sources. Boolean value. Defaults to `true`
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/ListAccountFundingSources'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to list funding sources.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Account not found.
+components:
+  schemas:
+    ListAccountFundingSources:
+      title: ListAccountFundingSources
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            funding-sources:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    additionalProperties:
+                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  id:
+                    type: string
+                    example: d3d6b41e-5567-4bc6-9c6e-0efd0a3e647e
+                  status:
+                    type: string
+                    example: unverified
+                  type:
+                    type: string
+                    example: bank
+                  bankAccountType:
+                    type: string
+                    example: checking
+                  name:
+                    type: string
+                    example: My bank
+                  created:
+                    type: string
+                    example: '2022-07-23T00:18:21.419Z'
+                  removed:
+                    type: Boolean
+                    example: true
+                  channels:
+                    type: array
+                    items:
+                      type: string
+                      example: ach

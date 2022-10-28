@@ -1,0 +1,43 @@
+post:
+  tags:
+    - transfers
+  summary: Create an on-demand transfer authorization
+  description: Create an on-demand transfer authorization
+  operationId: create
+  responses:
+    '201':
+      description: created
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/SuccessfulResponse'
+    '403':
+      description: 403 Error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/403ForbiddenErrorResponse'
+components:
+  schemas:
+    # 201 Created
+    SuccessfulResponse:
+      title: SuccessfulResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+        bodyText:
+          type: string
+          example: I agree that future payments to Company ABC inc. will be processed by the Dwolla payment system from the selected account above. In order to cancel this authorization, I will change my payment settings within my Company ABC inc. account.
+        buttonText:
+          type: string
+          example: Agree & Continue

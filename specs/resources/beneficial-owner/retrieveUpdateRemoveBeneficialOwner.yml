@@ -1,0 +1,169 @@
+get:
+  tags:
+    - beneficial owners
+  summary: Retrieve beneficial owner
+  description: Retrieve beneficial owner
+  operationId: retrieveBeneficialOwner
+  parameters:
+    - name: id
+      in: path
+      description: Beneficial owner unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/BeneficialOwnerResponse'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: not found.
+post:
+  tags:
+    - beneficial owners
+  summary: Update beneficial owner
+  description: Update beneficial owner
+  operationId: update
+  parameters:
+    - name: id
+      in: path
+      description: Beneficial owner unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters for updating a beneficial owner
+    content:
+      application/json:
+        schema:
+          $oneOf:
+            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithSsn'
+            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithPassport'
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/BeneficialOwnerResponse'
+    '400':
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to update beneficial owner.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: owner not found.
+delete:
+  tags:
+    - beneficial owners
+  summary: Delete beneficial owner
+  description: Delete beneficial owner
+  operationId: remove
+  parameters:
+    - name: id
+      in: path
+      description: Beneficial owner unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: Beneficial owner not found.
+components:
+  schemas:
+    BeneficialOwnerResponse:
+      title: BeneficialOwnerResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        id:
+          type: string
+          example: 55469604-40ab-44b6-962f-de2c0837ba98
+        firstName:
+          type: string
+          example: Janice
+        lastName:
+          type: string
+          example: Doe
+        address:
+          $ref: '../../schemas/commonSchemas.yml#/components/schemas/InternationalAddress'
+        verificationStatus:
+          type: string
+          example: document

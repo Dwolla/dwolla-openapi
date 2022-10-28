@@ -1,0 +1,62 @@
+post:
+  tags:
+    - funding sources
+  summary: Create a Card funding sources token for dwolla-cards.js
+  description: Create a Card funding sources token for dwolla-cards.js
+  operationId: createCardTokenForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer's unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/card-funding-sources-token
+              token:
+                type: object
+                example: 4e6158394155554b4d74423975727475326a4b4f73436d73616e6c30597a6f61424a7249386545394e7149555533646d55623a41506e693176383545567167454e4d31355563683157675a
+    '401':
+      description: unauthorized
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: unauthorized
+              message:
+                type: string
+                example: Application does not have required scopes for creating token.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Customer not found.

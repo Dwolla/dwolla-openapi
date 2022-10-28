@@ -1,0 +1,84 @@
+get:
+  tags:
+    - webhook subscriptions
+  summary: List webhooks for a webhook subscription
+  description: List webhooks for a webhook subscription
+  operationId: listWebhooks
+  parameters:
+    - name: id
+      in: path
+      description: Webhook subscription unique identifier
+      required: true
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: string
+    - name: startDate
+      in: query
+      description: Only include webhooks created after this date. ISO-8601 format `YYYY-MM-DD`
+      required: false
+      schema:
+        type: string
+    - name: endDate
+      in: query
+      description: Only include webhooks created before this date. ISO-8601 format `YYYY-MM-DD`
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: sucessful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=0
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=150
+                  next:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=25
+              _embedded:
+                type: object
+                properties:
+                  webhooks:
+                    type: array
+                    items:
+                      $ref: '../webhooks/retrieveWebhook.yml#/components/schemas/RetrieveWebhookResponse'
+              total:
+                type: integer
+                format: int32
+                example: 1

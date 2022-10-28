@@ -1,0 +1,143 @@
+get:
+  tags:
+    - funding sources
+  summary: Retrieve a funding source
+  description: Retrieve a funding source
+  operationId: get
+  parameters:
+    - name: id
+      in: path
+      description: Funding source unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/RetrieveFundingSourceResponse'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Funding source not found.
+post:
+  tags:
+    - funding sources
+  summary: Update a funding source
+  description: Update a funding source
+  operationId: update
+  parameters:
+    - name: id
+      in: path
+      description: Funding source unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to update a customer funding source
+    content:
+      application/json:
+        schema:
+          required:
+            - name
+          type: object
+          properties:
+            name:
+              type: string
+            bankAccountType:
+              type: string
+            routingNumber:
+              type: string
+            accountNumber:
+              type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '400':
+      description: validation error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: validationError
+              message:
+                type: string
+                example: Only funding sources of type="bank" can be updated.
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidResourceState
+              message:
+                type: string
+                example: A removed bank cannot be updated.
+components:
+  schemas:
+    RetrieveFundingSourceResponse:
+      title: RetrieveFundingSourceResponse
+      type: object
+      properties:
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        id:
+          type: string
+          example: 49dbaa24-1580-4b1c-8b58-24e26656fa31
+        status:
+          type: string
+          example: verified
+        type:
+          type: string
+          example: bank
+        bankAccountType:
+          type: string
+          example: checking
+        name:
+          type: string
+          example: Test Checking Account
+        created:
+          type: string
+          example: '2017-09-26T14:14:08.000Z'
+        removed:
+          type: string
+          example: false
+        channels:
+          type: array
+          items:
+            type: string
+            example: ach
+        bankName:
+          type: string
+          example: SANDBOX TEST BANK
+        fingerprint:
+          type: string
+          example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c3a

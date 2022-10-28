@@ -1,0 +1,75 @@
+get:
+  tags:
+    - events
+  summary: Retrieve events
+  description: Retrieve events
+  operationId: get
+  parameters:
+    - name: id
+      in: paths
+      description: ID of application event to get
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095
+                  resource:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/transfers/09A166BC-1B74-E511-80DB-0AA34A9B2388
+                  account:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b
+                  customer:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/07d59716-ef22-4fe6-98e8-f3190233dfb8
+              id:
+                type: string
+                example: 81f6e13c-557c-4449-9331-da5c65e61095
+              created:
+                type: string
+                example: 2015-10-16T15:37:02.000Z
+              topic:
+                type: string
+                example: customer_transfer_created
+              resourceId:
+                type: string
+                example: 09A166BC-1B74-E511-80DB-0AA34A9B2388
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Application event not found.

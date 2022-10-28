@@ -1,0 +1,64 @@
+get:
+  tags:
+    - labels
+  summary: Retrieve a label reallocation
+  description: Retrieve a label reallocation
+  operationId: retrieveLabelLedgerEntry
+  parameters:
+    - name: id
+      in: path
+      description: Label reallocation unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label-reallocation
+                  to-ledger-entry:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/ledger-entries/d8a4bf7a-3fa0-48b9-873c-765d7375c59f
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: ledger-entry
+                  from-ledger-entry:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/ledger-entries/f6a44994-b4da-48e3-bd10-d3a168e6a77d
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: ledger-entry
+              created:
+                type: string
+                example: 2022-05-16T13:41:31.036Z

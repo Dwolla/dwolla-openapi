@@ -1,0 +1,394 @@
+get:
+  tags:
+    - customers
+  summary: List and search customers
+  description: List and search customer
+  operationId: list
+  parameters:
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: string
+    - name: search
+      in: query
+      description: Searches on certain fields
+      required: false
+      schema:
+        type: string
+    - name: status
+      in: query
+      description: Filter by customer status
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '#/components/schemas/ListCustomersResponse'
+post:
+  tags:
+    - customers
+  summary: Create a customer
+  description: Create a customer
+  operationId: create
+  requestBody:
+    description: Parameters for customer to be created
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '#/components/requestBodies/CreateReceiveOnly'
+            - $ref: '#/components/requestBodies/CreateUnverified'
+            - $ref: '#/components/requestBodies/CreateVerifiedPersonal'
+            - $ref: '#/components/requestBodies/CreateVerifiedSoleProp'
+            - $ref: '#/components/requestBodies/CreateVerifiedBusiness'
+  responses:
+    '201':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '400':
+      description: Bad Resuest
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/400BadRequestErrorResponse'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to create customers.
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: not found.
+components:
+  schemas:
+    ListCustomersResponse:
+      title: ListCustomersResponse
+      type: object
+      properties:
+        _links:
+          additionalProperties:
+            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            customers:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    additionalProperties:
+                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  id:
+                    type: string
+                    example: c41125c5-99c4-4303-a9f6-d066d28a61e3
+                  firstName:
+                    type: string
+                    example: Jane
+                  lastName:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: janedoe@mail.com
+                  type:
+                    type: string
+                    example: unverified
+                  status:
+                    type: string
+                    example: unverified
+                  created:
+                    type: string
+                    example: '2022-06-03T16:39:40.457Z'
+                  address1:
+                    type: string
+                    example: 123 Main Street
+                  city:
+                    type: string
+                    example: Des Moines
+                  state:
+                    type: string
+                    example: IA
+                  postalCode:
+                    type: string
+                    example: '50309'
+                  correlationId:
+                    type: string
+                    example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'
+    UnverifiedCustomerSharedModel:
+      Description: Shared models between all Customer types
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        phone:
+          type: string
+          example: 5555555555
+        correlationId:
+          type: string
+          example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    VerifiedCustomerSharedModel:
+      Description: Shared models between Verified customers
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - type: object
+          required:
+            - address1
+            - city
+            - state
+            - postalCode
+            - dateOfBirth
+            - ssn
+          properties:
+            address1:
+              type: string
+              example: 99-99 33rd St
+            address2:
+              type: string
+              example: 99-99 33rd St
+            city:
+              type: string
+              example: Some City
+            state:
+              type: string
+              example: NY
+            postalCode:
+              type: string
+              example: 11101
+    BusinessCustomerSharedModel:
+      Description: Shared models between Business Verified Customers
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+            - businessName
+            - businessClassification
+            - ein
+          properties:
+            type:
+              type: string
+              example: business
+            businessClassification:
+              type: string
+              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+            businessName:
+              type: string
+              example: Jane Corp
+            doingBusinessAs:
+              type: string
+              example: Jane's Electronics
+            ein:
+              type: string
+              example: 00-0000000
+            website:
+              type: string
+              example: https://www.domain.com
+    ControllerSharedModel:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - title
+        - dateOfBirth
+        - address
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Controller
+        title:
+          type: string
+          example: CEO
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1980-01-31
+        address:
+          $ref: '../../schemas/commonSchemas.yml#/components/schemas/InternationalAddress'
+    ControllerWithSsn:
+      title: ControllerWithSsn
+      description: Controller object with SSN
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ControllerSharedModel'
+        - type: object
+          required:
+            - ssn
+          properties:
+            ssn:
+              type: string
+              example: '1234'
+    ControllerWithPassport:
+      title: ControllerWithPassport
+      description: Controller object with Passport
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ControllerSharedModel'
+        - type: object
+          required:
+            - passport
+          properties:
+            passport:
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/Passport'
+    # Error Responses
+    ValidationErrorSchema:
+      title: ValidationErrorSchema
+      type: object
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
+  requestBodies:
+    CreateReceiveOnly:
+      title: CreateReceiveOnly
+      description: Create a Recieve Only User
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              example: receive-only
+            businessName:
+              type: string
+              example: Jane Corp llc
+    CreateUnverified:
+      title: CreateUnverified
+      description: Create an Unverified Customer
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - type: object
+          properties:
+            businessName:
+              type: string
+              example: Jane Corp llc
+    CreateVerifiedPersonal:
+      title: CreateVerifiedPersonal
+      description: Create a Verified Personal customer
+      allOf:
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - type: object
+          required:
+            - type
+            - ssn
+          properties:
+            type:
+              type: string
+              example: personal
+            ssn:
+              type: string
+              example: 1234
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+    CreateVerifiedBusiness:
+      title: CreateVerifiedBusiness
+      description: Create a Verified Business customer
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/BusinessCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - controller
+          properties:
+            controller:
+              oneOf:
+                - $ref: '#/components/schemas/ControllerWithSsn'
+                - $ref: '#/components/schemas/ControllerWithPassport'
+            businessType:
+              type: string
+              example: llc
+    CreateVerifiedSoleProp:
+      title: CreateVerifiedSoleProp
+      description: Create a Verified Business customer (Sole Proprietorship)
+      allOf:
+        - $ref: '#/components/schemas/UnverifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/VerifiedCustomerSharedModel'
+        - $ref: '#/components/schemas/BusinessCustomerSharedModel'
+        - type: object
+          required:
+            - businessType
+            - ssn
+            - dateOfBirth
+          properties:
+            ssn:
+              type: string
+              example: 1234
+            dateOfBirth:
+              type: string
+              example: 1980-09-12
+            businessType:
+              type: string
+              example: soleProprietorship

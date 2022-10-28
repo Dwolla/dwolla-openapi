@@ -1,0 +1,135 @@
+get:
+  tags:
+    - labels
+  summary: List labels for a customer
+  description: List labels for a customer
+  operationId: listLabelsForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: ID of customer
+      required: true
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: string
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: success operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+                  first:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+                  last:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: label
+                  customer:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: customer
+              _embedded:
+                type: object
+                properties:
+                  labels:
+                    type: array
+                    items:
+                      $ref: './retrieveRemoveLabel.yml#/components/schemas/RetrieveLabelResponse'
+              total:
+                type: integer
+                format: int32
+                example: 1
+post:
+  tags:
+    - labels
+  summary: Create a label for a customer
+  description: Create a label for a customer
+  operationId: createForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: ID of customer to create a label for
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters to create a customer label
+    content:
+      application/json:
+        schema:
+          required:
+            - amount
+          type: object
+          properties:
+            amount:
+              type: object
+              properties:
+                currency:
+                  type: string
+                  example: 12.34
+                value:
+                  type: string
+                  example: USD
+  responses:
+    '201':
+      description: create
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
