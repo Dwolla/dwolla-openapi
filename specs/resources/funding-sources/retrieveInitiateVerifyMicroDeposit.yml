@@ -7,7 +7,7 @@ get:
   parameters:
     - name: id
       in: path
-      description: ID of funding source to intiate micro-deposits to
+      description: The ID of the FS that previously had micro-deposits initiated
       required: true
       schema:
         type: string
@@ -49,16 +49,24 @@ get:
 post:
   tags:
     - funding sources
-  summary: Initiate micro-deposits
-  description: Initiate micro-deposits
-  operationId: initiateMicroDeposits
+  summary: Initiate or Verify micro-deposits
+  description: Initiate or Verify micro-deposits
+  operationId: initiateOrVerifyMicroDeposits
   parameters:
     - name: id
       in: path
-      description: ID of funding source to intiate micro-deposits to
+      description: The ID of the FS to initiate or veriify micro-deposit
       required: true
       schema:
         type: string
+  requestBody:
+    description:
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '#/components/requestBodies/InitiateMicroDeposits'
+            - $ref: '#/components/requestBodies/VerifyMicroDeposits'
   responses:
     '201':
       description: created
@@ -81,3 +89,42 @@ post:
               message:
                 type: string
                 example: Funding source not found
+components:
+  requestBodies:
+    InitiateMicroDeposits:
+      title: InitiateMicroDeposits
+      description: Empty request body for initiating micro-deposits
+      type: object
+      nullable: true
+    VerifyMicroDeposits:
+      title: VerifyMicroDeposits
+      description: Request body for verifying micro-deposits
+      type: object
+      required:
+        - amount1
+        - amount2
+      properties:
+        amount1:
+          type: object
+          required:
+            - value
+            - currency
+          properties:
+            value:
+              type: string
+              example: 0.02
+            currency:
+              type: string
+              example: USD
+        amount2:
+          type: object
+          required:
+            - value
+            - currency
+          properties:
+            value:
+              type: string
+              example: 0.03
+            currency:
+              type: string
+              example: USD

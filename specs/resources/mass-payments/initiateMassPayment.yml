@@ -36,12 +36,7 @@ post:
                           href:
                             type: string
                   amount:
-                    type: object
-                    properties:
-                      currency:
-                        type: string
-                      value:
-                        type: string
+                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
                   processingChannel:
                     type: object
                     properties:
