@@ -1,0 +1,59 @@
+post:
+  tags:
+    - token
+  summary: oauth
+  description: OAuth get token response
+  operationId: oAuth
+  security:
+    - oAuth: []
+  requestBody:
+    description: OAuth get token request
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          type: object
+          required:
+            - grant_type
+          properties:
+            grant_type:
+              type: string
+              example: client_credentials
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+                example: gTm0p62yYXFiB1rOdhV0TsNOinC2V2P1CMaAtojkO9JEGbv3i5
+              token_type:
+                type: string
+                example: bearer
+              expires_in:
+                type: integer
+                example: 3599
+    '401':
+      description: Unauthorized
+      headers: {}
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: invalid_client
+components:
+  securitySchemes:
+    # OAuth2 security scheme. For more info see https://swagger.io/docs/specification/authentication/oauth2/
+    oAuth:
+      type: oauth2
+      description: This API uses OAuth 2 with the client credentials grant flow. For more informatioin, see the [Dwolla Developer Documentation](https://developers.dwolla.com/api-reference/authorization).
+      flows:
+        clientCredentials:
+          tokenUrl: /token
+          scopes: {}
