@@ -77,7 +77,55 @@ post:
             - $ref: '#/components/schemas/FinicityJSONObjectSchema'
             - $ref: '#/components/schemas/MXObjectSchema'
   responses:
-    
+    '201':
+      description: Created
+      headers:
+        location:
+          type: string
+          example: https://api-sandbox.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '400':
+      description: Validation Error
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                example: Validation error(s) present. See embedded errors list for more details.
+    '401':
+      description: Invalid Scope
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidScope
+              message:
+                type: string
+                example: Missing or invalid scopes for requested endpoint.
+    '404':
+      description: Not Found
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: The requested resource was not found.
 components:
   schemas:
     FinicityJSONObjectSchema:
