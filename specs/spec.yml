@@ -119,3 +119,11 @@ paths:
     $ref: 'resources/webhooks/listRetriesAndRetryWebhook.yml'
   /exchange-partners:
     $ref: 'resources/exchanges/listExchangePartners.yml'
+  /exchange-partners/{id}:
+    $ref: 'resources/exchanges/retrieveExchangePartner.yml'
+  /exchanges:
+    $ref: 'resources/exchanges/listCreateExchangeForAccount.yml'
+  /exchanges/{id}:
+    $ref: 'resources/exchanges/retrieveExchangeResource.yml'
+  /customers/{id}/exchanges:
+    $ref: 'resources/exchanges/listCreateExchangeForCustomer.yml'
