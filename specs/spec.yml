@@ -17,6 +17,8 @@ servers:
   - url: 'https://api-sandbox.dwolla.com'
     description: Sandbox server
 paths:
+  /token:
+    $ref: './resources/authorization.yml'
   /:
     $ref: './resources/root.yml'
   /accounts/{id}:
@@ -117,3 +119,16 @@ paths:
     $ref: 'resources/webhooks/retrieveWebhook.yml'
   /webhooks/{id}/retries:
     $ref: 'resources/webhooks/listRetriesAndRetryWebhook.yml'
+components:
+  securitySchemes:
+    # Basic Authentication security scheme used for generating Application Access Tokens. For more info see https://swagger.io/docs/specification/authentication/basic-authentication/
+    basicAuth:
+      type: http
+      scheme: basic
+    # Bearer Authentication security scheme used for all paths that require an access token. For more info see https://swagger.io/docs/specification/authentication/bearer-authentication/
+    bearerAuth:
+      type: http
+      scheme: bearer
+# Apply bearerAuth security globally to all operations
+security:
+  - bearerAuth: []
