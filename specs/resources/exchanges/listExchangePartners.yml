@@ -1,6 +1,6 @@
 get:
   tags:
-    - exchange
+    - exchanges
   summary: List exchange partners
   description: List exchange partners
   operationId: listExchangePartners

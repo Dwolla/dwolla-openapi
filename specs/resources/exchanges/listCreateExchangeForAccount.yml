@@ -1,6 +1,6 @@
 get:
   tags:
-    - exchange
+    - exchanges
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listExchangesForAccount
@@ -28,7 +28,7 @@ get:
                       resource-type:
                         type: string
                         example: exchange
-                  exchange-partners:
+                  exchange-partner:
                     type: object
                     properties:
                       href:
@@ -60,8 +60,8 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/schemas/FinicityJSONObjectSchema'
-            - $ref: '#/components/schemas/MXObjectSchema'
+            - $ref: '#/components/schemas/FinicityCreateExchangeSchema'
+            - $ref: '#/components/schemas/MXCreateExchangeSchema'
   responses:
     '201':
       description: Created
@@ -96,7 +96,7 @@ post:
                 example: The exchange is no longer active.
 components:
   schemas:
-    FinicityJSONObjectSchema:
+    FinicityCreateExchangeSchema:
       type: object
       properties:
         _links:
@@ -160,7 +160,7 @@ components:
               type: string
               format: date-time
               example: '2022-07-11T06:06:23Z'
-    MXObjectSchema:
+    MXCreateExchangeSchema:
       type: object
       properties:
         _links:

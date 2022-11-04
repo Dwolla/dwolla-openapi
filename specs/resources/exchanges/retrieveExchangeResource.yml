@@ -1,6 +1,6 @@
 get:
   tags:
-    - exchange
+    - exchanges
   summary: Retrieve exchange resource
   description: Retrieve exchange resource
   operationId: retrieveExchangeResource

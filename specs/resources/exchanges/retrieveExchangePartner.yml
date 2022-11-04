@@ -1,6 +1,6 @@
 get:
   tags:
-    - exchange
+    - exchanges
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
   operationId: retrieveExchangePartner

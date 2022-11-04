@@ -1,6 +1,6 @@
 get:
   tags:
-    - exchange
+    - exchanges
   summary: List exchanges for an customer
   description: List exchanges for an customer
   operationId: listExchangesForCustomer
