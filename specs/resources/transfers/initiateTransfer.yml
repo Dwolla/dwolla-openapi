@@ -22,18 +22,13 @@ post:
                   properties:
                     href:
                       type: string
-                description:
+                destination:
                   type: object
                   properties:
                     href:
                       type: string
             amount:
-              type: object
-              properties:
-                currency:
-                  type: string
-                value:
-                  type: string
+              $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
             metadata:
               type: object
             fees:
@@ -105,11 +100,9 @@ post:
   responses:
     '201':
       description: created
-      headers: {}
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            type: object
+      headers:
+        Location:
+          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
     '400':
       description: Bad Request
       headers: {}

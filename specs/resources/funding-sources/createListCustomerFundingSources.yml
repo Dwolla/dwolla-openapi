@@ -58,7 +58,7 @@ post:
   parameters:
     - name: id
       in: path
-      description: customer unique identifier
+      description: Customer's unique identifier
       required: true
       schema:
         type: string
@@ -67,35 +67,16 @@ post:
     content:
       application/json:
         schema:
-          required:
-            - routingNumber
-            - accountNumber
-            - bankAccountType
-            - name
-          type: object
-          properties:
-            _links:
-              type: string
-            routingNumber:
-              type: string
-            accountNumber:
-              type: string
-            bankAccountType:
-              type: string
-            name:
-              type: string
-            plaidToken:
-              type: string
-            channels:
-              type: array
+          oneOf:
+            - $ref: '#/components/requestBodies/CreateUnverifiedBank'
+            - $ref: '#/components/requestBodies/CreatePlaidBank'
+            - $ref: '#/components/requestBodies/CreateVAN'
   responses:
     '201':
       description: created
-      headers: {}
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            type: object
+      headers:
+        Location:
+          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
     '400':
       description: validation error
       headers: {}
@@ -116,8 +97,18 @@ post:
         - $ref: '#/components/schemas/VANSNotEnabledSchema'
 components:
   schemas:
-    listCustomerFundingSourcesResponse:
-      title: listCustomerFundingSourcesResponse
+    OnDemandAuthorization:
+      title: OnDemandAuthorization
+      type: object
+      properties:
+        on-demand-authorization:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+    ListCustomerFundingSourcesResponse:
+      title: ListCustomerFundingSourcesResponse
       type: object
       properties:
         _links:
@@ -131,6 +122,7 @@ components:
               type: array
               items:
                 $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'
+    # Error Responses
     NotAuthorizedToCreateFundingSourceSchema:
       title: NotAuthorizedToCreateFundingSourceSchema
       type: object
@@ -151,3 +143,62 @@ components:
         message:
           type: string
           example: Virtual account numbers are not enabled for this account.
+  requestBodies:
+    CreateUnverifiedBank:
+      title: CreateUnverifiedBank
+      description: Request body for creating an unverified bank funding source
+      type: object
+      required:
+        - routingNumber
+        - accountNumber
+        - bankAccountType
+        - name
+      properties:
+        _links:
+          $ref: '#/components/schemas/OnDemandAuthorization'
+        routingNumber:
+          type: string
+          example: 222222226
+        accountNumber:
+          type: string
+          example: 123456789
+        bankAccountType:
+          type: string
+          example: checking
+        name:
+          type: string
+          example: Jane Doe’s Checking
+    CreatePlaidBank:
+      title: CreatePlaidBank
+      description: Request body for creating an Verified bank funding source using a Plaid token
+      type: object
+      required:
+        - plaidToken
+        - name
+      properties:
+        plaidToken:
+          type: string
+          example: processor-sandbox-161c86dd-d470-47e9-a741-d381c2b2cb6f
+        name:
+          type: string
+          example: Jane Doe’s Checking
+        _links:
+          $ref: '#/components/schemas/OnDemandAuthorization'
+    CreateVAN:
+      title: CreateVAN
+      description: Request body for creating a Virtual Account Number (VAN)
+      type: object
+      required:
+        - type
+        - bankAccountType
+        - name
+      properties:
+        type:
+          type: string
+          example: virtual
+        bankAccountType:
+          type: string
+          example: checking
+        name:
+          type: string
+          example: My First VAN
