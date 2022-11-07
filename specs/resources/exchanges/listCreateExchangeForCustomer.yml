@@ -65,7 +65,7 @@ get:
                 example: Customer ID not found. Check Customer ID.
 post:
   tags:
-    - exchange
+    - exchanges
   summary: Create exchange for an customer
   description: Create exchange for an customer
   operationId: createExchangeForCustomer
@@ -74,8 +74,8 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/schemas/FinicityJSONObjectSchema'
-            - $ref: '#/components/schemas/MXObjectSchema'
+            - $ref: '#/components/schemas/FinicityCreateExchangeSchema'
+            - $ref: '#/components/schemas/MXCreateExchangeSchema'
   responses:
     '201':
       description: Created
@@ -128,7 +128,7 @@ post:
                 example: The requested resource was not found.
 components:
   schemas:
-    FinicityJSONObjectSchema:
+    FinicityCreateExchangeSchema:
       type: object
       properties:
         _links:
@@ -192,7 +192,7 @@ components:
               type: string
               format: date-time
               example: '2022-07-11T06:06:23Z'
-    MXObjectSchema:
+    MXCreateExchangeSchema:
       type: object
       properties:
         _links:

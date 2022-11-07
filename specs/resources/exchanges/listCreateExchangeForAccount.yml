@@ -51,7 +51,7 @@ get:
                     example: '2022-10-21T21:41:03.283Z'
 post:
   tags:
-    - exchange
+    - exchanges
   summary: Create exchange for an account
   description: Create exchange for an account
   operationId: createExchangeForAccount
