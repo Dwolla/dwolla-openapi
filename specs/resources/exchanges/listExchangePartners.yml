@@ -1,0 +1,81 @@
+get:
+  tags:
+    - exchanges
+  summary: List exchange partners
+  description: List exchange partners
+  operationId: listExchangePartners
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.dwolla.com/exchange-partners
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: exchange-partner
+              _embedded:
+                type: object
+                properties:
+                  exchange-partners:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _links:
+                          type: object
+                          properties:
+                            self:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: exchange-partner
+                            funding-source:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: https://api.dwolla.com/funding-sources
+                                type:
+                                  type: string
+                                  example: application/vnd.dwolla.v1.hal+json
+                                resource-type:
+                                  type: string
+                                  example: funding-source
+                        id:
+                          type: string
+                          example: '292317ec-e252-47d8-93c3-2d128e037aa4'
+                        name:
+                          type: string
+                          example: Finicity
+                        status:
+                          type: string
+                          example: active
+                        created:
+                          type: string
+                          example: '2022-05-17T16:08:52.146Z'
+              total:
+                type: integer
+                format: int32
+                example: 2

@@ -1,0 +1,76 @@
+get:
+  tags:
+    - exchanges
+  summary: Retrieve exchange partner
+  description: Retrieve exchange partner
+  operationId: retrieveExchangePartner
+  parameters:
+    - name: id
+      in: path
+      description: Exchange Partner resource unique identifier.
+      required: true
+      schema:
+        type: string
+        example: 292317ec-e252-47d8-93c3-2d128e037aa4
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: exchange-partner
+                  funding-source:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.dwolla.com/funding-sources
+                      type:
+                        type: string
+                        example: application/vnd.dwolla.v1.hal+json
+                      resource-type:
+                        type: string
+                        example: funding-source
+              id:
+                type: string
+                example: e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
+              name:
+                type: string
+                example: MX
+              status:
+                type: string
+                example: active
+              created:
+                type: string
+                example: '2022-08-30T19:31:59.106Z'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: The requested resource was not found.
