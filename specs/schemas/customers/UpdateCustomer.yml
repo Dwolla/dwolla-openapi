@@ -1,0 +1,112 @@
+DeactivateCustomer:
+  title: DeactivateCustomer
+  description: Deactivate a Customer
+  type: object
+  required:
+    - status
+  properties:
+    status:
+      type: string
+      example: deactivated
+ReactivateCustomer:
+  title: ReactivateCustomer
+  description: Reactivate a Customer
+  type: object
+  required:
+    - status
+  properties:
+    status:
+      type: string
+      example: reactivated
+SuspendCustomer:
+  title: SuspendCustomer
+  description: Suspend a Customer
+  type: object
+  required:
+    - status
+  properties:
+    status:
+      type: string
+      example: suspended
+UpdateUnverifiedAndReceiveOnly:
+  title: UpdateUnverifiedAndReceiveOnly
+  description: Update Unverified Customer or Recieve Only User Information
+  type: object
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Doe
+    email:
+      type: string
+      example: accountAdmin@email.com
+    businessName:
+      type: string
+      example: Jane Corp
+UpdateVerifiedPersonal:
+  title: UpdateVerifiedPersonal
+  description: Update Verified Personal Customer Information
+  properties:
+    email:
+      type: string
+      example: accountAdmin@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    address1:
+      type: string
+      example: 123 Main Street
+    address2:
+      type: string
+      example: XYZ Suite
+    city:
+      type: string
+      example: Des Moines
+    state:
+      type: string
+      example: IA
+    postalCode:
+      type: string
+      example: '50309'
+    phone:
+      type: string
+      example: 5555555555
+UpdateVerifiedBusiness:
+  title: UpdateVerifiedBusiness
+  description: Update Verified Business Customer Information (both Sole Proprietorship and Non-Sole Proprietorship)
+  allOf:
+    - $ref: '#/UpdateVerifiedPersonal'
+    - type: object
+      properties:
+        doingBusinessAs:
+          type: string
+          example: Jane's Electronics
+        website:
+          type: string
+          example: https://www.domain.com
+UpgradeToVerifiedPersonal:
+  title: UpgradeToVerifiedPersonal
+  description: Upgrade Unverified Customer to Verified Personal Customer
+  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedPersonalRequestBody'
+UpgradeToVerifiedBusiness:
+  title: UpgradeToVerifiedBusiness
+  description: Upgrade Unverified Customer to Verified Business Customer
+  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedBusinessRequestBody'
+UpgradeToVerifiedSoleProp:
+  title: UpgradeToVerifiedSoleProp
+  description: Upgrade Unverified Customer to Verified Business Customer (Sole Proprietorship)
+  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedSolePropRequestBody'
+RetryVerifiedPersonal:
+  title: RetryVerifiedPersonal
+  description: Retry Verification for Verified Personal Customer
+  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedPersonalRequestBody'
+RetryVerifiedBusiness:
+  title: RetryVerifiedBusiness
+  description: Retry Verification for Verified Business Customer
+  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedBusinessRequestBody'
+RetryVerifiedSoleProp:
+  title: RetryVerifiedSoleProp
+  description: Retry Verification for Verified Business Customer (Sole Proprietorship)
+  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedSolePropRequestBody'

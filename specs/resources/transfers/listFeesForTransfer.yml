@@ -28,7 +28,7 @@ get:
                     _links:
                       type: object
                       additionalProperties:
-                        $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                        $ref: '../../schemas/common.yml#/components/schemas/HalLink'
                     id:
                       type: string
                       example: 416a2857-c887-4cca-bd02-8c3f75c4bb0e
@@ -56,4 +56,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'

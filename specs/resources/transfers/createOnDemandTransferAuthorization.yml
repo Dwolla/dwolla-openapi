@@ -18,7 +18,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/403ForbiddenErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/403ForbiddenErrorResponse'
 components:
   schemas:
     # 201 Created

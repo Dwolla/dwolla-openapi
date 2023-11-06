@@ -23,7 +23,7 @@ get:
               _links:
                 type: object
                 additionalProperties:
-                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  $ref: '../../schemas/common.yml#/components/schemas/HalLink'
               created:
                 type: string
                 example: '2022-12-30T20:56:53.000Z'
@@ -45,7 +45,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
 post:
   tags:
     - funding sources
@@ -72,7 +72,7 @@ post:
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '404':
       description: not found
       headers: {}

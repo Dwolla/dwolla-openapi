@@ -3,7 +3,7 @@ get:
     - account
   summary: List mass payments for an account
   description: List mass payments for an account
-  operation: ListAccountMassPayments
+  operationId: ListAccountMassPayments
   parameters:
     - name: id
       in: path
@@ -49,7 +49,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schema/ListAccountMassPaymentsResponse'
+            $ref: '../../schemas/mass-payments/MassPayments.yml#/MassPayments'
     '403':
       description: forbidden
       headers: {}
@@ -78,43 +78,3 @@ get:
               message:
                 type: string
                 example: Account not found.
-components:
-  schema:
-    ListAccountMassPaymentsResponse:
-      title: ListAccountMassPaymentsResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        _embedded:
-          type: object
-          properties:
-            mass-payments:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    additionalProperties:
-                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-                  id:
-                    type: string
-                    example: 11ac4051-7b76-44fc-87ab-ae23012393f0
-                  status:
-                    type: string
-                    example: complete
-                  created:
-                    type: string
-                    example: '2022-01-20T17:41:41.000Z'
-                  metaData:
-                    type: object
-                  total:
-                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
-                  totalFees:
-                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
-                  correlationId:
-                    type: string
-                    example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'

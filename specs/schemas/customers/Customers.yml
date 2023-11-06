@@ -1,0 +1,14 @@
+Customers:
+  title: Customers
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../../schemas/common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        customers:
+          type: array
+          items:
+            $ref: './Customer.yml#/Customer'

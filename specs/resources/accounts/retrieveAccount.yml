@@ -2,8 +2,8 @@ get:
   tags:
     - account
   summary: Retrieve Account Details
-  description: Retrieve Account Details
-  operationId: get
+  description: Retrieve basic account information belonging to the authorized Dwolla account.
+  operationId: getAccount
   parameters:
     - name: id
       in: path
@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveAccountDetailsResponse'
+            $ref: '../../schemas/accounts/Account.yml#/Account'
     '403':
       description: forbidden
       headers: {}
@@ -39,49 +39,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
-components:
-  schemas:
-    RetrieveAccountDetailsResponse:
-      title: RetrieveAccountDetailsResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        id:
-          type: string
-          example: 2e21f010-3023-4891-aced-ed726d7cd5e1
-        name:
-          type: string
-          example: Self Employed
-        authorizedRep:
-          type: string
-          example: Jane Doe
-        timezoneOffset:
-          type: integer
-          example: -6
-        email:
-          type: string
-          example: janedoe@mail.com
-        phone:
-          type: string
-          example: '5555552368'
-        address:
-          $ref: '../../schemas/commonSchemas.yml#/components/schemas/Address'
-        verificationStatus:
-          type: string
-          example: Verified
-        ownershipStatus:
-          type: string
-          example: Exempt
-        ownershipCertificationStatus:
-          type: string
-          example: Exempt
-        type:
-          type: string
-          example: Commercial
-        created:
-          type: string
-          example: '2021-10-25T00:39:38.283Z'
+            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'

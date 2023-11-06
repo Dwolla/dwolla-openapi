@@ -76,7 +76,7 @@ post:
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '400':
       description: validation error
       headers: {}
@@ -114,7 +114,7 @@ components:
         _links:
           type: object
           additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+            $ref: '../../schemas/common.yml#/components/schemas/HalLink'
         _embedded:
           type: object
           properties:

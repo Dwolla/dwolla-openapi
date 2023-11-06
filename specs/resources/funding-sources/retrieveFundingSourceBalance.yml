@@ -23,7 +23,7 @@ get:
               _links:
                 type: object
                 additionalProperties:
-                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  $ref: '../../schemas/common.yml#/components/schemas/HalLink'
               balance:
                 type: object
                 properties:

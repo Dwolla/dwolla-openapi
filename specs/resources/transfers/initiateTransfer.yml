@@ -28,7 +28,7 @@ post:
                     href:
                       type: string
             amount:
-              $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
+              $ref: '../../schemas/common.yml#/components/schemas/TransferAmount'
             metadata:
               type: object
             fees:
@@ -102,7 +102,7 @@ post:
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '400':
       description: Bad Request
       headers: {}

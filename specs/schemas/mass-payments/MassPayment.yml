@@ -1,0 +1,26 @@
+MassPayment:
+  title: MassPayment
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: 11ac4051-7b76-44fc-87ab-ae23012393f0
+    status:
+      type: string
+      example: complete
+    created:
+      type: string
+      example: '2022-01-20T17:41:41.000Z'
+    metaData:
+      type: object
+    total:
+      $ref: '../common.yml#/components/schemas/TransferAmount'
+    totalFees:
+      $ref: '../common.yml#/components/schemas/TransferAmount'
+    correlationId:
+      type: string
+      example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'

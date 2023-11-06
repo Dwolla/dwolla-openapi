@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/BeneficialOwnershipResponse'
+            $ref: '../../schemas/beneficial-owners/BeneficialOwnership.yml#/BeneficialOwnership'
     '403':
       description: forbidden
       headers: {}
@@ -78,25 +78,30 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/BeneficialOwnershipResponse'
+            $ref: '../../schemas/beneficial-owners/BeneficialOwnership.yml#/BeneficialOwnership'
     '400':
-      type: object
-      properties:
-        code:
-          type: string
-          example: ValidationError
-        message:
-          type: string
-          example: Validation error(s) present. See embedded errors list for more details.
-        _embedded:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ValidationError
-            message:
-              type: string
-              example: Validation error(s) present. See embedded errors list for more details.
+      description: ValidationError
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                example: Validation error(s) present. See embedded errors list for more details.
+              _embedded:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: Validation error(s) present. See embedded errors list for more details.
     '403':
       description: forbidden
       headers: {}
@@ -111,17 +116,3 @@ post:
               message:
                 type: string
                 example: Forbidden from updating beneficial ownership status for this customer.
-components:
-  schemas:
-    BeneficialOwnershipResponse:
-      title: BeneficialOwnershipResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        status:
-          type: string
-          example: uncertified

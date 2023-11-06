@@ -25,7 +25,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
 post:
   tags:
     - transfers
@@ -66,7 +66,7 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '../../schemas/commonSchemas.yml#/components/schemas/400BadRequestErrorResponse'
+              - $ref: '../../schemas/common.yml#/components/schemas/400BadRequestErrorResponse'
               - $ref: '#/components/schemas/StatusInvalidErrorResponse'
               - $ref: '#/components/schemas/StatusNotAllowedErrorResponse'
     '404':
@@ -75,7 +75,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
 components:
   schemas:
     RetrieveTransferResponse:
@@ -85,7 +85,7 @@ components:
         _links:
           type: object
           additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+            $ref: '../../schemas/common.yml#/components/schemas/HalLink'
         id:
           type: string
           example: 15c6bcce-46f7-e811-8112-e8dd3bececa8

@@ -1,0 +1,28 @@
+Transfer:
+  title: Transfer
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: '37b16b5f-187a-ec11-813d-ca84ae5ee1fb'
+    status:
+      type: string
+      example: processed
+    amount:
+      $ref: '../common.yml#/components/schemas/TransferAmount'
+    created:
+      type: string
+      format: date-time
+      example: '2022-01-20T17:42:52.787Z'
+    correlationId:
+      type: string
+      example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'
+    processingChannel:
+      type: string
+      enum:
+      - ach
+      - wire

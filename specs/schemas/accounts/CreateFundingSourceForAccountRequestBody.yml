@@ -1,0 +1,30 @@
+CreateFundingSourceForAccountRequestBody:
+  title: CreateFundingSourceForAccount
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        exchange:
+          type: object
+          properties:
+            href:
+              type: string
+    name:
+      type: string
+    bankAccountType:
+      type: string
+      enum:
+      - checking
+      - savings
+    accountNumber:
+      type: string
+    routingNumber:
+      type: string
+    channels:
+      type: array
+  required:
+    - name
+    - bankAccountType
+    - accountNumber
+    - routingNumber

@@ -1,0 +1,225 @@
+Customer:
+  title: Customer
+  oneOf:
+  - $ref: '#/UnverifiedCustomer'
+  - $ref: '#/UnverifiedBusinessCustomer'
+  - $ref: '#/VerifiedPersonalCustomer'
+  - $ref: '#/VerifiedSolePropCustomer'
+  - $ref: '#/VerifiedBusinessCustomer'
+UnverifiedCustomer:
+  title: CustomerSharedModel
+  description: Shared models between all Customer types
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../../schemas/common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: c41125c5-99c4-4303-a9f6-d066d28a61e3
+    firstName:
+      type: string
+      example: Jane
+    lastName:
+      type: string
+      example: Doe
+    email:
+      type: string
+      example: janedoe@mail.com
+    type:
+      type: string
+      example: unverified
+    status:
+      type: string
+      example: unverified
+    correlationId:
+      type: string
+      example: 'CID-abe2bb3d-d2ff-433b-95a3-0debd960ed25'
+    created:
+      type: string
+      example: '2022-10-07T16:46:13.023Z'
+UnverifiedBusinessCustomer:
+  title: RetrieveReceiveOnlyCustomerResponse
+  allOf:
+    - $ref: '#/UnverifiedCustomer'
+    - type: object
+      properties:
+        type:
+          type: string
+          example: receive-only
+        status:
+          type: string
+          example: unverified
+        businessName:
+          type: string
+          example: Jane Corp llc
+ReceiveOnlyCustomer:
+  title: ReceiveOnlyCustomer
+  allOf:
+    - $ref: '#/UnverifiedCustomer'
+    - type: object
+      properties:
+        type:
+          type: string
+          example: receive-only
+        status:
+          type: string
+          example: unverified
+ReceiveOnlyBusinessCustomer:
+  title: ReceiveOnlyBusinessCustomer
+  allOf:
+    - $ref: '#/ReceiveOnlyCustomer'
+    - type: object
+      properties:
+        businessName:
+          type: string
+          example: Jane Corp llc
+VerifiedPersonalCustomer:
+  title: VerifiedPersonalCustomer
+  allOf:
+    - $ref: '#/UnverifiedCustomer'
+    - type: object
+      properties:
+        type:
+          type: string
+          example: personal
+        status:
+          type: string
+          example: verified
+        address1:
+          type: string
+          example: 123 Main Street
+        address2:
+          type: string
+          example: Ste 123
+        city:
+          type: string
+          example: Des Moines
+        state:
+          type: string
+          example: IA
+        postalCode:
+          type: string
+          example: '50309'
+VerifiedSolePropCustomer:
+  title: VerifiedSolePropCustomer
+  allOf:
+    - $ref: '#/UnverifiedCustomer'
+    - type: object
+      properties:
+        type:
+          type: string
+          example: business
+        status:
+          type: string
+          example: verified
+        address1:
+          type: string
+          example: 123 Main Street
+        address2:
+          type: string
+          example: Ste 123
+        city:
+          type: string
+          example: Des Moines
+        state:
+          type: string
+          example: IA
+        postalCode:
+          type: string
+          example: '50309'
+        businessName:
+          type: string
+          example: Jane Corp
+        businessType:
+          type: string
+          example: soleProprietorship
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+VerifiedBusinessCustomer:
+  title: RetrieveVerifiedBusinessCustomerResponse
+  allOf:
+    - $ref: '#/UnverifiedCustomer'
+    - type: object
+      properties:
+        type:
+          type: string
+          example: business
+        status:
+          type: string
+          example: verified
+        address1:
+          type: string
+          example: 123 Main Street
+        address2:
+          type: string
+          example: Ste 123
+        city:
+          type: string
+          example: Des Moines
+        state:
+          type: string
+          example: IA
+        postalCode:
+          type: string
+          example: '50309'
+        phone:
+          type: string
+          example: '555555555'
+        website:
+          type: string
+          example: https://www.dwolla.com
+        businessName:
+          type: string
+          example: Jane Corp
+        doingBusinessAs:
+          type: string
+          example: Jane's Coffee and Sweets
+        businessType:
+          type: string
+          example: llc
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        controller:
+          type: object
+          $ref: '#/Controller'
+Controller:
+  title: Controller
+  description: Controller JSON Object for Customer responses
+  type: object
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Controller
+    title:
+      type: string
+      example: CEO
+    address:
+      type: object
+      properties:
+        address1:
+          type: string
+          example: 462 Main Street
+        address2:
+          type: string
+          example: Suite 123
+        address3:
+          type: string
+          example: Unit 123
+        city:
+          type: string
+          example: Des Moines
+        postalCode:
+          type: string
+          example: '50309'
+        country:
+          type: string
+          example: USA
+        stateProvinceRegion:
+          type: string
+          example: 'IA'

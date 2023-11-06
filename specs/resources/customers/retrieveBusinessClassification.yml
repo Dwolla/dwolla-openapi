@@ -18,35 +18,18 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveBusinessClassificationResponse'
-components:
-  schemas:
-    RetrieveBusinessClassificationResponse:
-      title: retrieveBusinessClassification
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        _embedded:
-          type: object
-          properties:
-            industry-classifications:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: 9ed3f66b-7d6f-11e3-95ac-5404a6144203
-                  name:
-                    type: string
-                    example: Wineries
-        id:
-          type: string
-          example: 9ed3f669-7d6f-11e3-b545-5404a6144203
-        name:
-          type: string
-          example: Food retail and service
+            $ref: '../../schemas/business-classifications/BusinessClassification.yml#/BusinessClassification'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: not found.

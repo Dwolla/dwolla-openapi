@@ -40,7 +40,7 @@ paths:
   /business-classifications/{id}:
     $ref: './resources/customers/retrieveBusinessClassification.yml'
   /customers/{id}/beneficial-owners:
-    $ref: './resources/beneficial-owner/listCreateBeneficialOwner.yml'
+    $ref: './resources/beneficial-owner/createListBeneficialOwner.yml'
   /beneficial-owners/{id}:
     $ref: 'resources/beneficial-owner/retrieveUpdateRemoveBeneficialOwner.yml'
   /customers/{id}/beneficial-ownership:

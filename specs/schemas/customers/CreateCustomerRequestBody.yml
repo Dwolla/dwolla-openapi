@@ -1,0 +1,230 @@
+CreateReceiveOnlyRequestBody:
+  title: CreateReceiveOnlyRequestBody
+  type: object
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    type:
+      type: string
+      example: receive-only
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    businessName:
+      type: string
+      example: Jane Corp llc
+  required:
+    - firstName
+    - lastName
+    - email
+    - type
+CreateUnverifiedCustomerRequestBody:
+  title: CreateUnverifiedCustomerRequestBody
+  type: object
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    businessName:
+      type: string
+      example: Jane Corp llc
+  required:
+    - firstName
+    - lastName
+    - email
+CreateVerifiedPersonalRequestBody:
+  title: CreateVerifiedPersonalRequestBody
+  description: Create a Verified Personal customer
+  allOf:
+    - $ref: '#/CreateUnverifiedCustomerRequestBody'
+    - type: object
+      properties:
+        type:
+          type: string
+          example: personal
+        address1:
+          type: string
+          example: 99-99 33rd St
+        address2:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        ssn:
+          type: string
+          example: 1234
+        dateOfBirth:
+          type: string
+          example: 1980-09-12
+      required:
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+CreateVerifiedSolePropRequestBody:
+  title: CreateVerifiedSolePropRequestBody
+  description: Create a Verified Business customer (Sole Proprietorship)
+  allOf:
+    - $ref: '#/CreateUnverifiedCustomerRequestBody'
+    - $ref: '#/CreateVerifiedPersonalRequestBody'
+    - type: object
+      required:
+        - businessType
+        - ssn
+        - dateOfBirth
+        - businessName
+        - businessClassification
+      properties:
+        type:
+          type: string
+          example: business
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessName:
+          type: string
+          example: Jane Corp
+        doingBusinessAs:
+          type: string
+          example: Jane's Electronics
+        ein:
+          type: string
+          example: 00-0000000
+        website:
+          type: string
+          example: https://www.domain.com
+        ssn:
+          type: string
+          example: 1234
+        dateOfBirth:
+          type: string
+          example: 1980-09-12
+        businessType:
+          type: string
+          example: soleProprietorship
+CreateVerifiedBusinessRequestBody:
+  title: CreateVerifiedBusinessRequestBody
+  description: Create a Verified Business customer
+  allOf:
+    - $ref: '#/CreateUnverifiedCustomerRequestBody'
+    - $ref: '#/CreateVerifiedPersonalRequestBody'
+    - type: object
+      required:
+        - businessType
+        - controller
+        - businessName
+        - businessClassification
+        - ein
+      properties:
+        type:
+          type: string
+          example: business
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessName:
+          type: string
+          example: Jane Corp
+        doingBusinessAs:
+          type: string
+          example: Jane's Electronics
+        ein:
+          type: string
+          example: 00-0000000
+        website:
+          type: string
+          example: https://www.domain.com
+        controller:
+          oneOf:
+            - $ref: '#/ControllerWithSsn'
+            - $ref: '#/ControllerWithPassport'
+        businessType:
+          type: string
+          example: llc
+Controller:
+  type: object
+  required:
+    - firstName
+    - lastName
+    - title
+    - dateOfBirth
+    - address
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Controller
+    title:
+      type: string
+      example: CEO
+    dateOfBirth:
+      type: string
+      format: date
+      example: 1980-01-31
+    address:
+      $ref: '../common.yml#/components/schemas/InternationalAddress'
+ControllerWithSsn:
+  title: ControllerWithSsn
+  description: Controller object with SSN
+  type: object
+  allOf:
+    - $ref: '#/Controller'
+    - type: object
+      required:
+        - ssn
+      properties:
+        ssn:
+          type: string
+          example: '1234'
+ControllerWithPassport:
+  title: ControllerWithPassport
+  description: Controller object with Passport
+  type: object
+  allOf:
+    - $ref: '#/Controller'
+    - type: object
+      required:
+        - passport
+      properties:
+        passport:
+          $ref: '../common.yml#/components/schemas/Passport'

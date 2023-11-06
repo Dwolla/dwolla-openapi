@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: './createListCustomerDocument.yml#/components/schemas/ListCustomerDocumentsResponse'
+            $ref: '../../schemas/documents/Documents.yml#/Documents'
 post:
   tags:
     - documents
@@ -50,4 +50,4 @@ post:
       description: document created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'

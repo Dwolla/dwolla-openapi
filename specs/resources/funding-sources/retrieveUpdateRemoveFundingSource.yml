@@ -100,7 +100,7 @@ components:
         _links:
           type: object
           additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+            $ref: '../../schemas/common.yml#/components/schemas/HalLink'
         id:
           type: string
           example: 49dbaa24-1580-4b1c-8b58-24e26656fa31

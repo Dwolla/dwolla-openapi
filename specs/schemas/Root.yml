@@ -1,0 +1,8 @@
+Root:
+  title: Root
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../schemas/common.yml#/components/schemas/HalLink'

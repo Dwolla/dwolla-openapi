@@ -38,7 +38,7 @@ post:
                             type: string
                             example: https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db
                   amount:
-                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
+                    $ref: '../../schemas/common.yml#/components/schemas/TransferAmount'
                   processingChannel:
                     type: object
                     properties:
@@ -103,4 +103,4 @@ post:
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'

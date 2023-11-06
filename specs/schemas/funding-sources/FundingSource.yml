@@ -1,0 +1,33 @@
+FundingSource:
+  title: FundingSource
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: d3d6b41e-5567-4bc6-9c6e-0efd0a3e647e
+    status:
+      type: string
+      example: unverified
+    type:
+      type: string
+      example: bank
+    bankAccountType:
+      type: string
+      example: checking
+    name:
+      type: string
+      example: My bank
+    created:
+      type: string
+      example: '2022-07-23T00:18:21.419Z'
+    removed:
+      type: boolean
+      example: true
+    channels:
+      type: array
+      items:
+        type: string
+        example: ach
