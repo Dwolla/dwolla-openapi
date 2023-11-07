@@ -1,5 +1,6 @@
 CreateReceiveOnlyRequestBody:
   title: CreateReceiveOnlyRequestBody
+  description: Create a Receive Only User
   type: object
   properties:
     firstName:
@@ -33,6 +34,11 @@ CreateReceiveOnlyRequestBody:
     - type
 CreateUnverifiedCustomerRequestBody:
   title: CreateUnverifiedCustomerRequestBody
+  description: Create an Unverified Customer
+  required:
+    - firstName
+    - lastName
+    - email
   type: object
   properties:
     firstName:
@@ -56,16 +62,21 @@ CreateUnverifiedCustomerRequestBody:
     businessName:
       type: string
       example: Jane Corp llc
-  required:
-    - firstName
-    - lastName
-    - email
 CreateVerifiedPersonalRequestBody:
   title: CreateVerifiedPersonalRequestBody
   description: Create a Verified Personal customer
+  type: object
   allOf:
     - $ref: '#/CreateUnverifiedCustomerRequestBody'
     - type: object
+      required:
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
       properties:
         type:
           type: string
@@ -91,17 +102,10 @@ CreateVerifiedPersonalRequestBody:
         dateOfBirth:
           type: string
           example: 1980-09-12
-      required:
-        - address1
-        - city
-        - state
-        - postalCode
-        - dateOfBirth
-        - type
-        - ssn
 CreateVerifiedSolePropRequestBody:
   title: CreateVerifiedSolePropRequestBody
   description: Create a Verified Business customer (Sole Proprietorship)
+  type: object
   allOf:
     - $ref: '#/CreateUnverifiedCustomerRequestBody'
     - $ref: '#/CreateVerifiedPersonalRequestBody'
@@ -143,6 +147,7 @@ CreateVerifiedSolePropRequestBody:
 CreateVerifiedBusinessRequestBody:
   title: CreateVerifiedBusinessRequestBody
   description: Create a Verified Business customer
+  type: object
   allOf:
     - $ref: '#/CreateUnverifiedCustomerRequestBody'
     - $ref: '#/CreateVerifiedPersonalRequestBody'

@@ -1,6 +1,6 @@
 BeneficialOwnerRequestBody:
   title: BeneficialOwnerRequestBody
-  description: Shareed Request body model for creating a Beneficial Owner
+  description: Shared Request body model for creating a Beneficial Owner
   required:
     - firstName
     - lastName
