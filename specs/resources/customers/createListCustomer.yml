@@ -3,7 +3,7 @@ get:
     - customers
   summary: List and search customers
   description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
-  operationId: list
+  operationId: listAndSearchCustomers
   parameters:
     - name: limit
       in: query
@@ -42,7 +42,7 @@ post:
     - customers
   summary: Create a customer
   description: Create an unverified customer, verified customer, or receive-only user.
-  operationId: create
+  operationId: createCustomer
   requestBody:
     description: Parameters for customer to be created
     content:

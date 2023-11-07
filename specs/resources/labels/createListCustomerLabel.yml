@@ -3,7 +3,7 @@ get:
     - labels
   summary: List labels for a customer
   description: List labels for a customer
-  operationId: listLabelsForCustomer
+  operationId: listCustomerLabels
   parameters:
     - name: id
       in: path
@@ -40,7 +40,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels
+                        example: https://api.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -52,7 +52,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
+                        example: https://api.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -64,7 +64,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
+                        example: https://api.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -76,7 +76,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
+                        example: https://api.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -99,7 +99,7 @@ post:
     - labels
   summary: Create a label for a customer
   description: Create a label for a customer
-  operationId: createForCustomer
+  operationId: createCustomerLabel
   parameters:
     - name: id
       in: path

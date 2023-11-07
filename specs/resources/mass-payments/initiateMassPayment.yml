@@ -3,7 +3,7 @@ post:
     - mass payments
   summary: Initiate a mass payment
   description: Initiate a mass payment
-  operationId: initiate
+  operationId: initiateMassPayment
   requestBody:
     description: Parameters for initiating a mass payment
     content:
@@ -22,7 +22,7 @@ post:
                   properties:
                     href:
                       type: string
-                      example: https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
+                      example: https://api.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
             items:
               type: array
               items:
@@ -36,7 +36,7 @@ post:
                         properties:
                           href:
                             type: string
-                            example: https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db
+                            example: https://api.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db
                   amount:
                     $ref: '../../schemas/common.yml#/components/schemas/TransferAmount'
                   processingChannel:

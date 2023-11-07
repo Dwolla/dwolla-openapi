@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve funding source balance
   description: Retrieve funding source balance
-  operationId: getBalance
+  operationId: getFundingSourceBalance
   parameters:
     - name: id
       in: path

@@ -3,7 +3,7 @@ get:
     - webhook subscriptions
   summary: Retrieve a webhook subscription
   description: Retrieve a webhook subscription
-  operationId: get
+  operationId: getWebhookSubscription
   parameters:
     - name: id
       in: path
@@ -24,7 +24,7 @@ post:
     - webhook subscriptions
   summary: Update a webhook subscription
   description: Update a webhook subscription
-  operationId: update
+  operationId: updateWebhookSubscription
   parameters:
     - name: id
       in: path
@@ -108,13 +108,13 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
+                  example: https://api.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
             webhooks:
               type: object
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
+                  example: https://api.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
         id:
           type: string
           example: 077dfffb-4852-412f-96b6-0fe668066589

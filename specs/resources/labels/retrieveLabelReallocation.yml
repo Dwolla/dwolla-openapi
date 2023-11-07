@@ -28,7 +28,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21
+                        example: https://api.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -40,7 +40,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/ledger-entries/d8a4bf7a-3fa0-48b9-873c-765d7375c59f
+                        example: https://api.dwolla.com/ledger-entries/d8a4bf7a-3fa0-48b9-873c-765d7375c59f
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -52,7 +52,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/ledger-entries/f6a44994-b4da-48e3-bd10-d3a168e6a77d
+                        example: https://api.dwolla.com/ledger-entries/f6a44994-b4da-48e3-bd10-d3a168e6a77d
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json

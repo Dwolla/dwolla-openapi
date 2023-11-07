@@ -51,7 +51,7 @@ post:
     content:
       application/json:
         schema:
-          $oneOf:
+          oneOf:
             - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithSsn'
             - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithPassport'
   responses:
@@ -118,7 +118,7 @@ delete:
     - beneficial owners
   summary: Delete beneficial owner
   description: Delete beneficial owner
-  operationId: remove
+  operationId: deleteBeneficialOwner
   parameters:
     - name: id
       in: path

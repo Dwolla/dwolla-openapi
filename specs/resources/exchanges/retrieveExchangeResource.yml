@@ -3,7 +3,7 @@ get:
     - exchanges
   summary: Retrieve exchange resource
   description: Retrieve exchange resource
-  operationId: retrieveExchangeResource
+  operationId: getExchangeResource
   parameters:
     - name: id
       in: path
@@ -29,7 +29,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+                        example: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -41,7 +41,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9
+                        example: https://api.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json

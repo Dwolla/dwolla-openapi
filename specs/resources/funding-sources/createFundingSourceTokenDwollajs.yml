@@ -3,7 +3,7 @@ post:
     - funding sources
   summary: Create a funding sources token for dwolla.js
   description: Create a funding sources token for dwolla.js
-  operationId: createTokenForCustomer
+  operationId: createCustomerFundingSourceToken
   parameters:
     - name: id
       in: path
@@ -28,7 +28,7 @@ post:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/funding-sources-token
+                        example: https://api.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/funding-sources-token
               token:
                 type: object
                 example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY

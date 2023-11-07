@@ -3,7 +3,7 @@ post:
     - labels
   summary: Create a label reallocation
   description: Create a label reallocation
-  operationId: createReallocation
+  operationId: createLabelReallocation
   requestBody:
     description: Parameters to create a label reallocation
     content:
@@ -22,13 +22,13 @@ post:
                   properties:
                     href:
                       type: string
-                      example: https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45
+                      example: https://api.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45
                 to:
                   type: object
                   properties:
                     href:
                       type: string
-                      example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                      example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
             amount:
               type: object
               properties:

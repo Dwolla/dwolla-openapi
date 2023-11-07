@@ -1,9 +1,16 @@
 get:
   tags:
     - exchanges
-  summary: List exchanges for an customer
-  description: List exchanges for an customer
-  operationId: listExchangesForCustomer
+  summary: List exchanges for a customer
+  description: List exchanges for a customer
+  operationId: listCustomerExchanges
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the Customer to list exchanges for
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       description: successful operation
@@ -21,7 +28,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+                        example: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -33,7 +40,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9
+                        example: https://api.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -66,9 +73,16 @@ get:
 post:
   tags:
     - exchanges
-  summary: Create exchange for an customer
-  description: Create exchange for an customer
-  operationId: createExchangeForCustomer
+  summary: Create exchange for a customer
+  description: Create exchange for a customer
+  operationId: createCustomerExchange
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the Customer to create an exchange for
+      required: true
+      schema:
+        type: string
   requestBody:
     content:
       application/json:
@@ -80,9 +94,9 @@ post:
     '201':
       description: Created
       headers:
-        location:
-          type: string
-          example: https://api-sandbox.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+        Location:
+          $ref: '../../schemas/common.yml#/components/headers/Location'
+          example: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:

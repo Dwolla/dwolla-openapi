@@ -138,7 +138,7 @@ VerifiedSolePropCustomer:
           type: string
           example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
 VerifiedBusinessCustomer:
-  title: RetrieveVerifiedBusinessCustomerResponse
+  title: VerifiedBusinessCustomer
   allOf:
     - $ref: '#/UnverifiedCustomer'
     - type: object

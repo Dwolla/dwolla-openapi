@@ -3,7 +3,7 @@ post:
     - kba
   summary: Initiate a KBA session
   description: Initiate a KBA session
-  operationId: initiateForCustomer
+  operationId: initiateKbaForCustomer
   parameters:
     - name: id
       in: path

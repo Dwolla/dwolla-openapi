@@ -3,7 +3,7 @@ get:
     - mass payments
   summary: List items for a mass payment
   description: List items for a mass payment
-  operationId: listItems
+  operationId: listMassPaymentItems
   parameters:
     - name: id
       in: path
@@ -46,19 +46,19 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
+                        example: https://api.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
                   first:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items?limit=25&offset=0
+                        example: https://api.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items?limit=25&offset=0
                   last:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items?limit=25&offset=0
+                        example: https://api.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items?limit=25&offset=0
               _embedded:
                 type: object
                 properties:

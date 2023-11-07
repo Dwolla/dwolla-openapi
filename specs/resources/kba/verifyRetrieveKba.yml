@@ -3,7 +3,7 @@ get:
     - kba
   summary: Retrieve KBA Questions
   description: Retrieve KBA Questions
-  operationId: get
+  operationId: getKbaQuestions
   parameters:
     - name: id
       in: path
@@ -28,7 +28,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/kba/62dac6f3-bf8f-4961-9af8-428de8ecd9a4
+                        example: https://api.dwolla.com/kba/62dac6f3-bf8f-4961-9af8-428de8ecd9a4
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -88,7 +88,7 @@ post:
     - kba
   summary: Verify KBA Questions
   description: Verify KBA Questions
-  operationId: verify
+  operationId: verifyKbaQuestions
   parameters:
     - name: id
       in: path
@@ -133,7 +133,7 @@ post:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/b5fd802d-d8c7-43ce-94a8-7c14485b7042
+                        example: https://api.dwolla.com/customers/b5fd802d-d8c7-43ce-94a8-7c14485b7042
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json

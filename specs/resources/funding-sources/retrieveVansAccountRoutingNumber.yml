@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve account and routing numbers for a VAN (Virtual Account Number)
   description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
-  operationId: getAchRouting
+  operationId: getVanAchRouting
   parameters:
     - name: id
       in: path

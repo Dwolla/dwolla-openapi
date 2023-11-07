@@ -3,7 +3,7 @@ post:
     - transfers
   summary: Create an on-demand transfer authorization
   description: Create an on-demand transfer authorization
-  operationId: create
+  operationId: createOnDemandTransferAuthorization
   responses:
     '200':
       description: Ok
@@ -34,7 +34,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+                  example: https://api.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
         bodyText:
           type: string
           example: I agree that future payments to Company ABC inc. will be processed by the Dwolla payment system from the selected account above. In order to cancel this authorization, I will change my payment settings within my Company ABC inc. account.

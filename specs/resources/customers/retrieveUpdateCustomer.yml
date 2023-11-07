@@ -3,7 +3,7 @@ get:
     - customers
   summary: Retrieve a customer
   description: Retrieve details for a single customer
-  operationId: get
+  operationId: getCustomer
   parameters:
     - name: id
       in: path

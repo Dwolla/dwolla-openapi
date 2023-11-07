@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: List customer funding sources
   description: List customer funding sources
-  operationId: listForCustomer
+  operationId: listCustomerFundingSources
   parameters:
     - name: id
       in: path
@@ -92,9 +92,14 @@ post:
                 type: string
                 example: 'Can be: Duplicate funding source or validation error. Authorization already associated to a funding source.'
     '403':
-      oneOf:
-        - $ref: '#/components/schemas/NotAuthorizedToCreateFundingSourceSchema'
-        - $ref: '#/components/schemas/VANSNotEnabledSchema'
+      description: forbidden error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/NotAuthorizedToCreateFundingSourceSchema'
+              - $ref: '#/components/schemas/VANSNotEnabledSchema'
 components:
   schemas:
     OnDemandAuthorization:

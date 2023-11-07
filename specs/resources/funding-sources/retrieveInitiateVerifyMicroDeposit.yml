@@ -60,7 +60,7 @@ post:
       schema:
         type: string
   requestBody:
-    description:
+    description: Parameters for initiating or verifying micro-deposits
     content:
       application/json:
         schema:

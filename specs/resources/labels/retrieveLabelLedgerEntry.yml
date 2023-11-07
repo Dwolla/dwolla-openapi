@@ -3,7 +3,7 @@ get:
     - labels
   summary: Retrieve a label ledger entry
   description: Retrieve a label ledger entry
-  operationId: getLedgerEntry
+  operationId: getLabelLedgerEntry
   parameters:
     - name: id
       in: path
@@ -33,7 +33,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/ledger-entries/32d68709-62dd-43d6-a6df-562f4baec526
+                  example: https://api.dwolla.com/ledger-entries/32d68709-62dd-43d6-a6df-562f4baec526
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json
@@ -45,7 +45,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                  example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json

@@ -30,7 +30,7 @@ SuspendCustomer:
       example: suspended
 UpdateUnverifiedAndReceiveOnly:
   title: UpdateUnverifiedAndReceiveOnly
-  description: Update Unverified Customer or Recieve Only User Information
+  description: Update Unverified Customer or Receive Only User Information
   type: object
   properties:
     firstName:

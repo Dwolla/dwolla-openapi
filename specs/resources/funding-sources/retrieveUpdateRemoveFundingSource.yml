@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve a funding source
   description: Retrieve a funding source
-  operationId: get
+  operationId: getFundingSource
   parameters:
     - name: id
       in: path
@@ -38,7 +38,7 @@ post:
     - funding sources
   summary: Update or remove a funding source
   description: Update or remove a funding source
-  operationId: updateOrRemove
+  operationId: updateOrRemoveFundingSource
   parameters:
     - name: id
       in: path

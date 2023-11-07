@@ -3,7 +3,7 @@ get:
     - documents
   summary: List documents for customer
   description: List documents for customer
-  operationId: listForCustomer
+  operationId: listCustomerDocuments
   parameters:
     - name: id
       in: path
@@ -24,7 +24,7 @@ post:
     - documents
   summary: Create a document for customer
   description: Create a document for customer
-  operationId: createForCustomer
+  operationId: createCustomerDocument
   parameters:
     - name: id
       in: path

@@ -3,10 +3,10 @@ get:
     - transfers
   summary: Retrieve a transfer
   description: Retrieve a transfer
-  operationId: get
+  operationId: getTransfer
   parameters:
     - name: id
-      in: paths
+      in: path
       description: ID of transfer to be retrieved
       required: true
       schema:
@@ -31,7 +31,7 @@ post:
     - transfers
   summary: Cancel a transfer
   description: Cancel a transfer
-  operationId: cancel
+  operationId: cancelTransfer
   parameters:
     - name: id
       in: path
@@ -146,7 +146,7 @@ components:
                       type: array
                       items:
                         type: string
-                        eexample: ZYX987_AddendaValue
+                        example: ZYX987_AddendaValue
         rtpDetails:
           type: object
           properties:

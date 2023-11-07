@@ -3,7 +3,7 @@ get:
     - exchanges
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
-  operationId: retrieveExchangePartner
+  operationId: getExchangePartner
   parameters:
     - name: id
       in: path

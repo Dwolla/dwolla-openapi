@@ -3,7 +3,7 @@ post:
     - funding sources
   summary: Create a Card funding sources token for dwolla-cards.js
   description: Create a Card funding sources token for dwolla-cards.js
-  operationId: createCardTokenForCustomer
+  operationId: createCustomerCardToken
   parameters:
     - name: id
       in: path
@@ -28,7 +28,7 @@ post:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/card-funding-sources-token
+                        example: https://api.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/card-funding-sources-token
               token:
                 type: object
                 example: 4e6158394155554b4d74423975727475326a4b4f73436d73616e6c30597a6f61424a7249386545394e7149555533646d55623a41506e693176383545567167454e4d31355563683157675a

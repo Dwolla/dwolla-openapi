@@ -3,17 +3,18 @@ get:
     - events
   summary: List events
   description: List events
-  operationId: list
+  operationId: listEvents
   requestBody:
     description: Parameters to filter events
     content:
       application/json:
-        type: object
-        properties:
-          limit:
-            type: integer
-          offset:
-            type: integer
+        schema:
+          type: object
+          properties:
+            limit:
+              type: integer
+            offset:
+              type: integer
   responses:
     '200':
       description: successful operation
@@ -31,25 +32,25 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/events
+                        example: https://api.dwolla.com/events
                   first:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/events?limit=25&offset=0
+                        example: https://api.dwolla.com/events?limit=25&offset=0
                   last:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/events?limit=25&offset=150
+                        example: https://api.dwolla.com/events?limit=25&offset=150
                   next:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/events?limit=25&offset=25
+                        example: https://api.dwolla.com/events?limit=25&offset=25
               _embedded:
                 type: object
                 properties:
@@ -66,19 +67,19 @@ get:
                               properties:
                                 href:
                                   type: string
-                                  example: https://api-sandbox.dwolla.com/events/78e57644-56e4-4da2-b743-059479f2e80f
+                                  example: https://api.dwolla.com/events/78e57644-56e4-4da2-b743-059479f2e80f
                             resource:
                               type: object
                               properties:
                                 href:
                                   type: string
-                                  example: https://api-sandbox.dwolla.com/transfers/47CFDDB4-1E74-E511-80DB-0AA34A9B2388
+                                  example: https://api.dwolla.com/transfers/47CFDDB4-1E74-E511-80DB-0AA34A9B2388
                             account:
                               type: object
                               properties:
                                 href:
                                   type: string
-                                  example: https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b
+                                  example: https://api.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b
                         id:
                           type: string
                           example: 78e57644-56e4-4da2-b743-059479f2e80f

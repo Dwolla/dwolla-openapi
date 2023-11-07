@@ -3,7 +3,7 @@ get:
     - labels
   summary: List label ledger entries
   description: List label ledger entries
-  operationId: listLedgerEntries
+  operationId: listLabelLedgerEntries
   parameters:
     - name: id
       in: path
@@ -40,7 +40,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                        example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -52,7 +52,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
+                        example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -64,7 +64,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
+                        example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
                       type:
                         type: string
                         example: application/vnd.dwolla.v1.hal+json
@@ -87,7 +87,7 @@ post:
     - labels
   summary: Create label ledger entries
   description: Create label ledger entries
-  operationId: createLabelLedgerEntries
+  operationId: createLabelLedgerEntry
   parameters:
     - name: id
       in: path

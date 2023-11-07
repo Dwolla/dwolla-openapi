@@ -21,7 +21,7 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions
+                        example: https://api.dwolla.com/webhook-subscriptions
               _embedded:
                 type: object
                 properties:
@@ -38,7 +38,7 @@ post:
     - webhook subscriptions
   summary: Create a webhook subscription
   description: Create a webhook subscription
-  operationId: create
+  operationId: createWebhookSubscription
   requestBody:
     description: Parameters to create a webhook subscriptions
     content:

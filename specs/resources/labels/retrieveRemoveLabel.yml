@@ -3,7 +3,7 @@ get:
     - labels
   summary: Retrieve a label
   description: Retrieve a label
-  operationId: retrieveLabel
+  operationId: getLabel
   parameters:
     - name: id
       in: path
@@ -24,7 +24,7 @@ delete:
     - labels
   summary: Remove a label
   description: Remove a label
-  operationId: remove
+  operationId: removeLabel
   parameters:
     - name: id
       in: path
@@ -68,7 +68,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+                  example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json
@@ -80,7 +80,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                  example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json
@@ -92,7 +92,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+                  example: https://api.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json
@@ -104,7 +104,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
+                  example: https://api.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json

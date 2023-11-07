@@ -99,7 +99,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api-sandbox.dwolla.com/funding-sources/df8392e5-4c06-42ed-b247-c098ed6f5a11
+                  example: https://api.dwolla.com/funding-sources/df8392e5-4c06-42ed-b247-c098ed6f5a11
                 type:
                   type: string
                   example: application/vnd.dwolla.v1.hal+json
