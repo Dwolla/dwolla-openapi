@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveMassPaymentResponse'
+            $ref: '../../schemas/mass-payments/MassPayment.yml#/MassPayment'
 post:
   tags:
     - mass payments
@@ -51,42 +51,4 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveMassPaymentResponse'
-components:
-  schemas:
-    RetrieveMassPaymentResponse:
-      title: RetrieveMassPaymentResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563
-            source:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4
-            items:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563/items
-        id:
-          type: string
-          example: eb467252-808c-4bc0-b86f-a5cd01454563
-        status:
-          type: string
-          example: processing
-        created:
-          type: string
-          example: '2016-03-18T19:44:16.000Z'
-        metadata:
-          type: object
+            $ref: '../../schemas/mass-payments/MassPayment.yml#/MassPayment'

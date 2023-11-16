@@ -1,0 +1,97 @@
+FinicityCreateExchangeRequestBody:
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        exchange-partner:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+    finicity:
+      type: object
+      properties:
+        profile:
+          type: integer
+          format: int32
+          example: 3
+        version:
+          type: string
+          example: 1
+        receiptId:
+          type: string
+          example: cr_4N47ou7SlppuIxq0ZUtACh10vYcloY
+        receiptVersion:
+          type: string
+          example: 1
+        customerId:
+          type: string
+          example: 5454874858510164117
+        partnerId:
+          type: integer
+          format: int64
+          example: 2445583946651
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                example: moneyTransferDetails
+              accountId:
+                type: string
+                example: 1015199035827334916
+              accessPeriod:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: timeframe
+                  startTime:
+                    type: string
+                    format: date
+                    example: '2022-07-06'
+                  endTime:
+                    type: string
+                    format: date-time
+                    example: '2022-08-16T06:06:20Z'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2022-07-11T06:06:23Z'
+MXCreateExchangeRequestBody:
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        exchange-partner:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+    token:
+      type: string
+      example: someMXProcessorToken
+InvalidExchangeToken:
+  type: object
+  properties:
+    code:
+      type: string
+      example: InvalidExchangeToken
+    message:
+      type: string
+      example: Exchange token is expired.
+InvalidExchange:
+  type: object
+  properties:
+    code:
+      type: string
+      example: InvalidExchange
+    message:
+      type: string
+      example: The exchange is no longer active.

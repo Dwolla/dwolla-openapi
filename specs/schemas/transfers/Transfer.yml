@@ -5,24 +5,83 @@ Transfer:
     _links:
       type: object
       additionalProperties:
-        $ref: '../common.yml#/components/schemas/HalLink'
+        $ref: '../../schemas/common.yml#/components/schemas/HalLink'
     id:
       type: string
-      example: '37b16b5f-187a-ec11-813d-ca84ae5ee1fb'
+      example: 15c6bcce-46f7-e811-8112-e8dd3bececa8
     status:
       type: string
-      example: processed
+      example: pending
     amount:
-      $ref: '../common.yml#/components/schemas/TransferAmount'
+      type: object
+      properties:
+        value:
+          type: string
+          example: '42.00'
+        currency:
+          type: string
+          example: USD
     created:
       type: string
-      format: date-time
-      example: '2022-01-20T17:42:52.787Z'
+      example: '2018-12-03T22:00:22.970Z'
+    clearing:
+      type: object
+      properties:
+        source:
+          type: string
+          example: standard
+        destination:
+          type: string
+          example: same-day
+    metadata:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          example: '12345678'
+        note:
+          type: string
+          example: Payment for completed work Dec. 1
+    achDetails:
+      type: object
+      properties:
+        source:
+          type: object
+          properties:
+            addenda:
+              type: object
+              properties:
+                values:
+                  type: array
+                  items:
+                    type: string
+                    example: ABC123_AddendaValue
+        destination:
+          type: object
+          properties:
+            addenda:
+              type: object
+              properties:
+                values:
+                  type: array
+                  items:
+                    type: string
+                    example: ZYX987_AddendaValue
+    rtpDetails:
+      type: object
+      properties:
+        destination:
+          type: object
+          properties:
+            remittanceData:
+              type: string
+              example: ABC_123 Remittance Data
     correlationId:
       type: string
-      example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'
+      example: 8a2cdc8d-629d-4a24-98ac-40b735229fe2
     processingChannel:
-      type: string
-      enum:
-      - ach
-      - wire
+      type: object
+      properties:
+        destination:
+          type: string
+          example: real-time-payments

@@ -77,7 +77,7 @@ get:
                   webhooks:
                     type: array
                     items:
-                      $ref: '../webhooks/retrieveWebhook.yml#/components/schemas/RetrieveWebhookResponse'
+                      $ref: '../../schemas/webhooks/Webhook.yml#/Webhook'
               total:
                 type: integer
                 format: int32

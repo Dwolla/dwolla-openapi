@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+            $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'
 post:
   tags:
     - webhook subscriptions
@@ -51,21 +51,21 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+            $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'
     '400':
       description: Bad Request
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/400BadRequestErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
     '404':
       description: Not Found
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 delete:
   tags:
     - webhook subscriptions
@@ -86,45 +86,11 @@ delete:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveWebhookSubscriptionResponse'
+            $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'
     '404':
       description: Not Found
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
-components:
-  schemas:
-    RetrieveWebhookSubscriptionResponse:
-      title: RetrieveWebhookSubscriptionResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589
-            webhooks:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/webhook-subscriptions/077dfffb-4852-412f-96b6-0fe668066589/webhooks
-        id:
-          type: string
-          example: 077dfffb-4852-412f-96b6-0fe668066589
-        url:
-          type: string
-          example: http://myapplication.com/webhooks
-        paused:
-          type: boolean
-          example: true
-        created:
-          type: string
-          format: date-time
-          example: 2022-10-28T16:20:47+00:00
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

@@ -2,6 +2,7 @@ post:
   tags:
     - funding sources
   summary: Create a funding sources token for dwolla.js
+  deprecated: true
   description: Create a funding sources token for dwolla.js
   operationId: createCustomerFundingSourceToken
   parameters:

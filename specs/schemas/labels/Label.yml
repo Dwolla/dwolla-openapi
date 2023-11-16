@@ -1,0 +1,22 @@
+Label:
+  title: Label
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: 7e042ffe-e25e-40d2-b86e-748b98845ecc
+    created:
+      type: string
+      example: 2022-05-15T22:19:09.635Z
+    amount:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 10.00
+        currency:
+          type: string
+          example: USD

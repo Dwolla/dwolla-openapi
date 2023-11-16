@@ -65,4 +65,4 @@ get:
                   items:
                     type: array
                     items:
-                      $ref: './retrieveMassPaymentItem.yml#/components/schemas/RetrieveMassPaymanetItemResponse'
+                      $ref: '../../schemas/mass-payments/MassPaymentItem.yml#/MassPaymentItem'

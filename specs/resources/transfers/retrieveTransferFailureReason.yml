@@ -39,11 +39,11 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/403ForbiddenErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
     '404':
       description: 404 Not Found
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

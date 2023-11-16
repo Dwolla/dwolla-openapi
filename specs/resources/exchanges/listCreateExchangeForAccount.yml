@@ -11,44 +11,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: exchange
-                  exchange-partner:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: exchange-partner
-                  id:
-                    type: string
-                    example: 'fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
-                  status:
-                    type: string
-                    example: active
-                  created:
-                    type: string
-                    example: '2022-10-21T21:41:03.283Z'
+            $ref: '../../schemas/exchanges/Exchanges.yml#/Exchanges'
 post:
   tags:
     - exchanges
@@ -60,8 +23,8 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/schemas/FinicityCreateExchangeSchema'
-            - $ref: '#/components/schemas/MXCreateExchangeSchema'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicityCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXCreateExchangeRequestBody'
   responses:
     '201':
       description: Created
@@ -79,8 +42,8 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidExchangeTokenSchema'
-              - $ref: '#/components/schemas/InvalidExchangeSchema'
+              - $ref: '../../schemas/exchanges/CreateExchange.yml#/InvalidExchangeToken'
+              - $ref: '../../schemas/exchanges/CreateExchange.yml#/InvalidExchange'
     '401':
       description: Invalid Scope
       content:
@@ -94,102 +57,3 @@ post:
               message:
                 type: string
                 example: The exchange is no longer active.
-components:
-  schemas:
-    FinicityCreateExchangeSchema:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            exchange-partner:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
-        finicity:
-          type: object
-          properties:
-            profile:
-              type: integer
-              format: int32
-              example: 3
-            version:
-              type: string
-              example: 1
-            receiptId:
-              type: string
-              example: cr_4N47ou7SlppuIxq0ZUtACh10vYcloY
-            receiptVersion:
-              type: string
-              example: 1
-            customerId:
-              type: string
-              example: 5454874858510164117
-            partnerId:
-              type: integer
-              format: int64
-              example: 2445583946651
-            products:
-              type: array
-              items:
-                type: object
-                properties:
-                  product:
-                    type: string
-                    example: moneyTransferDetails
-                  accountId:
-                    type: string
-                    example: 1015199035827334916
-                  accessPeriod:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        example: timeframe
-                      startTime:
-                        type: string
-                        format: date
-                        example: '2022-07-06'
-                      endTime:
-                        type: string
-                        format: date-time
-                        example: '2022-08-16T06:06:20Z'
-            timestamp:
-              type: string
-              format: date-time
-              example: '2022-07-11T06:06:23Z'
-    MXCreateExchangeSchema:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            exchange-partner:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
-        token:
-          type: string
-          example: someMXProcessorToken
-    InvalidExchangeTokenSchema:
-      type: object
-      properties:
-        code:
-          type: string
-          example: InvalidExchangeToken
-        message:
-          type: string
-          example: Exchange token is expired.
-    InvalidExchangeSchema:
-      type: object
-      properties:
-        code:
-          type: string
-          example: InvalidExchange
-        message:
-          type: string
-          example: The exchange is no longer active.

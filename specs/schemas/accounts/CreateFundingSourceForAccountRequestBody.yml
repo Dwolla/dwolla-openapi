@@ -23,6 +23,8 @@ CreateFundingSourceForAccountRequestBody:
       type: string
     channels:
       type: array
+      items:
+        type: string
   required:
     - name
     - bankAccountType

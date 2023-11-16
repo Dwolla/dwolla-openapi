@@ -1,0 +1,14 @@
+ExchangePartners:
+  title: ExchangePartners
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        exchange-partners:
+          type: array
+          items:
+            $ref: './ExchangePartners.yml#/ExchangePartners'

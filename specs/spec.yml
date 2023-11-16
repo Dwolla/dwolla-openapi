@@ -61,8 +61,6 @@ paths:
     $ref: './resources/funding-sources/createFundingSourceTokenDwollajs.yml'
   /customers/{id}/iav-token:
     $ref: './resources/funding-sources/createIavTokenDwollajs.yml'
-  /customers/{id}/card-funding-sources-token:
-    $ref: './resources/funding-sources/createCardFundingSourceTokenDwollaCardjs.yml'
   /funding-sources/{id}:
     $ref: './resources/funding-sources/retrieveUpdateRemoveFundingSource.yml'
   /funding-sources/{id}/micro-deposits:

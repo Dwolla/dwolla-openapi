@@ -80,9 +80,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            oneOf:
-              - $ref: '#/components/schemas/InvalidKbaSessionResponse'
-              - $ref: '#/components/schemas/ForbiddenResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
 post:
   tags:
     - kba
@@ -163,38 +161,4 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            oneOf:
-              - $ref: '#/components/schemas/InvalidKbaSessionResponse'
-              - $ref: '#/components/schemas/ExpiredKbaSessionResponse'
-components:
-  schemas:
-    InvalidKbaSessionResponse:
-      title: InvalidResourceStateResponse
-      type: object
-      properties:
-        code:
-          type: string
-          example: InvalidResourceState
-        message:
-          type: string
-          example: The kba session is no longer valid.
-    ForbiddenResponse:
-      title: ForbiddenResponse
-      type: object
-      properties:
-        code:
-          type: string
-          example: Forbidden
-        message:
-          type: string
-          example: Not authorized to retrieve KBA questions.
-    ExpiredKbaSessionResponse:
-      title: ExpiredKbaSessionResponse
-      type: object
-      properties:
-        code:
-          type: string
-          example: Forbidden
-        message:
-          type: string
-          example: The kba session has expired.
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'

@@ -18,14 +18,14 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/ListRetriesResponse'
+            $ref: '../../schemas/webhooks/WebhookRetries.yml#/WebhookRetries'
     '404':
       description: Not Found
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - webhooks
@@ -51,52 +51,4 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/404NotFoundErrorResponse'
-components:
-  schemas:
-    ListRetriesResponse:
-      title: ListRetriesResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8/retries
-        _embedded:
-          type: object
-          properties:
-            retries:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            example: https://api.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8/retries/5aa27a0f-cf99-418d-a3ee-67c0ff99a494
-                      webhook:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            example: https://api.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8
-                  id:
-                    type: string
-                    example: 5aa27a0f-cf99-418d-a3ee-67c0ff99a494
-                  timestamp:
-                    type: string
-                    example: 2022-11-02T17:43:26.000Z
-        total:
-          type: integer
-          format: int32
-          example: 1
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

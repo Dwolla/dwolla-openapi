@@ -1,0 +1,22 @@
+LabelLedgerEntry:
+  title: LabelLedgerEntry
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: 32d68709-62dd-43d6-a6df-562f4baec526
+    amount:
+      type: object
+      properties:
+        value:
+          type: string
+          example: -5.00
+        currency:
+          type: string
+          example: USD
+    created:
+      type: string
+      example: 2019-05-16T01:54:58.062Z

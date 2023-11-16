@@ -1,0 +1,17 @@
+Labels:
+  title: Labels
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            $ref: './Label.yml#/Label'
+    total:
+      type: integer
+      example: 100

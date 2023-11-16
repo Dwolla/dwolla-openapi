@@ -1,0 +1,39 @@
+UpdateUnverifiedBank:
+  title: UpdateUnverifiedBank
+  description: Request body for updating information of an unverified bank funding source
+  type: object
+  required:
+    - name
+  properties:
+    routingNumber:
+      type: string
+      example: 222222226
+    accountNumber:
+      type: string
+      example: 123456789
+    bankAccountType:
+      type: string
+      example: checking
+    name:
+      type: string
+      example: Jane Doe’s Checking
+UpdateVerifiedBank:
+  title: UpdateVerifiedBank
+  description: Request body for updating information of a Verified bank funding source
+  type: object
+  required:
+    - name
+  properties:
+    name:
+      type: string
+      example: Jane Doe’s Checking
+RemoveBank:
+  title: RemoveBank
+  description: Request body for removing a bank funding source
+  type: object
+  required:
+    - removed
+  properties:
+    removed:
+      type: boolean
+      example: true

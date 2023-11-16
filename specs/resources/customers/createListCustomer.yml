@@ -66,7 +66,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/400BadRequestErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
     '403':
       description: forbidden
       headers: {}

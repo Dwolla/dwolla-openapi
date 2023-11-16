@@ -2,6 +2,7 @@ post:
   tags:
     - funding sources
   summary: Create an IAV token for dwolla.js
+  deprecated: true
   description: Create an IAV token for dwolla.js
   operationId: createCustomerIavToken
   parameters:

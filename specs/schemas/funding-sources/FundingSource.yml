@@ -31,3 +31,9 @@ FundingSource:
       items:
         type: string
         example: ach
+    bankName:
+      type: string
+      example: SANDBOX TEST BANK
+    fingerprint:
+      type: string
+      example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c

@@ -47,7 +47,7 @@ post:
               format: binary
   responses:
     '201':
-      description: document created
+      description: successful operation
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
@@ -68,7 +68,7 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '../../schemas/common.yml#/components/schemas/InvalidResourceStateSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/InvalidResourceState'
               - $ref: '../../schemas/common.yml#/components/schemas/NotAuthorizedSchema'
     '404':
       description: not found
