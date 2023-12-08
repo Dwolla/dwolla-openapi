@@ -26,6 +26,7 @@ get:
                   $ref: '../../schemas/common.yml#/components/schemas/HalLink'
               created:
                 type: string
+                format: date-time
                 example: '2022-12-30T20:56:53.000Z'
               status:
                 type: string
@@ -55,7 +56,7 @@ post:
   parameters:
     - name: id
       in: path
-      description: The ID of the FS to initiate or veriify micro-deposit
+      description: The ID of the FS to initiate or verify micro-deposit
       required: true
       schema:
         type: string

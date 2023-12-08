@@ -23,7 +23,6 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/events/Events.yml#/Events'
-            
     '404':
       description: not found
       headers: {}

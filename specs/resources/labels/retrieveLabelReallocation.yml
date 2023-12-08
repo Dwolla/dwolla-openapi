@@ -61,4 +61,5 @@ get:
                         example: ledger-entry
               created:
                 type: string
-                example: 2022-05-16T13:41:31.036Z
+                format: date-time
+                example: '2022-05-16T13:41:31.036Z'

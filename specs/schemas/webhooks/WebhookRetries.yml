@@ -39,7 +39,8 @@ WebhookRetries:
                 example: 5aa27a0f-cf99-418d-a3ee-67c0ff99a494
               timestamp:
                 type: string
-                example: 2022-11-02T17:43:26.000Z
+                format: date-time
+                example: '2022-11-02T17:43:26.000Z'
     total:
       type: integer
       format: int32

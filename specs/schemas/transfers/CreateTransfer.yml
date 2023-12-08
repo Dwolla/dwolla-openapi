@@ -1,6 +1,6 @@
 # Validation Errors (400)
-SourceNotFoundErrorResponse:
-  title: SourceNotFoundErrorResponse
+SourceNotFoundError:
+  title: SourceNotFoundError
   type: object
   properties:
     code:
@@ -29,8 +29,8 @@ SourceNotFoundErrorResponse:
               _links:
                 type: object
                 example: {}
-ReceiverNotFoundErrorResponse:
-  title: ReceiverNotFoundErrorResponse
+ReceiverNotFoundError:
+  title: ReceiverNotFoundError
   type: object
   properties:
     code:
@@ -59,8 +59,8 @@ ReceiverNotFoundErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidSourceFundingSourceErrorResponse:
-  title: InvalidSourceFundingSourceErrorResponse
+InvalidSourceFundingSourceError:
+  title: InvalidSourceFundingSourceError
   type: object
   properties:
     code:
@@ -89,8 +89,8 @@ InvalidSourceFundingSourceErrorResponse:
               _links:
                 type: object
                 example: {}
-SenderRestrictedErrorResponse:
-  title: SenderRestrictedErrorResponse
+SenderRestrictedError:
+  title: SenderRestrictedError
   type: object
   properties:
     code:
@@ -119,8 +119,8 @@ SenderRestrictedErrorResponse:
               _links:
                 type: object
                 example: {}
-ReceiverRestrictedErrorResponse:
-  title: ReceiverRestrictedErrorResponse
+ReceiverRestrictedError:
+  title: ReceiverRestrictedError
   type: object
   properties:
     code:
@@ -149,8 +149,8 @@ ReceiverRestrictedErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidMetadataErrorResponse:
-  title: InvalidMetadataErrorResponse
+InvalidMetadataError:
+  title: InvalidMetadataError
   type: object
   properties:
     code:
@@ -179,8 +179,8 @@ InvalidMetadataErrorResponse:
               _links:
                 type: object
                 example: {}
-OperationBlockedErrorResponse:
-  title: OperationBlockedErrorResponse
+OperationBlockedError:
+  title: OperationBlockedError
   type: object
   properties:
     code:
@@ -209,8 +209,8 @@ OperationBlockedErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidAmountLimitErrorResponse:
-  title: InvalidAmountLimitErrorResponse
+InvalidAmountLimitError:
+  title: InvalidAmountLimitError
   type: object
   properties:
     code:
@@ -239,8 +239,8 @@ InvalidAmountLimitErrorResponse:
               _links:
                 type: object
                 example: {}
-CannotParseAmountErrorResponse:
-  title: CannotParseAmountErrorResponse
+CannotParseAmountError:
+  title: CannotParseAmountError
   type: object
   properties:
     code:
@@ -269,8 +269,8 @@ CannotParseAmountErrorResponse:
               _links:
                 type: object
                 example: {}
-InsufficientFundsErrorResponse:
-  title: InsufficientFundsErrorResponse
+InsufficientFundsError:
+  title: InsufficientFundsError
   type: object
   properties:
     code:
@@ -299,8 +299,8 @@ InsufficientFundsErrorResponse:
               _links:
                 type: object
                 example: {}
-FacilitatorFeeAccountNotFoundErrorResponse:
-  title: FacilitatorFeeAccountNotFoundErrorResponse
+FacilitatorFeeAccountNotFoundError:
+  title: FacilitatorFeeAccountNotFoundError
   type: object
   properties:
     code:
@@ -329,8 +329,8 @@ FacilitatorFeeAccountNotFoundErrorResponse:
               _links:
                 type: object
                 example: {}
-FacilitatorFeeSumTooLargeErrorResponse:
-  title: FacilitatorFeeSumTooLargeErrorResponse
+FacilitatorFeeSumTooLargeError:
+  title: FacilitatorFeeSumTooLargeError
   type: object
   properties:
     code:
@@ -359,8 +359,8 @@ FacilitatorFeeSumTooLargeErrorResponse:
               _links:
                 type: object
                 example: {}
-FacilitatorFeeBelowMinimumErrorResponse:
-  title: FacilitatorFeeBelowMinimumErrorResponse
+FacilitatorFeeBelowMinimumError:
+  title: FacilitatorFeeBelowMinimumError
   type: object
   properties:
     code:
@@ -389,8 +389,8 @@ FacilitatorFeeBelowMinimumErrorResponse:
               _links:
                 type: object
                 example: {}
-HighRiskErrorResponse:
-  title: HighRiskErrorResponse
+HighRiskError:
+  title: HighRiskError
   type: object
   properties:
     code:
@@ -419,8 +419,8 @@ HighRiskErrorResponse:
               _links:
                 type: object
                 example: {}
-IncompatibleHoldingsErrorResponse:
-  title: IncompatibleHoldingsErrorResponse
+IncompatibleHoldingsError:
+  title: IncompatibleHoldingsError
   type: object
   properties:
     code:
@@ -449,8 +449,8 @@ IncompatibleHoldingsErrorResponse:
               _links:
                 type: object
                 example: {}
-DirectAccountWithoutBankErrorResponse:
-  title: DirectAccountWithoutBankErrorResponse
+DirectAccountWithoutBankError:
+  title: DirectAccountWithoutBankError
   type: object
   properties:
     code:
@@ -480,8 +480,8 @@ DirectAccountWithoutBankErrorResponse:
                 type: object
                 example: {}
 
-SourceSameAsDestinationErrorResponse:
-  title: SourceSameAsDestinationErrorResponse
+SourceSameAsDestinationError:
+  title: SourceSameAsDestinationError
   type: object
   properties:
     code:
@@ -510,8 +510,8 @@ SourceSameAsDestinationErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidFacilitatorErrorResponse:
-  title: InvalidFacilitatorErrorResponse
+InvalidFacilitatorError:
+  title: InvalidFacilitatorError
   type: object
   properties:
     code:
@@ -540,8 +540,8 @@ InvalidFacilitatorErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidFacilitatorFeeCollectFromErrorResponse:
-  title: InvalidFacilitatorFeeCollectFromErrorResponse
+InvalidFacilitatorFeeCollectFromError:
+  title: InvalidFacilitatorFeeCollectFromError
   type: object
   properties:
     code:
@@ -570,8 +570,8 @@ InvalidFacilitatorFeeCollectFromErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidFacilitatorFeeCollectFromCombinationErrorResponse:
-  title: InvalidFacilitatorFeeCollectFromCombinationErrorResponse
+InvalidFacilitatorFeeCollectFromCombinationError:
+  title: InvalidFacilitatorFeeCollectFromCombinationError
   type: object
   properties:
     code:
@@ -600,8 +600,8 @@ InvalidFacilitatorFeeCollectFromCombinationErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidDestinationFundingSourceErrorResponse:
-  title: InvalidDestinationFundingSourceErrorResponse
+InvalidDestinationFundingSourceError:
+  title: InvalidDestinationFundingSourceError
   type: object
   properties:
     code:
@@ -630,8 +630,8 @@ InvalidDestinationFundingSourceErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidFacilitatorFeeAmountErrorResponse:
-  title: InvalidFacilitatorFeeAmountErrorResponse
+InvalidFacilitatorFeeAmountError:
+  title: InvalidFacilitatorFeeAmountError
   type: object
   properties:
     code:
@@ -660,8 +660,8 @@ InvalidFacilitatorFeeAmountErrorResponse:
               _links:
                 type: object
                 example: {}
-WeeklyReceiveLimitReachedErrorResponse:
-  title: WeeklyReceiveLimitReachedErrorResponse
+WeeklyReceiveLimitReachedError:
+  title: WeeklyReceiveLimitReachedError
   type: object
   properties:
     code:
@@ -690,8 +690,8 @@ WeeklyReceiveLimitReachedErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidDestinationClearingTypeErrorResponse:
-  title: InvalidDestinationClearingTypeErrorResponse
+InvalidDestinationClearingTypeError:
+  title: InvalidDestinationClearingTypeError
   type: object
   properties:
     code:
@@ -720,8 +720,8 @@ InvalidDestinationClearingTypeErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidAmountForDestinationClearingTypeErrorResponse:
-  title: InvalidAmountForDestinationClearingTypeErrorResponse
+InvalidAmountForDestinationClearingTypeError:
+  title: InvalidAmountForDestinationClearingTypeError
   type: object
   properties:
     code:
@@ -750,8 +750,8 @@ InvalidAmountForDestinationClearingTypeErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidCorrelationIdErrorResponse:
-  title: InvalidCorrelationIdErrorResponse
+InvalidCorrelationIdError:
+  title: InvalidCorrelationIdError
   type: object
   properties:
     code:
@@ -780,8 +780,8 @@ InvalidCorrelationIdErrorResponse:
               _links:
                 type: object
                 example: {}
-SourceAddendaMaxLengthErrorResponse:
-  title: SourceAddendaMaxLengthErrorResponse
+SourceAddendaMaxLengthError:
+  title: SourceAddendaMaxLengthError
   type: object
   properties:
     code:
@@ -810,8 +810,8 @@ SourceAddendaMaxLengthErrorResponse:
               _links:
                 type: object
                 example: {}
-DestinationAddendaMaxLengthErrorResponse:
-  title: DestinationAddendaMaxLengthErrorResponse
+DestinationAddendaMaxLengthError:
+  title: DestinationAddendaMaxLengthError
   type: object
   properties:
     code:
@@ -840,8 +840,8 @@ DestinationAddendaMaxLengthErrorResponse:
               _links:
                 type: object
                 example: {}
-AchAddendaEntriesNotEnabledForAccountErrorResponse:
-  title: AchAddendaEntriesNotEnabledForAccountErrorResponse
+AchAddendaEntriesNotEnabledForAccountError:
+  title: AchAddendaEntriesNotEnabledForAccountError
   type: object
   properties:
     code:
@@ -870,8 +870,8 @@ AchAddendaEntriesNotEnabledForAccountErrorResponse:
               _links:
                 type: object
                 example: {}
-PointOfSaleAddendaEntriesNotEnabledForAccountErrorResponse:
-  title: PointOfSaleAddendaEntriesNotEnabledForAccountErrorResponse
+PointOfSaleAddendaEntriesNotEnabledForAccountError:
+  title: PointOfSaleAddendaEntriesNotEnabledForAccountError
   type: object
   properties:
     code:
@@ -900,8 +900,8 @@ PointOfSaleAddendaEntriesNotEnabledForAccountErrorResponse:
               _links:
                 type: object
                 example: {}
-IncompatibleAddendaEntriesErrorResponse:
-  title: IncompatibleAddendaEntriesErrorResponse
+IncompatibleAddendaEntriesError:
+  title: IncompatibleAddendaEntriesError
   type: object
   properties:
     code:
@@ -930,8 +930,8 @@ IncompatibleAddendaEntriesErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidPointOfSaleAddendaIdentificationCodeErrorResponse:
-  title: InvalidPointOfSaleAddendaIdentificationCodeErrorResponse
+InvalidPointOfSaleAddendaIdentificationCodeError:
+  title: InvalidPointOfSaleAddendaIdentificationCodeError
   type: object
   properties:
     code:
@@ -960,8 +960,8 @@ InvalidPointOfSaleAddendaIdentificationCodeErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidPointOfSaleAddendaSerialNumberErrorResponse:
-  title: InvalidPointOfSaleAddendaSerialNumberErrorResponse
+InvalidPointOfSaleAddendaSerialNumberError:
+  title: InvalidPointOfSaleAddendaSerialNumberError
   type: object
   properties:
     code:
@@ -990,8 +990,8 @@ InvalidPointOfSaleAddendaSerialNumberErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidPointOfSaleAddendaDateErrorResponse:
-  title: InvalidPointOfSaleAddendaDateErrorResponse
+InvalidPointOfSaleAddendaDateError:
+  title: InvalidPointOfSaleAddendaDateError
   type: object
   properties:
     code:
@@ -1020,8 +1020,8 @@ InvalidPointOfSaleAddendaDateErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidPointOfSaleAddendaAddressErrorResponse:
-  title: InvalidPointOfSaleAddendaAddressErrorResponse
+InvalidPointOfSaleAddendaAddressError:
+  title: InvalidPointOfSaleAddendaAddressError
   type: object
   properties:
     code:
@@ -1050,8 +1050,8 @@ InvalidPointOfSaleAddendaAddressErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidPointOfSaleAddendaCityErrorResponse:
-  title: InvalidPointOfSaleAddendaCityErrorResponse
+InvalidPointOfSaleAddendaCityError:
+  title: InvalidPointOfSaleAddendaCityError
   type: object
   properties:
     code:
@@ -1080,8 +1080,8 @@ InvalidPointOfSaleAddendaCityErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidPointOfSaleAddendaStateErrorResponse:
-  title: InvalidPointOfSaleAddendaStateErrorResponse
+InvalidPointOfSaleAddendaStateError:
+  title: InvalidPointOfSaleAddendaStateError
   type: object
   properties:
     code:
@@ -1110,8 +1110,8 @@ InvalidPointOfSaleAddendaStateErrorResponse:
               _links:
                 type: object
                 example: {}
-TransferExpiredForFeeErrorResponse:
-  title: TransferExpiredForFeeErrorResponse
+TransferExpiredForFeeError:
+  title: TransferExpiredForFeeError
   type: object
   properties:
     code:
@@ -1140,8 +1140,8 @@ TransferExpiredForFeeErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidFeeOdfiErrorResponse:
-  title: InvalidFeeOdfiErrorResponse
+InvalidFeeOdfiError:
+  title: InvalidFeeOdfiError
   type: object
   properties:
     code:
@@ -1170,8 +1170,8 @@ InvalidFeeOdfiErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidSourceBankAccountTypeErrorResponse:
-  title: InvalidBankAccountTypeErrorResponse
+InvalidSourceBankAccountTypeError:
+  title: InvalidBankAccountTypeError
   type: object
   properties:
     code:
@@ -1200,8 +1200,8 @@ InvalidSourceBankAccountTypeErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidDestinationBankAccountTypeErrorResponse:
-  title: InvalidDestinationBankAccountTypeErrorResponse
+InvalidDestinationBankAccountTypeError:
+  title: InvalidDestinationBankAccountTypeError
   type: object
   properties:
     code:
@@ -1230,8 +1230,8 @@ InvalidDestinationBankAccountTypeErrorResponse:
               _links:
                 type: object
                 example: {}
-IncompatibleSourceAndDestinationTypesErrorResponse:
-  title: IncompatibleSourceAndDestinationTypesErrorResponse
+IncompatibleSourceAndDestinationTypesError:
+  title: IncompatibleSourceAndDestinationTypesError
   type: object
   properties:
     code:
@@ -1260,8 +1260,8 @@ IncompatibleSourceAndDestinationTypesErrorResponse:
               _links:
                 type: object
                 example: {}
-IncompatibleSourceForRtpDestinationErrorResponse:
-  title: IncompatibleSourceForRtpDestinationErrorResponse
+IncompatibleSourceForRtpDestinationError:
+  title: IncompatibleSourceForRtpDestinationError
   type: object
   properties:
     code:
@@ -1290,8 +1290,8 @@ IncompatibleSourceForRtpDestinationErrorResponse:
               _links:
                 type: object
                 example: {}
-InvalidAmountForDestinationProcessingChannelErrorResponse:
-  title: InvalidAmountForDestinationProcessingChannelErrorResponse
+InvalidAmountForDestinationProcessingChannelError:
+  title: InvalidAmountForDestinationProcessingChannelError
   type: object
   properties:
     code:
@@ -1320,8 +1320,8 @@ InvalidAmountForDestinationProcessingChannelErrorResponse:
               _links:
                 type: object
                 example: {}
-RtpFacilitatorFeeNotSupportedErrorResponse:
-  title: RtpFacilitatorFeeNotSupportedErrorResponse
+RtpFacilitatorFeeNotSupportedError:
+  title: RtpFacilitatorFeeNotSupportedError
   type: object
   properties:
     code:
@@ -1350,8 +1350,8 @@ RtpFacilitatorFeeNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-RtpUnverifiedSenderNotSupportedErrorResponse:
-  title: RtpUnverifiedSenderNotSupportedErrorResponse
+RtpUnverifiedSenderNotSupportedError:
+  title: RtpUnverifiedSenderNotSupportedError
   type: object
   properties:
     code:
@@ -1380,8 +1380,8 @@ RtpUnverifiedSenderNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-RtpPersonalToPersonalNotSupportedErrorResponse:
-  title: RtpPersonalToPersonalNotSupportedErrorResponse
+RtpPersonalToPersonalNotSupportedError:
+  title: RtpPersonalToPersonalNotSupportedError
   type: object
   properties:
     code:
@@ -1410,8 +1410,8 @@ RtpPersonalToPersonalNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-DestinationProcessingChannelNotSupportedErrorResponse:
-  title: DestinationProcessingChannelNotSupportedErrorResponse
+DestinationProcessingChannelNotSupportedError:
+  title: DestinationProcessingChannelNotSupportedError
   type: object
   properties:
     code:
@@ -1440,8 +1440,8 @@ DestinationProcessingChannelNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-DestinationRemittanceDataMaxLengthErrorResponse:
-  title: DestinationRemittanceDataMaxLengthErrorResponse
+DestinationRemittanceDataMaxLengthError:
+  title: DestinationRemittanceDataMaxLengthError
   type: object
   properties:
     code:
@@ -1470,8 +1470,8 @@ DestinationRemittanceDataMaxLengthErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidAmountErrorResponse:
-  title: WithdrawInvalidAmountErrorResponse
+WithdrawInvalidAmountError:
+  title: WithdrawInvalidAmountError
   type: object
   properties:
     code:
@@ -1500,8 +1500,8 @@ WithdrawInvalidAmountErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidFundingSourceErrorResponse:
-  title: WithdrawInvalidFundingSourceErrorResponse
+WithdrawInvalidFundingSourceError:
+  title: WithdrawInvalidFundingSourceError
   type: object
   properties:
     code:
@@ -1530,8 +1530,8 @@ WithdrawInvalidFundingSourceErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawAccountRestrictedErrorResponse:
-  title: WithdrawAccountRestrictedErrorResponse
+WithdrawAccountRestrictedError:
+  title: WithdrawAccountRestrictedError
   type: object
   properties:
     code:
@@ -1560,8 +1560,8 @@ WithdrawAccountRestrictedErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidAmountForClearingTypeErrorResponse:
-  title: WithdrawInvalidAmountForClearingTypeErrorResponse
+WithdrawInvalidAmountForClearingTypeError:
+  title: WithdrawInvalidAmountForClearingTypeError
   type: object
   properties:
     code:
@@ -1590,8 +1590,8 @@ WithdrawInvalidAmountForClearingTypeErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidWireBeneficiaryLocalityErrorResponse:
-  title: WithdrawInvalidWireBeneficiaryLocalityErrorResponse
+WithdrawInvalidWireBeneficiaryLocalityError:
+  title: WithdrawInvalidWireBeneficiaryLocalityError
   type: object
   properties:
     code:
@@ -1620,8 +1620,8 @@ WithdrawInvalidWireBeneficiaryLocalityErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidWireBeneficiaryRegionErrorResponse:
-  title: WithdrawInvalidWireBeneficiaryRegionErrorResponse
+WithdrawInvalidWireBeneficiaryRegionError:
+  title: WithdrawInvalidWireBeneficiaryRegionError
   type: object
   properties:
     code:
@@ -1650,8 +1650,8 @@ WithdrawInvalidWireBeneficiaryRegionErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidWireBeneficiaryCountryErrorResponse:
-  title: WithdrawInvalidWireBeneficiaryCountryErrorResponse
+WithdrawInvalidWireBeneficiaryCountryError:
+  title: WithdrawInvalidWireBeneficiaryCountryError
   type: object
   properties:
     code:
@@ -1680,8 +1680,8 @@ WithdrawInvalidWireBeneficiaryCountryErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawInvalidWireOriginatorToBeneficiaryErrorResponse:
-  title: WithdrawInvalidWireOriginatorToBeneficiaryErrorResponse
+WithdrawInvalidWireOriginatorToBeneficiaryError:
+  title: WithdrawInvalidWireOriginatorToBeneficiaryError
   type: object
   properties:
     code:
@@ -1710,8 +1710,8 @@ WithdrawInvalidWireOriginatorToBeneficiaryErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawProcessingChannelNotSupportedErrorResponse:
-  title: WithdrawProcessingChannelNotSupportedErrorResponse
+WithdrawProcessingChannelNotSupportedError:
+  title: WithdrawProcessingChannelNotSupportedError
   type: object
   properties:
     code:
@@ -1740,8 +1740,8 @@ WithdrawProcessingChannelNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawRtpUnverifiedSenderNotSupportedErrorResponse:
-  title: WithdrawRtpUnverifiedSenderNotSupportedErrorResponse
+WithdrawRtpUnverifiedSenderNotSupportedError:
+  title: WithdrawRtpUnverifiedSenderNotSupportedError
   type: object
   properties:
     code:
@@ -1770,8 +1770,8 @@ WithdrawRtpUnverifiedSenderNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-WithdrawRtpPersonalWithdrawalNotSupportedErrorResponse:
-  title: WithdrawRtpPersonalWithdrawalNotSupportedErrorResponse
+WithdrawRtpPersonalWithdrawalNotSupportedError:
+  title: WithdrawRtpPersonalWithdrawalNotSupportedError
   type: object
   properties:
     code:
@@ -1800,8 +1800,8 @@ WithdrawRtpPersonalWithdrawalNotSupportedErrorResponse:
               _links:
                 type: object
                 example: {}
-DepositAccountRestrictedErrorResponse:
-  title: DepositAccountRestrictedErrorResponse
+DepositAccountRestrictedError:
+  title: DepositAccountRestrictedError
   type: object
   properties:
     code:
@@ -1830,8 +1830,8 @@ DepositAccountRestrictedErrorResponse:
               _links:
                 type: object
                 example: {}
-WireInvalidImadErrorResponse:
-  title: WireInvalidImadErrorResponse
+WireInvalidImadError:
+  title: WireInvalidImadError
   type: object
   properties:
     code:
@@ -1860,8 +1860,8 @@ WireInvalidImadErrorResponse:
               _links:
                 type: object
                 example: {}
-WireAccountRestrictedErrorResponse:
-  title: WireAccountRestrictedErrorResponse
+WireAccountRestrictedError:
+  title: WireAccountRestrictedError
   type: object
   properties:
     code:
@@ -1890,8 +1890,8 @@ WireAccountRestrictedErrorResponse:
               _links:
                 type: object
                 example: {}
-WireNotEnabledErrorResponse:
-  title: WireNotEnabledErrorResponse
+WireNotEnabledError:
+  title: WireNotEnabledError
   type: object
   properties:
     code:
@@ -1920,8 +1920,8 @@ WireNotEnabledErrorResponse:
               _links:
                 type: object
                 example: {}
-WireAccountNotFoundErrorResponse:
-  title: WireAccountNotFoundErrorResponse
+WireAccountNotFoundError:
+  title: WireAccountNotFoundError
   type: object
   properties:
     code:
@@ -1951,8 +1951,8 @@ WireAccountNotFoundErrorResponse:
                 type: object
                 example: {}
 # API errors (403)
-InvalidAttemptToFacilitateFundsErrorResponse:
-  title: InvalidAttemptToFacilitateFundsErrorResponse
+InvalidAttemptToFacilitateFundsError:
+  title: InvalidAttemptToFacilitateFundsError
   type: object
   properties:
     code:
@@ -1961,8 +1961,8 @@ InvalidAttemptToFacilitateFundsErrorResponse:
     message:
       type: string
       example: "Invalid Funds Flow: this operation requires the funds flow 'Facilitate' to be enabled"
-InvalidAttemptToPayInFundsErrorResponse:
-  title: InvalidAttemptToPayInFundsErrorResponse
+InvalidAttemptToPayInFundsError:
+  title: InvalidAttemptToPayInFundsError
   type: object
   properties:
     code:
@@ -1971,8 +1971,8 @@ InvalidAttemptToPayInFundsErrorResponse:
     message:
       type: string
       example: "Invalid Funds Flow: this operation requires the funds flow 'Receive' to be enabled"
-InvalidAttemptToPayOutFundsErrorResponse:
-  title: InvalidAttemptToPayOutFundsErrorResponse
+InvalidAttemptToPayOutFundsError:
+  title: InvalidAttemptToPayOutFundsError
   type: object
   properties:
     code:
@@ -1981,8 +1981,8 @@ InvalidAttemptToPayOutFundsErrorResponse:
     message:
       type: string
       example: "Invalid Funds Flow: this operation requires the funds flow 'Send' to be enabled"
-RtpAccountSettingNotEnabledErrorResponse:
-  title: RtpAccountSettingNotEnabledErrorResponse
+RtpAccountSettingNotEnabledError:
+  title: RtpAccountSettingNotEnabledError
   type: object
   properties:
     code:
@@ -1992,8 +1992,8 @@ RtpAccountSettingNotEnabledErrorResponse:
       type: string
       example: 'Real Time Payments not enabled for this account'
 # Too many requests error (429)
-TooManyRequestsErrorErrorResponse:
-  title: TooManyRequestsErrorErrorResponse
+TooManyRequestsErrorError:
+  title: TooManyRequestsErrorError
   type: object
   properties:
     code:

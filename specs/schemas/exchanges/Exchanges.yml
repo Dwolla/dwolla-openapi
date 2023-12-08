@@ -12,3 +12,7 @@ Exchanges:
           type: array
           items:
             $ref: './Exchange.yml#/Exchange'
+    total:
+      type: integer
+      format: int32
+      example: 3

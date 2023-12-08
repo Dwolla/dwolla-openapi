@@ -6,7 +6,7 @@ get:
   operationId: root
   responses:
     '200':
-      description: sucessful operation
+      description: successful operation
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:

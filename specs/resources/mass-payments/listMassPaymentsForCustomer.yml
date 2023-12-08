@@ -36,4 +36,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'
+            $ref: '../../schemas/mass-payments/MassPayments.yml#/MassPayments'

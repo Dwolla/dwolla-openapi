@@ -11,7 +11,8 @@ Event:
       example: 81f6e13c-557c-4449-9331-da5c65e61095
     created:
       type: string
-      example: 2015-10-16T15:37:02.000Z
+      format: date-time
+      example: '2015-10-16T15:37:02.000Z'
     topic:
       type: string
       example: customer_transfer_created

@@ -57,7 +57,8 @@ Webhook:
             properties:
               timestamp:
                 type: string
-                example: 2022-10-27T17:07:34.304Z
+                format: date-time
+                example: '2022-10-27T17:07:34.304Z'
               url:
                 type: string
                 example: https://myapp.runscope.net
@@ -80,7 +81,8 @@ Webhook:
             properties:
               timestamp:
                 type: string
-                example: 2022-10-27T17:07:34.308Z
+                format: date-time
+                example: '2022-10-27T17:07:34.308Z'
               headers:
                 type: array
                 items:
