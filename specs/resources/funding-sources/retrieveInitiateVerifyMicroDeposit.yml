@@ -23,7 +23,7 @@ get:
               _links:
                 type: object
                 additionalProperties:
-                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  $ref: '../../schemas/common.yml#/components/schemas/HalLink'
               created:
                 type: string
                 example: '2022-12-30T20:56:53.000Z'
@@ -45,7 +45,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - funding sources
@@ -60,19 +60,19 @@ post:
       schema:
         type: string
   requestBody:
-    description:
+    description: Parameters for initiating or verifying micro-deposits
     content:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/requestBodies/InitiateMicroDeposits'
-            - $ref: '#/components/requestBodies/VerifyMicroDeposits'
+            - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/InitiateMicroDeposits'
+            - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
   responses:
     '201':
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '404':
       description: not found
       headers: {}
@@ -87,42 +87,3 @@ post:
               message:
                 type: string
                 example: Funding source not found
-components:
-  requestBodies:
-    InitiateMicroDeposits:
-      title: InitiateMicroDeposits
-      description: Empty request body for initiating micro-deposits
-      type: object
-      nullable: true
-    VerifyMicroDeposits:
-      title: VerifyMicroDeposits
-      description: Request body for verifying micro-deposits
-      type: object
-      required:
-        - amount1
-        - amount2
-      properties:
-        amount1:
-          type: object
-          required:
-            - value
-            - currency
-          properties:
-            value:
-              type: string
-              example: 0.02
-            currency:
-              type: string
-              example: USD
-        amount2:
-          type: object
-          required:
-            - value
-            - currency
-          properties:
-            value:
-              type: string
-              example: 0.03
-            currency:
-              type: string
-              example: USD

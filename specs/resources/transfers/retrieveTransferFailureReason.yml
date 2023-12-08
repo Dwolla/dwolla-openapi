@@ -3,7 +3,7 @@ get:
     - transfers
   summary: Retrieve a transfer failure reason
   description: Retrieve a transfer failure reason
-  operationId: getFailureReason
+  operationId: getTransferFailureReason
   parameters:
     - name: id
       in: path
@@ -23,7 +23,7 @@ get:
               _links:
                 type: object
                 additionalProperties:
-                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  $ref: '../../schemas/common.yml#/components/schemas/HalLink'
               code:
                 type: string
                 example: R03
@@ -39,11 +39,11 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/403ForbiddenErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
     '404':
       description: 404 Not Found
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

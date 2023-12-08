@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: List customer funding sources
   description: List customer funding sources
-  operationId: listForCustomer
+  operationId: listCustomerFundingSources
   parameters:
     - name: id
       in: path
@@ -20,7 +20,7 @@ get:
           schema:
             type: array
             items:
-              $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'
+              $ref: '../../schemas/funding-sources/FundingSources.yml#/FundingSources'
     '403':
       description: forbidden
       headers: {}
@@ -68,15 +68,15 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/requestBodies/CreateUnverifiedBank'
-            - $ref: '#/components/requestBodies/CreatePlaidBank'
-            - $ref: '#/components/requestBodies/CreateVAN'
+            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateUnverifiedBank'
+            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreatePlaidBank'
+            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateVAN'
   responses:
     '201':
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '400':
       description: validation error
       headers: {}
@@ -92,113 +92,12 @@ post:
                 type: string
                 example: 'Can be: Duplicate funding source or validation error. Authorization already associated to a funding source.'
     '403':
-      oneOf:
-        - $ref: '#/components/schemas/NotAuthorizedToCreateFundingSourceSchema'
-        - $ref: '#/components/schemas/VANSNotEnabledSchema'
-components:
-  schemas:
-    OnDemandAuthorization:
-      title: OnDemandAuthorization
-      type: object
-      properties:
-        on-demand-authorization:
-          type: object
-          properties:
-            href:
-              type: string
-              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-    ListCustomerFundingSourcesResponse:
-      title: ListCustomerFundingSourcesResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        _embedded:
-          type: object
-          properties:
-            funding-sources:
-              type: array
-              items:
-                $ref: './retrieveUpdateRemoveFundingSource.yml#/components/schemas/RetrieveFundingSourceResponse'
-    # Error Responses
-    NotAuthorizedToCreateFundingSourceSchema:
-      title: NotAuthorizedToCreateFundingSourceSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: forbidden
-        message:
-          type: string
-          example: Not authorized to create funding source.
-    VANSNotEnabledSchema:
-      title: VANSNotEnabledSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: forbidden
-        message:
-          type: string
-          example: Virtual account numbers are not enabled for this account.
-  requestBodies:
-    CreateUnverifiedBank:
-      title: CreateUnverifiedBank
-      description: Request body for creating an unverified bank funding source
-      type: object
-      required:
-        - routingNumber
-        - accountNumber
-        - bankAccountType
-        - name
-      properties:
-        _links:
-          $ref: '#/components/schemas/OnDemandAuthorization'
-        routingNumber:
-          type: string
-          example: 222222226
-        accountNumber:
-          type: string
-          example: 123456789
-        bankAccountType:
-          type: string
-          example: checking
-        name:
-          type: string
-          example: Jane Doe’s Checking
-    CreatePlaidBank:
-      title: CreatePlaidBank
-      description: Request body for creating an Verified bank funding source using a Plaid token
-      type: object
-      required:
-        - plaidToken
-        - name
-      properties:
-        plaidToken:
-          type: string
-          example: processor-sandbox-161c86dd-d470-47e9-a741-d381c2b2cb6f
-        name:
-          type: string
-          example: Jane Doe’s Checking
-        _links:
-          $ref: '#/components/schemas/OnDemandAuthorization'
-    CreateVAN:
-      title: CreateVAN
-      description: Request body for creating a Virtual Account Number (VAN)
-      type: object
-      required:
-        - type
-        - bankAccountType
-        - name
-      properties:
-        type:
-          type: string
-          example: virtual
-        bankAccountType:
-          type: string
-          example: checking
-        name:
-          type: string
-          example: My First VAN
+      description: forbidden error
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/NotAuthorizedToCreateFundingSourceError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/VANSNotEnabledError'
+    

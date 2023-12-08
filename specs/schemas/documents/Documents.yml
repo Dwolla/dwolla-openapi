@@ -1,0 +1,18 @@
+Documents:
+  title: Documents
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: './Document.yml#/Document'
+    total:
+      type: integer
+      example: 100

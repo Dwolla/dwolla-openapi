@@ -1,0 +1,60 @@
+StatusInvalidError:
+  title: StatusInvalidError
+  type: object
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: Status invalid.
+              path:
+                type: string
+                example: /status
+              _links:
+                type: object
+                example: {}
+StatusNotAllowedError:
+  title: StatusNotAllowedError
+  type: object
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotAllowed
+              message:
+                type: string
+                example: Status not allowed.
+              path:
+                type: string
+                example: /status
+              _links:
+                type: object
+                example: {}

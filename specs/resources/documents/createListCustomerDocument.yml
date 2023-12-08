@@ -3,7 +3,7 @@ get:
     - documents
   summary: List documents for customer
   description: List documents for customer
-  operationId: listForCustomer
+  operationId: listCustomerDocuments
   parameters:
     - name: id
       in: path
@@ -18,13 +18,13 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/ListCustomerDocumentsResponse'
+            $ref: '../../schemas/documents/Documents.yml#/Documents'
 post:
   tags:
     - documents
   summary: Create a document for customer
   description: Create a document for customer
-  operationId: createForCustomer
+  operationId: createCustomerDocument
   parameters:
     - name: id
       in: path
@@ -47,10 +47,10 @@ post:
               format: binary
   responses:
     '201':
-      description: document created
+      description: successful operation
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '400':
       description: Bad Request
       headers: {}
@@ -58,9 +58,9 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/MaximumNumberOfResourcesSchema'
-              - $ref: '#/components/schemas/InvalidFileTypeSchema'
-              - $ref: '#/components/schemas/DuplicateResourceSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/MaximumNumberOfResourcesSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/InvalidFileTypeSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/DuplicateResourceSchema'
     '403':
       description: not found
       headers: {}
@@ -68,8 +68,8 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidResourceStateSchema'
-              - $ref: '#/components/schemas/NotAuthorizedSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/InvalidResourceState'
+              - $ref: '../../schemas/common.yml#/components/schemas/NotAuthorizedSchema'
     '404':
       description: not found
       headers: {}
@@ -98,71 +98,3 @@ post:
               message:
                 type: string
                 example: Document requests are limited to 10 MiB.
-components:
-  schemas:
-    ListCustomerDocumentsResponse:
-      title: ListCustomerDocumentsResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        _embedded:
-          type: object
-          properties:
-            documents:
-              type: array
-              items:
-                $ref: './retrieveDocument.yml#/components/schemas/RetrieveDocumentResponse'
-    MaximumNumberOfResourcesSchema:
-      title: MaximumNumberOfResourcesSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: maximumNumberOfResources
-        message:
-          type: string
-          example: Max of four files upload allowed. Please wait for Dwolla to manually check the documents.
-    InvalidFileTypeSchema:
-      title: InvalidFileTypeSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: invalidFileType
-        message:
-          type: string
-          example: 'File types supported: Personal IDs - .jpg, .jpeg or .png. Business Documents - .jpg, .jpeg, .png, or .pdf.'
-    DuplicateResourceSchema:
-      title: DuplicateResourceSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: duplicateResource
-        message:
-          type: string
-          example: Document already exists. Follow the link to find the existing document for the Customer.
-    InvalidResourceStateSchema:
-      title: InvalidResourceStateSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: invalidResourceState
-        message:
-          type: string
-          example: Resource cannot be modified. Document creation not allowed for already verified Customers or non-verified Customer types.
-    NotAuthorizedSchema:
-      title: NotAuthorizedSchema
-      type: object
-      properties:
-        code:
-          type: string
-          example: notAuthorized
-        message:
-          type: string
-          example: Not authorized to create documents.

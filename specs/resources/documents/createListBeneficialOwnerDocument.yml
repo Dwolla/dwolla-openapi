@@ -3,7 +3,7 @@ get:
     - documents
   summary: List document for beneficial owner
   description: List document for beneficial owner
-  operationId: listForBeneficialOwner
+  operationId: listBeneficialOwnerDocuments
   parameters:
     - name: id
       in: path
@@ -18,13 +18,13 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: './createListCustomerDocument.yml#/components/schemas/ListCustomerDocumentsResponse'
+            $ref: '../../schemas/documents/Documents.yml#/Documents'
 post:
   tags:
     - documents
   summary: Create a document for beneficial owner
   description: Create a document for beneficial owner
-  operationId: createForBeneficialOwner
+  operationId: createBeneficialOwnerDocument
   parameters:
     - name: id
       in: path
@@ -50,4 +50,4 @@ post:
       description: document created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'

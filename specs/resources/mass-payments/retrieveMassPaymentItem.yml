@@ -3,7 +3,7 @@ get:
     - mass payments
   summary: Retrieve mass payment item
   description: Retrieve mass payment item
-  operationId: retrieveMassPaymentItem
+  operationId: getMassPaymentItem
   parameters:
     - name: id
       in: path
@@ -18,64 +18,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveMassPaymanetItemResponse'
-components:
-  schemas:
-    RetrieveMassPaymanetItemResponse:
-      title: RetrieveMassPaymanetItemResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api-sandbox.dwolla.com/mass-payment-items/c1c7d293-63ec-e511-80df-0aa34a9b2388
-            mass-payment:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563
-            destination:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api-sandbox.dwolla.com/funding-sources/b442c936-1f87-465d-a4e2-a982164b26bd
-            transfer:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api-sandbox.dwolla.com/transfers/fa3999db-41ed-e511-80df-0aa34a9b2388
-        id:
-          type: string
-          example: 2f845bc9-41ed-e511-80df-0aa34a9b2388
-        status:
-          type: string
-          example: success
-        amount:
-          type: object
-          properties:
-            value:
-              type: string
-              example: 1.00
-            currency:
-              type: string
-              example: USD
-        metadata:
-          type: object
-          properties:
-            item1:
-              type: string
-              example: item1
-        processingChannel:
-          type: object
-          properties:
-            destination:
-              type: string
-              example: real-time-payments
+            $ref: '../../schemas/mass-payments/MassPaymentItem.yml#/MassPaymentItem'

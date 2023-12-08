@@ -1,0 +1,80 @@
+InvalidUrlFormatError:
+  title: InvalidUrlFormatError
+  type: object
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidFormat
+              message:
+                type: string
+                example: Url must be a valid url.
+              path:
+                type: string
+                example: /url
+              _links:
+                type: object
+                example: {}
+MaxSubscriptionsReachedError:
+  title: MaxSubscriptionsReachedError
+  type: object
+  properties:
+    code:
+      type: string
+      example: MaxNumberOfResources
+    message:
+      type: string
+      example: The maximum number of subscriptions has been reached.
+SecretTooLongError:
+  title: SecretTooLongError
+  type: object
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidFormat
+              message:
+                type: string
+                example: Secret must be 128 or fewer characters.
+              path:
+                type: string
+                example: /secret
+              _links:
+                type: object
+                example: {}
+TooManyRequestsError:
+  title: TooManyRequestsError
+  type: object
+  properties:
+    code:
+      type: string
+      example: Too Many Requests
+    message:
+      type: string
+      example: Please wait a short period of time before re-attempting the request.

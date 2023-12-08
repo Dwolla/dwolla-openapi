@@ -1,0 +1,16 @@
+BeneficialOwners:
+  title: BeneficialOwners
+  description: Request model for list beneficial owners
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        benficial-owners:
+          type: array
+          items:
+            $ref: './BeneficialOwner.yml#/BeneficialOwner'

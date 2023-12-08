@@ -2,7 +2,7 @@ get:
   tags:
     - customers
   summary: List business classification
-  description: List business classifications
+  description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
   operationId: listBusinessClassifications
   responses:
     '200':
@@ -21,4 +21,4 @@ get:
                   business-classifications:
                     type: array
                     items:
-                      $ref: './retrieveBusinessClassification.yml#/components/schemas/RetrieveBusinessClassificationResponse'
+                      $ref: '../../schemas/business-classifications/BusinessClassifications.yml#/BusinessClassifications'

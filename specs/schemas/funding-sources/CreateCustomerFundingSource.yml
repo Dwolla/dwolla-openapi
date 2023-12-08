@@ -1,0 +1,102 @@
+CreateUnverifiedBank:
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        exchange:
+          type: object
+          properties:
+            href:
+              type: string
+    name:
+      type: string
+    bankAccountType:
+      type: string
+      enum:
+      - checking
+      - savings
+    accountNumber:
+      type: string
+    routingNumber:
+      type: string
+    channels:
+      type: array
+      items:
+        type: string
+  required:
+    - name
+    - bankAccountType
+    - accountNumber
+    - routingNumber
+CreatePlaidBank:
+  title: CreatePlaidBank
+  description: Request body for creating an Verified bank funding source using a Plaid token
+  type: object
+  required:
+    - plaidToken
+    - name
+  properties:
+    plaidToken:
+      type: string
+      example: processor-sandbox-161c86dd-d470-47e9-a741-d381c2b2cb6f
+    name:
+      type: string
+      example: Jane Doe’s Checking
+    _links:
+      type: object
+      properties:
+        on-demand-authorization:
+          type: object
+          properties:
+            href:
+              type: string
+CreateVAN:
+  title: CreateVAN
+  description: Request body for creating a Virtual Account Number (VAN)
+  type: object
+  required:
+    - type
+    - bankAccountType
+    - name
+  properties:
+    type:
+      type: string
+      example: virtual
+    bankAccountType:
+      type: string
+      example: checking
+    name:
+      type: string
+      example: My First VAN
+OnDemandAuthorization:
+      title: OnDemandAuthorization
+      type: object
+      properties:
+        on-demand-authorization:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+# Error Responses
+NotAuthorizedToCreateFundingSourceError:
+  title: NotAuthorizedToCreateFundingSourceError
+  type: object
+  properties:
+    code:
+      type: string
+      example: forbidden
+    message:
+      type: string
+      example: Not authorized to create funding source.
+VANSNotEnabledError:
+  title: VANSNotEnabled
+  type: object
+  properties:
+    code:
+      type: string
+      example: forbidden
+    message:
+      type: string
+      example: Virtual account numbers are not enabled for this account.

@@ -2,8 +2,8 @@ get:
   tags:
     - customers
   summary: Retrieve a customer
-  description: Retrieve a customer
-  operationId: get
+  description: Retrieve details for a single customer
+  operationId: getCustomer
   parameters:
     - name: id
       in: path
@@ -18,12 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            oneOf:
-              - $ref: '#/components/schemas/RetrieveReceiveOnlyCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveUnverifiedCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveVerifiedPersonalCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveVerifiedSolePropCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveVerifiedBusinessCustomerResponse'
+            $ref: '../../schemas/customers/Customer.yml#/Customer'
     '403':
       description: forbidden
       headers: {}
@@ -56,26 +51,33 @@ post:
   tags:
     - customers
   summary: Update a customer
-  description: Update a customer
+  description: Update Customer information, upgrade an unverified Customer to a verified Customer, suspend a Customer, deactivate a Customer, reactivate a Customer, and update a verified Customer's information to retry verification.
   operationId: update
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
   requestBody:
     description: Parameters for updating a Customer
     content:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/requestBodies/DeactivateCustomer'
-            - $ref: '#/components/requestBodies/ReactivateCustomer'
-            - $ref: '#/components/requestBodies/SuspendCustomer'
-            - $ref: '#/components/requestBodies/UpdateUnverifiedAndRecieveOnly'
-            - $ref: '#/components/requestBodies/UpdateVerifiedPersonal'
-            - $ref: '#/components/requestBodies/UpdateVerifiedBusiness'
-            - $ref: '#/components/requestBodies/UpgradeToVerifiedPersonal'
-            - $ref: '#/components/requestBodies/UpgradeToVerifiedBusiness'
-            - $ref: '#/components/requestBodies/UpgradeToVerifiedSoleProp'
-            - $ref: '#/components/requestBodies/RetryVerifiedPersonal'
-            - $ref: '#/components/requestBodies/RetryVerifiedBusiness'
-            - $ref: '#/components/requestBodies/RetryVerifiedSoleProp'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/DeactivateCustomer'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/ReactivateCustomer'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/SuspendCustomer'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpdateUnverifiedAndReceiveOnly'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpdateVerifiedPersonal'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpdateVerifiedBusiness'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedPersonal'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedBusiness'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedSoleProp'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedPersonal'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedBusiness'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedSoleProp'
   responses:
     '200':
       description: successful operation
@@ -83,12 +85,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            oneOf:
-              - $ref: '#/components/schemas/RetrieveReceiveOnlyCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveUnverifiedCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveVerifiedPersonalCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveVerifiedSolePropCustomerResponse'
-              - $ref: '#/components/schemas/RetrieveVerifiedBusinessCustomerResponse'
+            $ref: '../../schemas/customers/Customer.yml#/Customer'
     '400':
       description: bad request
       headers: {}
@@ -117,425 +114,3 @@ post:
               message:
                 type: string
                 example: Not authorized to update a customer.
-components:
-  schemas:
-    RetrieveCustomerSharedModel:
-      title: RetrieveCustomerSharedModel
-      Description: Shared models between all Customer types
-      type: object
-      properties:
-        _links:
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        id:
-          type: string
-          example: c41125c5-99c4-4303-a9f6-d066d28a61e3
-        firstName:
-          type: string
-          example: Jane
-        lastName:
-          type: string
-          example: Doe
-        email:
-          type: string
-          example: janedoe@mail.com
-        correlationId:
-          type: string
-          example: 'CID-abe2bb3d-d2ff-433b-95a3-0debd960ed25'
-        created:
-          type: string
-          example: '2022-10-07T16:46:13.023Z'
-    RetrieveReceiveOnlyCustomerResponse:
-      title: RetrieveReceiveOnlyCustomerResponse
-      allOf:
-        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
-        - type: object
-          properties:
-            type:
-              type: string
-              example: receive-only
-            status:
-              type: string
-              example: unverified
-            businessName:
-              type: string
-              example: Jane Corp llc
-    RetrieveUnverifiedCustomerResponse:
-      title: RetrieveUnverifiedCustomerResponse
-      allOf:
-        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
-        - type: object
-          properties:
-            type:
-              type: string
-              example: unverified
-            status:
-              type: string
-              example: unverified
-            businessName:
-              type: string
-              example: Jane Corp llc
-    RetrieveVerifiedPersonalCustomerResponse:
-      title: RetrieveVerifiedPersonalCustomerResponse
-      allOf:
-        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
-        - type: object
-          properties:
-            type:
-              type: string
-              example: personal
-            status:
-              type: string
-              example: verified
-            address1:
-              type: string
-              example: 123 Main Street
-            address2:
-              type: string
-              example: Ste 123
-            city:
-              type: string
-              example: Des Moines
-            state:
-              type: string
-              example: IA
-            postalCode:
-              type: string
-              example: '50309'
-    RetrieveVerifiedSolePropCustomerResponse:
-      title: RetrieveVerifiedSolePropCustomerResponse
-      allOf:
-        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
-        - type: object
-          properties:
-            type:
-              type: string
-              example: business
-            status:
-              type: string
-              example: verified
-            address1:
-              type: string
-              example: 123 Main Street
-            address2:
-              type: string
-              example: Ste 123
-            city:
-              type: string
-              example: Des Moines
-            state:
-              type: string
-              example: IA
-            postalCode:
-              type: string
-              example: '50309'
-            businessName:
-              type: string
-              example: Jane Corp
-            businessType:
-              type: string
-              example: soleProprietorship
-            businessClassification:
-              type: string
-              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
-    RetrieveVerifiedBusinessCustomerResponse:
-      title: RetrieveVerifiedBusinessCustomerResponse
-      allOf:
-        - $ref: '#/components/schemas/RetrieveCustomerSharedModel'
-        - type: object
-          properties:
-            type:
-              type: string
-              example: business
-            status:
-              type: string
-              example: verified
-            address1:
-              type: string
-              example: 123 Main Street
-            address2:
-              type: string
-              example: Ste 123
-            city:
-              type: string
-              example: Des Moines
-            state:
-              type: string
-              example: IA
-            postalCode:
-              type: string
-              example: '50309'
-            phone:
-              type: string
-              example: '555555555'
-            website:
-              type: string
-              example: https://www.dwolla.com
-            businessName:
-              type: string
-              example: Jane Corp
-            doingBusinessAs:
-              type: string
-              example: Jane's Coffee and Sweets
-            businessType:
-              type: string
-              example: llc
-            businessClassification:
-              type: string
-              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
-            controller:
-              type: object
-              $ref: '#/components/schemas/ControllerObject'
-    # Customer Update models
-    ControllerObject:
-      title: ControllerObject
-      Description: Controller JSON Object for Customer responses
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: John
-        lastName:
-          type: string
-          example: Controller
-        title:
-          type: string
-          example: CEO
-        address:
-          type: object
-          properties:
-            address1:
-              type: string
-              example: 462 Main Street
-            address2:
-              type: string
-              example: Suite 123
-            address3:
-              type: string
-              example: Unit 123
-            city:
-              type: string
-              example: Des Moines
-            postalCode:
-              type: string
-              example: '50309'
-            country:
-              type: string
-              example: USA
-            stateProvinceRegion:
-              type: string
-              example: 'IA'
-    UpdateVerifiedCustomerSharedModel:
-      Description: Shared models between Verified Customer types
-      type: object
-      properties:
-        email:
-          type: string
-          example: accountAdmin@email.com
-        ipAddress:
-          type: string
-          example: 143.156.7.8
-        address1:
-          type: string
-          example: 123 Main Street
-        address2:
-          type: string
-          example: XYZ Suite
-        city:
-          type: string
-          example: Des Moines
-        state:
-          type: string
-          example: IA
-        postalCode:
-          type: string
-          example: '50309'
-        phone:
-          type: string
-          example: 5555555555
-  requestBodies:
-    DeactivateCustomer:
-      title: DeactivateCustomer
-      description: Deactivate a Customer
-      type: object
-      required:
-        - status
-      properties:
-        status:
-          type: string
-          example: deactivated
-    ReactivateCustomer:
-      title: ReactivateCustomer
-      description: Reactivate a Customer
-      type: object
-      required:
-        - status
-      properties:
-        status:
-          type: string
-          example: reactivated
-    SuspendCustomer:
-      title: SuspendCustomer
-      description: Suspend a Customer
-      type: object
-      required:
-        - status
-      properties:
-        status:
-          type: string
-          example: suspended
-    UpdateUnverifiedAndRecieveOnly:
-      title: UpdateUnverifiedAndRecieveOnly
-      description: Update Unverified Customer or Recieve Only User Information
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: John
-        lastName:
-          type: string
-          example: Doe
-        email:
-          type: string
-          example: accountAdmin@email.com
-        businessName:
-          type: string
-          example: Jane Corp
-    UpdateVerifiedPersonal:
-      title: UpdateVerifiedPersonal
-      description: Update Verified Personal Customer Information
-      allOf:
-        - $ref: '#/components/schemas/UpdateVerifiedCustomerSharedModel'
-    UpdateVerifiedBusiness:
-      title: UpdateVerifiedBusiness
-      description: Update Verified Business Customer Information (both Sole Proprietorship and Non-Sole Proprietorship)
-      allOf:
-        - $ref: '#/components/schemas/UpdateVerifiedCustomerSharedModel'
-        - type: object
-          properties:
-            doingBusinessAs:
-              type: string
-              example: Jane's Electronics
-            website:
-              type: string
-              example: https://www.domain.com
-    UpgradeToVerifiedPersonal:
-      title: UpgradeToVerifiedPersonal
-      description: Upgrade Unverified Customer to Verified Personal Customer
-      allOf:
-        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
-        - type: object
-          required:
-            - type
-            - ssn
-          properties:
-            type:
-              type: string
-              example: personal
-            ssn:
-              type: string
-              example: 1234
-            dateOfBirth:
-              type: string
-              example: 1980-09-12
-    UpgradeToVerifiedBusiness:
-      title: UpgradeToVerifiedBusiness
-      description: Upgrade Unverified Customer to Verified Business Customer
-      allOf:
-        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
-        - type: object
-          required:
-            - businessType
-            - controller
-          properties:
-            controller:
-              oneOf:
-                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithSsn'
-                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithPassport'
-            businessType:
-              type: string
-              example: llc
-    UpgradeToVerifiedSoleProp:
-      title: UpgradeToVerifiedSoleProp
-      description: Upgrade Unverified Customer to Verified Business Customer (Sole Proprietorship)
-      allOf:
-        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
-        - type: object
-          required:
-            - businessType
-            - ssn
-            - dateOfBirth
-          properties:
-            ssn:
-              type: string
-              example: 1234
-            dateOfBirth:
-              type: string
-              example: 1980-09-12
-            businessType:
-              type: string
-              example: soleProprietorship
-    RetryVerifiedPersonal:
-      title: RetryVerifiedPersonal
-      description: Retry Verification for Verified Personal Customer
-      allOf:
-        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
-        - type: object
-          required:
-            - type
-            - ssn
-          properties:
-            type:
-              type: string
-              example: personal
-            ssn:
-              type: string
-              example: 123456789
-            dateOfBirth:
-              type: string
-              example: 1980-09-12
-    RetryVerifiedBusiness:
-      title: RetryVerifiedBusiness
-      description: Retry Verification for Verified Business Customer
-      allOf:
-        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
-        - type: object
-          required:
-            - businessType
-            - controller
-          properties:
-            controller:
-              oneOf:
-                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithSsn'
-                - $ref: './createListCustomer.yml#/components/schemas/ControllerWithPassport'
-            businessType:
-              type: string
-              example: llc
-    RetryVerifiedSoleProp:
-      title: RetryVerifiedSoleProp
-      description: Retry Verification for Verified Business Customer (Sole Proprietorship)
-      allOf:
-        - $ref: './createListCustomer.yml#/components/schemas/UnverifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/VerifiedCustomerSharedModel'
-        - $ref: './createListCustomer.yml#/components/schemas/BusinessCustomerSharedModel'
-        - type: object
-          required:
-            - businessType
-            - ssn
-            - dateOfBirth
-          properties:
-            ssn:
-              type: string
-              example: 123456789
-            dateOfBirth:
-              type: string
-              example: 1980-09-12
-            businessType:
-              type: string
-              example: soleProprietorship

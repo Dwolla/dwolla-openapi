@@ -1,0 +1,19 @@
+Events:
+  title: Events
+  type: object
+  properties:
+    _links:
+      type: object
+    additionalProperties:
+      $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: './Event.yml#/Event'
+    total:
+      type: integer
+      format: int32
+      example: 3

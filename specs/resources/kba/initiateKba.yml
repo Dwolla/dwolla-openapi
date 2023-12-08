@@ -3,7 +3,7 @@ post:
     - kba
   summary: Initiate a KBA session
   description: Initiate a KBA session
-  operationId: initiateForCustomer
+  operationId: initiateKbaForCustomer
   parameters:
     - name: id
       in: path
@@ -16,14 +16,14 @@ post:
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'
     '404':
       description: 404 Error
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
     '403':
       description: 403 Error
       headers: {}
@@ -31,27 +31,5 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidResourceStateResponse'
-              - $ref: '#/components/schemas/ForbiddenResponse'
-components:
-  schemas:
-    InvalidResourceStateResponse:
-      title: InvalidResourceStateResponse
-      type: object
-      properties:
-        code:
-          type: string
-          example: InvalidResourceState
-        message:
-          type: string
-          example: Customer verification status is not valid for kba.
-    ForbiddenResponse:
-      title: ForbiddenResponse
-      type: object
-      properties:
-        code:
-          type: string
-          example: Forbidden
-        message:
-          type: string
-          example: The supplied credentials are not authorized for this resource. Not authorized to create KBA questions.
+              - $ref: '../../schemas/common.yml#/components/schemas/InvalidResourceState'
+              - $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'

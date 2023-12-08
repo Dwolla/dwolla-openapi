@@ -62,6 +62,9 @@ get:
     - name: offset
       in: query
       description: Number of search results to skip. Use for pagination
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       description: successful operation
@@ -69,7 +72,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/ListAndSearchAccountTransfersResponse'
+            $ref: '../../schemas/transfers/Transfers.yml#/Transfers'
     '404':
       description: not found
       headers: {}
@@ -84,42 +87,3 @@ get:
               message:
                 type: string
                 example: Account not found.
-components:
-  schemas:
-    ListAndSearchAccountTransfersResponse:
-      title: ListAndSearchAccountTransfersResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        _embedded:
-          type: object
-          properties:
-            transfers:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    additionalProperties:
-                      $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-                  id:
-                    type: string
-                    example: '37b16b5f-187a-ec11-813d-ca84ae5ee1fb'
-                  status:
-                    type: string
-                    example: processed
-                  amount:
-                    $ref: '../../schemas/commonSchemas.yml#/components/schemas/TransferAmount'
-                  created:
-                    type: string
-                    example: '2022-01-20T17:42:52.787Z'
-                  correlationId:
-                    type: string
-                    example: 'CID-8a2cdc8d-629d-4a24-98ac-40b735229fe2'
-        total:
-          type: integer
-          example: 100

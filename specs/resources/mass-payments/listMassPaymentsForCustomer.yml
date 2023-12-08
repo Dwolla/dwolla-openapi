@@ -3,7 +3,7 @@ get:
     - mass payments
   summary: List mass payments for customer
   description: List mass payments for customer
-  operationId: listForCustomer
+  operationId: listCustomerMassPayments
   parameters:
     - name: id
       in: path
@@ -36,33 +36,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments
-                  first:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments?limit=25&offset=0
-                  last:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments?limit=25&offset=0
-              _embedded:
-                type: object
-                properties:
-                  mass-payments:
-                    type: array
-                    items:
-                      $ref: './retrieveUpdateMassPayment.yml#/components/schemas/RetrieveMassPaymentResponse'
+            $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'

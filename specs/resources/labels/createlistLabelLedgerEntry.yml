@@ -3,7 +3,7 @@ get:
     - labels
   summary: List label ledger entries
   description: List label ledger entries
-  operationId: listLedgerEntries
+  operationId: listLabelLedgerEntries
   parameters:
     - name: id
       in: path
@@ -30,64 +30,13 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: ledger-entry
-                  first:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: ledger-entry
-                  last:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries?limit=25&offset=0
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: ledger-entry
-              _embedded:
-                type: object
-                properties:
-                  ledger-entries:
-                    type: array
-                    items:
-                      $ref: './retrieveLabelLedgerEntry.yml#/components/schemas/RetrieveLabelLedgerEntryResponse'
-              total:
-                type: integer
-                format: int32
-                example: 1
+            $ref: '../../schemas/labels/LabelLedgerEntries.yml#/LabelLedgerEntries'
 post:
   tags:
     - labels
   summary: Create label ledger entries
   description: Create label ledger entries
-  operationId: createLabelLedgerEntries
+  operationId: createLabelLedgerEntry
   parameters:
     - name: id
       in: path
@@ -116,4 +65,4 @@ post:
       description: created
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'

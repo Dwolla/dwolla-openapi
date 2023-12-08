@@ -3,7 +3,7 @@ get:
     - exchanges
   summary: Retrieve exchange resource
   description: Retrieve exchange resource
-  operationId: retrieveExchangeResource
+  operationId: getExchange
   parameters:
     - name: id
       in: path
@@ -19,44 +19,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: exchange
-                  exchange-partner:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: exchange-partner
-              id:
-                type: string
-                example: fcd15e5f-8d13-4570-a9b7-7fb49e55941d
-              status:
-                type: string
-                example: active
-              created:
-                type: string
-                example: '2022-10-21T21:41:03.283Z'
+            $ref: '../../schemas/exchanges/Exchange.yml#/Exchange'
     '401':
       description: Invalid Scope
       headers: {}

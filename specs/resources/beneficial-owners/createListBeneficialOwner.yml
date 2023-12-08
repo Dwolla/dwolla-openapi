@@ -1,0 +1,64 @@
+get:
+  tags:
+    - beneficial owners
+  summary: List beneficial owners
+  description: Retrieve a list of beneficial owners that belong to a Customer
+  operationId: listBeneficialOwnersForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/beneficial-owners/BeneficialOwners.yml#/BeneficialOwners'
+    '404':
+      description: not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: not found.
+post:
+  tags:
+    - beneficial owners
+  summary: Create beneficial owner
+  description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
+  operationId: createBeneficialOwnerForCustomer
+  parameters:
+    - name: id
+      in: path
+      description: Customer ID for which to create a Beneficial Owner
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+  requestBody:
+    description: Parameters for creating a beneficial owner
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithSsn'
+            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithPassport'
+  responses:
+    '201':
+      description: successful operation
+      headers:
+        Location:
+          $ref: '../../schemas/common.yml#/components/headers/Location'

@@ -1,0 +1,29 @@
+BusinessClassification:
+  title: BusinessClassification
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        self:
+          $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        industry-classifications:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 9ed3f66b-7d6f-11e3-95ac-5404a6144203
+              name:
+                type: string
+                example: Wineries
+    id:
+      type: string
+      example: 9ed3f669-7d6f-11e3-b545-5404a6144203
+    name:
+      type: string
+      example: Food retail and service

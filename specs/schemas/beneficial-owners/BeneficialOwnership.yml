@@ -1,0 +1,12 @@
+BeneficialOwnership:
+  title: BeneficialOwnership
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        self:
+          $ref: '../../schemas/common.yml#/components/schemas/HalLink'
+    status:
+      type: string
+      example: uncertified

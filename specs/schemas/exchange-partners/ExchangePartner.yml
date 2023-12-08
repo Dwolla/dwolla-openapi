@@ -1,0 +1,19 @@
+ExchangePartner:
+  title: ExchangePartner
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    id:
+      type: string
+      example: d3d6b41e-5567-4bc6-9c6e-0efd0a3e647e
+    name:
+        type: string
+        example: MX
+    status:
+      type: string
+      example: unverified
+    created:
+      type: string
+      example: '2022-07-23T00:18:21.419Z'

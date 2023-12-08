@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve account and routing numbers for a VAN (Virtual Account Number)
   description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
-  operationId: getAchRouting
+  operationId: getVanAchRouting
   parameters:
     - name: id
       in: path
@@ -23,7 +23,7 @@ get:
               _links:
                 type: object
                 additionalProperties:
-                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
+                  $ref: '../../schemas/common.yml#/components/schemas/HalLink'
               accountNumber:
                 type: string
                 example: '9619991490430833'

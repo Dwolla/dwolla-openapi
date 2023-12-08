@@ -52,32 +52,32 @@ get:
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks
+                        example: https://api.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks
                   first:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=0
+                        example: https://api.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=0
                   last:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=150
+                        example: https://api.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=150
                   next:
                     type: object
                     properties:
                       href:
                         type: string
-                        example: https://api-sandbox.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=25
+                        example: https://api.dwolla.com/webhook-subscriptions/a0943041-7a5c-4e8f-92de-b55711ef3a83/webhooks?limit=25&offset=25
               _embedded:
                 type: object
                 properties:
                   webhooks:
                     type: array
                     items:
-                      $ref: '../webhooks/retrieveWebhook.yml#/components/schemas/RetrieveWebhookResponse'
+                      $ref: '../../schemas/webhooks/Webhook.yml#/Webhook'
               total:
                 type: integer
                 format: int32

@@ -3,7 +3,7 @@ get:
     - exchanges
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
-  operationId: retrieveExchangePartner
+  operationId: getExchangePartner
   parameters:
     - name: id
       in: path
@@ -19,47 +19,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: exchange-partner
-                  funding-source:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.dwolla.com/funding-sources
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: funding-source
-              id:
-                type: string
-                example: e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
-              name:
-                type: string
-                example: MX
-              status:
-                type: string
-                example: active
-              created:
-                type: string
-                example: '2022-08-30T19:31:59.106Z'
+            $ref: '../../schemas/exchange-partners/ExchangePartner.yml#/ExchangePartner'
     '404':
       description: Not Found
       headers: {}

@@ -3,17 +3,18 @@ get:
     - events
   summary: List events
   description: List events
-  operationId: list
+  operationId: listEvents
   requestBody:
     description: Parameters to filter events
     content:
       application/json:
-        type: object
-        properties:
-          limit:
-            type: integer
-          offset:
-            type: integer
+        schema:
+          type: object
+          properties:
+            limit:
+              type: integer
+            offset:
+              type: integer
   responses:
     '200':
       description: successful operation
@@ -21,80 +22,8 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/events
-                  first:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/events?limit=25&offset=0
-                  last:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/events?limit=25&offset=150
-                  next:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/events?limit=25&offset=25
-              _embedded:
-                type: object
-                properties:
-                  events:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        _links:
-                          type: object
-                          properties:
-                            self:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/events/78e57644-56e4-4da2-b743-059479f2e80f
-                            resource:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/transfers/47CFDDB4-1E74-E511-80DB-0AA34A9B2388
-                            account:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b
-                        id:
-                          type: string
-                          example: 78e57644-56e4-4da2-b743-059479f2e80f
-                        created:
-                          type: string
-                          example: 2015-10-16T15:58:18.000Z
-                        topic:
-                          type: string
-                          example: bank_transfer_created
-                        resourceId:
-                          type: string
-                          example: 47CFDDB4-1E74-E511-80DB-0AA34A9B2388
-              total:
-                type: integer
-                format: int32
-                example: 3
+            $ref: '../../schemas/events/Events.yml#/Events'
+            
     '404':
       description: not found
       headers: {}

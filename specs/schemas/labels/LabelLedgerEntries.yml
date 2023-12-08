@@ -1,0 +1,18 @@
+LabelLedgerEntries:
+  title: LabelLedegerEntries
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        ledger-entries:
+          type: array
+          items:
+            $ref: './LabelLedgerEntry.yml#/LabelLedgerEntry'
+    total:
+      type: integer
+      example: 100

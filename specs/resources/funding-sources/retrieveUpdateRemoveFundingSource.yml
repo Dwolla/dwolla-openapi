@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve a funding source
   description: Retrieve a funding source
-  operationId: get
+  operationId: getFundingSource
   parameters:
     - name: id
       in: path
@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/RetrieveFundingSourceResponse'
+            $ref: '../../schemas/funding-sources/FundingSource.yml#/FundingSource'
     '404':
       description: not found
       headers: {}
@@ -38,7 +38,7 @@ post:
     - funding sources
   summary: Update or remove a funding source
   description: Update or remove a funding source
-  operationId: updateOrRemove
+  operationId: updateOrRemoveFundingSource
   parameters:
     - name: id
       in: path
@@ -52,9 +52,9 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '#/components/requestBodies/UpdateUnverifiedBank'
-            - $ref: '#/components/requestBodies/UpdateVerifiedBank'
-            - $ref: '#/components/requestBodies/RemoveBank'
+            - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/UpdateUnverifiedBank'
+            - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/UpdateVerifiedBank'
+            - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/RemoveBank'
   responses:
     '200':
       description: successful operation
@@ -91,85 +91,3 @@ post:
               message:
                 type: string
                 example: A removed bank cannot be updated.
-components:
-  schemas:
-    RetrieveFundingSourceResponse:
-      title: RetrieveFundingSourceResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        id:
-          type: string
-          example: 49dbaa24-1580-4b1c-8b58-24e26656fa31
-        status:
-          type: string
-          example: verified
-        type:
-          type: string
-          example: bank
-        bankAccountType:
-          type: string
-          example: checking
-        name:
-          type: string
-          example: Test Checking Account
-        created:
-          type: string
-          example: '2017-09-26T14:14:08.000Z'
-        removed:
-          type: string
-          example: false
-        channels:
-          type: array
-          items:
-            type: string
-            example: ach
-        bankName:
-          type: string
-          example: SANDBOX TEST BANK
-        fingerprint:
-          type: string
-          example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c3a
-  requestBodies:
-    UpdateUnverifiedBank:
-      title: UpdateUnverifiedBank
-      description: Request body for updating information of an unverified bank funding source
-      type: object
-      required:
-        - name
-      properties:
-        routingNumber:
-          type: string
-          example: 222222226
-        accountNumber:
-          type: string
-          example: 123456789
-        bankAccountType:
-          type: string
-          example: checking
-        name:
-          type: string
-          example: Jane Doe’s Checking
-    UpdateVerifiedBank:
-      title: UpdateVerifiedBank
-      description: Request body for updating information of a Verified bank funding source
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          example: Jane Doe’s Checking
-    RemoveBank:
-      title: RemoveBank
-      description: Request body for removing a bank funding source
-      type: object
-      required:
-        - removed
-      properties:
-        removed:
-          type: boolean
-          example: true

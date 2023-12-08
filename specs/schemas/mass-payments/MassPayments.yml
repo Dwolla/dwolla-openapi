@@ -1,0 +1,18 @@
+MassPayments:
+  title: MassPayments
+  type: object
+  properties:
+    _links:
+      type: object
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        mass-payments:
+          type: array
+          items:
+            $ref: './MassPayment.yml#/MassPayment'
+    total:
+      type: integer
+      example: 100

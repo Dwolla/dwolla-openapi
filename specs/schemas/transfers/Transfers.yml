@@ -1,0 +1,17 @@
+Transfers:
+  title: Transfers
+  type: object
+  properties:
+    _links:
+      additionalProperties:
+        $ref: '../common.yml#/components/schemas/HalLink'
+    _embedded:
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: './Transfer.yml#/Transfer'
+    total:
+      type: integer
+      example: 100

@@ -2,7 +2,7 @@ get:
   tags:
     - beneficial owners
   summary: Retrieve beneficial owner
-  description: Retrieve beneficial owner
+  description: Retrieve details for a single beneficial owner
   operationId: retrieveBeneficialOwner
   parameters:
     - name: id
@@ -18,7 +18,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/BeneficialOwnerResponse'
+            $ref: '../../schemas/beneficial-owners/BeneficialOwner.yml#/BeneficialOwner'
     '404':
       description: not found
       headers: {}
@@ -38,7 +38,7 @@ post:
     - beneficial owners
   summary: Update beneficial owner
   description: Update beneficial owner
-  operationId: update
+  operationId: updateBeneficialOwner
   parameters:
     - name: id
       in: path
@@ -51,9 +51,9 @@ post:
     content:
       application/json:
         schema:
-          $oneOf:
-            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithSsn'
-            - $ref: './listCreateBeneficialOwner.yml#/components/requestBodies/BeneficialOwnerWithPassport'
+          oneOf:
+            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithSsn'
+            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithPassport'
   responses:
     '200':
       description: successful operation
@@ -61,25 +61,30 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '#/components/schemas/BeneficialOwnerResponse'
+            $ref: '../../schemas/beneficial-owners/BeneficialOwner.yml#/BeneficialOwner'
     '400':
-      type: object
-      properties:
-        code:
-          type: string
-          example: ValidationError
-        message:
-          type: string
-          example: Validation error(s) present. See embedded errors list for more details.
-        _embedded:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ValidationError
-            message:
-              type: string
-              example: Validation error(s) present. See embedded errors list for more details.
+      description: ValidationError
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                example: Validation error(s) present. See embedded errors list for more details.
+              _embedded:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: Validation error(s) present. See embedded errors list for more details.
     '403':
       description: forbidden
       headers: {}
@@ -113,7 +118,7 @@ delete:
     - beneficial owners
   summary: Delete beneficial owner
   description: Delete beneficial owner
-  operationId: remove
+  operationId: deleteBeneficialOwner
   parameters:
     - name: id
       in: path
@@ -143,27 +148,3 @@ delete:
               message:
                 type: string
                 example: Beneficial owner not found.
-components:
-  schemas:
-    BeneficialOwnerResponse:
-      title: BeneficialOwnerResponse
-      type: object
-      properties:
-        _links:
-          type: object
-          additionalProperties:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-        id:
-          type: string
-          example: 55469604-40ab-44b6-962f-de2c0837ba98
-        firstName:
-          type: string
-          example: Janice
-        lastName:
-          type: string
-          example: Doe
-        address:
-          $ref: '../../schemas/commonSchemas.yml#/components/schemas/InternationalAddress'
-        verificationStatus:
-          type: string
-          example: document

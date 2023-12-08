@@ -3,7 +3,7 @@ get:
     - labels
   summary: List labels for a customer
   description: List labels for a customer
-  operationId: listLabelsForCustomer
+  operationId: listCustomerLabels
   parameters:
     - name: id
       in: path
@@ -30,76 +30,13 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                properties:
-                  self:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: label
-                  first:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: label
-                  last:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels?limit=25&offset=0
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: label
-                  customer:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb
-                      type:
-                        type: string
-                        example: application/vnd.dwolla.v1.hal+json
-                      resource-type:
-                        type: string
-                        example: customer
-              _embedded:
-                type: object
-                properties:
-                  labels:
-                    type: array
-                    items:
-                      $ref: './retrieveRemoveLabel.yml#/components/schemas/RetrieveLabelResponse'
-              total:
-                type: integer
-                format: int32
-                example: 1
+            $ref: '../../schemas/labels/Labels.yml#/Labels'
 post:
   tags:
     - labels
   summary: Create a label for a customer
   description: Create a label for a customer
-  operationId: createForCustomer
+  operationId: createCustomerLabel
   parameters:
     - name: id
       in: path
@@ -130,4 +67,4 @@ post:
       description: create
       headers:
         Location:
-          $ref: '../../schemas/commonSchemas.yml#/components/headers/Location'
+          $ref: '../../schemas/common.yml#/components/headers/Location'

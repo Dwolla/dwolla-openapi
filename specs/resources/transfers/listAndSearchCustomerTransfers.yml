@@ -1,9 +1,9 @@
 get:
   tags:
     - transfers
-  summary: List and search transers for a customer
-  description: List and search transers for a customer
-  operationId: listForCustomer
+  summary: List and search transfers for a customer
+  description: List and search transfers for a customer
+  operationId: listCustomerTransfers
   parameters:
     - name: id
       in: path
@@ -72,23 +72,11 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                additionalProperties:
-                  $ref: '../../schemas/commonSchemas.yml#/components/schemas/HalLink'
-              _embedded:
-                type: object
-                properties:
-                  transfers:
-                    type: array
-                    items:
-                      $ref: './retrieveCancelTransfer.yml#/components/schemas/RetrieveTransferResponse'
+            $ref: '../../schemas/transfers/Transfers.yml#/Transfers'
     '404':
       description: 404 Not Found
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/commonSchemas.yml#/components/schemas/404NotFoundErrorResponse'
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
