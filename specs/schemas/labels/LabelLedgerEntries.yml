@@ -1,5 +1,5 @@
 LabelLedgerEntries:
-  title: LabelLedegerEntries
+  title: LabelLedgerEntries
   type: object
   properties:
     _links:

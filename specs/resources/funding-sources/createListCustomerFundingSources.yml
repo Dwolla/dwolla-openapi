@@ -100,4 +100,3 @@ post:
             oneOf:
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/NotAuthorizedToCreateFundingSourceError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/VANSNotEnabledError'
-    

@@ -161,4 +161,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+            oneOf:
+              - $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+              - $ref: '../../schemas/kba/VerifyKba.yml#/InvalidKbaSessionError'
+              - $ref: '../../schemas/kba/VerifyKba.yml#/ExpiredKbaSessionError'

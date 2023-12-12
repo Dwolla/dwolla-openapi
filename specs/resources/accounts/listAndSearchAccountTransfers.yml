@@ -1,8 +1,8 @@
 get:
   tags:
     - account
-  summary: List and search transers for an account
-  description: List and search transers for an account
+  summary: List and search transfers for an account
+  description: List and search transfers for an account
   operationId: listAndSearchAccountTransfers
   parameters:
     - name: id

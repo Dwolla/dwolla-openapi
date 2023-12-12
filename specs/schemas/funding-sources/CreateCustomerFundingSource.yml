@@ -14,8 +14,8 @@ CreateUnverifiedBank:
     bankAccountType:
       type: string
       enum:
-      - checking
-      - savings
+        - checking
+        - savings
     accountNumber:
       type: string
     routingNumber:
@@ -70,15 +70,15 @@ CreateVAN:
       type: string
       example: My First VAN
 OnDemandAuthorization:
-      title: OnDemandAuthorization
+  title: OnDemandAuthorization
+  type: object
+  properties:
+    on-demand-authorization:
       type: object
       properties:
-        on-demand-authorization:
-          type: object
-          properties:
-            href:
-              type: string
-              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+        href:
+          type: string
+          example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
 # Error Responses
 NotAuthorizedToCreateFundingSourceError:
   title: NotAuthorizedToCreateFundingSourceError

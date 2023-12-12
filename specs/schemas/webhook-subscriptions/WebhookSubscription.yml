@@ -29,4 +29,4 @@ WebhookSubscription:
     created:
       type: string
       format: date-time
-      example: 2022-10-28T16:20:47+00:00
+      example: '2022-10-28T16:20:47+00:00'

@@ -20,5 +20,5 @@ BeneficialOwner:
       example: verified
     created:
       type: string
+      format: date-time
       example: '2022-07-23T00:18:21.419Z'
-    

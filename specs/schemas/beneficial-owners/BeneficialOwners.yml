@@ -10,7 +10,7 @@ BeneficialOwners:
     _embedded:
       type: object
       properties:
-        benficial-owners:
+        beneficial-owners:
           type: array
           items:
             $ref: './BeneficialOwner.yml#/BeneficialOwner'

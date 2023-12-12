@@ -31,5 +31,5 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '../../schemas/common.yml#/components/schemas/InvalidResourceState'
+              - $ref: '../../schemas/common.yml#/components/schemas/InvalidResourceStateSchema'
               - $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'

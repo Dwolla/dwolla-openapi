@@ -12,3 +12,7 @@ FundingSources:
           type: array
           items:
             $ref: './FundingSource.yml#/FundingSource'
+    total:
+      type: integer
+      format: int32
+      example: 3

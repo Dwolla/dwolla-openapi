@@ -18,4 +18,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/labels/LabelLedgerEntries.yml#/LabelLedgerEntries'
+            $ref: '../../schemas/labels/LabelLedgerEntry.yml#/LabelLedgerEntry'

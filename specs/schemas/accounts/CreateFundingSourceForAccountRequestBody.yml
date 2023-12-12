@@ -15,8 +15,8 @@ CreateFundingSourceForAccountRequestBody:
     bankAccountType:
       type: string
       enum:
-      - checking
-      - savings
+        - checking
+        - savings
     accountNumber:
       type: string
     routingNumber:

@@ -1,0 +1,20 @@
+InvalidKbaSessionError:
+  title: InvalidKbaSessionError
+  type: object
+  properties:
+    code:
+      type: string
+      example: InvalidResourceState
+    message:
+      type: string
+      example: The kba session is no longer valid.
+ExpiredKbaSessionError:
+  title: ExpiredKbaSessionError
+  type: object
+  properties:
+    code:
+      type: string
+      example: InvalidResourceState
+    message:
+      type: string
+      example: The kba session has expired.

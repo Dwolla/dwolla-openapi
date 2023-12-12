@@ -1,11 +1,11 @@
 Customer:
   title: Customer
   oneOf:
-  - $ref: '#/UnverifiedCustomer'
-  - $ref: '#/UnverifiedBusinessCustomer'
-  - $ref: '#/VerifiedPersonalCustomer'
-  - $ref: '#/VerifiedSolePropCustomer'
-  - $ref: '#/VerifiedBusinessCustomer'
+    - $ref: '#/UnverifiedCustomer'
+    - $ref: '#/UnverifiedBusinessCustomer'
+    - $ref: '#/VerifiedPersonalCustomer'
+    - $ref: '#/VerifiedSolePropCustomer'
+    - $ref: '#/VerifiedBusinessCustomer'
 UnverifiedCustomer:
   title: CustomerSharedModel
   description: Shared models between all Customer types
@@ -37,6 +37,7 @@ UnverifiedCustomer:
       example: 'CID-abe2bb3d-d2ff-433b-95a3-0debd960ed25'
     created:
       type: string
+      format: date-time
       example: '2022-10-07T16:46:13.023Z'
 UnverifiedBusinessCustomer:
   title: RetrieveReceiveOnlyCustomerResponse

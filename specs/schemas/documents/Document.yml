@@ -18,6 +18,7 @@ Document:
       example: passport
     created:
       type: string
+      format: date-time
       example: '2015-09-29T21:42:16.000Z'
     documentVerificationStatus:
       type: string

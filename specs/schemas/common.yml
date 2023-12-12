@@ -25,8 +25,8 @@ components:
         message:
           type: string
           example: 'File types supported: Personal IDs - .jpg, .jpeg or .png. Business Documents - .jpg, .jpeg, .png, or .pdf.'
-    InvalidResourceState:
-      title: InvalidResourceState
+    InvalidResourceStateSchema:
+      title: InvalidResourceStateSchema
       type: object
       properties:
         code:

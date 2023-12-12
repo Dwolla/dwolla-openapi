@@ -12,3 +12,7 @@ ExchangePartners:
           type: array
           items:
             $ref: './ExchangePartners.yml#/ExchangePartners'
+    total:
+      type: integer
+      format: int32
+      example: 3

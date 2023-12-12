@@ -46,6 +46,7 @@ get:
                           example: USD
                     created:
                       type: string
+                      format: date-time
                       example: '2016-02-22T20:46:38.777Z'
               total:
                 type: string

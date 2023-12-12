@@ -13,7 +13,7 @@ get:
         type: string
   responses:
     '200':
-      description: sucessful operation
+      description: successful operation
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
@@ -46,7 +46,7 @@ post:
               example: true
   responses:
     '200':
-      description: sucessful operation
+      description: successful operation
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
@@ -81,7 +81,7 @@ delete:
         type: string
   responses:
     '200':
-      description: sucessful operation
+      description: successful operation
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:

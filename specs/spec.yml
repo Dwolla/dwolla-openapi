@@ -96,7 +96,7 @@ paths:
   /customers/{id}/labels:
     $ref: './resources/labels/createListCustomerLabel.yml'
   /labels/{id}/ledger-entries:
-    $ref: './resources/labels/createlistLabelLedgerEntry.yml'
+    $ref: './resources/labels/createListLabelLedgerEntry.yml'
   /ledger-entries/{id}:
     $ref: './resources/labels/retrieveLabelLedgerEntry.yml'
   /label-reallocations:

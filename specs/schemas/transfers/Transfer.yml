@@ -23,6 +23,7 @@ Transfer:
           example: USD
     created:
       type: string
+      format: date-time
       example: '2018-12-03T22:00:22.970Z'
     clearing:
       type: object
