@@ -69,7 +69,9 @@ post:
       application/json:
         schema:
           oneOf:
-            - type: [object, null]
+            - type:
+                - 'object'
+                - 'null'
               description: Optional request body for initiating micro-deposits
             - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
               description: Required request body for verifying micro-deposits

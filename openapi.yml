@@ -1808,7 +1808,7 @@ paths:
               oneOf:
                 - type:
                     - object
-                    - null
+                    - 'null'
                   description: Optional request body for initiating micro-deposits
                 - $ref: '#/components/schemas/VerifyMicroDeposits'
                   description: Required request body for verifying micro-deposits
