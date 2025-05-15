@@ -1,0 +1,90 @@
+post:
+  tags:
+    - exchange sessions
+  summary: Create customer exchange session
+  description: |
+    Create a new exchange session for a customer to initiate Instant Account Verification using Dwolla's trusted open banking partners.
+    Currently supported partners are Plaid, Visa, and MX.
+
+    The redirect-url is conditionally required:
+    - Required for Visa exchange sessions
+    - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
+    - Not required for MX exchange sessions or Plaid web sessions
+  operationId: createCustomerExchangeSession
+  parameters:
+    - name: id
+      in: path
+      description: Customer's unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Parameters for creating an exchange session
+    required: true
+    content:
+      application/vnd.dwolla.v1.hal+json:
+        schema:
+          $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSession'
+  responses:
+    '201':
+      description: created
+      headers:
+        Location:
+          $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: validation error
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                description: |
+                  Possible validation errors:
+                  - /_links/exchange-partner/href is invalid
+                  - /_links/redirect-url/href is invalid
+                  - The provided redirect URL must exactly match one of the configured URLs for the account
+                example: /_links/exchange-partner/href is invalid
+    '401':
+      description: unauthorized
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidScope
+              message:
+                type: string
+                example: Missing or invalid scopes for requested endpoint
+    '403':
+      description: forbidden
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: The exchange partner specified does not support this product
+    '404':
+      description: not found
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: The requested resource was not found

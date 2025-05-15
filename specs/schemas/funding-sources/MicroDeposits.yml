@@ -1,8 +1,3 @@
-InitiateMicroDeposits:
-  title: InitiateMicroDeposits
-  description: Empty request body for initiating micro-deposits
-  type: object
-  nullable: true
 VerifyMicroDeposits:
   title: VerifyMicroDeposits
   description: Request body for verifying micro-deposits

@@ -1,0 +1,67 @@
+AvailableExchangeConnections:
+  type: object
+  required:
+    - _links
+    - _embedded
+  properties:
+    _links:
+      type: object
+      required:
+        - self
+        - customers
+      properties:
+        self:
+          type: object
+          required:
+            - href
+            - type
+            - resource-type
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694/available-exchange-connections
+            type:
+              type: string
+              example: application/vnd.dwolla.v1.hal+json
+            resource-type:
+              type: string
+              example: customer
+        customers:
+          type: object
+          required:
+            - href
+            - type
+            - resource-type
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694
+            type:
+              type: string
+              example: application/vnd.dwolla.v1.hal+json
+            resource-type:
+              type: string
+              example: customer
+    _embedded:
+      type: object
+      required:
+        - available-exchange-connections
+      properties:
+        available-exchange-connections:
+          type: array
+          items:
+            type: object
+            required:
+              - availableConnectionToken
+              - name
+            properties:
+              availableConnectionToken:
+                type: string
+                description: Token representing the external bank account that can be used to create a funding source
+                example: eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0=
+              name:
+                type: string
+                description: Name of the external bank account
+                example: XYZ Checking

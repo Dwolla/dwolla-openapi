@@ -36,13 +36,20 @@ get:
 post:
   tags:
     - exchanges
-  summary: Create exchange for a customer
-  description: Create exchange for a customer
+  summary: Create an exchange for a customer
+  description: |
+    Create an exchange for a customer. The request body will vary based on the exchange partner.
+    For Finicity, the request body will include finicity-specific fields.
+    For MX Secure Exchange, the request body will include an MX token.
+    For MX Open Banking, the request body will include an available connection token.
+    For Flinks Secure Exchange, the request body will include a token.
+    For Plaid Secure Exchange, the request body will include a processor token.
+    For Plaid Open Banking, the request body will include a public token.
   operationId: createCustomerExchange
   parameters:
     - name: id
       in: path
-      description: The ID of the Customer to create an exchange for
+      description: The ID of the customer to create an exchange for
       required: true
       schema:
         type: string
@@ -51,11 +58,15 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicityCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicitySecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXSecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXOpenBankingCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FlinksSecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/PlaidSecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/PlaidOpenBankingCreateExchangeRequestBody'
   responses:
     '201':
-      description: Created
+      description: created
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
