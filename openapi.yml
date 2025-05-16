@@ -3768,6 +3768,237 @@ paths:
                   message:
                     type: string
                     example: The requested resource was not found.
+  /customers/{id}/exchange-sessions:
+    post:
+      tags:
+        - exchange sessions
+      summary: Create customer exchange session
+      description: |
+        Create a new exchange session for a customer to initiate Instant Account Verification using Dwolla's trusted open banking partners.
+        Currently supported partners are Plaid, Visa, and MX.
+
+        The redirect-url is conditionally required:
+        - Required for Visa exchange sessions
+        - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
+        - Not required for MX exchange sessions or Plaid web sessions
+      operationId: createCustomerExchangeSession
+      parameters:
+        - name: id
+          in: path
+          description: Customer's unique identifier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Parameters for creating an exchange session
+        required: true
+        content:
+          application/vnd.dwolla.v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerExchangeSession'
+      responses:
+        '201':
+          description: created
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+        '400':
+          description: validation error
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    description: |
+                      Possible validation errors:
+                      - /_links/exchange-partner/href is invalid
+                      - /_links/redirect-url/href is invalid
+                      - The provided redirect URL must exactly match one of the configured URLs for the account
+                    example: /_links/exchange-partner/href is invalid
+        '401':
+          description: unauthorized
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidScope
+                  message:
+                    type: string
+                    example: Missing or invalid scopes for requested endpoint
+        '403':
+          description: forbidden
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: The exchange partner specified does not support this product
+        '404':
+          description: not found
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: The requested resource was not found
+  /exchange-sessions/{id}:
+    get:
+      tags:
+        - exchange sessions
+      summary: Retrieve exchange session
+      description: Retrieve details of an exchange session
+      operationId: retrieveCustomerExchangeSession
+      parameters:
+        - name: id
+          in: path
+          description: Exchange session's unique identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ExchangeSession'
+        '403':
+          description: forbidden
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  message:
+                    type: string
+                    example: Not authorized to retrieve exchange session.
+        '404':
+          description: not found
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: notFound
+                  message:
+                    type: string
+                    example: Exchange session not found.
+  /exchanges/{id}/exchange-sessions:
+    post:
+      tags:
+        - exchange sessions
+      summary: Create re-authentication exchange session
+      description: |
+        Create a new re-authentication exchange session.
+        The request body is not required for Plaid Web sessions.
+      operationId: createReAuthExchangeSession
+      parameters:
+        - name: id
+          in: path
+          description: Exchange's unique identifier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: |
+          Request body parameters. Required for Visa and Plaid mobile sessions, not required for Plaid Web sessions.
+        required: false
+        content:
+          application/vnd.dwolla.v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/CreateReAuthExchangeSession'
+      responses:
+        '201':
+          description: created
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+        '400':
+          description: validation error
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: Invalid request parameters
+        '403':
+          description: forbidden
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  message:
+                    type: string
+                    example: Not authorized to create re-authentication exchange session.
+  /customers/{id}/available-exchange-connections:
+    get:
+      tags:
+        - exchange sessions
+      summary: List available exchange connections
+      description: |
+        Retrieve a list of a customer's external bank accounts that have been authorized through MX Connect.
+        Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
+        This information is essential for creating an exchange and corresponding funding source within Dwolla.
+      operationId: listAvailableExchangeConnections
+      parameters:
+        - name: id
+          in: path
+          description: Customer's unique identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/AvailableExchangeConnections'
+        '404':
+          description: not found
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: The requested resource was not found. Check Customer ID.
 components:
   securitySchemes:
     basicAuth:
@@ -8010,6 +8241,239 @@ components:
               type: string
               description: The Plaid public token for the connection
               example: public-production-d5456acb-01d5-4932-9783-e4c883cf1c0c
+    CreateCustomerExchangeSession:
+      oneOf:
+        - type: object
+          required:
+            - _links
+          properties:
+            _links:
+              type: object
+              required:
+                - exchange-partner
+                - redirect-url
+              properties:
+                exchange-partner:
+                  type: object
+                  required:
+                    - href
+                  properties:
+                    href:
+                      type: string
+                      format: uri
+                      example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+                redirect-url:
+                  type: object
+                  required:
+                    - href
+                  properties:
+                    href:
+                      type: string
+                      format: uri
+                      description: Required for Visa and Plaid mobile sessions
+                      examples:
+                        - description: Visa example
+                          value: https://www.yourdomain.com/iav-callback
+                        - description: Plaid Android example
+                          value: com.example.app123
+                        - description: Plaid iOS example
+                          value: https://example.com/app123
+        - type: object
+          required:
+            - _links
+          properties:
+            _links:
+              type: object
+              required:
+                - exchange-partner
+              properties:
+                exchange-partner:
+                  type: object
+                  required:
+                    - href
+                  properties:
+                    href:
+                      type: string
+                      format: uri
+                      example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+          description: For MX and Plaid web sessions where redirect-url is not required
+    ExchangeSession:
+      type: object
+      required:
+        - created
+        - _links
+      properties:
+        created:
+          type: string
+          format: date-time
+          example: '2024-03-25T17:13:38.430Z'
+        _links:
+          type: object
+          required:
+            - self
+            - exchange-partner
+          properties:
+            self:
+              type: object
+              required:
+                - href
+                - type
+                - resource-type
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api.dwolla.com/exchange-sessions/9b7fb629-0fad-44f4-8c5e-44c25a0bfa8e
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: exchange-sessions
+            exchange-partner:
+              type: object
+              required:
+                - href
+                - type
+                - resource-type
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api.dwolla.com/exchange-partners/bca8d065-49a5-475b-a6b4-509bc8504d22
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: exchange-partner
+            external-provider-session:
+              type: object
+              required:
+                - href
+                - type
+                - resource-type
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  description: |
+                    Present for Visa and MX exchange sessions.
+                    Contains the URL to redirect the user to complete the authorization process.
+                  examples:
+                    - description: Visa example
+                      value: https://link.visa.com/1.0/account-check/connect?client_id=f16f7c7407f4434dbcaf269b230c12ed&redirect_uri=https://api-uat.dwolla.com/redirect/tink&authorization_code=47e23deab3924351a0c6193d90e5add5&market=US&locale=en_US&state=a2V5Ojk6dWRiRkRYWGlIVGdZZUNycUdCa0s3Zz09OmI1ZVE0YWRUYkFrSWNiKzFxTXdmQlVkcVNWWW5nMjtQNjBaWERxUDh5aTBpWEQzTHROdUZRd2xLMTUzYnZ4RU8=&session_id=628d927030ee43a38054da5166dcbee14e06dc02c00e45f2b4a5d986bab5d08f
+                    - description: MX example
+                      value: https://www.mx.com/connect/lAfkc7m897s3t1ks9mmwyj4ry7Zq0xql4grzAg1kz77x7c9jrwls1t22w6xt8d2lsxx9zpqv30js3wswfdwcrpAsqgbAfkqwpksp7c2chsx167xy90Asfc67dkj9y48y8p142xw3yp4x5l9t9gkk6m3yk5vwsvyq2qq7w9trszxwdl14lmkg7l6949bn5n41chdkbnxycy40n9b6fkbdwl6qt5wl107k1x8srvlkpz325p412x9tkyA5clf39109lsfrgz2lkgsvntqf7l0zzwb5hl658gdjbxwhb52krwybnbdAqfq69cdy54l05jkvfwyf01q89x48jtgtx290lzjdfcty1lwb8d648wns/eyJ1aV9tZXNzYWdlX3ZlcnNpb24iOjQsInVpX21lc3NhZ2Vfd2Vidmlld191cmxfc2NoZW1lIjoibXgiLCJtb2RlIjoidmVyaWZpY2F0aW9uIn0%3D
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: text/html
+        externalProviderSessionToken:
+          type: string
+          description: |
+            Present for Plaid exchange sessions.
+            Contains the token to initialize the Plaid Link flow.
+          example: link-production-b41e8ed3-0874-4c64-b07d-a77088979d5f
+    CreateReAuthExchangeSession:
+      oneOf:
+        - type: object
+          required:
+            - _links
+          properties:
+            _links:
+              type: object
+              required:
+                - redirect-url
+              properties:
+                redirect-url:
+                  type: object
+                  required:
+                    - href
+                  properties:
+                    href:
+                      type: string
+                      format: uri
+                      description: Required for Visa and Plaid mobile sessions
+                      examples:
+                        - description: Visa example
+                          value: https://www.yourdomain.com/iav-callback
+                        - description: Plaid Android example
+                          value: com.example.app123
+                        - description: Plaid iOS example
+                          value: https://example.com/app123
+        - type: object
+          description: Empty object for Plaid Web sessions where request body is optional
+          properties: {}
+    AvailableExchangeConnections:
+      type: object
+      required:
+        - _links
+        - _embedded
+      properties:
+        _links:
+          type: object
+          required:
+            - self
+            - customers
+          properties:
+            self:
+              type: object
+              required:
+                - href
+                - type
+                - resource-type
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694/available-exchange-connections
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: customer
+            customers:
+              type: object
+              required:
+                - href
+                - type
+                - resource-type
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694
+                type:
+                  type: string
+                  example: application/vnd.dwolla.v1.hal+json
+                resource-type:
+                  type: string
+                  example: customer
+        _embedded:
+          type: object
+          required:
+            - available-exchange-connections
+          properties:
+            available-exchange-connections:
+              type: array
+              items:
+                type: object
+                required:
+                  - availableConnectionToken
+                  - name
+                properties:
+                  availableConnectionToken:
+                    type: string
+                    description: Token representing the external bank account that can be used to create a funding source
+                    example: eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0=
+                  name:
+                    type: string
+                    description: Name of the external bank account
+                    example: XYZ Checking
   headers:
     Location:
       schema:
