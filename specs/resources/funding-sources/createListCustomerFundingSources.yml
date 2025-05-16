@@ -52,8 +52,12 @@ get:
 post:
   tags:
     - funding sources
-  summary: Create customer funding source for a Customer
-  description: Create customer funding source for a Customer
+  summary: Create customer funding source
+  description: |
+    Create a new funding source for a customer.
+    There are multiple methods available:
+    - Basic bank funding source (with routing/account numbers)
+    - Using an exchange
   operationId: createCustomerFundingSource
   parameters:
     - name: id
@@ -63,14 +67,12 @@ post:
       schema:
         type: string
   requestBody:
-    description: Parameters for creating a funding-source
+    description: Parameters for creating a funding source
+    required: true
     content:
-      application/json:
+      application/vnd.dwolla.v1.hal+json:
         schema:
-          oneOf:
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateUnverifiedBank'
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreatePlaidBank'
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateVAN'
+          $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerFundingSource'
   responses:
     '201':
       description: created
@@ -79,7 +81,36 @@ post:
           $ref: '../../schemas/common.yml#/components/headers/Location'
     '400':
       description: validation error
-      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InactiveExchange
+                  message:
+                    type: string
+                    example: The Exchange was removed or disabled.
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidExchangeToken
+                  message:
+                    type: string
+                    example: The exchange token is not valid to perform this operation.
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: Duplicate funding source or validation error. Authorization already associated to a funding source.
+    '403':
+      description: forbidden
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
@@ -87,16 +118,20 @@ post:
             properties:
               code:
                 type: string
-                example: ValidationError
+                example: Forbidden
               message:
                 type: string
-                example: 'Can be: Duplicate funding source or validation error. Authorization already associated to a funding source.'
-    '403':
-      description: forbidden error
-      headers: {}
+                example: Not authorized to create funding source.
+    '404':
+      description: not found
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            oneOf:
-              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/NotAuthorizedToCreateFundingSourceError'
-              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/VANSNotEnabledError'
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Customer ID not found. Check Customer ID.

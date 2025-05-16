@@ -1,0 +1,55 @@
+post:
+  tags:
+    - exchange sessions
+  summary: Create re-authentication exchange session
+  description: |
+    Create a new re-authentication exchange session.
+    The request body is not required for Plaid Web sessions.
+  operationId: createReAuthExchangeSession
+  parameters:
+    - name: id
+      in: path
+      description: Exchange's unique identifier
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: |
+      Request body parameters. Required for Visa and Plaid mobile sessions, not required for Plaid Web sessions.
+    required: false
+    content:
+      application/vnd.dwolla.v1.hal+json:
+        schema:
+          $ref: '../../schemas/exchange-sessions/CreateReAuthExchangeSession.yml#/CreateReAuthExchangeSession'
+  responses:
+    '201':
+      description: created
+      headers:
+        Location:
+          $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: validation error
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: ValidationError
+              message:
+                type: string
+                example: Invalid request parameters
+    '403':
+      description: forbidden
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to create re-authentication exchange session.

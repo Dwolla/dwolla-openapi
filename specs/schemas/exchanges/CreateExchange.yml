@@ -1,4 +1,4 @@
-FinicityCreateExchangeRequestBody:
+FinicitySecureExchangeCreateExchangeRequestBody:
   type: object
   properties:
     _links:
@@ -62,7 +62,7 @@ FinicityCreateExchangeRequestBody:
           type: string
           format: date-time
           example: '2022-07-11T06:06:23Z'
-MXCreateExchangeRequestBody:
+MXSecureExchangeCreateExchangeRequestBody:
   type: object
   properties:
     _links:
@@ -77,6 +77,103 @@ MXCreateExchangeRequestBody:
     token:
       type: string
       example: someMXProcessorToken
+MXOpenBankingCreateExchangeRequestBody:
+  type: object
+  required:
+    - _links
+    - mx
+  properties:
+    _links:
+      type: object
+      required:
+        - exchange-partner
+      properties:
+        exchange-partner:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-partners/bca8d065-49a5-475b-a6b4-509bc8504d22
+    mx:
+      type: object
+      required:
+        - availableConnectionToken
+      properties:
+        availableConnectionToken:
+          type: string
+          description: The MX connection token for the available connection
+          example: eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0=
+FlinksSecureExchangeCreateExchangeRequestBody:
+  type: object
+  required:
+    - _links
+    - token
+  properties:
+    _links:
+      type: object
+      required:
+        - exchange-partner
+      properties:
+        exchange-partner:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-partners/a0b22a57-68df-4450-b507-47c937e64e89
+    token:
+      type: string
+      description: The Flinks connection token
+      example: MTExYTFhMWEtMTExMS0xYWExLTExMTEtMTFhMTExYTExMTFhOjIyMmIyYjFiLTIyMjItMmJiMi0yMjIyLTIyYjIyMmIyMjIyYg==
+PlaidSecureExchangeCreateExchangeRequestBody:
+  type: object
+  properties:
+    _links:
+      type: object
+      properties:
+        exchange-partner:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef
+    token:
+      type: string
+      example: somePlaidProcessorToken
+PlaidOpenBankingCreateExchangeRequestBody:
+  type: object
+  required:
+    - _links
+    - plaid
+  properties:
+    _links:
+      type: object
+      required:
+        - exchange-partner
+      properties:
+        exchange-partner:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef
+    plaid:
+      type: object
+      required:
+        - publicToken
+      properties:
+        publicToken:
+          type: string
+          description: The Plaid public token for the connection
+          example: public-production-d5456acb-01d5-4932-9783-e4c883cf1c0c
 InvalidExchangeToken:
   type: object
   properties:

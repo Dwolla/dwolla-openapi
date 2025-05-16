@@ -1,0 +1,46 @@
+get:
+  tags:
+    - exchange sessions
+  summary: Retrieve exchange session
+  description: Retrieve details of an exchange session
+  operationId: retrieveCustomerExchangeSession
+  parameters:
+    - name: id
+      in: path
+      description: Exchange session's unique identifier
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/exchange-sessions/ExchangeSession.yml#/ExchangeSession'
+    '403':
+      description: forbidden
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to retrieve exchange session.
+    '404':
+      description: not found
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: notFound
+              message:
+                type: string
+                example: Exchange session not found.
