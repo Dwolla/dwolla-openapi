@@ -3838,14 +3838,23 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: The exchange partner specified does not support this product
+                oneOf:
+                  - type: object
+                    properties:
+                      code:
+                        type: string
+                        example: forbidden
+                      message:
+                        type: string
+                        example: The exchange partner specified does not support this product
+                  - type: object
+                    properties:
+                      code:
+                        type: string
+                        example: forbidden
+                      message:
+                        type: string
+                        example: Exchange sessions with this exchange partner are not enabled for your account
         '404':
           description: not found
           content:
