@@ -51,7 +51,10 @@ post:
   tags:
     - funding sources
   summary: Initiate or Verify micro-deposits
-  description: Initiate or Verify micro-deposits
+  description: |
+    Initiate or Verify micro-deposits.
+    For initiating micro-deposits, no request body is required.
+    For verifying micro-deposits, a request body with the micro-deposit amounts is required.
   operationId: initiateOrVerifyMicroDeposits
   parameters:
     - name: id
@@ -66,8 +69,12 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/InitiateMicroDeposits'
+            - type:
+                - 'object'
+                - 'null'
+              description: Optional request body for initiating micro-deposits
             - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
+              description: Required request body for verifying micro-deposits
   responses:
     '201':
       description: created

@@ -1,4 +1,5 @@
-openapi: 3.0.3
+openapi: 3.1.0
+jsonSchemaDialect: https://spec.openapis.org/oas/3.1/dialect/base
 info:
   title: Dwolla API
   description: Dwolla API Documentation
@@ -127,6 +128,14 @@ paths:
     $ref: './resources/exchanges/retrieveExchangeResource.yml'
   /customers/{id}/exchanges:
     $ref: './resources/exchanges/listCreateExchangeForCustomer.yml'
+  /customers/{id}/exchange-sessions:
+    $ref: './resources/exchange-sessions/createCustomerExchangeSession.yml'
+  /exchange-sessions/{id}:
+    $ref: './resources/exchange-sessions/retrieveExchangeSession.yml'
+  /exchanges/{id}/exchange-sessions:
+    $ref: './resources/exchange-sessions/createReAuthExchangeSession.yml'
+  /customers/{id}/available-exchange-connections:
+    $ref: './resources/exchange-sessions/listAvailableExchangeConnections.yml'
 components:
   securitySchemes:
     # Basic Authentication security scheme used for generating Application Access Tokens. For more info see https://swagger.io/docs/specification/authentication/basic-authentication/

@@ -15,16 +15,24 @@ get:
 post:
   tags:
     - exchanges
-  summary: Create exchange for an account
-  description: Create exchange for an account
+  summary: Create an exchange for an account
+  description: |
+    Create an exchange for an account. The request body will vary based on the exchange partner.
+    For Finicity, the request body will include finicity-specific fields.
+    For MX Secure Exchange, the request body will include a token.
+    For Flinks Secure Exchange, the request body will include a token.
+    For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
   requestBody:
+    description: Parameters for creating an exchange
     content:
       application/json:
         schema:
           oneOf:
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicityCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicitySecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXSecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FlinksSecureExchangeCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/PlaidSecureExchangeCreateExchangeRequestBody'
   responses:
     '201':
       description: Created

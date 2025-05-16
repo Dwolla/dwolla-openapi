@@ -1,0 +1,80 @@
+ExchangeSession:
+  type: object
+  required:
+    - created
+    - _links
+  properties:
+    created:
+      type: string
+      format: date-time
+      example: 2024-03-25T17:13:38.430Z
+    _links:
+      type: object
+      required:
+        - self
+        - exchange-partner
+      properties:
+        self:
+          type: object
+          required:
+            - href
+            - type
+            - resource-type
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-sessions/9b7fb629-0fad-44f4-8c5e-44c25a0bfa8e
+            type:
+              type: string
+              example: application/vnd.dwolla.v1.hal+json
+            resource-type:
+              type: string
+              example: exchange-sessions
+        exchange-partner:
+          type: object
+          required:
+            - href
+            - type
+            - resource-type
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-partners/bca8d065-49a5-475b-a6b4-509bc8504d22
+            type:
+              type: string
+              example: application/vnd.dwolla.v1.hal+json
+            resource-type:
+              type: string
+              example: exchange-partner
+        external-provider-session:
+          type: object
+          required:
+            - href
+            - type
+            - resource-type
+          properties:
+            href:
+              type: string
+              format: uri
+              description: |
+                Present for Visa and MX exchange sessions.
+                Contains the URL to redirect the user to complete the authorization process.
+              examples:
+                - description: Visa example
+                  value: https://link.visa.com/1.0/account-check/connect?client_id=f16f7c7407f4434dbcaf269b230c12ed&redirect_uri=https://api-uat.dwolla.com/redirect/tink&authorization_code=47e23deab3924351a0c6193d90e5add5&market=US&locale=en_US&state=a2V5Ojk6dWRiRkRYWGlIVGdZZUNycUdCa0s3Zz09OmI1ZVE0YWRUYkFrSWNiKzFxTXdmQlVkcVNWWW5nMjtQNjBaWERxUDh5aTBpWEQzTHROdUZRd2xLMTUzYnZ4RU8=&session_id=628d927030ee43a38054da5166dcbee14e06dc02c00e45f2b4a5d986bab5d08f
+                - description: MX example
+                  value: https://www.mx.com/connect/lAfkc7m897s3t1ks9mmwyj4ry7Zq0xql4grzAg1kz77x7c9jrwls1t22w6xt8d2lsxx9zpqv30js3wswfdwcrpAsqgbAfkqwpksp7c2chsx167xy90Asfc67dkj9y48y8p142xw3yp4x5l9t9gkk6m3yk5vwsvyq2qq7w9trszxwdl14lmkg7l6949bn5n41chdkbnxycy40n9b6fkbdwl6qt5wl107k1x8srvlkpz325p412x9tkyA5clf39109lsfrgz2lkgsvntqf7l0zzwb5hl658gdjbxwhb52krwybnbdAqfq69cdy54l05jkvfwyf01q89x48jtgtx290lzjdfcty1lwb8d648wns/eyJ1aV9tZXNzYWdlX3ZlcnNpb24iOjQsInVpX21lc3NhZ2Vfd2Vidmlld191cmxfc2NoZW1lIjoibXgiLCJtb2RlIjoidmVyaWZpY2F0aW9uIn0%3D
+            type:
+              type: string
+              example: application/vnd.dwolla.v1.hal+json
+            resource-type:
+              type: string
+              example: text/html
+    externalProviderSessionToken:
+      type: string
+      description: |
+        Present for Plaid exchange sessions.
+        Contains the token to initialize the Plaid Link flow.
+      example: link-production-b41e8ed3-0874-4c64-b07d-a77088979d5f
