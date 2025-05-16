@@ -4,6 +4,96 @@ get:
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listAccountExchanges
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api.dwolla.com/exchanges
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api.dwolla.com/exchanges",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange"
+                }
+            },
+            "_embedded": {
+                "exchanges": [
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "https://api-sandbox.dwolla.com/exchanges/3dad9cbf-9cb6-4efb-8a17-53d7199a0fee",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "exchange"
+                            },
+                            "exchange-partner": {
+                                "href": "https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "exchange-partner"
+                            },
+                            "account": {
+                                "href": "https://api-sandbox.dwolla.com/accounts/80764434-5391-4c6e-89fa-2f96662e9a3a",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "account"
+                            }
+                        },
+                        "id": "3dad9cbf-9cb6-4efb-8a17-53d7199a0fee",
+                        "status": "active",
+                        "created": "2022-05-23T16:33:30.450Z"
+                    },
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "https://api-sandbox.dwolla.com/exchanges/cfd39dd1-76fa-4040-86cc-77aabd0aa9e1",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "exchange"
+                            },
+                            "exchange-partner": {
+                                "href": "https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "exchange-partner"
+                            },
+                            "account": {
+                                "href": "https://api-sandbox.dwolla.com/accounts/80764434-5391-4c6e-89fa-2f96662e9a3a",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "account"
+                            }
+                        },
+                        "id": "cfd39dd1-76fa-4040-86cc-77aabd0aa9e1",
+                        "status": "active",
+                        "created": "2022-05-23T16:28:02.965Z"
+                    }
+                ]
+            },
+            "total": 2
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        token.get("exchanges").then((res) => res.body._embedded["exchanges"][0].id); // => '56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        exchanges = app_token.get('exchanges')
+        exchanges.body['_embedded']['exchanges'][0]['id'] # => '56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $exchangesApi = new ExchangesApi($apiClient);
+
+        $exchanges = $exchangesApi->getAccountExchanges();
+        $exchanges->_embedded->{"exchanges"}[0]->id; # => "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        exchanges = app_token.get "exchanges"
+        exchanges._embedded['exchanges'][0].id # => "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
   responses:
     '200':
       description: successful operation
@@ -23,6 +113,85 @@ post:
     For Flinks Secure Exchange, the request body will include a token.
     For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
+  x-code-samples:
+    - lang: bash
+      source: |
+        POST https://api.dwolla.com/exchanges
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+            "_links": {
+                "exchange-partner": {
+                    "href": "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+                }
+            },
+            "token": "somePlaidProcessorToken"
+        }
+
+        HTTP/1.1 201 Created
+        Location: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var requestBody = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef",
+            },
+          },
+          token: "somePlaidProcessorToken",
+        };
+
+        dwolla
+          .post("exchanges", requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        request_body = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef'
+            }
+          },
+          'token': 'somePlaidProcessorToken'
+        }
+
+        exchange = app_token.post('exchange', request_body)
+        exchange.headers['location'] # => 'https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $exchangesApi = new ExchangesApi($apiClient);
+
+        $exchange = $exchangesApi->createAccountExchange(new CreateExchangeRequest([
+            "_links" => [
+                "exchange-partner" => [
+                    "href" => "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+                ]
+            ],
+            "token" => "somePlaidProcessorToken"
+        ]));
+
+        $exchange; # => https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        request_body = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            }
+          },
+          token: 'somePlaidProcessorToken'
+        }
+
+        exchange = app_token.post "exchanges", request_body
+        exchange.response_headers[:location] # => "https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
   requestBody:
     description: Parameters for creating an exchange
     content:

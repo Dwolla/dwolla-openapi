@@ -4,6 +4,63 @@ get:
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
   operationId: getExchangePartner
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange-partner"
+                },
+                "funding-source": {
+                    "href": "https://api.dwolla.com/funding-sources",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "funding-source"
+                }
+            },
+            "id": "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a",
+            "name": "MX",
+            "status": "active",
+            "created": "2022-08-30T19:31:59.106Z"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var exchangePartnerUrl = "https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a";
+
+        dwolla.get(exchangePartnerUrl).then((res) => res.body.id); // => "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        exchange_partner_url = 'https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+
+        exchange_partner = app_token.get(exchange_partner_url)
+        exchange_partner.body['id'] # => 'e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $exchangePartnersApi = new ExchangepartnersApi($apiClient);
+        $exchangePartnerUrl = "https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a";
+
+        $exchangePartner = $exchangePartnersApi->id($exchangePartnerUrl);
+        $exchangePartner->id; # => "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        exchange_partner_url = 'https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+
+        exchange_partner = app_token.get exchange_partner_url
+        exchange_partner.id # => "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a"
   parameters:
     - name: id
       in: path

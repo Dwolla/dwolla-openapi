@@ -3,7 +3,58 @@ get:
     - documents
   summary: Retrieve a document
   description: Retrieve a document for a customer or beneficial owner
-  operationId: getDocument
+  operationId: retrieveDocument
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLfwKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "_links": {
+            "self": {
+              "href": "https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
+            }
+          },
+          "id": "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc",
+          "status": "pending",
+          "type": "passport",
+          "created": "2015-09-29T21:42:16.000Z",
+          "documentVerificationStatus": "pending"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var documentUrl =
+          "https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc";
+
+        dwolla.get(documentUrl).then((res) => res.body.type); // => "passport"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        document_url = 'https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
+
+        document = app_token.get(document_url)
+        document.body['type'] # => 'passport'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $documentUrl = 'https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc';
+
+        $documentsApi = new DwollaSwagger\DocumentsApi($apiClient);
+
+        $document = $documentsApi->getDocument($documentUrl);
+        $document->type; # => "passport"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        document_url = 'https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
+
+        document = app_token.get document_url
+        document.type # => "passport"
   parameters:
     - name: id
       in: path

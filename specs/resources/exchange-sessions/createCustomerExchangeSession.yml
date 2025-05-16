@@ -36,19 +36,31 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: ValidationError
-              message:
-                type: string
-                description: |
-                  Possible validation errors:
-                  - /_links/exchange-partner/href is invalid
-                  - /_links/redirect-url/href is invalid
-                  - The provided redirect URL must exactly match one of the configured URLs for the account
-                example: /_links/exchange-partner/href is invalid
+            oneOf:
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidExchangePartner
+                  message:
+                    type: string
+                    example: /_links/exchange-partner/href is invalid
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidRedirectUrl
+                  message:
+                    type: string
+                    example: /_links/redirect-url/href is invalid
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidRedirectUrl
+                  message:
+                    type: string
+                    example: The provided redirect URL must exactly match one of the configured URLs for the account
     '401':
       description: unauthorized
       content:

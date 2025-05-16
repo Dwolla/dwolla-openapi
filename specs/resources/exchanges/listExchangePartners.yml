@@ -4,6 +4,76 @@ get:
   summary: List exchange partners
   description: List exchange partners
   operationId: listExchangePartners
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api.dwolla.com/exchange-partners
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api.dwolla.com/exchange-partners",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange-partner"
+                }
+            },
+            "_embedded": {
+                "exchange-partners": [
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "exchange-partner"
+                            }
+                        },
+                        "id": "9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
+                        "name": "Finicity",
+                        "status": "active"
+                    },
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "https://api-sandbox.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "exchange-partner"
+                            }
+                        },
+                        "id": "292317ec-e252-47d8-93c3-2d128e037aa4",
+                        "name": "MX",
+                        "status": "active"
+                    }
+                ]
+            },
+            "total": 2
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        token.get("exchange-partners").then((res) => res.body._embedded["exchange-partners"][0].id); // => '9b55a4b3-34ae-4607-b2d1-622f1eed77f9'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        exchange_partners = app_token.get('exchange-partners')
+        exchange_partners.body['_embedded']['exchange-partners'][0]['id'] # => '9b55a4b3-34ae-4607-b2d1-622f1eed77f9'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $exchangePartnersApi = new ExchangePartnersApi($apiClient);
+
+        $exchangePartners = $exchangePartnersApi->getExchangePartners();
+        $exchangePartners->_embedded->{"exchange-partners"}[0]->id; # => "9b55a4b3-34ae-4607-b2d1-622f1eed77f9"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        exchange_partners = app_token.get "exchange-partners"
+        exchange_partners._embedded['exchange-partners'][0].id # => "9b55a4b3-34ae-4607-b2d1-622f1eed77f9"
   responses:
     '200':
       description: successful operation

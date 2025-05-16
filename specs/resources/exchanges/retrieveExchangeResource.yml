@@ -2,8 +2,64 @@ get:
   tags:
     - exchanges
   summary: Retrieve exchange resource
-  description: Retrieve exchange resource
+  description: Retrieve an exchange resource by its ID.
   operationId: getExchange
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange"
+                },
+                "exchange-partner": {
+                    "href": "https://api.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange-partner"
+                }
+            },
+            "id": "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a",
+            "status": "active",
+            "created": "2022-10-21T21:41:03.283Z"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var exchangeUrl = "https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a";
+
+        token.get(exchangeUrl).then((res) => res.body.id); // => "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        exchange_url = 'https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+
+        exchange = app_token.get(exchange_url)
+        exchange.body['id'] # => 'e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $exchangesApi = new ExchangesApi($apiClient);
+
+        $exchangeUrl = "https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a";
+        $exchange = $exchangesApi->getExchange($exchangeUrl);
+        $exchange->id; # => "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        exchange_url = 'https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+
+        exchange = app_token.get exchange_url
+        exchange.id # => "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a"
   parameters:
     - name: id
       in: path
@@ -11,7 +67,7 @@ get:
       required: true
       schema:
         type: string
-        example: 292317ec-e252-47d8-93c3-2d128e037aa4
+        example: e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
   responses:
     '200':
       description: successful operation

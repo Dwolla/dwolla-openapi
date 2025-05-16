@@ -4,6 +4,34 @@ get:
   summary: Retrieve a customer
   description: Retrieve details for a single customer
   operationId: getCustomer
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/customers/FC451A7A-AE30-4404-AB95-E3553FCD733F
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla
+          .get("customers/FC451A7A-AE30-4404-AB95-E3553FCD733F")
+          .then((res) => res.body);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer = app_token.get('customers/FC451A7A-AE30-4404-AB95-E3553FCD733F')
+        customer.body
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+        $customer = $customersApi->getCustomer("FC451A7A-AE30-4404-AB95-E3553FCD733F");
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer = app_token.get "customers/FC451A7A-AE30-4404-AB95-E3553FCD733F"
   parameters:
     - name: id
       in: path
@@ -53,6 +81,57 @@ post:
   summary: Update a customer
   description: Update Customer information, upgrade an unverified Customer to a verified Customer, suspend a Customer, deactivate a Customer, reactivate a Customer, and update a verified Customer's information to retry verification.
   operationId: update
+  x-code-samples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/FC451A7A-AE30-4404-AB95-E3553FCD733F
+        Content-Type: application/json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "johndoe@example.com"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla
+          .post("customers/FC451A7A-AE30-4404-AB95-E3553FCD733F", {
+            firstName: "John",
+            lastName: "Doe",
+            email: "johndoe@example.com"
+          })
+          .then((res) => res.body);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer = app_token.post('customers/FC451A7A-AE30-4404-AB95-E3553FCD733F', {
+            'firstName': 'John',
+            'lastName': 'Doe',
+            'email': 'johndoe@example.com'
+        })
+        customer.body
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+        $customer = $customersApi->updateCustomer("FC451A7A-AE30-4404-AB95-E3553FCD733F", [
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'johndoe@example.com'
+        ]);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer = app_token.post "customers/FC451A7A-AE30-4404-AB95-E3553FCD733F", {
+          firstName: "John",
+          lastName: "Doe",
+          email: "johndoe@example.com"
+        }
   parameters:
     - name: id
       in: path

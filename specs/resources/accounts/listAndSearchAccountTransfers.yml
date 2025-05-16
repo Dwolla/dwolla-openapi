@@ -4,6 +4,37 @@ get:
   summary: List and search transfers for an account
   description: List and search transfers for an account
   operationId: listAndSearchAccountTransfers
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/transfers
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla
+          .get("accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/transfers")
+          .then((res) => res.body.total); // => 1
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        transfers = app_token.get('accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/transfers')
+        transfers.body['total'] # => 1
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $transfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transfers = $transfersApi->getAccountTransfers("CA366CA3-6D30-44D6-B0F3-8D86C64462A1");
+        $transfers->total; # => 1
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        transfers = app_token.get "accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/transfers"
+        transfers.total # => 1
   parameters:
     - name: id
       in: path

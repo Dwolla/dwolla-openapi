@@ -4,6 +4,43 @@ get:
   summary: Retrieve Account Details
   description: Retrieve basic account information belonging to the authorized Dwolla account.
   operationId: getAccount
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var accountUrl = "https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b";
+
+        dwolla.get(accountUrl).then((res) => res.body.name); // => 'Jane Doe'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        account_url = 'https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b'
+
+        account = app_token.get(account_url)
+        account.body['name']
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $accountUrl = 'https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b';
+
+        $accountsApi = new DwollaSwagger\AccountsApi($apiClient);
+
+        $account = $accountsApi->id($accountUrl);
+        print($account->name); # => "Jane Doe"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        account_url = 'https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b'
+
+        account = app_token.get account_url
+        account.name # => "Jane Doe"
   parameters:
     - name: id
       in: path

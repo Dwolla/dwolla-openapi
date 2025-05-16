@@ -2,8 +2,38 @@ get:
   tags:
     - customers
   summary: Retrieve a business classification
-  description: Retrieve a business classification
+  description: Retrieve a business classification by id.
   operationId: retrieveBusinessClassification
+  x-code-samples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/business-classifications/9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla
+          .get("business-classifications/9ed3f670-7d6f-11e3-b1ce-5404a6144203")
+          .then((res) => res.body.name); // => 'Accommodation and Food Services'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        classification = app_token.get('business-classifications/9ed3f670-7d6f-11e3-b1ce-5404a6144203')
+        classification.body['name'] # => 'Accommodation and Food Services'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $businessClassificationsApi = new DwollaSwagger\BusinessClassificationsApi($apiClient);
+        $classification = $businessClassificationsApi->getBusinessClassification("9ed3f670-7d6f-11e3-b1ce-5404a6144203");
+        $classification->name; # => "Accommodation and Food Services"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        classification = app_token.get "business-classifications/9ed3f670-7d6f-11e3-b1ce-5404a6144203"
+        classification.name # => "Accommodation and Food Services"
   parameters:
     - name: id
       in: path
