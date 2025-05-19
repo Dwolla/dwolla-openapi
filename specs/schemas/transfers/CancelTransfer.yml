@@ -1,6 +1,9 @@
 StatusInvalidError:
   title: StatusInvalidError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -31,6 +34,9 @@ StatusInvalidError:
 StatusNotAllowedError:
   title: StatusNotAllowedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
