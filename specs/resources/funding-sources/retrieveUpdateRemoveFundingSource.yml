@@ -47,6 +47,7 @@ post:
       schema:
         type: string
   requestBody:
+    required: true
     description: Parameters to update a customer funding source
     content:
       application/json:

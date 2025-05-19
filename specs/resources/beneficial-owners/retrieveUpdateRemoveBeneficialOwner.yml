@@ -47,6 +47,7 @@ post:
       schema:
         type: string
   requestBody:
+    required: true
     description: Parameters for updating a beneficial owner
     content:
       application/json:

@@ -44,6 +44,7 @@ post:
   description: Create an unverified customer, verified customer, or receive-only user.
   operationId: createCustomer
   requestBody:
+    required: true
     description: Parameters for customer to be created
     content:
       application/vnd.dwolla.v1.hal+json:

@@ -24,6 +24,7 @@ post:
     For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
   requestBody:
+    required: true
     description: Parameters for creating an exchange
     content:
       application/json:

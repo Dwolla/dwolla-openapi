@@ -5,6 +5,7 @@ post:
   description: Create a label reallocation
   operationId: createLabelReallocation
   requestBody:
+    required: true
     description: Parameters to create a label reallocation
     content:
       application/json:

@@ -5,6 +5,7 @@ post:
   description: Initiate a mass payment
   operationId: initiateMassPayment
   requestBody:
+    required: true
     description: Parameters for initiating a mass payment
     content:
       application/json:

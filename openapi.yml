@@ -19,6 +19,39 @@ servers:
     description: Sandbox server
 security:
   - bearerAuth: []
+tags:
+  - name: tokens
+    description: Operations related to Application Access Tokens
+  - name: root
+    description: Root API operations
+  - name: account
+    description: Operations related to Accounts
+  - name: customers
+    description: Operations related to Customers
+  - name: kba
+    description: Operations related to Knowledge-Based Authentication
+  - name: beneficial owners
+    description: Operations related to Beneficial Owners
+  - name: documents
+    description: Operations related to Documents
+  - name: exchanges
+    description: Operations related to Exchanges
+  - name: exchange sessions
+    description: Operations related to Exchange Sessions
+  - name: funding sources
+    description: Operations related to Funding Sources
+  - name: transfers
+    description: Operations related to Transfers
+  - name: labels
+    description: Operations related to Labels
+  - name: mass payments
+    description: Operations related to Mass Payments
+  - name: events
+    description: Operations related to Events
+  - name: webhook subscriptions
+    description: Operations related to Webhook Subscriptions
+  - name: webhooks
+    description: Operations related to Webhooks
 paths:
   /token:
     post:
@@ -30,6 +63,7 @@ paths:
       security:
         - basicAuth: []
       requestBody:
+        required: true
         description: OAuth get token request
         content:
           application/x-www-form-urlencoded:
@@ -149,6 +183,7 @@ paths:
       description: Create a funding source for an account
       operationId: createAccountFundingSource
       requestBody:
+        required: true
         description: Parameters for the funding source to be created
         content:
           application/json:
@@ -457,6 +492,7 @@ paths:
       description: Create an unverified customer, verified customer, or receive-only user.
       operationId: createCustomer
       requestBody:
+        required: true
         description: Parameters for customer to be created
         content:
           application/vnd.dwolla.v1.hal+json:
@@ -572,6 +608,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for updating a Customer
         content:
           application/json:
@@ -583,12 +620,12 @@ paths:
                 - $ref: '#/components/schemas/UpdateUnverifiedAndReceiveOnly'
                 - $ref: '#/components/schemas/UpdateVerifiedPersonal'
                 - $ref: '#/components/schemas/UpdateVerifiedBusiness'
-                - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedBusinessRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedSolePropRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedBusinessRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedSolePropRequestBody'
+                - $ref: '#/components/schemas/UpgradeToVerifiedPersonal'
+                - $ref: '#/components/schemas/UpgradeToVerifiedBusiness'
+                - $ref: '#/components/schemas/UpgradeToVerifiedSoleProp'
+                - $ref: '#/components/schemas/RetryVerifiedPersonal'
+                - $ref: '#/components/schemas/RetryVerifiedBusiness'
+                - $ref: '#/components/schemas/RetryVerifiedSoleProp'
       responses:
         '200':
           description: successful operation
@@ -738,6 +775,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for creating a beneficial owner
         content:
           application/json:
@@ -801,6 +839,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for updating a beneficial owner
         content:
           application/json:
@@ -966,6 +1005,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for certifying beneficial ownership for a Customer
         content:
           application/json:
@@ -1332,6 +1372,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for verifying KBA questions
         content:
           application/json:
@@ -1690,6 +1731,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to update a customer funding source
         content:
           application/json:
@@ -1801,7 +1843,11 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Parameters for initiating or verifying micro-deposits
+        required: false
+        description: |
+          Parameters for initiating or verifying micro-deposits.
+          - For initiating micro-deposits: No request body is required
+          - For verifying micro-deposits: Request body with micro-deposit amounts is required
         content:
           application/json:
             schema:
@@ -1949,6 +1995,7 @@ paths:
       description: Initiate a transfer
       operationId: initiateTransfer
       requestBody:
+        required: true
         description: Parameters to initiate a transfer
         content:
           application/json:
@@ -2180,6 +2227,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to cancel a transfer
         content:
           application/json:
@@ -2440,6 +2488,7 @@ paths:
       description: Initiate a mass payment
       operationId: initiateMassPayment
       requestBody:
+        required: true
         description: Parameters for initiating a mass payment
         content:
           application/json:
@@ -2575,6 +2624,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for updating a mass payment
         content:
           application/json:
@@ -2834,6 +2884,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to create a customer label
         content:
           application/json:
@@ -2905,6 +2956,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to create label ledger entry
         content:
           application/json:
@@ -2956,6 +3008,7 @@ paths:
       description: Create a label reallocation
       operationId: createLabelReallocation
       requestBody:
+        required: true
         description: Parameters to create a label reallocation
         content:
           application/json:
@@ -3180,6 +3233,7 @@ paths:
       description: Create a webhook subscription
       operationId: createWebhookSubscription
       requestBody:
+        required: true
         description: Parameters to create a webhook subscriptions
         content:
           application/json:
@@ -3254,6 +3308,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to update a webhook subscription
         content:
           application/json:
@@ -3563,6 +3618,7 @@ paths:
         For Plaid Secure Exchange, the request body will include a token.
       operationId: createAccountExchange
       requestBody:
+        required: true
         description: Parameters for creating an exchange
         content:
           application/json:
@@ -3712,6 +3768,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -5007,6 +5064,456 @@ components:
             website:
               type: string
               example: https://www.domain.com
+    UpgradeToVerifiedPersonal:
+      title: UpgradeToVerifiedPersonal
+      description: Upgrade Unverified Customer to Verified Personal Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@email.net
+        ipAddress:
+          type: string
+          example: 10.10.10.10
+        type:
+          type: string
+          example: personal
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        dateOfBirth:
+          type: string
+          example: '1970-01-01'
+        ssn:
+          type: string
+          example: 1234
+    UpgradeToVerifiedBusiness:
+      title: UpgradeToVerifiedBusiness
+      description: Upgrade Unverified Customer to Verified Business Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - address1
+        - city
+        - state
+        - postalCode
+        - controller
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        controller:
+          type: object
+          required:
+            - firstName
+            - lastName
+            - title
+            - dateOfBirth
+            - address
+          properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            ssn:
+              type: string
+              example: 6789
+            dateOfBirth:
+              type: string
+              format: date
+              example: '1980-01-31'
+            address:
+              type: object
+              required:
+                - address1
+                - city
+                - stateProvinceRegion
+                - postalCode
+                - country
+              properties:
+                address1:
+                  type: string
+                  example: 1749 18th st
+                address2:
+                  type: string
+                  example: apt 12
+                city:
+                  type: string
+                  example: Des Moines
+                stateProvinceRegion:
+                  type: string
+                  example: IA
+                postalCode:
+                  type: string
+                  example: 50266
+                country:
+                  type: string
+                  example: US
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: llc
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
+    UpgradeToVerifiedSoleProp:
+      title: UpgradeToVerifiedSoleProp
+      description: Upgrade Unverified Customer to Verified Business Customer (Sole Proprietorship)
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - dateOfBirth
+        - ssn
+        - address1
+        - city
+        - state
+        - postalCode
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Business
+        lastName:
+          type: string
+          example: Owner
+        email:
+          type: string
+          example: solePropBusiness@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1980-01-31'
+        ssn:
+          type: string
+          example: 6789
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: soleProprietorship
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
+    RetryVerifiedPersonal:
+      title: RetryVerifiedPersonal
+      description: Retry Verification for Verified Personal Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@email.net
+        ipAddress:
+          type: string
+          example: 10.10.10.10
+        type:
+          type: string
+          example: personal
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        dateOfBirth:
+          type: string
+          example: '1970-01-01'
+        ssn:
+          type: string
+          example: 1234
+    RetryVerifiedBusiness:
+      title: RetryVerifiedBusiness
+      description: Retry Verification for Verified Business Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - address1
+        - city
+        - state
+        - postalCode
+        - controller
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        controller:
+          type: object
+          required:
+            - firstName
+            - lastName
+            - title
+            - dateOfBirth
+            - address
+          properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            ssn:
+              type: string
+              example: 6789
+            dateOfBirth:
+              type: string
+              format: date
+              example: '1980-01-31'
+            address:
+              type: object
+              required:
+                - address1
+                - city
+                - stateProvinceRegion
+                - postalCode
+                - country
+              properties:
+                address1:
+                  type: string
+                  example: 1749 18th st
+                address2:
+                  type: string
+                  example: apt 12
+                city:
+                  type: string
+                  example: Des Moines
+                stateProvinceRegion:
+                  type: string
+                  example: IA
+                postalCode:
+                  type: string
+                  example: 50266
+                country:
+                  type: string
+                  example: US
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: llc
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
+    RetryVerifiedSoleProp:
+      title: RetryVerifiedSoleProp
+      description: Retry Verification for Verified Business Customer (Sole Proprietorship)
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - dateOfBirth
+        - ssn
+        - address1
+        - city
+        - state
+        - postalCode
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Business
+        lastName:
+          type: string
+          example: Owner
+        email:
+          type: string
+          example: solePropBusiness@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1980-01-31'
+        ssn:
+          type: string
+          example: 6789
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: soleProprietorship
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
     BusinessClassification:
       title: BusinessClassification
       type: object
