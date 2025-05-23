@@ -40,6 +40,7 @@ post:
   description: Create a webhook subscription
   operationId: createWebhookSubscription
   requestBody:
+    required: true
     description: Parameters to create a webhook subscriptions
     content:
       application/json:

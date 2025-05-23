@@ -64,7 +64,11 @@ post:
       schema:
         type: string
   requestBody:
-    description: Parameters for initiating or verifying micro-deposits
+    required: false
+    description: |
+      Parameters for initiating or verifying micro-deposits.
+      - For initiating micro-deposits: No request body is required
+      - For verifying micro-deposits: Request body with micro-deposit amounts is required
     content:
       application/json:
         schema:

@@ -5,6 +5,7 @@ post:
   description: Create a funding source for an account
   operationId: createAccountFundingSource
   requestBody:
+    required: true
     description: Parameters for the funding source to be created
     content:
       application/json:

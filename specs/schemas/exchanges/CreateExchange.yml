@@ -176,6 +176,9 @@ PlaidOpenBankingCreateExchangeRequestBody:
           example: public-production-d5456acb-01d5-4932-9783-e4c883cf1c0c
 InvalidExchangeToken:
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -185,6 +188,9 @@ InvalidExchangeToken:
       example: Exchange token is expired.
 InvalidExchange:
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string

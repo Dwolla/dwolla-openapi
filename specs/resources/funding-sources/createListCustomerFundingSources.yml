@@ -86,6 +86,9 @@ post:
           schema:
             oneOf:
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -94,6 +97,9 @@ post:
                     type: string
                     example: The Exchange was removed or disabled.
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -102,6 +108,9 @@ post:
                     type: string
                     example: The exchange token is not valid to perform this operation.
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string

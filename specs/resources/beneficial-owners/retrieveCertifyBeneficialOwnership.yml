@@ -61,6 +61,7 @@ post:
       schema:
         type: string
   requestBody:
+    required: true
     description: Parameters for certifying beneficial ownership for a Customer
     content:
       application/json:

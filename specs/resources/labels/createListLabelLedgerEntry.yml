@@ -45,6 +45,7 @@ post:
       schema:
         type: string
   requestBody:
+    required: true
     description: Parameters to create label ledger entry
     content:
       application/json:

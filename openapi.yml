@@ -19,6 +19,39 @@ servers:
     description: Sandbox server
 security:
   - bearerAuth: []
+tags:
+  - name: tokens
+    description: Operations related to Application Access Tokens
+  - name: root
+    description: Root API operations
+  - name: account
+    description: Operations related to Accounts
+  - name: customers
+    description: Operations related to Customers
+  - name: kba
+    description: Operations related to Knowledge-Based Authentication
+  - name: beneficial owners
+    description: Operations related to Beneficial Owners
+  - name: documents
+    description: Operations related to Documents
+  - name: exchanges
+    description: Operations related to Exchanges
+  - name: exchange sessions
+    description: Operations related to Exchange Sessions
+  - name: funding sources
+    description: Operations related to Funding Sources
+  - name: transfers
+    description: Operations related to Transfers
+  - name: labels
+    description: Operations related to Labels
+  - name: mass payments
+    description: Operations related to Mass Payments
+  - name: events
+    description: Operations related to Events
+  - name: webhook subscriptions
+    description: Operations related to Webhook Subscriptions
+  - name: webhooks
+    description: Operations related to Webhooks
 paths:
   /token:
     post:
@@ -30,6 +63,7 @@ paths:
       security:
         - basicAuth: []
       requestBody:
+        required: true
         description: OAuth get token request
         content:
           application/x-www-form-urlencoded:
@@ -149,6 +183,7 @@ paths:
       description: Create a funding source for an account
       operationId: createAccountFundingSource
       requestBody:
+        required: true
         description: Parameters for the funding source to be created
         content:
           application/json:
@@ -457,6 +492,7 @@ paths:
       description: Create an unverified customer, verified customer, or receive-only user.
       operationId: createCustomer
       requestBody:
+        required: true
         description: Parameters for customer to be created
         content:
           application/vnd.dwolla.v1.hal+json:
@@ -572,6 +608,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for updating a Customer
         content:
           application/json:
@@ -583,12 +620,12 @@ paths:
                 - $ref: '#/components/schemas/UpdateUnverifiedAndReceiveOnly'
                 - $ref: '#/components/schemas/UpdateVerifiedPersonal'
                 - $ref: '#/components/schemas/UpdateVerifiedBusiness'
-                - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedBusinessRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedSolePropRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedBusinessRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedSolePropRequestBody'
+                - $ref: '#/components/schemas/UpgradeToVerifiedPersonal'
+                - $ref: '#/components/schemas/UpgradeToVerifiedBusiness'
+                - $ref: '#/components/schemas/UpgradeToVerifiedSoleProp'
+                - $ref: '#/components/schemas/RetryVerifiedPersonal'
+                - $ref: '#/components/schemas/RetryVerifiedBusiness'
+                - $ref: '#/components/schemas/RetryVerifiedSoleProp'
       responses:
         '200':
           description: successful operation
@@ -738,6 +775,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for creating a beneficial owner
         content:
           application/json:
@@ -801,6 +839,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for updating a beneficial owner
         content:
           application/json:
@@ -966,6 +1005,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for certifying beneficial ownership for a Customer
         content:
           application/json:
@@ -1332,6 +1372,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for verifying KBA questions
         content:
           application/json:
@@ -1491,6 +1532,9 @@ paths:
               schema:
                 oneOf:
                   - type: object
+                    required:
+                      - code
+                      - message
                     properties:
                       code:
                         type: string
@@ -1499,6 +1543,9 @@ paths:
                         type: string
                         example: The Exchange was removed or disabled.
                   - type: object
+                    required:
+                      - code
+                      - message
                     properties:
                       code:
                         type: string
@@ -1507,6 +1554,9 @@ paths:
                         type: string
                         example: The exchange token is not valid to perform this operation.
                   - type: object
+                    required:
+                      - code
+                      - message
                     properties:
                       code:
                         type: string
@@ -1690,6 +1740,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to update a customer funding source
         content:
           application/json:
@@ -1801,7 +1852,11 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Parameters for initiating or verifying micro-deposits
+        required: false
+        description: |
+          Parameters for initiating or verifying micro-deposits.
+          - For initiating micro-deposits: No request body is required
+          - For verifying micro-deposits: Request body with micro-deposit amounts is required
         content:
           application/json:
             schema:
@@ -1949,6 +2004,7 @@ paths:
       description: Initiate a transfer
       operationId: initiateTransfer
       requestBody:
+        required: true
         description: Parameters to initiate a transfer
         content:
           application/json:
@@ -2180,6 +2236,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to cancel a transfer
         content:
           application/json:
@@ -2440,6 +2497,7 @@ paths:
       description: Initiate a mass payment
       operationId: initiateMassPayment
       requestBody:
+        required: true
         description: Parameters for initiating a mass payment
         content:
           application/json:
@@ -2575,6 +2633,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters for updating a mass payment
         content:
           application/json:
@@ -2834,6 +2893,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to create a customer label
         content:
           application/json:
@@ -2905,6 +2965,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to create label ledger entry
         content:
           application/json:
@@ -2956,6 +3017,7 @@ paths:
       description: Create a label reallocation
       operationId: createLabelReallocation
       requestBody:
+        required: true
         description: Parameters to create a label reallocation
         content:
           application/json:
@@ -3180,6 +3242,7 @@ paths:
       description: Create a webhook subscription
       operationId: createWebhookSubscription
       requestBody:
+        required: true
         description: Parameters to create a webhook subscriptions
         content:
           application/json:
@@ -3254,6 +3317,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         description: Parameters to update a webhook subscription
         content:
           application/json:
@@ -3563,6 +3627,7 @@ paths:
         For Plaid Secure Exchange, the request body will include a token.
       operationId: createAccountExchange
       requestBody:
+        required: true
         description: Parameters for creating an exchange
         content:
           application/json:
@@ -3712,6 +3777,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -3807,19 +3873,40 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    description: |
-                      Possible validation errors:
-                      - /_links/exchange-partner/href is invalid
-                      - /_links/redirect-url/href is invalid
-                      - The provided redirect URL must exactly match one of the configured URLs for the account
-                    example: /_links/exchange-partner/href is invalid
+                oneOf:
+                  - type: object
+                    required:
+                      - code
+                      - message
+                    properties:
+                      code:
+                        type: string
+                        example: ValidationError
+                      message:
+                        type: string
+                        example: /_links/exchange-partner/href is invalid
+                  - type: object
+                    required:
+                      - code
+                      - message
+                    properties:
+                      code:
+                        type: string
+                        example: ValidationError
+                      message:
+                        type: string
+                        example: /_links/redirect-url/href is invalid
+                  - type: object
+                    required:
+                      - code
+                      - message
+                    properties:
+                      code:
+                        type: string
+                        example: ValidationError
+                      message:
+                        type: string
+                        example: The provided redirect URL must exactly match one of the configured URLs for the account
         '401':
           description: unauthorized
           content:
@@ -3840,6 +3927,9 @@ paths:
               schema:
                 oneOf:
                   - type: object
+                    required:
+                      - code
+                      - message
                     properties:
                       code:
                         type: string
@@ -3848,6 +3938,9 @@ paths:
                         type: string
                         example: The exchange partner specified does not support this product
                   - type: object
+                    required:
+                      - code
+                      - message
                     properties:
                       code:
                         type: string
@@ -4111,6 +4204,9 @@ components:
       title: NotFoundError
       description: Error response schema for 404 NotFound
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -4153,6 +4249,9 @@ components:
     BadRequestSchema:
       title: BadRequestSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -4171,9 +4270,14 @@ components:
               example: Validation error(s) present. See embedded errors list for more details.
     DuplicateResourceSchema:
       title: DuplicateResourceSchema
-      type: string
-      example: DuplicateResource
+      type: object
+      required:
+        - code
+        - message
       properties:
+        code:
+          type: string
+          example: DuplicateResource
         message:
           type: string
           example: 'Bank already exists: id=df8392e5-4c06-42ed-b247-c098ed6f5a11'
@@ -4912,6 +5016,9 @@ components:
       title: BadRequestError
       description: Error response schema for 400 Bad Request
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5007,6 +5114,456 @@ components:
             website:
               type: string
               example: https://www.domain.com
+    UpgradeToVerifiedPersonal:
+      title: UpgradeToVerifiedPersonal
+      description: Upgrade Unverified Customer to Verified Personal Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@email.net
+        ipAddress:
+          type: string
+          example: 10.10.10.10
+        type:
+          type: string
+          example: personal
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        dateOfBirth:
+          type: string
+          example: '1970-01-01'
+        ssn:
+          type: string
+          example: 1234
+    UpgradeToVerifiedBusiness:
+      title: UpgradeToVerifiedBusiness
+      description: Upgrade Unverified Customer to Verified Business Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - address1
+        - city
+        - state
+        - postalCode
+        - controller
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        controller:
+          type: object
+          required:
+            - firstName
+            - lastName
+            - title
+            - dateOfBirth
+            - address
+          properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            ssn:
+              type: string
+              example: 6789
+            dateOfBirth:
+              type: string
+              format: date
+              example: '1980-01-31'
+            address:
+              type: object
+              required:
+                - address1
+                - city
+                - stateProvinceRegion
+                - postalCode
+                - country
+              properties:
+                address1:
+                  type: string
+                  example: 1749 18th st
+                address2:
+                  type: string
+                  example: apt 12
+                city:
+                  type: string
+                  example: Des Moines
+                stateProvinceRegion:
+                  type: string
+                  example: IA
+                postalCode:
+                  type: string
+                  example: 50266
+                country:
+                  type: string
+                  example: US
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: llc
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
+    UpgradeToVerifiedSoleProp:
+      title: UpgradeToVerifiedSoleProp
+      description: Upgrade Unverified Customer to Verified Business Customer (Sole Proprietorship)
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - dateOfBirth
+        - ssn
+        - address1
+        - city
+        - state
+        - postalCode
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Business
+        lastName:
+          type: string
+          example: Owner
+        email:
+          type: string
+          example: solePropBusiness@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1980-01-31'
+        ssn:
+          type: string
+          example: 6789
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: soleProprietorship
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
+    RetryVerifiedPersonal:
+      title: RetryVerifiedPersonal
+      description: Retry Verification for Verified Personal Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@email.net
+        ipAddress:
+          type: string
+          example: 10.10.10.10
+        type:
+          type: string
+          example: personal
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        dateOfBirth:
+          type: string
+          example: '1970-01-01'
+        ssn:
+          type: string
+          example: 1234
+    RetryVerifiedBusiness:
+      title: RetryVerifiedBusiness
+      description: Retry Verification for Verified Business Customer
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - address1
+        - city
+        - state
+        - postalCode
+        - controller
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        controller:
+          type: object
+          required:
+            - firstName
+            - lastName
+            - title
+            - dateOfBirth
+            - address
+          properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            ssn:
+              type: string
+              example: 6789
+            dateOfBirth:
+              type: string
+              format: date
+              example: '1980-01-31'
+            address:
+              type: object
+              required:
+                - address1
+                - city
+                - stateProvinceRegion
+                - postalCode
+                - country
+              properties:
+                address1:
+                  type: string
+                  example: 1749 18th st
+                address2:
+                  type: string
+                  example: apt 12
+                city:
+                  type: string
+                  example: Des Moines
+                stateProvinceRegion:
+                  type: string
+                  example: IA
+                postalCode:
+                  type: string
+                  example: 50266
+                country:
+                  type: string
+                  example: US
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: llc
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
+    RetryVerifiedSoleProp:
+      title: RetryVerifiedSoleProp
+      description: Retry Verification for Verified Business Customer (Sole Proprietorship)
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
+        - dateOfBirth
+        - ssn
+        - address1
+        - city
+        - state
+        - postalCode
+        - businessClassification
+        - businessType
+        - businessName
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Business
+        lastName:
+          type: string
+          example: Owner
+        email:
+          type: string
+          example: solePropBusiness@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        type:
+          type: string
+          example: business
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1980-01-31'
+        ssn:
+          type: string
+          example: 6789
+        address1:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessType:
+          type: string
+          example: soleProprietorship
+        businessName:
+          type: string
+          example: Jane Corp
+        ein:
+          type: string
+          example: 00-0000000
     BusinessClassification:
       title: BusinessClassification
       type: object
@@ -5205,6 +5762,9 @@ components:
     MaximumNumberOfResourcesSchema:
       title: MaximumNumberOfResourcesSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5215,6 +5775,9 @@ components:
     InvalidFileTypeSchema:
       title: InvalidFileTypeSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5225,6 +5788,9 @@ components:
     InvalidResourceStateSchema:
       title: InvalidResourceStateSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5235,6 +5801,9 @@ components:
     NotAuthorizedSchema:
       title: NotAuthorizedSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5246,6 +5815,9 @@ components:
       title: ForbiddenError
       description: Error response schema for 403 Forbidden
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5256,6 +5828,9 @@ components:
     InvalidKbaSessionError:
       title: InvalidKbaSessionError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5266,6 +5841,9 @@ components:
     ExpiredKbaSessionError:
       title: ExpiredKbaSessionError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5466,6 +6044,9 @@ components:
     SourceNotFoundError:
       title: SourceNotFoundError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5496,6 +6077,9 @@ components:
     ReceiverNotFoundError:
       title: ReceiverNotFoundError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5526,6 +6110,9 @@ components:
     InvalidSourceFundingSourceError:
       title: InvalidSourceFundingSourceError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5556,6 +6143,9 @@ components:
     SenderRestrictedError:
       title: SenderRestrictedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5586,6 +6176,9 @@ components:
     ReceiverRestrictedError:
       title: ReceiverRestrictedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5616,6 +6209,9 @@ components:
     InvalidMetadataError:
       title: InvalidMetadataError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5646,6 +6242,9 @@ components:
     OperationBlockedError:
       title: OperationBlockedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5676,6 +6275,9 @@ components:
     InvalidAmountLimitError:
       title: InvalidAmountLimitError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5706,6 +6308,9 @@ components:
     CannotParseAmountError:
       title: CannotParseAmountError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5736,6 +6341,9 @@ components:
     InsufficientFundsError:
       title: InsufficientFundsError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5766,6 +6374,9 @@ components:
     FacilitatorFeeAccountNotFoundError:
       title: FacilitatorFeeAccountNotFoundError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5796,6 +6407,9 @@ components:
     FacilitatorFeeSumTooLargeError:
       title: FacilitatorFeeSumTooLargeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5826,6 +6440,9 @@ components:
     FacilitatorFeeBelowMinimumError:
       title: FacilitatorFeeBelowMinimumError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5856,6 +6473,9 @@ components:
     HighRiskError:
       title: HighRiskError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5886,6 +6506,9 @@ components:
     IncompatibleHoldingsError:
       title: IncompatibleHoldingsError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5916,6 +6539,9 @@ components:
     DirectAccountWithoutBankError:
       title: DirectAccountWithoutBankError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5946,6 +6572,9 @@ components:
     SourceSameAsDestinationError:
       title: SourceSameAsDestinationError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -5976,6 +6605,9 @@ components:
     InvalidFacilitatorError:
       title: InvalidFacilitatorError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6006,6 +6638,9 @@ components:
     InvalidFacilitatorFeeCollectFromError:
       title: InvalidFacilitatorFeeCollectFromError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6036,6 +6671,9 @@ components:
     InvalidFacilitatorFeeCollectFromCombinationError:
       title: InvalidFacilitatorFeeCollectFromCombinationError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6066,6 +6704,9 @@ components:
     InvalidDestinationFundingSourceError:
       title: InvalidDestinationFundingSourceError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6096,6 +6737,9 @@ components:
     InvalidFacilitatorFeeAmountError:
       title: InvalidFacilitatorFeeAmountError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6126,6 +6770,9 @@ components:
     WeeklyReceiveLimitReachedError:
       title: WeeklyReceiveLimitReachedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6156,6 +6803,9 @@ components:
     InvalidDestinationClearingTypeError:
       title: InvalidDestinationClearingTypeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6186,6 +6836,9 @@ components:
     InvalidAmountForDestinationClearingTypeError:
       title: InvalidAmountForDestinationClearingTypeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6216,6 +6869,9 @@ components:
     InvalidCorrelationIdError:
       title: InvalidCorrelationIdError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6246,6 +6902,9 @@ components:
     SourceAddendaMaxLengthError:
       title: SourceAddendaMaxLengthError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6276,6 +6935,9 @@ components:
     DestinationAddendaMaxLengthError:
       title: DestinationAddendaMaxLengthError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6306,6 +6968,9 @@ components:
     AchAddendaEntriesNotEnabledForAccountError:
       title: AchAddendaEntriesNotEnabledForAccountError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6336,6 +7001,9 @@ components:
     PointOfSaleAddendaEntriesNotEnabledForAccountError:
       title: PointOfSaleAddendaEntriesNotEnabledForAccountError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6366,6 +7034,9 @@ components:
     IncompatibleAddendaEntriesError:
       title: IncompatibleAddendaEntriesError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6396,6 +7067,9 @@ components:
     InvalidPointOfSaleAddendaIdentificationCodeError:
       title: InvalidPointOfSaleAddendaIdentificationCodeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6426,6 +7100,9 @@ components:
     InvalidPointOfSaleAddendaSerialNumberError:
       title: InvalidPointOfSaleAddendaSerialNumberError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6456,6 +7133,9 @@ components:
     InvalidPointOfSaleAddendaDateError:
       title: InvalidPointOfSaleAddendaDateError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6486,6 +7166,9 @@ components:
     InvalidPointOfSaleAddendaAddressError:
       title: InvalidPointOfSaleAddendaAddressError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6516,6 +7199,9 @@ components:
     InvalidPointOfSaleAddendaCityError:
       title: InvalidPointOfSaleAddendaCityError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6546,6 +7232,9 @@ components:
     InvalidPointOfSaleAddendaStateError:
       title: InvalidPointOfSaleAddendaStateError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6576,6 +7265,9 @@ components:
     TransferExpiredForFeeError:
       title: TransferExpiredForFeeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6606,6 +7298,9 @@ components:
     InvalidFeeOdfiError:
       title: InvalidFeeOdfiError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6636,6 +7331,9 @@ components:
     InvalidSourceBankAccountTypeError:
       title: InvalidBankAccountTypeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6666,6 +7364,9 @@ components:
     InvalidDestinationBankAccountTypeError:
       title: InvalidDestinationBankAccountTypeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6696,6 +7397,9 @@ components:
     IncompatibleSourceAndDestinationTypesError:
       title: IncompatibleSourceAndDestinationTypesError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6726,6 +7430,9 @@ components:
     IncompatibleSourceForRtpDestinationError:
       title: IncompatibleSourceForRtpDestinationError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6756,6 +7463,9 @@ components:
     InvalidAmountForDestinationProcessingChannelError:
       title: InvalidAmountForDestinationProcessingChannelError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6786,6 +7496,9 @@ components:
     RtpFacilitatorFeeNotSupportedError:
       title: RtpFacilitatorFeeNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6816,6 +7529,9 @@ components:
     RtpUnverifiedSenderNotSupportedError:
       title: RtpUnverifiedSenderNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6846,6 +7562,9 @@ components:
     RtpPersonalToPersonalNotSupportedError:
       title: RtpPersonalToPersonalNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6876,6 +7595,9 @@ components:
     DestinationProcessingChannelNotSupportedError:
       title: DestinationProcessingChannelNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6906,6 +7628,9 @@ components:
     DestinationRemittanceDataMaxLengthError:
       title: DestinationRemittanceDataMaxLengthError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6936,6 +7661,9 @@ components:
     WithdrawInvalidAmountError:
       title: WithdrawInvalidAmountError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6966,6 +7694,9 @@ components:
     WithdrawInvalidFundingSourceError:
       title: WithdrawInvalidFundingSourceError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -6996,6 +7727,9 @@ components:
     WithdrawAccountRestrictedError:
       title: WithdrawAccountRestrictedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7026,6 +7760,9 @@ components:
     WithdrawInvalidAmountForClearingTypeError:
       title: WithdrawInvalidAmountForClearingTypeError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7056,6 +7793,9 @@ components:
     WithdrawInvalidWireBeneficiaryLocalityError:
       title: WithdrawInvalidWireBeneficiaryLocalityError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7086,6 +7826,9 @@ components:
     WithdrawInvalidWireBeneficiaryRegionError:
       title: WithdrawInvalidWireBeneficiaryRegionError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7116,6 +7859,9 @@ components:
     WithdrawInvalidWireBeneficiaryCountryError:
       title: WithdrawInvalidWireBeneficiaryCountryError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7146,6 +7892,9 @@ components:
     WithdrawInvalidWireOriginatorToBeneficiaryError:
       title: WithdrawInvalidWireOriginatorToBeneficiaryError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7176,6 +7925,9 @@ components:
     WithdrawProcessingChannelNotSupportedError:
       title: WithdrawProcessingChannelNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7206,6 +7958,9 @@ components:
     WithdrawRtpUnverifiedSenderNotSupportedError:
       title: WithdrawRtpUnverifiedSenderNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7236,6 +7991,9 @@ components:
     WithdrawRtpPersonalWithdrawalNotSupportedError:
       title: WithdrawRtpPersonalWithdrawalNotSupportedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7266,6 +8024,9 @@ components:
     DepositAccountRestrictedError:
       title: DepositAccountRestrictedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7296,6 +8057,9 @@ components:
     WireInvalidImadError:
       title: WireInvalidImadError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7326,6 +8090,9 @@ components:
     WireAccountRestrictedError:
       title: WireAccountRestrictedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7356,6 +8123,9 @@ components:
     WireNotEnabledError:
       title: WireNotEnabledError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7386,6 +8156,9 @@ components:
     WireAccountNotFoundError:
       title: WireAccountNotFoundError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7416,36 +8189,48 @@ components:
     InvalidAttemptToFacilitateFundsError:
       title: InvalidAttemptToFacilitateFundsError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
           example: Forbidden
         message:
           type: string
-          example: 'Invalid Funds Flow: this operation requires the funds flow ''Facilitate'' to be enabled'
+          example: "Invalid Funds Flow: this operation requires the funds flow 'Facilitate' to be enabled"
     InvalidAttemptToPayInFundsError:
       title: InvalidAttemptToPayInFundsError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
           example: Forbidden
         message:
           type: string
-          example: 'Invalid Funds Flow: this operation requires the funds flow ''Receive'' to be enabled'
+          example: "Invalid Funds Flow: this operation requires the funds flow 'Receive' to be enabled"
     InvalidAttemptToPayOutFundsError:
       title: InvalidAttemptToPayOutFundsError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
           example: Forbidden
         message:
           type: string
-          example: 'Invalid Funds Flow: this operation requires the funds flow ''Send'' to be enabled'
+          example: "Invalid Funds Flow: this operation requires the funds flow 'Send' to be enabled"
     RtpAccountSettingNotEnabledError:
       title: RtpAccountSettingNotEnabledError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7456,6 +8241,9 @@ components:
     TooManyRequestsErrorError:
       title: TooManyRequestsErrorError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7466,6 +8254,9 @@ components:
     StatusInvalidError:
       title: StatusInvalidError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -7496,6 +8287,9 @@ components:
     StatusNotAllowedError:
       title: StatusNotAllowedError
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -8176,6 +8970,9 @@ components:
           example: somePlaidProcessorToken
     InvalidExchangeToken:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -8185,6 +8982,9 @@ components:
           example: Exchange token is expired.
     InvalidExchange:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
