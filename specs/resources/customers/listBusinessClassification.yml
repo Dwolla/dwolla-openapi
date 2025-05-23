@@ -4,6 +4,8 @@ get:
   summary: List business classification
   description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
   operationId: listBusinessClassifications
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

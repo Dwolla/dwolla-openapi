@@ -4,6 +4,8 @@ get:
   summary: List webhook subscriptions
   description: List webhook subscriptions
   operationId: listWebhookSubscriptions
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -39,6 +41,8 @@ post:
   summary: Create a webhook subscription
   description: Create a webhook subscription
   operationId: createWebhookSubscription
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Parameters to create a webhook subscriptions
     content:

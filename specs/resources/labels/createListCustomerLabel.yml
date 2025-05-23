@@ -23,6 +23,7 @@ get:
       required: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: success operation
@@ -44,6 +45,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Parameters to create a customer label
     content:

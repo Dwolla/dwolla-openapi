@@ -11,6 +11,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '201':
       description: created

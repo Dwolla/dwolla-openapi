@@ -4,6 +4,8 @@ post:
   summary: Create an on-demand transfer authorization
   description: Create an on-demand transfer authorization
   operationId: createOnDemandTransferAuthorization
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: Ok

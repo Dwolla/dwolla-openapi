@@ -4,6 +4,8 @@ get:
   summary: root
   description: The entry point that clients can use to discover and explore the entire API.
   operationId: root
+  parameters:
+    - $ref: '../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

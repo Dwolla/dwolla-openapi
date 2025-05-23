@@ -4,6 +4,8 @@ post:
   summary: Initiate a transfer
   description: Initiate a transfer
   operationId: initiateTransfer
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Parameters to initiate a transfer
     content:

@@ -11,6 +11,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
     - name: search
       in: query
       description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`, Customer ID, and Account ID

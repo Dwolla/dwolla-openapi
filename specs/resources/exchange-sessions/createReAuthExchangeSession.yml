@@ -13,6 +13,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: |
       Request body parameters. Required for Visa and Plaid mobile sessions, not required for Plaid Web sessions.
