@@ -4,6 +4,8 @@ get:
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listAccountExchanges
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

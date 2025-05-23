@@ -13,6 +13,7 @@ get:
       explode: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
     - name: limit
       in: query
       description: How many results to return.

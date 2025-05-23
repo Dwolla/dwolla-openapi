@@ -23,6 +23,7 @@ get:
       required: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -44,6 +45,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Parameters to create label ledger entry
     content:

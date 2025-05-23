@@ -4,6 +4,8 @@ get:
   summary: List events
   description: List events
   operationId: listEvents
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Parameters to filter events
     content:

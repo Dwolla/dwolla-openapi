@@ -1,9 +1,19 @@
 components:
   headers:
     Location:
+      description: The location of the created resource
       schema:
         type: string
-      description: URL of the successfully created resource
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The media type of the response. Must be application/vnd.dwolla.v1.hal+json
+      schema:
+        type: string
+        enum: [application/vnd.dwolla.v1.hal+json]
+        default: application/vnd.dwolla.v1.hal+json
   schemas:
     MaximumNumberOfResourcesSchema:
       title: MaximumNumberOfResourcesSchema

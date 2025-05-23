@@ -35,6 +35,7 @@ get:
       required: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

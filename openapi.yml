@@ -77,6 +77,8 @@ paths:
       summary: root
       description: The entry point that clients can use to discover and explore the entire API.
       operationId: root
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -112,6 +114,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -148,6 +151,8 @@ paths:
       summary: Create a funding source for an account
       description: Create a funding source for an account
       operationId: createAccountFundingSource
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for the funding source to be created
         content:
@@ -197,6 +202,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
         - name: removed
           in: query
           description: Filter removed funding sources. Boolean value. Defaults to `true`
@@ -253,6 +259,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
         - name: search
           in: query
           description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`, Customer ID, and Account ID
@@ -345,6 +352,7 @@ paths:
           explode: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
         - name: limit
           in: query
           description: How many results to return.
@@ -442,6 +450,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -456,6 +465,8 @@ paths:
       summary: Create a customer
       description: Create an unverified customer, verified customer, or receive-only user.
       operationId: createCustomer
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for customer to be created
         content:
@@ -522,6 +533,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -571,6 +583,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for updating a Customer
         content:
@@ -632,6 +645,8 @@ paths:
       summary: List business classification
       description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
       operationId: listBusinessClassifications
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -664,6 +679,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -700,6 +716,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -737,6 +754,7 @@ paths:
           explode: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for creating a beneficial owner
         content:
@@ -765,6 +783,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -800,6 +819,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for updating a beneficial owner
         content:
@@ -880,6 +900,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -916,6 +937,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -965,6 +987,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for certifying beneficial ownership for a Customer
         content:
@@ -1035,6 +1058,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1056,6 +1080,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Upload a document for a customer.
         required: true
@@ -1136,6 +1161,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1157,6 +1183,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Upload a document for a beneficial owner.
         required: true
@@ -1190,6 +1217,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1212,6 +1240,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '201':
           description: created
@@ -1248,6 +1277,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1331,6 +1361,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for verifying KBA questions
         content:
@@ -1416,6 +1447,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1471,6 +1503,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for creating a funding source
         required: true
@@ -1540,106 +1573,6 @@ paths:
                   message:
                     type: string
                     example: Customer ID not found. Check Customer ID.
-  /customers/{id}/funding-sources-token:
-    post:
-      tags:
-        - funding sources
-      summary: Create a funding sources token for dwolla.js
-      deprecated: true
-      description: Create a funding sources token for dwolla.js
-      operationId: createCustomerFundingSourceToken
-      parameters:
-        - name: id
-          in: path
-          description: Customer's unique identifier
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          headers: {}
-          content:
-            application/vnd.dwolla.v1.hal+json:
-              schema:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            example: https://api.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/funding-sources-token
-                  token:
-                    type: object
-                    example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY
-        '404':
-          description: not found
-          headers: {}
-          content:
-            application/vnd.dwolla.v1.hal+json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: notFound
-                  message:
-                    type: string
-                    example: Customer not found.
-  /customers/{id}/iav-token:
-    post:
-      tags:
-        - funding sources
-      summary: Create an IAV token for dwolla.js
-      deprecated: true
-      description: Create an IAV token for dwolla.js
-      operationId: createCustomerIavToken
-      parameters:
-        - name: id
-          in: path
-          description: Customer's unique identifier
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          headers: {}
-          content:
-            application/vnd.dwolla.v1.hal+json:
-              schema:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            example: https://api.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/iav-token
-                  token:
-                    type: object
-                    example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY
-        '404':
-          description: not found
-          headers: {}
-          content:
-            application/vnd.dwolla.v1.hal+json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: notFound
-                  message:
-                    type: string
-                    example: Customer not found.
   /funding-sources/{id}:
     get:
       tags:
@@ -1654,6 +1587,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1689,6 +1623,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to update a customer funding source
         content:
@@ -1748,6 +1683,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1800,6 +1736,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for initiating or verifying micro-deposits
         content:
@@ -1846,6 +1783,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1908,6 +1846,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -1948,6 +1887,8 @@ paths:
       summary: Initiate a transfer
       description: Initiate a transfer
       operationId: initiateTransfer
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to initiate a transfer
         content:
@@ -2151,6 +2092,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2179,6 +2121,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to cancel a transfer
         content:
@@ -2284,6 +2227,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2313,6 +2257,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2374,6 +2319,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2417,6 +2363,8 @@ paths:
       summary: Create an on-demand transfer authorization
       description: Create an on-demand transfer authorization
       operationId: createOnDemandTransferAuthorization
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: Ok
@@ -2439,6 +2387,8 @@ paths:
       summary: Initiate a mass payment
       description: Initiate a mass payment
       operationId: initiateMassPayment
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for initiating a mass payment
         content:
@@ -2553,6 +2503,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2626,6 +2577,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2681,6 +2633,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: success operation
@@ -2721,6 +2674,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2743,6 +2697,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2764,6 +2719,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2812,6 +2768,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: success operation
@@ -2833,6 +2790,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to create a customer label
         content:
@@ -2883,6 +2841,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2904,6 +2863,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to create label ledger entry
         content:
@@ -2940,6 +2900,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -2955,6 +2916,8 @@ paths:
       summary: Create a label reallocation
       description: Create a label reallocation
       operationId: createLabelReallocation
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to create a label reallocation
         content:
@@ -3009,6 +2972,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3068,6 +3032,8 @@ paths:
       summary: List events
       description: List events
       operationId: listEvents
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to filter events
         content:
@@ -3115,6 +3081,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3144,6 +3111,8 @@ paths:
       summary: List webhook subscriptions
       description: List webhook subscriptions
       operationId: listWebhookSubscriptions
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3179,6 +3148,8 @@ paths:
       summary: Create a webhook subscription
       description: Create a webhook subscription
       operationId: createWebhookSubscription
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters to create a webhook subscriptions
         content:
@@ -3232,6 +3203,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3300,6 +3272,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3353,6 +3326,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3414,6 +3388,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3443,6 +3418,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3471,6 +3447,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '201':
           description: created
@@ -3491,6 +3468,8 @@ paths:
       summary: List exchange partners
       description: List exchange partners
       operationId: listExchangePartners
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3514,6 +3493,7 @@ paths:
           schema:
             type: string
             example: 292317ec-e252-47d8-93c3-2d128e037aa4
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3543,6 +3523,8 @@ paths:
       summary: List exchanges for an account
       description: List exchanges for an account
       operationId: listAccountExchanges
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3619,6 +3601,7 @@ paths:
           schema:
             type: string
             example: 292317ec-e252-47d8-93c3-2d128e037aa4
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3711,6 +3694,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         content:
           application/json:
@@ -3789,6 +3773,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: Parameters for creating an exchange session
         required: true
@@ -3882,6 +3867,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -3931,6 +3917,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         description: |
           Request body parameters. Required for Visa and Plaid mobile sessions, not required for Plaid Web sessions.
@@ -3988,6 +3975,7 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/Accept'
       responses:
         '200':
           description: successful operation
@@ -4016,6 +4004,17 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The media type of the response. Must be application/vnd.dwolla.v1.hal+json
+      schema:
+        type: string
+        enum:
+          - application/vnd.dwolla.v1.hal+json
+        default: application/vnd.dwolla.v1.hal+json
   schemas:
     HalLink:
       title: HalLink
@@ -8485,6 +8484,6 @@ components:
                     example: XYZ Checking
   headers:
     Location:
+      description: The location of the created resource
       schema:
         type: string
-      description: URL of the successfully created resource
