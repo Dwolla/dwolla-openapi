@@ -4,6 +4,8 @@ post:
   summary: Initiate a mass payment
   description: Initiate a mass payment
   operationId: initiateMassPayment
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: true
     description: Parameters for initiating a mass payment

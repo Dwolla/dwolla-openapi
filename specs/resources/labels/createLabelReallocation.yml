@@ -4,6 +4,8 @@ post:
   summary: Create a label reallocation
   description: Create a label reallocation
   operationId: createLabelReallocation
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: true
     description: Parameters to create a label reallocation

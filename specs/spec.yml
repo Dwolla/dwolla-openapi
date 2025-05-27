@@ -58,10 +58,6 @@ paths:
     $ref: './resources/kba/verifyRetrieveKba.yml'
   /customers/{id}/funding-sources:
     $ref: './resources/funding-sources/createListCustomerFundingSources.yml'
-  /customers/{id}/funding-sources-token:
-    $ref: './resources/funding-sources/createFundingSourceTokenDwollajs.yml'
-  /customers/{id}/iav-token:
-    $ref: './resources/funding-sources/createIavTokenDwollajs.yml'
   /funding-sources/{id}:
     $ref: './resources/funding-sources/retrieveUpdateRemoveFundingSource.yml'
   /funding-sources/{id}/micro-deposits:
