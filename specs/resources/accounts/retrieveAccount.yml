@@ -1,6 +1,6 @@
 get:
   tags:
-    - account
+    - accounts
   summary: Retrieve Account Details
   description: Retrieve basic account information belonging to the authorized Dwolla account.
   operationId: getAccount
