@@ -2439,7 +2439,7 @@ paths:
   /mass-payments:
     post:
       tags:
-        - mass payments
+        - massPayments
       summary: Initiate a mass payment
       description: Initiate a mass payment
       operationId: initiateMassPayment
@@ -2548,7 +2548,7 @@ paths:
   /mass-payments/{id}:
     get:
       tags:
-        - mass payments
+        - massPayments
       summary: Retrieve a mass payment
       description: Retrieve a mass payment
       operationId: getMassPayment
@@ -2570,7 +2570,7 @@ paths:
                 $ref: '#/components/schemas/MassPayment'
     post:
       tags:
-        - mass payments
+        - massPayments
       summary: Update a mass payment
       description: This section covers how to update a mass payment's status to `pending` which triggers processing on a created and deferred mass payment, or `cancelled` which cancels a created and deferred mass payment.
       operationId: updateMassPayment
@@ -2604,7 +2604,7 @@ paths:
   /mass-payments/{id}/items:
     get:
       tags:
-        - mass payments
+        - massPayments
       summary: List items for a mass payment
       description: List items for a mass payment
       operationId: listMassPaymentItems
@@ -2678,7 +2678,7 @@ paths:
   /mass-payment-items/{id}:
     get:
       tags:
-        - mass payments
+        - massPayments
       summary: Retrieve mass payment item
       description: Retrieve mass payment item
       operationId: getMassPaymentItem
@@ -2701,7 +2701,7 @@ paths:
   /customers/{id}/mass-payments:
     get:
       tags:
-        - mass payments
+        - massPayments
       summary: List mass payments for customer
       description: List mass payments for customer
       operationId: listCustomerMassPayments
