@@ -4,6 +4,7 @@ get:
   summary: List documents for customer
   description: List documents for customer
   operationId: listCustomerDocuments
+  x-speakeasy-name-override: listForCustomer
   parameters:
     - name: id
       in: path
@@ -20,12 +21,28 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/documents/Documents.yml#/Documents'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - documents
   summary: Create a document for customer
   description: Create a document for customer
   operationId: createCustomerDocument
+  x-speakeasy-group: customersDocuments
+  x-speakeasy-name-override: createForCustomer
   parameters:
     - name: id
       in: path

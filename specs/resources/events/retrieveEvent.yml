@@ -4,6 +4,7 @@ get:
   summary: Retrieve event
   description: Retrieve event
   operationId: getEvent
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -26,11 +27,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: notFound
-              message:
-                type: string
-                example: Application event not found.
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

@@ -4,8 +4,17 @@ post:
   summary: Create re-authentication exchange session
   description: |
     Create a new re-authentication exchange session.
-    The request body is not required for Plaid Web sessions.
+
+    Request body requirements vary by exchange type:
+    - For Visa: Request body with redirect URL is required
+    - For Plaid Web: No request body is required
+    - For Plaid Mobile: Request body with redirect URL is required
+
+    The redirect URL will be validated against previously configured URLs stored in Dwolla.
+    After completing the re-authorization process, the user will be redirected back to your application using this URL.
   operationId: createReAuthExchangeSession
+  x-speakeasy-group: exchangeSessions
+  x-speakeasy-name-override: createReAuth
   parameters:
     - name: id
       in: path
@@ -15,9 +24,14 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
-    description: |
-      Request body parameters. Required for Visa and Plaid mobile sessions, not required for Plaid Web sessions.
     required: false
+    description: |
+      Request body containing the redirect URL.
+      Required for:
+      - Visa exchange sessions
+      - Plaid mobile sessions
+      Not required for:
+      - Plaid web sessions
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:

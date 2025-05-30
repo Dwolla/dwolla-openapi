@@ -4,6 +4,7 @@ post:
   summary: Create an on-demand transfer authorization
   description: Create an on-demand transfer authorization
   operationId: createOnDemandTransferAuthorization
+  x-speakeasy-name-override: createOnDemandAuthorization
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:

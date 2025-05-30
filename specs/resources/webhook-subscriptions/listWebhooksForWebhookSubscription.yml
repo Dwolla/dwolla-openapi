@@ -4,6 +4,7 @@ get:
   summary: List webhooks for a webhook subscription
   description: List webhooks for a webhook subscription
   operationId: listWebhooks
+  x-speakeasy-group: webhookSubscriptions
   parameters:
     - name: id
       in: path
@@ -83,3 +84,17 @@ get:
                 type: integer
                 format: int32
                 example: 1
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

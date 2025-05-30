@@ -4,6 +4,7 @@ get:
   summary: Retrieve a business classification
   description: Retrieve a business classification
   operationId: retrieveBusinessClassification
+  x-speakeasy-name-override: getBusinessClassification
   parameters:
     - name: id
       in: path

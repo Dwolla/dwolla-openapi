@@ -4,6 +4,7 @@ get:
   summary: Retrieve KBA Questions
   description: Retrieve KBA Questions
   operationId: getKbaQuestions
+  x-speakeasy-name-override: getQuestions
   parameters:
     - name: id
       in: path

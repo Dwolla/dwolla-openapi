@@ -3,7 +3,7 @@ get:
     - account
   summary: List and search transfers for an account
   description: List and search transfers for an account
-  operationId: listAndSearchAccountTransfers
+  operationId: listAndSearchTransfers
   parameters:
     - name: id
       in: path

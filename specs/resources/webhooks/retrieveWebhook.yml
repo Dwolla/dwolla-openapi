@@ -4,6 +4,7 @@ get:
   summary: Retrieve a webhook
   description: Retrieve a webhook
   operationId: getWebhook
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path

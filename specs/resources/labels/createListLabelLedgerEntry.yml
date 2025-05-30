@@ -4,6 +4,7 @@ get:
   summary: List label ledger entries
   description: List label ledger entries
   operationId: listLabelLedgerEntries
+  x-speakeasy-name-override: listLedgerEntries
   parameters:
     - name: id
       in: path
@@ -16,13 +17,13 @@ get:
       description: How many results to return
       required: false
       schema:
-        type: string
+        type: integer
     - name: offset
       in: query
       description: How many results to skip
       required: false
       schema:
-        type: string
+        type: integer
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
@@ -32,23 +33,45 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/labels/LabelLedgerEntries.yml#/LabelLedgerEntries'
+    '400':
+      description: Bad request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - labels
-  summary: Create label ledger entries
-  description: Create label ledger entries
+  summary: Create a label ledger entry
+  description: Create a new entry on a Label Ledger. The amount tied to a Label cannot go negative, therefore if the amount of the label ledger entry exceeds the current amount tied to a Label then a validation error will be returned.
   operationId: createLabelLedgerEntry
+  x-speakeasy-name-override: createLedgerEntry
   parameters:
     - name: id
       in: path
-      description: A label unique identifier
+      description: The Id of the Label to update.
       required: true
       schema:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: true
-    description: Parameters to create label ledger entry
+    description: Parameters to create a label ledger entry
     content:
       application/json:
         schema:
@@ -58,14 +81,42 @@ post:
           properties:
             amount:
               type: object
+              required:
+                - value
+                - currency
               properties:
                 value:
                   type: string
+                  description: Amount of funds to increase or decrease for a Label. To decrease funds in a Label a string numeric value will be supplied and prepended with a "-" operator.
+                  example: '-5.00'
                 currency:
                   type: string
+                  description: Currency code for the amount
+                  example: 'USD'
   responses:
     '201':
       description: created
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: Bad request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

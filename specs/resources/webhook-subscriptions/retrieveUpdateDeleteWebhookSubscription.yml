@@ -4,6 +4,8 @@ get:
   summary: Retrieve a webhook subscription
   description: Retrieve a webhook subscription
   operationId: getWebhookSubscription
+  x-speakeasy-group: webhookSubscriptions
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -26,6 +28,8 @@ post:
   summary: Update a webhook subscription
   description: Update a webhook subscription
   operationId: updateWebhookSubscription
+  x-speakeasy-group: webhookSubscriptions
+  x-speakeasy-name-override: update
   parameters:
     - name: id
       in: path
@@ -74,6 +78,7 @@ delete:
   summary: Delete a webhook subscription
   description: Delete a webhook subscription
   operationId: delete
+  x-speakeasy-group: webhookSubscriptions
   parameters:
     - name: id
       in: path

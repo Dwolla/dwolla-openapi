@@ -4,6 +4,7 @@ get:
   summary: List labels for a customer
   description: List labels for a customer
   operationId: listCustomerLabels
+  x-speakeasy-name-override: listForCustomer
   parameters:
     - name: id
       in: path
@@ -32,12 +33,41 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/labels/Labels.yml#/Labels'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to list customer labels
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Customer not found
 post:
   tags:
     - labels
   summary: Create a label for a customer
   description: Create a label for a customer
   operationId: createCustomerLabel
+  x-speakeasy-name-override: createForCustomer
   parameters:
     - name: id
       in: path
@@ -71,3 +101,38 @@ post:
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to create customer label
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Customer not found

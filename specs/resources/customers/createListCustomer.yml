@@ -4,19 +4,20 @@ get:
   summary: List and search customers
   description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
   operationId: listAndSearchCustomers
+  x-speakeasy-name-override: list
   parameters:
     - name: limit
       in: query
       description: How many results to return
       required: false
       schema:
-        type: string
+        type: integer
     - name: offset
       in: query
       description: How many results to skip
       required: false
       schema:
-        type: string
+        type: integer
     - name: search
       in: query
       description: Searches on certain fields
@@ -38,12 +39,20 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/customers/Customers.yml#/Customers'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
 post:
   tags:
     - customers
   summary: Create a customer
   description: Create an unverified customer, verified customer, or receive-only user.
   operationId: createCustomer
+  x-speakeasy-name-override: create
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

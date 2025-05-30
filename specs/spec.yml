@@ -134,14 +134,22 @@ paths:
     $ref: './resources/exchange-sessions/listAvailableExchangeConnections.yml'
 components:
   securitySchemes:
-    # Basic Authentication security scheme used for generating Application Access Tokens. For more info see https://swagger.io/docs/specification/authentication/basic-authentication/
+    # Basic Authentication security scheme used for generating Application Access Tokens.
+    # This scheme requires your API key and secret to be Base64 encoded and sent in the Authorization header.
+    # Format: Authorization: Basic Base64(client_id:client_secret)
+    # For more info see https://swagger.io/docs/specification/authentication/basic-authentication/
     basicAuth:
       type: http
       scheme: basic
-    # Bearer Authentication security scheme used for all paths that require an access token. For more info see https://swagger.io/docs/specification/authentication/bearer-authentication/
+      description: Basic HTTP authentication
+    # Bearer Authentication security scheme used for all paths that require an access token.
+    # After obtaining an access token using basicAuth, include it in the Authorization header.
+    # Format: Authorization: Bearer <access-token>
+    # For more info see https://swagger.io/docs/specification/authentication/bearer-authentication/
     bearerAuth:
       type: http
       scheme: bearer
+      description: Bearer HTTP authentication
 # Apply bearerAuth security globally to all operations
 security:
   - bearerAuth: []

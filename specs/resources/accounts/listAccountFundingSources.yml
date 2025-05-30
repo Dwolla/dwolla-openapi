@@ -3,7 +3,7 @@ get:
     - account
   summary: List funding sources for an account
   description: List funding source for an account
-  operationId: listAccountFundingSources
+  operationId: listFundingSources
   parameters:
     - name: id
       in: path

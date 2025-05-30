@@ -3,7 +3,7 @@ post:
     - account
   summary: Create a funding source for an account
   description: Create a funding source for an account
-  operationId: createAccountFundingSource
+  operationId: createFundingSource
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

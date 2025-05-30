@@ -58,7 +58,23 @@ paths:
       tags:
         - tokens
       summary: Create an application access token
-      description: Generates an access token that contains permissions scoped to the application owner's Dwolla Client Account.
+      description: |
+        The client credentials flow is the simplest OAuth 2 grant, with a server-to-server exchange of your application's `client_id` and `client_secret` for an OAuth application access token.
+
+        To execute this flow:
+        1. Send a POST request to /token
+        2. Include Authorization header with Basic auth using base64-encoded client_id:client_secret
+        3. Set Content-Type to application/x-www-form-urlencoded
+        4. Include grant_type=client_credentials in the request body
+
+        Example:
+        ```
+        POST https://api.dwolla.com/token
+        Authorization: Basic Base64(client_id:client_secret)
+        Content-Type: application/x-www-form-urlencoded
+
+        grant_type=client_credentials
+        ```
       operationId: createApplicationAccessToken
       security:
         - basicAuth: []
@@ -74,6 +90,9 @@ paths:
               properties:
                 grant_type:
                   type: string
+                  enum:
+                    - client_credentials
+                  description: Must be set to "client_credentials"
                   example: client_credentials
       responses:
         '200':
@@ -83,15 +102,24 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - access_token
+                  - token_type
+                  - expires_in
                 properties:
                   access_token:
                     type: string
+                    description: A new access token that is used to authenticate against resources that belong to the app itself.
                     example: gTm0p62yYXFiB1rOdhV0TsNOinC2V2P1CMaAtojkO9JEGbv3i5
                   token_type:
                     type: string
+                    enum:
+                      - bearer
+                    description: The type of token, always "bearer"
                     example: bearer
                   expires_in:
                     type: integer
+                    description: The lifetime of the access token, in seconds. Default is 3600.
                     example: 3599
         '401':
           description: Unauthorized
@@ -141,6 +169,7 @@ paths:
       summary: Retrieve Account Details
       description: Retrieve basic account information belonging to the authorized Dwolla account.
       operationId: getAccount
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -184,7 +213,7 @@ paths:
         - account
       summary: Create a funding source for an account
       description: Create a funding source for an account
-      operationId: createAccountFundingSource
+      operationId: createFundingSource
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -229,7 +258,7 @@ paths:
         - account
       summary: List funding sources for an account
       description: List funding source for an account
-      operationId: listAccountFundingSources
+      operationId: listFundingSources
       parameters:
         - name: id
           in: path
@@ -286,7 +315,7 @@ paths:
         - account
       summary: List and search transfers for an account
       description: List and search transfers for an account
-      operationId: listAndSearchAccountTransfers
+      operationId: listAndSearchTransfers
       parameters:
         - name: id
           in: path
@@ -377,7 +406,7 @@ paths:
         - account
       summary: List mass payments for an account
       description: List mass payments for an account
-      operationId: ListAccountMassPayments
+      operationId: listMassPayments
       parameters:
         - name: id
           in: path
@@ -460,19 +489,20 @@ paths:
       summary: List and search customers
       description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
       operationId: listAndSearchCustomers
+      x-speakeasy-name-override: list
       parameters:
         - name: limit
           in: query
           description: How many results to return
           required: false
           schema:
-            type: string
+            type: integer
         - name: offset
           in: query
           description: How many results to skip
           required: false
           schema:
-            type: string
+            type: integer
         - name: search
           in: query
           description: Searches on certain fields
@@ -494,12 +524,20 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Customers'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
     post:
       tags:
         - customers
       summary: Create a customer
       description: Create an unverified customer, verified customer, or receive-only user.
       operationId: createCustomer
+      x-speakeasy-name-override: create
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -562,6 +600,7 @@ paths:
       summary: Retrieve a customer
       description: Retrieve details for a single customer
       operationId: getCustomer
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -702,6 +741,20 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/BusinessClassifications'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /business-classifications/{id}:
     get:
       tags:
@@ -709,6 +762,7 @@ paths:
       summary: Retrieve a business classification
       description: Retrieve a business classification
       operationId: retrieveBusinessClassification
+      x-speakeasy-name-override: getBusinessClassification
       parameters:
         - name: id
           in: path
@@ -746,6 +800,8 @@ paths:
       summary: List beneficial owners
       description: Retrieve a list of beneficial owners that belong to a Customer
       operationId: listBeneficialOwnersForCustomer
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -782,6 +838,8 @@ paths:
       summary: Create beneficial owner
       description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
       operationId: createBeneficialOwnerForCustomer
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -807,6 +865,27 @@ paths:
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /beneficial-owners/{id}:
     get:
       tags:
@@ -814,6 +893,8 @@ paths:
       summary: Retrieve beneficial owner
       description: Retrieve details for a single beneficial owner
       operationId: retrieveBeneficialOwner
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -850,6 +931,8 @@ paths:
       summary: Update beneficial owner
       description: Update beneficial owner
       operationId: updateBeneficialOwner
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: update
       parameters:
         - name: id
           in: path
@@ -881,23 +964,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    example: Validation error(s) present. See embedded errors list for more details.
-                  _embedded:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        example: ValidationError
-                      message:
-                        type: string
-                        example: Validation error(s) present. See embedded errors list for more details.
+                $ref: '#/components/schemas/ValidationErrorSchema'
         '403':
           description: forbidden
           headers: {}
@@ -932,6 +999,8 @@ paths:
       summary: Delete beneficial owner
       description: Delete beneficial owner
       operationId: deleteBeneficialOwner
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: delete
       parameters:
         - name: id
           in: path
@@ -969,6 +1038,8 @@ paths:
       summary: Retrieve beneficial ownership status
       description: Retrieve beneficial ownership status
       operationId: getBeneficialOwnershipStatusForCustomer
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: getOwnershipStatus
       parameters:
         - name: id
           in: path
@@ -1019,6 +1090,8 @@ paths:
       summary: Certify beneficial ownership status
       description: certify beneficial ownership status
       operationId: certifyBeneficialOwnershipForCustomer
+      x-speakeasy-group: beneficialOwners
+      x-speakeasy-name-override: certifyOwnership
       parameters:
         - name: id
           in: path
@@ -1053,23 +1126,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    example: Validation error(s) present. See embedded errors list for more details.
-                  _embedded:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        example: ValidationError
-                      message:
-                        type: string
-                        example: Validation error(s) present. See embedded errors list for more details.
+                $ref: '#/components/schemas/ValidationErrorSchema'
         '403':
           description: forbidden
           headers: {}
@@ -1091,6 +1148,7 @@ paths:
       summary: List documents for customer
       description: List documents for customer
       operationId: listCustomerDocuments
+      x-speakeasy-name-override: listForCustomer
       parameters:
         - name: id
           in: path
@@ -1107,12 +1165,28 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Documents'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     post:
       tags:
         - documents
       summary: Create a document for customer
       description: Create a document for customer
       operationId: createCustomerDocument
+      x-speakeasy-group: customersDocuments
+      x-speakeasy-name-override: createForCustomer
       parameters:
         - name: id
           in: path
@@ -1194,6 +1268,7 @@ paths:
       summary: List document for beneficial owner
       description: List document for beneficial owner
       operationId: listBeneficialOwnerDocuments
+      x-speakeasy-name-override: listForBeneficialOwner
       parameters:
         - name: id
           in: path
@@ -1210,12 +1285,27 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Documents'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     post:
       tags:
         - documents
       summary: Create a document for beneficial owner
       description: Create a document for beneficial owner
       operationId: createBeneficialOwnerDocument
+      x-speakeasy-name-override: createForBeneficialOwner
       parameters:
         - name: id
           in: path
@@ -1243,6 +1333,44 @@ paths:
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MaximumNumberOfResourcesSchema'
+                  - $ref: '#/components/schemas/InvalidFileTypeSchema'
+                  - $ref: '#/components/schemas/DuplicateResourceSchema'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '413':
+          description: request entity too large
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: fileTooLarge
+                  message:
+                    type: string
+                    example: Document requests are limited to 10 MiB.
   /documents/{id}:
     get:
       tags:
@@ -1250,6 +1378,7 @@ paths:
       summary: Retrieve a document
       description: Retrieve a document for a customer or beneficial owner
       operationId: getDocument
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -1266,6 +1395,20 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Document'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /customers/{id}/kba:
     post:
       tags:
@@ -1273,6 +1416,7 @@ paths:
       summary: Initiate a KBA session
       description: Initiate a KBA session
       operationId: initiateKbaForCustomer
+      x-speakeasy-name-override: initiate
       parameters:
         - name: id
           in: path
@@ -1310,6 +1454,7 @@ paths:
       summary: Retrieve KBA Questions
       description: Retrieve KBA Questions
       operationId: getKbaQuestions
+      x-speakeasy-name-override: getQuestions
       parameters:
         - name: id
           in: path
@@ -1481,6 +1626,8 @@ paths:
       summary: List customer funding sources
       description: List customer funding sources
       operationId: listCustomerFundingSources
+      x-speakeasy-group: fundingSources
+      x-speakeasy-name-override: listForCustomer
       parameters:
         - name: id
           in: path
@@ -1537,6 +1684,8 @@ paths:
         - Basic bank funding source (with routing/account numbers)
         - Using an exchange
       operationId: createCustomerFundingSource
+      x-speakeasy-group: fundingSources
+      x-speakeasy-name-override: createForCustomer
       parameters:
         - name: id
           in: path
@@ -1630,6 +1779,8 @@ paths:
       summary: Retrieve a funding source
       description: Retrieve a funding source
       operationId: getFundingSource
+      x-speakeasy-group: fundingSources
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -1666,6 +1817,8 @@ paths:
       summary: Update or remove a funding source
       description: Update or remove a funding source
       operationId: updateOrRemoveFundingSource
+      x-speakeasy-group: fundingSources
+      x-speakeasy-name-override: updateOrRemove
       parameters:
         - name: id
           in: path
@@ -1727,6 +1880,7 @@ paths:
       summary: Retrieve micro-deposits details
       description: Retrieve micro-deposits details
       operationId: getMicroDeposits
+      x-speakeasy-group: fundingSources
       parameters:
         - name: id
           in: path
@@ -1776,10 +1930,15 @@ paths:
         - funding sources
       summary: Initiate or Verify micro-deposits
       description: |
-        Initiate or Verify micro-deposits.
-        For initiating micro-deposits, no request body is required.
-        For verifying micro-deposits, a request body with the micro-deposit amounts is required.
+        This endpoint handles two different actions:
+        1. Initiating micro-deposits: No request body is required
+        2. Verifying micro-deposits: Request body with micro-deposit amounts is required
+
+        The action is determined by the presence of a request body:
+        - If no request body is provided, the endpoint will initiate micro-deposits
+        - If a request body with micro-deposit amounts is provided, the endpoint will verify the micro-deposits
       operationId: initiateOrVerifyMicroDeposits
+      x-speakeasy-group: fundingSources
       parameters:
         - name: id
           in: path
@@ -1791,19 +1950,13 @@ paths:
       requestBody:
         required: false
         description: |
-          Parameters for initiating or verifying micro-deposits.
-          - For initiating micro-deposits: No request body is required
-          - For verifying micro-deposits: Request body with micro-deposit amounts is required
+          Optional request body for verifying micro-deposits.
+          - If omitted: Endpoint will initiate micro-deposits
+          - If provided: Must contain micro-deposit amounts for verification
         content:
           application/json:
             schema:
-              oneOf:
-                - type:
-                    - object
-                    - 'null'
-                  description: Optional request body for initiating micro-deposits
-                - $ref: '#/components/schemas/VerifyMicroDeposits'
-                  description: Required request body for verifying micro-deposits
+              $ref: '#/components/schemas/VerifyMicroDeposits'
       responses:
         '201':
           description: created
@@ -1831,6 +1984,8 @@ paths:
       summary: Retrieve funding source balance
       description: Retrieve funding source balance
       operationId: getFundingSourceBalance
+      x-speakeasy-group: fundingSources
+      x-speakeasy-name-override: getBalance
       parameters:
         - name: id
           in: path
@@ -1846,33 +2001,88 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    additionalProperties:
-                      $ref: '#/components/schemas/HalLink'
-                  balance:
+                oneOf:
+                  - title: Dwolla Balance Response
+                    description: Response for retrieving balance of a Dwolla Balance funding source
                     type: object
                     properties:
-                      value:
+                      _links:
+                        type: object
+                        additionalProperties:
+                          $ref: '#/components/schemas/HalLink'
+                      balance:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '4616.87'
+                          currency:
+                            type: string
+                            example: USD
+                      total:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '4616.87'
+                          currency:
+                            type: string
+                            example: USD
+                      lastUpdated:
                         type: string
-                        example: '4616.87'
-                      currency:
-                        type: string
-                        example: USD
-                  total:
+                        example: '2017-04-18T15:20:25.880Z'
+                  - title: Bank Balance Response
+                    description: Response for retrieving balance of a bank account verified through Open Banking
                     type: object
                     properties:
-                      value:
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/42f48a64-2a9b-40df-9777-603ed2fe2764/balance
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: balance
+                          funding-source:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/42f48a64-2a9b-40df-9777-603ed2fe2764
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: funding-source
+                      available:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '542.00'
+                          currency:
+                            type: string
+                            example: USD
+                      closing:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '542.00'
+                          currency:
+                            type: string
+                            example: USD
+                      lastUpdated:
                         type: string
-                        example: '4616.87'
-                      currency:
-                        type: string
-                        example: USD
-                  lastUpdated:
-                    type: string
-                    example: '2017-04-18T15:20:25.880Z'
+                        example: '2024-09-09T16:39:14.219Z'
         '404':
           description: not found
           headers: {}
@@ -1891,9 +2101,10 @@ paths:
     get:
       tags:
         - funding sources
-      summary: Retrieve account and routing numbers for a VAN (Virtual Account Number)
+      summary: Retrieve VAN account and routing numbers
       description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
       operationId: getVanAchRouting
+      x-speakeasy-group: fundingSources
       parameters:
         - name: id
           in: path
@@ -1942,6 +2153,7 @@ paths:
       summary: Initiate a transfer
       description: Initiate a transfer
       operationId: initiateTransfer
+      x-speakeasy-name-override: create
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -2141,6 +2353,7 @@ paths:
       summary: Retrieve a transfer
       description: Retrieve a transfer
       operationId: getTransfer
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -2170,6 +2383,7 @@ paths:
       summary: Cancel a transfer
       description: Cancel a transfer
       operationId: cancelTransfer
+      x-speakeasy-name-override: cancel
       parameters:
         - name: id
           in: path
@@ -2223,6 +2437,7 @@ paths:
       summary: List and search transfers for a customer
       description: List and search transfers for a customer
       operationId: listCustomerTransfers
+      x-speakeasy-name-override: listForCustomer
       parameters:
         - name: id
           in: path
@@ -2307,6 +2522,7 @@ paths:
       summary: List fees for a transfer
       description: List fees for a transfer
       operationId: listTransferFees
+      x-speakeasy-name-override: listFees
       parameters:
         - name: id
           in: path
@@ -2369,6 +2585,7 @@ paths:
       summary: Retrieve a transfer failure reason
       description: Retrieve a transfer failure reason
       operationId: getTransferFailureReason
+      x-speakeasy-name-override: getFailureReason
       parameters:
         - name: id
           in: path
@@ -2420,6 +2637,7 @@ paths:
       summary: Create an on-demand transfer authorization
       description: Create an on-demand transfer authorization
       operationId: createOnDemandTransferAuthorization
+      x-speakeasy-name-override: createOnDemandAuthorization
       parameters:
         - $ref: '#/components/parameters/Accept'
       responses:
@@ -2444,6 +2662,8 @@ paths:
       summary: Initiate a mass payment
       description: Initiate a mass payment
       operationId: initiateMassPayment
+      x-speakeasy-group: massPayments
+      x-speakeasy-name-override: create
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -2547,6 +2767,27 @@ paths:
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to create mass payment
   /mass-payments/{id}:
     get:
       tags:
@@ -2554,6 +2795,8 @@ paths:
       summary: Retrieve a mass payment
       description: Retrieve a mass payment
       operationId: getMassPayment
+      x-speakeasy-group: massPayments
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -2570,12 +2813,42 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/MassPayment'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to retrieve mass payment
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Mass payment not found
     post:
       tags:
         - mass payments
-      summary: Update a mass payment to process or cancel it
-      description: Update a mass payment to process or cancel it
+      summary: Update a mass payment
+      description: This section covers how to update a mass payment's status to `pending` which triggers processing on a created and deferred mass payment, or `cancelled` which cancels a created and deferred mass payment.
       operationId: updateMassPayment
+      x-speakeasy-group: massPayments
+      x-speakeasy-name-override: update
       parameters:
         - name: id
           in: path
@@ -2604,6 +2877,41 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/MassPayment'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to update mass payment
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Mass payment not found
   /mass-payments/{id}/items:
     get:
       tags:
@@ -2611,6 +2919,8 @@ paths:
       summary: List items for a mass payment
       description: List items for a mass payment
       operationId: listMassPaymentItems
+      x-speakeasy-group: massPayments
+      x-speakeasy-name-override: listItems
       parameters:
         - name: id
           in: path
@@ -2678,6 +2988,34 @@ paths:
                     type: integer
                     format: int32
                     example: 3
+        '403':
+          description: Not authorized to list mass payment items
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to list mass payment items.
+        '404':
+          description: Mass payment not found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Mass payment not found.
   /mass-payment-items/{id}:
     get:
       tags:
@@ -2685,6 +3023,8 @@ paths:
       summary: Retrieve mass payment item
       description: Retrieve mass payment item
       operationId: getMassPaymentItem
+      x-speakeasy-group: massPayments
+      x-speakeasy-name-override: getItem
       parameters:
         - name: id
           in: path
@@ -2701,6 +3041,34 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/MassPaymentItem'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to retrieve mass payment item
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Mass payment item not found
   /customers/{id}/mass-payments:
     get:
       tags:
@@ -2708,6 +3076,8 @@ paths:
       summary: List mass payments for customer
       description: List mass payments for customer
       operationId: listCustomerMassPayments
+      x-speakeasy-group: massPayments
+      x-speakeasy-name-override: listForCustomer
       parameters:
         - name: id
           in: path
@@ -2726,13 +3096,13 @@ paths:
           description: Number of search results to return. Defaults to 25
           required: false
           schema:
-            type: string
+            type: integer
         - name: offset
           in: query
           description: Number of search results to skip. Use for pagination
           required: false
           schema:
-            type: string
+            type: integer
         - $ref: '#/components/parameters/Accept'
       responses:
         '200':
@@ -2742,6 +3112,34 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/MassPayments'
+        '403':
+          description: Not authorized to list mass payments
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAuthorized
+                  message:
+                    type: string
+                    example: Not authorized to list mass payments.
+        '404':
+          description: Customer not found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Customer not found.
   /labels/{id}:
     get:
       tags:
@@ -2749,6 +3147,7 @@ paths:
       summary: Retrieve a label
       description: Retrieve a label
       operationId: getLabel
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -2765,12 +3164,27 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Label'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - labels
       summary: Remove a label
       description: Remove a label
       operationId: removeLabel
+      x-speakeasy-name-override: remove
       parameters:
         - name: id
           in: path
@@ -2801,6 +3215,13 @@ paths:
                   message:
                     type: string
                     example: Amount must be zero to remove label.
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /customers/{id}/labels:
     get:
       tags:
@@ -2808,6 +3229,7 @@ paths:
       summary: List labels for a customer
       description: List labels for a customer
       operationId: listCustomerLabels
+      x-speakeasy-name-override: listForCustomer
       parameters:
         - name: id
           in: path
@@ -2836,12 +3258,41 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Labels'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to list customer labels
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Customer not found
     post:
       tags:
         - labels
       summary: Create a label for a customer
       description: Create a label for a customer
       operationId: createCustomerLabel
+      x-speakeasy-name-override: createForCustomer
       parameters:
         - name: id
           in: path
@@ -2875,6 +3326,41 @@ paths:
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to create customer label
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Customer not found
   /labels/{id}/ledger-entries:
     get:
       tags:
@@ -2882,6 +3368,7 @@ paths:
       summary: List label ledger entries
       description: List label ledger entries
       operationId: listLabelLedgerEntries
+      x-speakeasy-name-override: listLedgerEntries
       parameters:
         - name: id
           in: path
@@ -2894,13 +3381,13 @@ paths:
           description: How many results to return
           required: false
           schema:
-            type: string
+            type: integer
         - name: offset
           in: query
           description: How many results to skip
           required: false
           schema:
-            type: string
+            type: integer
         - $ref: '#/components/parameters/Accept'
       responses:
         '200':
@@ -2910,23 +3397,45 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/LabelLedgerEntries'
+        '400':
+          description: Bad request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     post:
       tags:
         - labels
-      summary: Create label ledger entries
-      description: Create label ledger entries
+      summary: Create a label ledger entry
+      description: Create a new entry on a Label Ledger. The amount tied to a Label cannot go negative, therefore if the amount of the label ledger entry exceeds the current amount tied to a Label then a validation error will be returned.
       operationId: createLabelLedgerEntry
+      x-speakeasy-name-override: createLedgerEntry
       parameters:
         - name: id
           in: path
-          description: A label unique identifier
+          description: The Id of the Label to update.
           required: true
           schema:
             type: string
         - $ref: '#/components/parameters/Accept'
       requestBody:
         required: true
-        description: Parameters to create label ledger entry
+        description: Parameters to create a label ledger entry
         content:
           application/json:
             schema:
@@ -2936,17 +3445,45 @@ paths:
               properties:
                 amount:
                   type: object
+                  required:
+                    - value
+                    - currency
                   properties:
                     value:
                       type: string
+                      description: Amount of funds to increase or decrease for a Label. To decrease funds in a Label a string numeric value will be supplied and prepended with a "-" operator.
+                      example: '-5.00'
                     currency:
                       type: string
+                      description: Currency code for the amount
+                      example: USD
       responses:
         '201':
           description: created
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '400':
+          description: Bad request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /ledger-entries/{id}:
     get:
       tags:
@@ -2954,6 +3491,7 @@ paths:
       summary: Retrieve a label ledger entry
       description: Retrieve a label ledger entry
       operationId: getLabelLedgerEntry
+      x-speakeasy-name-override: getLedgerEntry
       parameters:
         - name: id
           in: path
@@ -2970,6 +3508,20 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/LabelLedgerEntry'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /label-reallocations:
     post:
       tags:
@@ -2977,6 +3529,7 @@ paths:
       summary: Create a label reallocation
       description: Create a label reallocation
       operationId: createLabelReallocation
+      x-speakeasy-name-override: createReallocation
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -3020,13 +3573,49 @@ paths:
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Not authorized to create label reallocation
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotFound
+                  message:
+                    type: string
+                    example: Label not found
   /label-reallocations/{id}:
     get:
       tags:
         - labels
       summary: Retrieve a label reallocation
       description: Retrieve a label reallocation
-      operationId: retrieveLabelLedgerEntry
+      operationId: retrieveLabelReallocation
+      x-speakeasy-name-override: getReallocation
       parameters:
         - name: id
           in: path
@@ -3087,6 +3676,20 @@ paths:
                     type: string
                     format: date-time
                     example: '2022-05-16T13:41:31.036Z'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /events:
     get:
       tags:
@@ -3094,19 +3697,21 @@ paths:
       summary: List events
       description: List events
       operationId: listEvents
+      x-speakeasy-name-override: list
       parameters:
+        - name: limit
+          in: query
+          description: How many results to return
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: How many results to skip
+          required: false
+          schema:
+            type: integer
         - $ref: '#/components/parameters/Accept'
-      requestBody:
-        description: Parameters to filter events
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                limit:
-                  type: integer
-                offset:
-                  type: integer
       responses:
         '200':
           description: successful operation
@@ -3121,14 +3726,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: notFound
-                  message:
-                    type: string
-                    example: Resource not found.
+                $ref: '#/components/schemas/NotFoundError'
   /events/{id}:
     get:
       tags:
@@ -3136,6 +3734,7 @@ paths:
       summary: Retrieve event
       description: Retrieve event
       operationId: getEvent
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -3158,14 +3757,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: notFound
-                  message:
-                    type: string
-                    example: Application event not found.
+                $ref: '#/components/schemas/NotFoundError'
   /webhook-subscriptions:
     get:
       tags:
@@ -3173,6 +3765,8 @@ paths:
       summary: List webhook subscriptions
       description: List webhook subscriptions
       operationId: listWebhookSubscriptions
+      x-speakeasy-group: webhookSubscriptions
+      x-speakeasy-name-override: list
       parameters:
         - $ref: '#/components/parameters/Accept'
       responses:
@@ -3204,12 +3798,28 @@ paths:
                     type: integer
                     format: int32
                     example: 1
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     post:
       tags:
         - webhook subscriptions
       summary: Create a webhook subscription
       description: Create a webhook subscription
       operationId: createWebhookSubscription
+      x-speakeasy-group: webhookSubscriptions
+      x-speakeasy-name-override: create
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -3239,12 +3849,26 @@ paths:
           description: Bad request
           headers: {}
           content:
-            application/vnd.dwolla.v1.hal:
+            application/vnd.dwolla.v1.hal+json:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/InvalidUrlFormatError'
                   - $ref: '#/components/schemas/SecretTooLongError'
                   - $ref: '#/components/schemas/MaxSubscriptionsReachedError'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
         '429':
           description: Too Many Requests
           headers: {}
@@ -3259,6 +3883,8 @@ paths:
       summary: Retrieve a webhook subscription
       description: Retrieve a webhook subscription
       operationId: getWebhookSubscription
+      x-speakeasy-group: webhookSubscriptions
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -3281,6 +3907,8 @@ paths:
       summary: Update a webhook subscription
       description: Update a webhook subscription
       operationId: updateWebhookSubscription
+      x-speakeasy-group: webhookSubscriptions
+      x-speakeasy-name-override: update
       parameters:
         - name: id
           in: path
@@ -3329,6 +3957,7 @@ paths:
       summary: Delete a webhook subscription
       description: Delete a webhook subscription
       operationId: delete
+      x-speakeasy-group: webhookSubscriptions
       parameters:
         - name: id
           in: path
@@ -3359,6 +3988,7 @@ paths:
       summary: List webhooks for a webhook subscription
       description: List webhooks for a webhook subscription
       operationId: listWebhooks
+      x-speakeasy-group: webhookSubscriptions
       parameters:
         - name: id
           in: path
@@ -3438,6 +4068,20 @@ paths:
                     type: integer
                     format: int32
                     example: 1
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /webhooks/{id}:
     get:
       tags:
@@ -3445,6 +4089,7 @@ paths:
       summary: Retrieve a webhook
       description: Retrieve a webhook
       operationId: getWebhook
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -3475,6 +4120,7 @@ paths:
       summary: List retries for a webhook
       description: List retries for a webhook
       operationId: listWebhookRetries
+      x-speakeasy-name-override: listRetries
       parameters:
         - name: id
           in: path
@@ -3504,6 +4150,7 @@ paths:
       summary: Retry a webhook
       description: Retry a webhook
       operationId: retryWebhook
+      x-speakeasy-name-override: retry
       parameters:
         - name: id
           in: path
@@ -3542,6 +4189,13 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/ExchangePartners'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
   /exchange-partners/{id}:
     get:
       tags:
@@ -3568,18 +4222,10 @@ paths:
                 $ref: '#/components/schemas/ExchangePartner'
         '404':
           description: Not Found
-          headers: {}
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: NotFound
-                  message:
-                    type: string
-                    example: The requested resource was not found.
+                $ref: '#/components/schemas/NotFoundError'
   /exchanges:
     get:
       tags:
@@ -3597,6 +4243,20 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/Exchanges'
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     post:
       tags:
         - exchanges
@@ -3651,6 +4311,20 @@ paths:
                   message:
                     type: string
                     example: The exchange is no longer active.
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /exchanges/{id}:
     get:
       tags:
@@ -3710,6 +4384,7 @@ paths:
       summary: List exchanges for a customer
       description: List exchanges for a customer
       operationId: listCustomerExchanges
+      x-speakeasy-name-override: listForCustomer
       parameters:
         - name: id
           in: path
@@ -3752,6 +4427,7 @@ paths:
         For Plaid Secure Exchange, the request body will include a processor token.
         For Plaid Open Banking, the request body will include a public token.
       operationId: createCustomerExchange
+      x-speakeasy-name-override: createForCustomer
       parameters:
         - name: id
           in: path
@@ -3784,14 +4460,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    example: Validation error(s) present. See embedded errors list for more details.
+                $ref: '#/components/schemas/ValidationErrorSchema'
         '401':
           description: Invalid Scope
           content:
@@ -3810,14 +4479,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: NotFound
-                  message:
-                    type: string
-                    example: The requested resource was not found.
+                $ref: '#/components/schemas/NotFoundError'
   /customers/{id}/exchange-sessions:
     post:
       tags:
@@ -3832,6 +4494,8 @@ paths:
         - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
         - Not required for MX exchange sessions or Plaid web sessions
       operationId: createCustomerExchangeSession
+      x-speakeasy-group: exchangeSessions
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -3934,18 +4598,11 @@ paths:
                         type: string
                         example: Exchange sessions with this exchange partner are not enabled for your account
         '404':
-          description: not found
+          description: Not Found
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: NotFound
-                  message:
-                    type: string
-                    example: The requested resource was not found
+                $ref: '#/components/schemas/NotFoundError'
   /exchange-sessions/{id}:
     get:
       tags:
@@ -3953,6 +4610,8 @@ paths:
       summary: Retrieve exchange session
       description: Retrieve details of an exchange session
       operationId: retrieveCustomerExchangeSession
+      x-speakeasy-group: exchangeSessions
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -4001,8 +4660,17 @@ paths:
       summary: Create re-authentication exchange session
       description: |
         Create a new re-authentication exchange session.
-        The request body is not required for Plaid Web sessions.
+
+        Request body requirements vary by exchange type:
+        - For Visa: Request body with redirect URL is required
+        - For Plaid Web: No request body is required
+        - For Plaid Mobile: Request body with redirect URL is required
+
+        The redirect URL will be validated against previously configured URLs stored in Dwolla.
+        After completing the re-authorization process, the user will be redirected back to your application using this URL.
       operationId: createReAuthExchangeSession
+      x-speakeasy-group: exchangeSessions
+      x-speakeasy-name-override: createReAuth
       parameters:
         - name: id
           in: path
@@ -4012,9 +4680,14 @@ paths:
             type: string
         - $ref: '#/components/parameters/Accept'
       requestBody:
-        description: |
-          Request body parameters. Required for Visa and Plaid mobile sessions, not required for Plaid Web sessions.
         required: false
+        description: |
+          Request body containing the redirect URL.
+          Required for:
+          - Visa exchange sessions
+          - Plaid mobile sessions
+          Not required for:
+          - Plaid web sessions
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
@@ -4061,6 +4734,8 @@ paths:
         Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
         This information is essential for creating an exchange and corresponding funding source within Dwolla.
       operationId: listAvailableExchangeConnections
+      x-speakeasy-group: exchangeSessions
+      x-speakeasy-name-override: listAvailableConnections
       parameters:
         - name: id
           in: path
@@ -4094,9 +4769,11 @@ components:
     basicAuth:
       type: http
       scheme: basic
+      description: Basic HTTP authentication
     bearerAuth:
       type: http
       scheme: bearer
+      description: Bearer HTTP authentication
   parameters:
     Accept:
       name: Accept
@@ -4517,7 +5194,7 @@ components:
           type: integer
           example: 100
     UnverifiedCustomer:
-      title: CustomerSharedModel
+      title: Customer
       description: Shared models between all Customer types
       type: object
       properties:
@@ -4735,6 +5412,20 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Customer'
+    ForbiddenError:
+      title: ForbiddenError
+      description: Error response schema for 403 Forbidden
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: Forbidden
+        message:
+          type: string
+          example: The supplied credentials are not authorized for this resource.
     CreateReceiveOnlyRequestBody:
       title: CreateReceiveOnlyRequestBody
       description: Create a Receive Only User
@@ -5689,6 +6380,28 @@ components:
           properties:
             passport:
               $ref: '#/components/schemas/Passport'
+    ValidationErrorSchema:
+      title: ValidationErrorSchema
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ValidationError
+            message:
+              type: string
+              example: Validation error(s) present. See embedded errors list for more details.
     BeneficialOwnership:
       title: BeneficialOwnership
       type: object
@@ -5810,20 +6523,6 @@ components:
         message:
           type: string
           example: Not authorized to create documents.
-    ForbiddenError:
-      title: ForbiddenError
-      description: Error response schema for 403 Forbidden
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          example: Forbidden
-        message:
-          type: string
-          example: The supplied credentials are not authorized for this resource.
     InvalidKbaSessionError:
       title: InvalidKbaSessionError
       type: object
@@ -8197,7 +8896,7 @@ components:
           example: Forbidden
         message:
           type: string
-          example: "Invalid Funds Flow: this operation requires the funds flow 'Facilitate' to be enabled"
+          example: 'Invalid Funds Flow: this operation requires the funds flow ''Facilitate'' to be enabled'
     InvalidAttemptToPayInFundsError:
       title: InvalidAttemptToPayInFundsError
       type: object
@@ -8210,7 +8909,7 @@ components:
           example: Forbidden
         message:
           type: string
-          example: "Invalid Funds Flow: this operation requires the funds flow 'Receive' to be enabled"
+          example: 'Invalid Funds Flow: this operation requires the funds flow ''Receive'' to be enabled'
     InvalidAttemptToPayOutFundsError:
       title: InvalidAttemptToPayOutFundsError
       type: object
@@ -8223,7 +8922,7 @@ components:
           example: Forbidden
         message:
           type: string
-          example: "Invalid Funds Flow: this operation requires the funds flow 'Send' to be enabled"
+          example: 'Invalid Funds Flow: this operation requires the funds flow ''Send'' to be enabled'
     RtpAccountSettingNotEnabledError:
       title: RtpAccountSettingNotEnabledError
       type: object

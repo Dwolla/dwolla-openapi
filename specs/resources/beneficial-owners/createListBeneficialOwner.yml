@@ -4,6 +4,8 @@ get:
   summary: List beneficial owners
   description: Retrieve a list of beneficial owners that belong to a Customer
   operationId: listBeneficialOwnersForCustomer
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path
@@ -40,6 +42,8 @@ post:
   summary: Create beneficial owner
   description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
   operationId: createBeneficialOwnerForCustomer
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path
@@ -65,3 +69,24 @@ post:
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

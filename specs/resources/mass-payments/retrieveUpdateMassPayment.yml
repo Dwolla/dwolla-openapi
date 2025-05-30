@@ -4,6 +4,8 @@ get:
   summary: Retrieve a mass payment
   description: Retrieve a mass payment
   operationId: getMassPayment
+  x-speakeasy-group: massPayments
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -20,12 +22,42 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/mass-payments/MassPayment.yml#/MassPayment'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to retrieve mass payment
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Mass payment not found
 post:
   tags:
     - mass payments
-  summary: Update a mass payment to process or cancel it
-  description: Update a mass payment to process or cancel it
+  summary: Update a mass payment
+  description: This section covers how to update a mass payment's status to `pending` which triggers processing on a created and deferred mass payment, or `cancelled` which cancels a created and deferred mass payment.
   operationId: updateMassPayment
+  x-speakeasy-group: massPayments
+  x-speakeasy-name-override: update
   parameters:
     - name: id
       in: path
@@ -54,3 +86,38 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/mass-payments/MassPayment.yml#/MassPayment'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to update mass payment
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Mass payment not found

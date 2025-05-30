@@ -3,7 +3,7 @@ get:
     - account
   summary: List mass payments for an account
   description: List mass payments for an account
-  operationId: ListAccountMassPayments
+  operationId: listMassPayments
   parameters:
     - name: id
       in: path

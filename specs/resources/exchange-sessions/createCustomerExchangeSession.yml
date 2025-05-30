@@ -11,6 +11,8 @@ post:
     - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
     - Not required for MX exchange sessions or Plaid web sessions
   operationId: createCustomerExchangeSession
+  x-speakeasy-group: exchangeSessions
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path
@@ -113,15 +115,8 @@ post:
                     type: string
                     example: Exchange sessions with this exchange partner are not enabled for your account
     '404':
-      description: not found
+      description: Not Found
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: NotFound
-              message:
-                type: string
-                example: The requested resource was not found
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
