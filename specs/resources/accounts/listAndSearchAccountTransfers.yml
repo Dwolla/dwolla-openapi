@@ -1,6 +1,6 @@
 get:
   tags:
-    - account
+    - accounts
   summary: List and search transfers for an account
   description: List and search transfers for an account
   operationId: listAndSearchAccountTransfers

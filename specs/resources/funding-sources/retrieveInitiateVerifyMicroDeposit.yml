@@ -74,7 +74,8 @@ post:
             - type:
                 - 'object'
                 - 'null'
-              description: Optional request body for initiating micro-deposits
+              title: InitiateMicroDeposits
+              description: No request body is required for initiating micro-deposits.
             - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
               description: Required request body for verifying micro-deposits
   responses:

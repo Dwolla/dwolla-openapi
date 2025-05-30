@@ -1,6 +1,6 @@
 post:
   tags:
-    - account
+    - accounts
   summary: Create a funding source for an account
   description: Create a funding source for an account
   operationId: createAccountFundingSource

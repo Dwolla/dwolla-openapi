@@ -1,6 +1,6 @@
 get:
   tags:
-    - mass payments
+    - massPayments
   summary: Retrieve a mass payment
   description: Retrieve a mass payment
   operationId: getMassPayment
@@ -22,9 +22,9 @@ get:
             $ref: '../../schemas/mass-payments/MassPayment.yml#/MassPayment'
 post:
   tags:
-    - mass payments
-  summary: Update a mass payment to process or cancel it
-  description: Update a mass payment to process or cancel it
+    - massPayments
+  summary: Update a mass payment
+  description: This section covers how to update a mass payment's status to `pending` which triggers processing on a created and deferred mass payment, or `cancelled` which cancels a created and deferred mass payment.
   operationId: updateMassPayment
   parameters:
     - name: id

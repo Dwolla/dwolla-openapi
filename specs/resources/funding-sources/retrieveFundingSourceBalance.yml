@@ -19,33 +19,88 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-                additionalProperties:
-                  $ref: '../../schemas/common.yml#/components/schemas/HalLink'
-              balance:
+            oneOf:
+              - title: Dwolla Balance Response
+                description: Response for retrieving balance of a Dwolla Balance funding source
                 type: object
                 properties:
-                  value:
+                  _links:
+                    type: object
+                    additionalProperties:
+                      $ref: '../../schemas/common.yml#/components/schemas/HalLink'
+                  balance:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        example: '4616.87'
+                      currency:
+                        type: string
+                        example: USD
+                  total:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        example: '4616.87'
+                      currency:
+                        type: string
+                        example: USD
+                  lastUpdated:
                     type: string
-                    example: '4616.87'
-                  currency:
-                    type: string
-                    example: USD
-              total:
+                    example: '2017-04-18T15:20:25.880Z'
+              - title: Bank Balance Response
+                description: Response for retrieving balance of a bank account verified through Open Banking
                 type: object
                 properties:
-                  value:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.dwolla.com/funding-sources/42f48a64-2a9b-40df-9777-603ed2fe2764/balance'
+                          type:
+                            type: string
+                            example: 'application/vnd.dwolla.v1.hal+json'
+                          resource-type:
+                            type: string
+                            example: 'balance'
+                      funding-source:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.dwolla.com/funding-sources/42f48a64-2a9b-40df-9777-603ed2fe2764'
+                          type:
+                            type: string
+                            example: 'application/vnd.dwolla.v1.hal+json'
+                          resource-type:
+                            type: string
+                            example: 'funding-source'
+                  available:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        example: '542.00'
+                      currency:
+                        type: string
+                        example: USD
+                  closing:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        example: '542.00'
+                      currency:
+                        type: string
+                        example: USD
+                  lastUpdated:
                     type: string
-                    example: '4616.87'
-                  currency:
-                    type: string
-                    example: USD
-              lastUpdated:
-                type: string
-                example: '2017-04-18T15:20:25.880Z'
+                    example: '2024-09-09T16:39:14.219Z'
     '404':
       description: not found
       headers: {}
