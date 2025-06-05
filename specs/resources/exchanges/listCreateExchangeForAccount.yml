@@ -4,6 +4,8 @@ get:
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listAccountExchanges
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: list
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
@@ -39,6 +41,8 @@ post:
     For Flinks Secure Exchange, the request body will include a token.
     For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: create
   requestBody:
     required: true
     description: Parameters for creating an exchange

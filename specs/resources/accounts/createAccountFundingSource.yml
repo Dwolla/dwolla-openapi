@@ -1,9 +1,11 @@
 post:
   tags:
-    - account
+    - accounts
   summary: Create a funding source for an account
   description: Create a funding source for an account
   operationId: createFundingSource
+  x-speakeasy-group: accounts.fundingSources
+  x-speakeasy-name-override: create
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

@@ -13,7 +13,7 @@ post:
     The redirect URL will be validated against previously configured URLs stored in Dwolla.
     After completing the re-authorization process, the user will be redirected back to your application using this URL.
   operationId: createReAuthExchangeSession
-  x-speakeasy-group: exchangeSessions
+  x-speakeasy-group: exchanges
   x-speakeasy-name-override: createReAuth
   parameters:
     - name: id

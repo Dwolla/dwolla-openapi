@@ -4,6 +4,8 @@ get:
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
   operationId: getExchangePartner
+  x-speakeasy-group: exchangePartners
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path

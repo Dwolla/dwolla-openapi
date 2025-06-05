@@ -22,6 +22,13 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - webhook subscriptions

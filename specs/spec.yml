@@ -132,33 +132,25 @@ paths:
     $ref: './resources/exchange-sessions/createReAuthExchangeSession.yml'
   /customers/{id}/available-exchange-connections:
     $ref: './resources/exchange-sessions/listAvailableExchangeConnections.yml'
+  /client-tokens:
+    $ref: './resources/client-tokens.yml'
 components:
   securitySchemes:
-    # Basic Authentication security scheme used for generating Application Access Tokens.
-    # This scheme requires your API key and secret to be Base64 encoded and sent in the Authorization header.
-    # Format: Authorization: Basic Base64(client_id:client_secret)
-    # For more info see https://swagger.io/docs/specification/authentication/basic-authentication/
-    basicAuth:
-      type: http
-      scheme: basic
-      description: Basic HTTP authentication
-    # Bearer Authentication security scheme used for all paths that require an access token.
-    # After obtaining an access token using basicAuth, include it in the Authorization header.
-    # Format: Authorization: Bearer <access-token>
-    # For more info see https://swagger.io/docs/specification/authentication/bearer-authentication/
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: Bearer HTTP authentication
-# Apply bearerAuth security globally to all operations
+    auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /token
+          x-speakeasy-token-endpoint-authentication: client_secret_basic
+          scopes: {}
 security:
-  - bearerAuth: []
+  - auth: []
 tags:
   - name: tokens
     description: Operations related to Application Access Tokens
   - name: root
     description: Root API operations
-  - name: account
+  - name: accounts
     description: Operations related to Accounts
   - name: customers
     description: Operations related to Customers
@@ -186,3 +178,5 @@ tags:
     description: Operations related to Webhook Subscriptions
   - name: webhooks
     description: Operations related to Webhooks
+  - name: client tokens
+    description: Operations related to Client Tokens

@@ -88,7 +88,8 @@ post:
     - kba
   summary: Verify KBA Questions
   description: Verify KBA Questions
-  operationId: verifyKbaQuestions
+  operationId: verify
+  x-speakeasy-name-override: verify
   parameters:
     - name: id
       in: path

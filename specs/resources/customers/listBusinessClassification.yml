@@ -1,9 +1,11 @@
 get:
   tags:
     - customers
-  summary: List business classification
+  summary: List business classifications
   description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
   operationId: listBusinessClassifications
+  x-speakeasy-group: businessClassifications
+  x-speakeasy-name-override: list
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:

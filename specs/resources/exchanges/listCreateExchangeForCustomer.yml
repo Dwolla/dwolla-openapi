@@ -4,7 +4,8 @@ get:
   summary: List exchanges for a customer
   description: List exchanges for a customer
   operationId: listCustomerExchanges
-  x-speakeasy-name-override: listForCustomer
+  x-speakeasy-group: customers.exchanges
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path
@@ -47,7 +48,8 @@ post:
     For Plaid Secure Exchange, the request body will include a processor token.
     For Plaid Open Banking, the request body will include a public token.
   operationId: createCustomerExchange
-  x-speakeasy-name-override: createForCustomer
+  x-speakeasy-group: customers.exchanges
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path

@@ -4,7 +4,7 @@ get:
   summary: List beneficial owners
   description: Retrieve a list of beneficial owners that belong to a Customer
   operationId: listBeneficialOwnersForCustomer
-  x-speakeasy-group: beneficialOwners
+  x-speakeasy-group: customers.beneficialOwners
   x-speakeasy-name-override: list
   parameters:
     - name: id
@@ -42,7 +42,7 @@ post:
   summary: Create beneficial owner
   description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
   operationId: createBeneficialOwnerForCustomer
-  x-speakeasy-group: beneficialOwners
+  x-speakeasy-group: customers.beneficialOwners
   x-speakeasy-name-override: create
   parameters:
     - name: id

@@ -18,13 +18,13 @@ servers:
   - url: https://api-sandbox.dwolla.com
     description: Sandbox server
 security:
-  - bearerAuth: []
+  - auth: []
 tags:
   - name: tokens
     description: Operations related to Application Access Tokens
   - name: root
     description: Root API operations
-  - name: account
+  - name: accounts
     description: Operations related to Accounts
   - name: customers
     description: Operations related to Customers
@@ -52,35 +52,19 @@ tags:
     description: Operations related to Webhook Subscriptions
   - name: webhooks
     description: Operations related to Webhooks
+  - name: client tokens
+    description: Operations related to Client Tokens
 paths:
   /token:
     post:
       tags:
         - tokens
       summary: Create an application access token
-      description: |
-        The client credentials flow is the simplest OAuth 2 grant, with a server-to-server exchange of your application's `client_id` and `client_secret` for an OAuth application access token.
-
-        To execute this flow:
-        1. Send a POST request to /token
-        2. Include Authorization header with Basic auth using base64-encoded client_id:client_secret
-        3. Set Content-Type to application/x-www-form-urlencoded
-        4. Include grant_type=client_credentials in the request body
-
-        Example:
-        ```
-        POST https://api.dwolla.com/token
-        Authorization: Basic Base64(client_id:client_secret)
-        Content-Type: application/x-www-form-urlencoded
-
-        grant_type=client_credentials
-        ```
+      description: Generates an access token that contains permissions scoped to the application owner's Dwolla Client Account.
       operationId: createApplicationAccessToken
-      security:
-        - basicAuth: []
       requestBody:
         required: true
-        description: OAuth get token request
+        description: OAuth get token request. Client credentials are sent in the Authorization header using Basic authentication.
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -138,7 +122,8 @@ paths:
         - root
       summary: root
       description: The entry point that clients can use to discover and explore the entire API.
-      operationId: root
+      operationId: getRoot
+      x-speakeasy-name-override: get
       parameters:
         - $ref: '#/components/parameters/Accept'
       responses:
@@ -165,7 +150,7 @@ paths:
   /accounts/{id}:
     get:
       tags:
-        - account
+        - accounts
       summary: Retrieve Account Details
       description: Retrieve basic account information belonging to the authorized Dwolla account.
       operationId: getAccount
@@ -210,10 +195,12 @@ paths:
   /funding-sources:
     post:
       tags:
-        - account
+        - accounts
       summary: Create a funding source for an account
       description: Create a funding source for an account
       operationId: createFundingSource
+      x-speakeasy-group: accounts.fundingSources
+      x-speakeasy-name-override: create
       parameters:
         - $ref: '#/components/parameters/Accept'
       requestBody:
@@ -255,10 +242,12 @@ paths:
   /accounts/{id}/funding-sources:
     get:
       tags:
-        - account
+        - accounts
       summary: List funding sources for an account
       description: List funding source for an account
       operationId: listFundingSources
+      x-speakeasy-group: accounts.fundingSources
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -312,10 +301,12 @@ paths:
   /accounts/{id}/transfers:
     get:
       tags:
-        - account
+        - accounts
       summary: List and search transfers for an account
       description: List and search transfers for an account
       operationId: listAndSearchTransfers
+      x-speakeasy-group: accounts.transfers
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -403,10 +394,12 @@ paths:
   /accounts/{id}/mass-payments:
     get:
       tags:
-        - account
+        - accounts
       summary: List mass payments for an account
       description: List mass payments for an account
       operationId: listMassPayments
+      x-speakeasy-group: accounts.massPayments
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -718,9 +711,11 @@ paths:
     get:
       tags:
         - customers
-      summary: List business classification
+      summary: List business classifications
       description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
       operationId: listBusinessClassifications
+      x-speakeasy-group: businessClassifications
+      x-speakeasy-name-override: list
       parameters:
         - $ref: '#/components/parameters/Accept'
       responses:
@@ -762,7 +757,8 @@ paths:
       summary: Retrieve a business classification
       description: Retrieve a business classification
       operationId: retrieveBusinessClassification
-      x-speakeasy-name-override: getBusinessClassification
+      x-speakeasy-group: businessClassifications
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -800,7 +796,7 @@ paths:
       summary: List beneficial owners
       description: Retrieve a list of beneficial owners that belong to a Customer
       operationId: listBeneficialOwnersForCustomer
-      x-speakeasy-group: beneficialOwners
+      x-speakeasy-group: customers.beneficialOwners
       x-speakeasy-name-override: list
       parameters:
         - name: id
@@ -838,7 +834,7 @@ paths:
       summary: Create beneficial owner
       description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
       operationId: createBeneficialOwnerForCustomer
-      x-speakeasy-group: beneficialOwners
+      x-speakeasy-group: customers.beneficialOwners
       x-speakeasy-name-override: create
       parameters:
         - name: id
@@ -1148,7 +1144,8 @@ paths:
       summary: List documents for customer
       description: List documents for customer
       operationId: listCustomerDocuments
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customers.documents
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -1185,8 +1182,8 @@ paths:
       summary: Create a document for customer
       description: Create a document for customer
       operationId: createCustomerDocument
-      x-speakeasy-group: customersDocuments
-      x-speakeasy-name-override: createForCustomer
+      x-speakeasy-group: customers.documents
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -1268,7 +1265,8 @@ paths:
       summary: List document for beneficial owner
       description: List document for beneficial owner
       operationId: listBeneficialOwnerDocuments
-      x-speakeasy-name-override: listForBeneficialOwner
+      x-speakeasy-group: beneficialOwners.documents
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -1305,7 +1303,8 @@ paths:
       summary: Create a document for beneficial owner
       description: Create a document for beneficial owner
       operationId: createBeneficialOwnerDocument
-      x-speakeasy-name-override: createForBeneficialOwner
+      x-speakeasy-group: beneficialOwners.documents
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -1538,7 +1537,8 @@ paths:
         - kba
       summary: Verify KBA Questions
       description: Verify KBA Questions
-      operationId: verifyKbaQuestions
+      operationId: verify
+      x-speakeasy-name-override: verify
       parameters:
         - name: id
           in: path
@@ -1626,8 +1626,8 @@ paths:
       summary: List customer funding sources
       description: List customer funding sources
       operationId: listCustomerFundingSources
-      x-speakeasy-group: fundingSources
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customers.fundingSources
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -2103,7 +2103,7 @@ paths:
         - funding sources
       summary: Retrieve VAN account and routing numbers
       description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
-      operationId: getVanAchRouting
+      operationId: getVanRouting
       x-speakeasy-group: fundingSources
       parameters:
         - name: id
@@ -3901,6 +3901,13 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/WebhookSubscription'
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     post:
       tags:
         - webhook subscriptions
@@ -4179,6 +4186,8 @@ paths:
       summary: List exchange partners
       description: List exchange partners
       operationId: listExchangePartners
+      x-speakeasy-group: exchangePartners
+      x-speakeasy-name-override: list
       parameters:
         - $ref: '#/components/parameters/Accept'
       responses:
@@ -4203,6 +4212,8 @@ paths:
       summary: Retrieve exchange partner
       description: Retrieve exchange partner
       operationId: getExchangePartner
+      x-speakeasy-group: exchangePartners
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -4233,6 +4244,8 @@ paths:
       summary: List exchanges for an account
       description: List exchanges for an account
       operationId: listAccountExchanges
+      x-speakeasy-group: accounts.exchanges
+      x-speakeasy-name-override: list
       parameters:
         - $ref: '#/components/parameters/Accept'
       responses:
@@ -4268,6 +4281,8 @@ paths:
         For Flinks Secure Exchange, the request body will include a token.
         For Plaid Secure Exchange, the request body will include a token.
       operationId: createAccountExchange
+      x-speakeasy-group: accounts.exchanges
+      x-speakeasy-name-override: create
       requestBody:
         required: true
         description: Parameters for creating an exchange
@@ -4332,6 +4347,7 @@ paths:
       summary: Retrieve exchange resource
       description: Retrieve exchange resource
       operationId: getExchange
+      x-speakeasy-name-override: get
       parameters:
         - name: id
           in: path
@@ -4384,7 +4400,8 @@ paths:
       summary: List exchanges for a customer
       description: List exchanges for a customer
       operationId: listCustomerExchanges
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customers.exchanges
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -4427,7 +4444,8 @@ paths:
         For Plaid Secure Exchange, the request body will include a processor token.
         For Plaid Open Banking, the request body will include a public token.
       operationId: createCustomerExchange
-      x-speakeasy-name-override: createForCustomer
+      x-speakeasy-group: customers.exchanges
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -4669,7 +4687,7 @@ paths:
         The redirect URL will be validated against previously configured URLs stored in Dwolla.
         After completing the re-authorization process, the user will be redirected back to your application using this URL.
       operationId: createReAuthExchangeSession
-      x-speakeasy-group: exchangeSessions
+      x-speakeasy-group: exchanges
       x-speakeasy-name-override: createReAuth
       parameters:
         - name: id
@@ -4734,7 +4752,7 @@ paths:
         Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
         This information is essential for creating an exchange and corresponding funding source within Dwolla.
       operationId: listAvailableExchangeConnections
-      x-speakeasy-group: exchangeSessions
+      x-speakeasy-group: customers
       x-speakeasy-name-override: listAvailableConnections
       parameters:
         - name: id
@@ -4764,16 +4782,80 @@ paths:
                   message:
                     type: string
                     example: The requested resource was not found. Check Customer ID.
+  /client-tokens:
+    post:
+      tags:
+        - client tokens
+      summary: Create a client token
+      description: |
+        Creates a client token with certain actions for Dwolla Drop-in components. The client token API request requires an `action` as well as a `link` which points to the Customer that identifies the end user performing the action within the drop-in component. The `action` is a string that contains a granular permission for the Customer performing the action within a drop-in component.
+      operationId: createClientToken
+      x-speakeasy-group: clientTokens
+      x-speakeasy-name-override: create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+                - _links
+              properties:
+                action:
+                  type: string
+                  description: A granular permission for the Customer performing an action within a drop-in component
+                  example: customer.update
+                _links:
+                  type: object
+                  required:
+                    - customer
+                  properties:
+                    customer:
+                      type: object
+                      required:
+                        - href
+                      properties:
+                        href:
+                          type: string
+                          format: uri
+                          description: Link to the Customer performing the action
+                          example: https://api-sandbox.dwolla.com/customers/707177c3-bf15-4e7e-b37c-55c3898d9bf4
+      responses:
+        '200':
+          description: Client token created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - token
+                properties:
+                  token:
+                    type: string
+                    description: The client token that can be used with drop-in components
+                    example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY
+        '400':
+          description: Bad Request
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '403':
+          description: Forbidden
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
 components:
   securitySchemes:
-    basicAuth:
-      type: http
-      scheme: basic
-      description: Basic HTTP authentication
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: Bearer HTTP authentication
+    auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /token
+          x-speakeasy-token-endpoint-authentication: client_secret_basic
+          scopes: {}
   parameters:
     Accept:
       name: Accept

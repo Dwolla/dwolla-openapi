@@ -4,8 +4,8 @@ get:
   summary: List customer funding sources
   description: List customer funding sources
   operationId: listCustomerFundingSources
-  x-speakeasy-group: fundingSources
-  x-speakeasy-name-override: listForCustomer
+  x-speakeasy-group: customers.fundingSources
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path

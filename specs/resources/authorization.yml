@@ -2,29 +2,11 @@ post:
   tags:
     - tokens
   summary: Create an application access token
-  description: |
-    The client credentials flow is the simplest OAuth 2 grant, with a server-to-server exchange of your application's `client_id` and `client_secret` for an OAuth application access token.
-
-    To execute this flow:
-    1. Send a POST request to /token
-    2. Include Authorization header with Basic auth using base64-encoded client_id:client_secret
-    3. Set Content-Type to application/x-www-form-urlencoded
-    4. Include grant_type=client_credentials in the request body
-
-    Example:
-    ```
-    POST https://api.dwolla.com/token
-    Authorization: Basic Base64(client_id:client_secret)
-    Content-Type: application/x-www-form-urlencoded
-
-    grant_type=client_credentials
-    ```
+  description: Generates an access token that contains permissions scoped to the application owner's Dwolla Client Account.
   operationId: createApplicationAccessToken
-  security:
-    - basicAuth: []
   requestBody:
     required: true
-    description: OAuth get token request
+    description: OAuth get token request. Client credentials are sent in the Authorization header using Basic authentication.
     content:
       application/x-www-form-urlencoded:
         schema:

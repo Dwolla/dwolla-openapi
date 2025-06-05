@@ -4,6 +4,7 @@ get:
   summary: Retrieve exchange resource
   description: Retrieve exchange resource
   operationId: getExchange
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path

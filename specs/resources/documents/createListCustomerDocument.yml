@@ -4,7 +4,8 @@ get:
   summary: List documents for customer
   description: List documents for customer
   operationId: listCustomerDocuments
-  x-speakeasy-name-override: listForCustomer
+  x-speakeasy-group: customers.documents
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path
@@ -41,8 +42,8 @@ post:
   summary: Create a document for customer
   description: Create a document for customer
   operationId: createCustomerDocument
-  x-speakeasy-group: customersDocuments
-  x-speakeasy-name-override: createForCustomer
+  x-speakeasy-group: customers.documents
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path

@@ -4,6 +4,8 @@ get:
   summary: List exchange partners
   description: List exchange partners
   operationId: listExchangePartners
+  x-speakeasy-group: exchangePartners
+  x-speakeasy-name-override: list
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:

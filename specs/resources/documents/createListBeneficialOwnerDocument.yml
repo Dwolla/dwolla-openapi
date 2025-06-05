@@ -4,7 +4,8 @@ get:
   summary: List document for beneficial owner
   description: List document for beneficial owner
   operationId: listBeneficialOwnerDocuments
-  x-speakeasy-name-override: listForBeneficialOwner
+  x-speakeasy-group: beneficialOwners.documents
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path
@@ -41,7 +42,8 @@ post:
   summary: Create a document for beneficial owner
   description: Create a document for beneficial owner
   operationId: createBeneficialOwnerDocument
-  x-speakeasy-name-override: createForBeneficialOwner
+  x-speakeasy-group: beneficialOwners.documents
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path

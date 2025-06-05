@@ -3,7 +3,8 @@ get:
     - root
   summary: root
   description: The entry point that clients can use to discover and explore the entire API.
-  operationId: root
+  operationId: getRoot
+  x-speakeasy-name-override: get
   parameters:
     - $ref: '../schemas/common.yml#/components/parameters/Accept'
   responses:

@@ -3,7 +3,7 @@ get:
     - funding sources
   summary: Retrieve VAN account and routing numbers
   description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
-  operationId: getVanAchRouting
+  operationId: getVanRouting
   x-speakeasy-group: fundingSources
   parameters:
     - name: id
