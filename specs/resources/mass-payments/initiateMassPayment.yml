@@ -1,6 +1,6 @@
 post:
   tags:
-    - massPayments
+    - mass payments
   summary: Initiate a mass payment
   description: Initiate a mass payment
   operationId: initiateMassPayment

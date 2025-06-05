@@ -1,6 +1,6 @@
 get:
   tags:
-    - massPayments
+    - mass payments
   summary: List mass payments for customer
   description: List mass payments for customer
   operationId: listCustomerMassPayments
