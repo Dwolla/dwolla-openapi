@@ -1,6 +1,6 @@
 get:
   tags:
-    - mass payments
+    - massPayments
   summary: List items for a mass payment
   description: List items for a mass payment
   operationId: listMassPaymentItems

@@ -151,6 +151,7 @@ paths:
     get:
       tags:
         - accounts
+        - accounts
       summary: Retrieve Account Details
       description: Retrieve basic account information belonging to the authorized Dwolla account.
       operationId: getAccount
@@ -195,6 +196,7 @@ paths:
   /funding-sources:
     post:
       tags:
+        - accounts
         - accounts
       summary: Create a funding source for an account
       description: Create a funding source for an account
@@ -242,6 +244,7 @@ paths:
   /accounts/{id}/funding-sources:
     get:
       tags:
+        - accounts
         - accounts
       summary: List funding sources for an account
       description: List funding source for an account
@@ -301,6 +304,7 @@ paths:
   /accounts/{id}/transfers:
     get:
       tags:
+        - accounts
         - accounts
       summary: List and search transfers for an account
       description: List and search transfers for an account
@@ -394,6 +398,7 @@ paths:
   /accounts/{id}/mass-payments:
     get:
       tags:
+        - accounts
         - accounts
       summary: List mass payments for an account
       description: List mass payments for an account
@@ -1956,6 +1961,14 @@ paths:
         content:
           application/json:
             schema:
+              oneOf:
+                - type:
+                    - object
+                    - 'null'
+                  title: InitiateMicroDeposits
+                  description: No request body is required for initiating micro-deposits.
+                - $ref: '#/components/schemas/VerifyMicroDeposits'
+                  description: Required request body for verifying micro-deposits
               $ref: '#/components/schemas/VerifyMicroDeposits'
       responses:
         '201':
@@ -2001,6 +2014,88 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
+                oneOf:
+                  - title: Dwolla Balance Response
+                    description: Response for retrieving balance of a Dwolla Balance funding source
+                    type: object
+                    properties:
+                      _links:
+                        type: object
+                        additionalProperties:
+                          $ref: '#/components/schemas/HalLink'
+                      balance:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '4616.87'
+                          currency:
+                            type: string
+                            example: USD
+                      total:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '4616.87'
+                          currency:
+                            type: string
+                            example: USD
+                      lastUpdated:
+                        type: string
+                        example: '2017-04-18T15:20:25.880Z'
+                  - title: Bank Balance Response
+                    description: Response for retrieving balance of a bank account verified through Open Banking
+                    type: object
+                    properties:
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/42f48a64-2a9b-40df-9777-603ed2fe2764/balance
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: balance
+                          funding-source:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/42f48a64-2a9b-40df-9777-603ed2fe2764
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: funding-source
+                      available:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '542.00'
+                          currency:
+                            type: string
+                            example: USD
+                      closing:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '542.00'
+                          currency:
+                            type: string
+                            example: USD
+                      lastUpdated:
+                        type: string
+                        example: '2024-09-09T16:39:14.219Z'
                 oneOf:
                   - title: Dwolla Balance Response
                     description: Response for retrieving balance of a Dwolla Balance funding source

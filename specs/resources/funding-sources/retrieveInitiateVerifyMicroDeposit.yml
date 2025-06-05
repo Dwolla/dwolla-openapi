@@ -80,7 +80,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
+          oneOf:
+            - type:
+                - 'object'
+                - 'null'
+              title: InitiateMicroDeposits
+              description: No request body is required for initiating micro-deposits.
+            - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
+              description: Required request body for verifying micro-deposits
   responses:
     '201':
       description: created
