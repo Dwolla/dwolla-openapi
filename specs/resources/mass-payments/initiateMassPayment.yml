@@ -1,12 +1,15 @@
 post:
   tags:
-    - massPayments
+    - mass payments
   summary: Initiate a mass payment
   description: Initiate a mass payment
   operationId: initiateMassPayment
+  x-speakeasy-group: massPayments
+  x-speakeasy-name-override: create
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for initiating a mass payment
     content:
       application/json:
@@ -106,3 +109,24 @@ post:
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to create mass payment

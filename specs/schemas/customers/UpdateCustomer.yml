@@ -89,24 +89,450 @@ UpdateVerifiedBusiness:
 UpgradeToVerifiedPersonal:
   title: UpgradeToVerifiedPersonal
   description: Upgrade Unverified Customer to Verified Personal Customer
-  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedPersonalRequestBody'
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - address1
+    - city
+    - state
+    - postalCode
+    - dateOfBirth
+    - type
+    - ssn
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Doe
+    email:
+      type: string
+      example: johndoe@email.net
+    ipAddress:
+      type: string
+      example: 10.10.10.10
+    type:
+      type: string
+      example: personal
+    address1:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    dateOfBirth:
+      type: string
+      example: 1970-01-01
+    ssn:
+      type: string
+      example: 1234
 UpgradeToVerifiedBusiness:
   title: UpgradeToVerifiedBusiness
   description: Upgrade Unverified Customer to Verified Business Customer
-  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedBusinessRequestBody'
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - type
+    - address1
+    - city
+    - state
+    - postalCode
+    - controller
+    - businessClassification
+    - businessType
+    - businessName
+    - ein
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    type:
+      type: string
+      example: business
+    address1:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    controller:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - title
+        - dateOfBirth
+        - address
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Controller
+        title:
+          type: string
+          example: CEO
+        ssn:
+          type: string
+          example: 6789
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1980-01-31
+        address:
+          type: object
+          required:
+            - address1
+            - city
+            - stateProvinceRegion
+            - postalCode
+            - country
+          properties:
+            address1:
+              type: string
+              example: 1749 18th st
+            address2:
+              type: string
+              example: apt 12
+            city:
+              type: string
+              example: Des Moines
+            stateProvinceRegion:
+              type: string
+              example: IA
+            postalCode:
+              type: string
+              example: 50266
+            country:
+              type: string
+              example: US
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessType:
+      type: string
+      example: llc
+    businessName:
+      type: string
+      example: Jane Corp
+    ein:
+      type: string
+      example: 00-0000000
 UpgradeToVerifiedSoleProp:
   title: UpgradeToVerifiedSoleProp
   description: Upgrade Unverified Customer to Verified Business Customer (Sole Proprietorship)
-  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedSolePropRequestBody'
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - type
+    - dateOfBirth
+    - ssn
+    - address1
+    - city
+    - state
+    - postalCode
+    - businessClassification
+    - businessType
+    - businessName
+    - ein
+  properties:
+    firstName:
+      type: string
+      example: Business
+    lastName:
+      type: string
+      example: Owner
+    email:
+      type: string
+      example: solePropBusiness@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    type:
+      type: string
+      example: business
+    dateOfBirth:
+      type: string
+      format: date
+      example: 1980-01-31
+    ssn:
+      type: string
+      example: 6789
+    address1:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessType:
+      type: string
+      example: soleProprietorship
+    businessName:
+      type: string
+      example: Jane Corp
+    ein:
+      type: string
+      example: 00-0000000
 RetryVerifiedPersonal:
   title: RetryVerifiedPersonal
   description: Retry Verification for Verified Personal Customer
-  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedPersonalRequestBody'
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - address1
+    - city
+    - state
+    - postalCode
+    - dateOfBirth
+    - type
+    - ssn
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Doe
+    email:
+      type: string
+      example: johndoe@email.net
+    ipAddress:
+      type: string
+      example: 10.10.10.10
+    type:
+      type: string
+      example: personal
+    address1:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    dateOfBirth:
+      type: string
+      example: 1970-01-01
+    ssn:
+      type: string
+      example: 1234
 RetryVerifiedBusiness:
   title: RetryVerifiedBusiness
   description: Retry Verification for Verified Business Customer
-  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedBusinessRequestBody'
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - type
+    - address1
+    - city
+    - state
+    - postalCode
+    - controller
+    - businessClassification
+    - businessType
+    - businessName
+    - ein
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    type:
+      type: string
+      example: business
+    address1:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    controller:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - title
+        - dateOfBirth
+        - address
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Controller
+        title:
+          type: string
+          example: CEO
+        ssn:
+          type: string
+          example: 6789
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1980-01-31
+        address:
+          type: object
+          required:
+            - address1
+            - city
+            - stateProvinceRegion
+            - postalCode
+            - country
+          properties:
+            address1:
+              type: string
+              example: 1749 18th st
+            address2:
+              type: string
+              example: apt 12
+            city:
+              type: string
+              example: Des Moines
+            stateProvinceRegion:
+              type: string
+              example: IA
+            postalCode:
+              type: string
+              example: 50266
+            country:
+              type: string
+              example: US
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessType:
+      type: string
+      example: llc
+    businessName:
+      type: string
+      example: Jane Corp
+    ein:
+      type: string
+      example: 00-0000000
 RetryVerifiedSoleProp:
   title: RetryVerifiedSoleProp
   description: Retry Verification for Verified Business Customer (Sole Proprietorship)
-  $ref: './CreateCustomerRequestBody.yml#/CreateVerifiedSolePropRequestBody'
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - type
+    - dateOfBirth
+    - ssn
+    - address1
+    - city
+    - state
+    - postalCode
+    - businessClassification
+    - businessType
+    - businessName
+    - ein
+  properties:
+    firstName:
+      type: string
+      example: Business
+    lastName:
+      type: string
+      example: Owner
+    email:
+      type: string
+      example: solePropBusiness@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    type:
+      type: string
+      example: business
+    dateOfBirth:
+      type: string
+      format: date
+      example: 1980-01-31
+    ssn:
+      type: string
+      example: 6789
+    address1:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessType:
+      type: string
+      example: soleProprietorship
+    businessName:
+      type: string
+      example: Jane Corp
+    ein:
+      type: string
+      example: 00-0000000

@@ -3,7 +3,9 @@ get:
     - accounts
   summary: List mass payments for an account
   description: List mass payments for an account
-  operationId: ListAccountMassPayments
+  operationId: listMassPayments
+  x-speakeasy-group: accounts.massPayments
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path

@@ -4,9 +4,11 @@ post:
   summary: Initiate a transfer
   description: Initiate a transfer
   operationId: initiateTransfer
+  x-speakeasy-name-override: create
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to initiate a transfer
     content:
       application/json:

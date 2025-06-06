@@ -18,6 +18,9 @@ components:
     MaximumNumberOfResourcesSchema:
       title: MaximumNumberOfResourcesSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -28,6 +31,9 @@ components:
     InvalidFileTypeSchema:
       title: InvalidFileTypeSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -38,6 +44,9 @@ components:
     InvalidResourceStateSchema:
       title: InvalidResourceStateSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -48,6 +57,9 @@ components:
     NotAuthorizedSchema:
       title: NotAuthorizedSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -58,6 +70,9 @@ components:
     ValidationErrorSchema:
       title: ValidationErrorSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -77,6 +92,9 @@ components:
     BadRequestSchema:
       title: BadRequestSchema
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -95,9 +113,14 @@ components:
               example: Validation error(s) present. See embedded errors list for more details.
     DuplicateResourceSchema:
       title: DuplicateResourceSchema
-      type: string
-      example: DuplicateResource
+      type: object
+      required:
+        - code
+        - message
       properties:
+        code:
+          type: string
+          example: DuplicateResource
         message:
           type: string
           example: 'Bank already exists: id=df8392e5-4c06-42ed-b247-c098ed6f5a11'
@@ -120,6 +143,9 @@ components:
       title: BadRequestError
       description: Error response schema for 400 Bad Request
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -131,6 +157,9 @@ components:
       title: ForbiddenError
       description: Error response schema for 403 Forbidden
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
@@ -142,6 +171,9 @@ components:
       title: NotFoundError
       description: Error response schema for 404 NotFound
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string

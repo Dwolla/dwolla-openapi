@@ -1,0 +1,64 @@
+post:
+  tags:
+    - client tokens
+  summary: Create a client token
+  description: |
+    Creates a client token with certain actions for Dwolla Drop-in components. The client token API request requires an `action` as well as a `link` which points to the Customer that identifies the end user performing the action within the drop-in component. The `action` is a string that contains a granular permission for the Customer performing the action within a drop-in component.
+  operationId: createClientToken
+  x-speakeasy-group: clientTokens
+  x-speakeasy-name-override: create
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - action
+            - _links
+          properties:
+            action:
+              type: string
+              description: A granular permission for the Customer performing an action within a drop-in component
+              example: customer.update
+            _links:
+              type: object
+              required:
+                - customer
+              properties:
+                customer:
+                  type: object
+                  required:
+                    - href
+                  properties:
+                    href:
+                      type: string
+                      format: uri
+                      description: Link to the Customer performing the action
+                      example: https://api-sandbox.dwolla.com/customers/707177c3-bf15-4e7e-b37c-55c3898d9bf4
+  responses:
+    '200':
+      description: Client token created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                type: string
+                description: The client token that can be used with drop-in components
+                example: 4adF858jPeQ9RnojMHdqSD2KwsvmhO7Ti7cI5woOiBGCpH5krY
+    '400':
+      description: Bad Request
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../schemas/common.yml#/components/schemas/ForbiddenError'

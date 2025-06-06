@@ -4,6 +4,8 @@ get:
   summary: List exchange partners
   description: List exchange partners
   operationId: listExchangePartners
+  x-speakeasy-group: exchangePartners
+  x-speakeasy-name-override: list
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
@@ -14,3 +16,10 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/exchange-partners/ExchangePartners.yml#/ExchangePartners'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'

@@ -4,6 +4,8 @@ get:
   summary: Retrieve funding source balance
   description: Retrieve funding source balance
   operationId: getFundingSourceBalance
+  x-speakeasy-group: fundingSources
+  x-speakeasy-name-override: getBalance
   parameters:
     - name: id
       in: path

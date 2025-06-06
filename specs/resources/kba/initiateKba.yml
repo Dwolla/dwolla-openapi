@@ -4,6 +4,7 @@ post:
   summary: Initiate a KBA session
   description: Initiate a KBA session
   operationId: initiateKbaForCustomer
+  x-speakeasy-name-override: initiate
   parameters:
     - name: id
       in: path
