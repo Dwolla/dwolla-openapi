@@ -45,7 +45,7 @@ jobs:
           speakeasy lint openapi -s openapi.yml
 
       - name: Upload bundled spec
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: openapi-spec
           path: openapi.yml
