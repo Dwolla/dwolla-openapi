@@ -1,6 +1,9 @@
 InvalidKbaSessionError:
   title: InvalidKbaSessionError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -11,6 +14,9 @@ InvalidKbaSessionError:
 ExpiredKbaSessionError:
   title: ExpiredKbaSessionError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string

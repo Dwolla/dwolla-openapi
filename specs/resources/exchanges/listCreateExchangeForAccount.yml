@@ -4,6 +4,8 @@ get:
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listAccountExchanges
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: list
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
@@ -14,6 +16,20 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/exchanges/Exchanges.yml#/Exchanges'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - exchanges
@@ -25,7 +41,10 @@ post:
     For Flinks Secure Exchange, the request body will include a token.
     For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: create
   requestBody:
+    required: true
     description: Parameters for creating an exchange
     content:
       application/json:
@@ -67,3 +86,17 @@ post:
               message:
                 type: string
                 example: The exchange is no longer active.
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

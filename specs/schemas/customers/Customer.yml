@@ -7,7 +7,7 @@ Customer:
     - $ref: '#/VerifiedSolePropCustomer'
     - $ref: '#/VerifiedBusinessCustomer'
 UnverifiedCustomer:
-  title: CustomerSharedModel
+  title: Customer
   description: Shared models between all Customer types
   type: object
   properties:

@@ -4,6 +4,7 @@ get:
   summary: Retrieve a transfer
   description: Retrieve a transfer
   operationId: getTransfer
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -33,6 +34,7 @@ post:
   summary: Cancel a transfer
   description: Cancel a transfer
   operationId: cancelTransfer
+  x-speakeasy-name-override: cancel
   parameters:
     - name: id
       in: path
@@ -42,6 +44,7 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to cancel a transfer
     content:
       application/json:

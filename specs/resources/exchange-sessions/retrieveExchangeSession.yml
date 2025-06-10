@@ -4,6 +4,8 @@ get:
   summary: Retrieve exchange session
   description: Retrieve details of an exchange session
   operationId: retrieveCustomerExchangeSession
+  x-speakeasy-group: exchangeSessions
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path

@@ -11,6 +11,8 @@ post:
     - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
     - Not required for MX exchange sessions or Plaid web sessions
   operationId: createCustomerExchangeSession
+  x-speakeasy-group: exchangeSessions
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path
@@ -37,19 +39,40 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: ValidationError
-              message:
-                type: string
-                description: |
-                  Possible validation errors:
-                  - /_links/exchange-partner/href is invalid
-                  - /_links/redirect-url/href is invalid
-                  - The provided redirect URL must exactly match one of the configured URLs for the account
-                example: /_links/exchange-partner/href is invalid
+            oneOf:
+              - type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: /_links/exchange-partner/href is invalid
+              - type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: /_links/redirect-url/href is invalid
+              - type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: The provided redirect URL must exactly match one of the configured URLs for the account
     '401':
       description: unauthorized
       content:
@@ -70,6 +93,9 @@ post:
           schema:
             oneOf:
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -78,6 +104,9 @@ post:
                     type: string
                     example: The exchange partner specified does not support this product
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -86,15 +115,8 @@ post:
                     type: string
                     example: Exchange sessions with this exchange partner are not enabled for your account
     '404':
-      description: not found
+      description: Not Found
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: NotFound
-              message:
-                type: string
-                example: The requested resource was not found
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

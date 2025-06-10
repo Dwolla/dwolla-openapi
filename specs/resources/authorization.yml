@@ -4,10 +4,9 @@ post:
   summary: Create an application access token
   description: Generates an access token that contains permissions scoped to the application owner's Dwolla Client Account.
   operationId: createApplicationAccessToken
-  security:
-    - basicAuth: []
   requestBody:
-    description: OAuth get token request
+    required: true
+    description: OAuth get token request. Client credentials are sent in the Authorization header using Basic authentication.
     content:
       application/x-www-form-urlencoded:
         schema:
@@ -17,6 +16,8 @@ post:
           properties:
             grant_type:
               type: string
+              enum: [client_credentials]
+              description: Must be set to "client_credentials"
               example: client_credentials
   responses:
     '200':
@@ -26,15 +27,23 @@ post:
         application/json:
           schema:
             type: object
+            required:
+              - access_token
+              - token_type
+              - expires_in
             properties:
               access_token:
                 type: string
+                description: A new access token that is used to authenticate against resources that belong to the app itself.
                 example: gTm0p62yYXFiB1rOdhV0TsNOinC2V2P1CMaAtojkO9JEGbv3i5
               token_type:
                 type: string
+                enum: [bearer]
+                description: The type of token, always "bearer"
                 example: bearer
               expires_in:
                 type: integer
+                description: The lifetime of the access token, in seconds. Default is 3600.
                 example: 3599
     '401':
       description: Unauthorized

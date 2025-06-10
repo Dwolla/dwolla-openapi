@@ -4,6 +4,7 @@ get:
   summary: Retrieve a customer
   description: Retrieve details for a single customer
   operationId: getCustomer
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -63,6 +64,7 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for updating a Customer
     content:
       application/json:

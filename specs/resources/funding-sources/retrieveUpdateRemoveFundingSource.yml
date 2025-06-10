@@ -4,6 +4,8 @@ get:
   summary: Retrieve a funding source
   description: Retrieve a funding source
   operationId: getFundingSource
+  x-speakeasy-group: fundingSources
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -40,6 +42,8 @@ post:
   summary: Update or remove a funding source
   description: Update or remove a funding source
   operationId: updateOrRemoveFundingSource
+  x-speakeasy-group: fundingSources
+  x-speakeasy-name-override: updateOrRemove
   parameters:
     - name: id
       in: path
@@ -49,6 +53,7 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to update a customer funding source
     content:
       application/json:

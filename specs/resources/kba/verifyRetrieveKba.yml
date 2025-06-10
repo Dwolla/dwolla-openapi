@@ -4,6 +4,7 @@ get:
   summary: Retrieve KBA Questions
   description: Retrieve KBA Questions
   operationId: getKbaQuestions
+  x-speakeasy-name-override: getQuestions
   parameters:
     - name: id
       in: path
@@ -87,7 +88,8 @@ post:
     - kba
   summary: Verify KBA Questions
   description: Verify KBA Questions
-  operationId: verifyKbaQuestions
+  operationId: verify
+  x-speakeasy-name-override: verify
   parameters:
     - name: id
       in: path
@@ -97,6 +99,7 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for verifying KBA questions
     content:
       application/json:

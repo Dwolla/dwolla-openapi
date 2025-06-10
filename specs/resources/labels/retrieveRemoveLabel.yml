@@ -4,6 +4,7 @@ get:
   summary: Retrieve a label
   description: Retrieve a label
   operationId: getLabel
+  x-speakeasy-name-override: get
   parameters:
     - name: id
       in: path
@@ -20,12 +21,27 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/labels/Label.yml#/Label'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 delete:
   tags:
     - labels
   summary: Remove a label
   description: Remove a label
   operationId: removeLabel
+  x-speakeasy-name-override: remove
   parameters:
     - name: id
       in: path
@@ -56,3 +72,10 @@ delete:
               message:
                 type: string
                 example: Amount must be zero to remove label.
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

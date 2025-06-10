@@ -4,6 +4,8 @@ get:
   summary: Retrieve beneficial ownership status
   description: Retrieve beneficial ownership status
   operationId: getBeneficialOwnershipStatusForCustomer
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: getOwnershipStatus
   parameters:
     - name: id
       in: path
@@ -54,6 +56,8 @@ post:
   summary: Certify beneficial ownership status
   description: certify beneficial ownership status
   operationId: certifyBeneficialOwnershipForCustomer
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: certifyOwnership
   parameters:
     - name: id
       in: path
@@ -63,6 +67,7 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for certifying beneficial ownership for a Customer
     content:
       application/json:
@@ -87,23 +92,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: ValidationError
-              message:
-                type: string
-                example: Validation error(s) present. See embedded errors list for more details.
-              _embedded:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    example: Validation error(s) present. See embedded errors list for more details.
+            $ref: '../../schemas/common.yml#/components/schemas/ValidationErrorSchema'
     '403':
       description: forbidden
       headers: {}

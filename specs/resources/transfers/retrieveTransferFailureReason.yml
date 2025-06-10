@@ -4,6 +4,7 @@ get:
   summary: Retrieve a transfer failure reason
   description: Retrieve a transfer failure reason
   operationId: getTransferFailureReason
+  x-speakeasy-name-override: getFailureReason
   parameters:
     - name: id
       in: path

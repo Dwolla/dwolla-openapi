@@ -4,6 +4,8 @@ get:
   summary: List exchanges for a customer
   description: List exchanges for a customer
   operationId: listCustomerExchanges
+  x-speakeasy-group: customers.exchanges
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path
@@ -46,6 +48,8 @@ post:
     For Plaid Secure Exchange, the request body will include a processor token.
     For Plaid Open Banking, the request body will include a public token.
   operationId: createCustomerExchange
+  x-speakeasy-group: customers.exchanges
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path
@@ -55,6 +59,7 @@ post:
         type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     content:
       application/json:
         schema:
@@ -77,14 +82,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: ValidationError
-              message:
-                type: string
-                example: Validation error(s) present. See embedded errors list for more details.
+            $ref: '../../schemas/common.yml#/components/schemas/ValidationErrorSchema'
     '401':
       description: Invalid Scope
       content:
@@ -103,11 +101,4 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: NotFound
-              message:
-                type: string
-                example: The requested resource was not found.
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

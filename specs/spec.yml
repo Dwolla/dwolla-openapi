@@ -132,16 +132,51 @@ paths:
     $ref: './resources/exchange-sessions/createReAuthExchangeSession.yml'
   /customers/{id}/available-exchange-connections:
     $ref: './resources/exchange-sessions/listAvailableExchangeConnections.yml'
+  /client-tokens:
+    $ref: './resources/client-tokens.yml'
 components:
   securitySchemes:
-    # Basic Authentication security scheme used for generating Application Access Tokens. For more info see https://swagger.io/docs/specification/authentication/basic-authentication/
-    basicAuth:
-      type: http
-      scheme: basic
-    # Bearer Authentication security scheme used for all paths that require an access token. For more info see https://swagger.io/docs/specification/authentication/bearer-authentication/
-    bearerAuth:
-      type: http
-      scheme: bearer
-# Apply bearerAuth security globally to all operations
+    auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /token
+          x-speakeasy-token-endpoint-authentication: client_secret_basic
+          scopes: {}
 security:
-  - bearerAuth: []
+  - auth: []
+tags:
+  - name: tokens
+    description: Operations related to Application Access Tokens
+  - name: root
+    description: Root API operations
+  - name: accounts
+    description: Operations related to Accounts
+  - name: customers
+    description: Operations related to Customers
+  - name: kba
+    description: Operations related to Knowledge-Based Authentication
+  - name: beneficial owners
+    description: Operations related to Beneficial Owners
+  - name: documents
+    description: Operations related to Documents
+  - name: exchanges
+    description: Operations related to Exchanges
+  - name: exchange sessions
+    description: Operations related to Exchange Sessions
+  - name: funding sources
+    description: Operations related to Funding Sources
+  - name: transfers
+    description: Operations related to Transfers
+  - name: labels
+    description: Operations related to Labels
+  - name: mass payments
+    description: Operations related to Mass Payments
+  - name: events
+    description: Operations related to Events
+  - name: webhook subscriptions
+    description: Operations related to Webhook Subscriptions
+  - name: webhooks
+    description: Operations related to Webhooks
+  - name: client tokens
+    description: Operations related to Client Tokens

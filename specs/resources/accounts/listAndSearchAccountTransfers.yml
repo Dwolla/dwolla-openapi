@@ -3,7 +3,9 @@ get:
     - accounts
   summary: List and search transfers for an account
   description: List and search transfers for an account
-  operationId: listAndSearchAccountTransfers
+  operationId: listAndSearchTransfers
+  x-speakeasy-group: accounts.transfers
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path

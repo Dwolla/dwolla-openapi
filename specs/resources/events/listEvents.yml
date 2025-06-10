@@ -4,19 +4,21 @@ get:
   summary: List events
   description: List events
   operationId: listEvents
+  x-speakeasy-name-override: list
   parameters:
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: integer
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: integer
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
-  requestBody:
-    description: Parameters to filter events
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            limit:
-              type: integer
-            offset:
-              type: integer
   responses:
     '200':
       description: successful operation
@@ -31,11 +33,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: notFound
-              message:
-                type: string
-                example: Resource not found.
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

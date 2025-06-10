@@ -3,7 +3,9 @@ get:
     - accounts
   summary: List funding sources for an account
   description: List funding source for an account
-  operationId: listAccountFundingSources
+  operationId: listFundingSources
+  x-speakeasy-group: accounts.fundingSources
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path

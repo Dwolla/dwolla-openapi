@@ -4,6 +4,8 @@ get:
   summary: List customer funding sources
   description: List customer funding sources
   operationId: listCustomerFundingSources
+  x-speakeasy-group: customers.fundingSources
+  x-speakeasy-name-override: list
   parameters:
     - name: id
       in: path
@@ -60,6 +62,8 @@ post:
     - Basic bank funding source (with routing/account numbers)
     - Using an exchange
   operationId: createCustomerFundingSource
+  x-speakeasy-group: fundingSources
+  x-speakeasy-name-override: createForCustomer
   parameters:
     - name: id
       in: path
@@ -88,6 +92,9 @@ post:
           schema:
             oneOf:
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -96,6 +103,9 @@ post:
                     type: string
                     example: The Exchange was removed or disabled.
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -104,6 +114,9 @@ post:
                     type: string
                     example: The exchange token is not valid to perform this operation.
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string

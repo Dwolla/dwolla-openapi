@@ -3,7 +3,8 @@ get:
     - labels
   summary: Retrieve a label reallocation
   description: Retrieve a label reallocation
-  operationId: retrieveLabelLedgerEntry
+  operationId: retrieveLabelReallocation
+  x-speakeasy-name-override: getReallocation
   parameters:
     - name: id
       in: path
@@ -64,3 +65,17 @@ get:
                 type: string
                 format: date-time
                 example: '2022-05-16T13:41:31.036Z'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

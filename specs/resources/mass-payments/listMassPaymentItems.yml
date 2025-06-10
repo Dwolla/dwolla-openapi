@@ -1,9 +1,11 @@
 get:
   tags:
-    - massPayments
+    - mass payments
   summary: List items for a mass payment
   description: List items for a mass payment
   operationId: listMassPaymentItems
+  x-speakeasy-group: massPayments
+  x-speakeasy-name-override: listItems
   parameters:
     - name: id
       in: path
@@ -71,3 +73,31 @@ get:
                 type: integer
                 format: int32
                 example: 3
+    '403':
+      description: Not authorized to list mass payment items
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to list mass payment items.
+    '404':
+      description: Mass payment not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Mass payment not found.
