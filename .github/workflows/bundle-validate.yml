@@ -51,7 +51,7 @@ jobs:
         continue-on-error: false
 
   commit-bundle:
-    name: Commit bundle
+    name: Commit bundled spec
     needs: bundle-and-validate
     runs-on: ubuntu-latest
     permissions:
