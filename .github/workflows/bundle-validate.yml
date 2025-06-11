@@ -1,0 +1,77 @@
+name: OpenAPI Spec Management
+
+on:
+  pull_request:
+    paths:
+      - 'specs/**'
+      - '.github/workflows/bundle-validate.yml'
+
+jobs:
+  bundle-and-validate:
+    name: Bundle and validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install -g @redocly/cli
+          npm install -g @mintlify/cli
+          curl -fsSL https://go.speakeasy.com/cli-install.sh | sh
+
+      - name: Bundle OpenAPI spec
+        run: |
+          npx @redocly/cli bundle specs/spec.yml -o openapi.yml
+
+      - name: Run Redocly linter
+        run: |
+          npx @redocly/cli lint openapi.yml
+
+      - name: Run Mintlify linter
+        run: |
+          npx mint openapi-check openapi.yml
+
+      - name: Run Speakeasy linter
+        run: |
+          speakeasy lint openapi -s openapi.yml
+
+      - name: Upload bundled spec
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-spec
+          path: openapi.yml
+          if-no-files-found: error
+        continue-on-error: false
+
+  commit-bundle:
+    name: Commit bundled spec
+    needs: bundle-and-validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download bundled spec
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-spec
+          path: .
+
+      - name: Commit Bundled API Spec
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add openapi.yml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update bundled openapi.yml" && git push)
+        continue-on-error: false
