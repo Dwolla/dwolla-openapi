@@ -136,7 +136,7 @@ paths:
     $ref: './resources/client-tokens.yml'
 components:
   securitySchemes:
-    auth:
+    clientCredentials:
       type: oauth2
       flows:
         clientCredentials:
@@ -144,7 +144,7 @@ components:
           x-speakeasy-token-endpoint-authentication: client_secret_basic
           scopes: {}
 security:
-  - auth: []
+  - clientCredentials: []
 tags:
   - name: tokens
     description: Operations related to Application Access Tokens
