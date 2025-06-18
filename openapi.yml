@@ -18,7 +18,7 @@ servers:
   - url: https://api-sandbox.dwolla.com
     description: Sandbox server
 security:
-  - auth: []
+  - clientCredentials: []
 tags:
   - name: tokens
     description: Operations related to Application Access Tokens
@@ -4856,7 +4856,7 @@ paths:
                 $ref: '#/components/schemas/ForbiddenError'
 components:
   securitySchemes:
-    auth:
+    clientCredentials:
       type: oauth2
       flows:
         clientCredentials:
