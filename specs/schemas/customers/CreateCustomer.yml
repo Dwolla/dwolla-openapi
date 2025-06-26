@@ -1,0 +1,431 @@
+CreateReceiveOnlyUser:
+  title: CreateReceiveOnlyUser
+  description: Create a Receive Only User
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - type
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    type:
+      type: string
+      const: receive-only
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    businessName:
+      type: string
+      example: Jane Corp llc
+CreateUnverifiedCustomer:
+  title: CreateUnverifiedCustomer
+  description: Create an Unverified Customer
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    businessName:
+      type: string
+      example: Jane Corp llc
+CreateVerifiedPersonalCustomer:
+  title: CreateVerifiedPersonalCustomer
+  description: Create a Verified Personal customer
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - address1
+    - city
+    - state
+    - postalCode
+    - dateOfBirth
+    - type
+    - ssn
+  properties:
+    firstName:
+      type: string
+      example: Account
+    lastName:
+      type: string
+      example: Admin
+    email:
+      type: string
+      example: accountAdmin@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    businessName:
+      type: string
+      example: Jane Corp llc
+    type:
+      type: string
+      const: personal
+    address1:
+      type: string
+      example: 99-99 33rd St
+    address2:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    ssn:
+      type: string
+      example: 1234
+    dateOfBirth:
+      type: string
+      example: 1980-09-12
+CreateVerifiedSolePropCustomer:
+  title: CreateVerifiedSolePropCustomer
+  description: Create a Verified Business customer (Sole Proprietorship)
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - address1
+    - city
+    - state
+    - postalCode
+    - dateOfBirth
+    - type
+    - ssn
+    - businessType
+    - businessName
+    - businessClassification
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Doe
+    email:
+      type: string
+      example: johndoe@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    type:
+      type: string
+      const: business
+    address1:
+      type: string
+      example: 99-99 33rd St
+    address2:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    ssn:
+      type: string
+      example: 1234
+    dateOfBirth:
+      type: string
+      example: 1980-09-12
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessName:
+      type: string
+      example: Jane Corp
+    doingBusinessAs:
+      type: string
+      example: Jane's Electronics
+    ein:
+      type: string
+      example: 00-0000000
+    website:
+      type: string
+      example: https://www.domain.com
+    businessType:
+      type: string
+      const: soleProprietorship
+CreateVerifiedBusinessCustomerWithController:
+  title: CreateVerifiedBusinessCustomerWithController
+  description: Create a Verified Business customer with a US controller
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - address1
+    - city
+    - state
+    - postalCode
+    - type
+    - businessType
+    - controller
+    - businessName
+    - businessClassification
+    - ein
+  properties:
+    firstName:
+      type: string
+      example: Jane
+    lastName:
+      type: string
+      example: Business
+    email:
+      type: string
+      example: jane.business@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    type:
+      type: string
+      const: business
+    address1:
+      type: string
+      example: 99-99 33rd St
+    address2:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessName:
+      type: string
+      example: Jane Corp
+    doingBusinessAs:
+      type: string
+      example: Jane's Electronics
+    ein:
+      type: string
+      example: 00-0000000
+    website:
+      type: string
+      example: https://www.domain.com
+    controller:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - title
+        - dateOfBirth
+        - address
+        - ssn
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Controller
+        title:
+          type: string
+          example: CEO
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1980-01-31
+        address:
+          $ref: '../common.yml#/components/schemas/InternationalAddress'
+        ssn:
+          type: string
+          example: '1234'
+    businessType:
+      type: string
+      enum: [llc, corporation, partnership]
+      example: llc
+CreateVerifiedBusinessCustomerWithInternationalController:
+  title: CreateVerifiedBusinessCustomerWithInternationalController
+  description: Create a Verified Business customer with an international (non US) controller
+  type: object
+  required:
+    - firstName
+    - lastName
+    - email
+    - address1
+    - city
+    - state
+    - postalCode
+    - type
+    - businessType
+    - controller
+    - businessName
+    - businessClassification
+    - ein
+  properties:
+    firstName:
+      type: string
+      example: Jane
+    lastName:
+      type: string
+      example: Business
+    email:
+      type: string
+      example: jane.business@email.com
+    ipAddress:
+      type: string
+      example: 143.156.7.8
+    phone:
+      type: string
+      example: 5555555555
+    correlationId:
+      type: string
+      example: fc451a7a-ae30-4404-aB95-e3553fcd733
+    type:
+      type: string
+      const: business
+    address1:
+      type: string
+      example: 99-99 33rd St
+    address2:
+      type: string
+      example: 99-99 33rd St
+    city:
+      type: string
+      example: Some City
+    state:
+      type: string
+      example: NY
+    postalCode:
+      type: string
+      example: 11101
+    businessClassification:
+      type: string
+      example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+    businessName:
+      type: string
+      example: Jane Corp
+    doingBusinessAs:
+      type: string
+      example: Jane's Electronics
+    ein:
+      type: string
+      example: 00-0000000
+    website:
+      type: string
+      example: https://www.domain.com
+    controller:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - title
+        - dateOfBirth
+        - address
+        - passport
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Controller
+        title:
+          type: string
+          example: CEO
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1980-01-31
+        address:
+          $ref: '../common.yml#/components/schemas/InternationalAddress'
+        passport:
+          $ref: '../common.yml#/components/schemas/Passport'
+    businessType:
+      type: string
+      enum: [llc, corporation, partnership]
+      example: llc
+Controller:
+  type: object
+  required:
+    - firstName
+    - lastName
+    - title
+    - dateOfBirth
+    - address
+  properties:
+    firstName:
+      type: string
+      example: John
+    lastName:
+      type: string
+      example: Controller
+    title:
+      type: string
+      example: CEO
+    dateOfBirth:
+      type: string
+      format: date
+      example: 1980-01-31
+    address:
+      $ref: '../common.yml#/components/schemas/InternationalAddress'

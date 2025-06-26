@@ -78,7 +78,10 @@ post:
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
-          $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerFundingSource'
+          oneOf:
+            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerBankFundingSource'
+            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerExchangeFundingSource'
+            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerVirtualFundingSource'
   responses:
     '201':
       description: created
@@ -91,39 +94,9 @@ post:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - type: object
-                required:
-                  - code
-                  - message
-                properties:
-                  code:
-                    type: string
-                    example: InactiveExchange
-                  message:
-                    type: string
-                    example: The Exchange was removed or disabled.
-              - type: object
-                required:
-                  - code
-                  - message
-                properties:
-                  code:
-                    type: string
-                    example: InvalidExchangeToken
-                  message:
-                    type: string
-                    example: The exchange token is not valid to perform this operation.
-              - type: object
-                required:
-                  - code
-                  - message
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    example: Duplicate funding source or validation error. Authorization already associated to a funding source.
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InactiveExchangeError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidExchangeTokenError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/DuplicateFundingSourceError'
     '403':
       description: forbidden
       content:

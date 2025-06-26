@@ -27,7 +27,9 @@ post:
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
-          $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSession'
+          oneOf:
+            - $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSessionWithRedirect'
+            - $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSessionForWeb'
   responses:
     '201':
       description: created

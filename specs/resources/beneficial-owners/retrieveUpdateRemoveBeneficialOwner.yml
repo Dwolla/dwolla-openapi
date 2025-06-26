@@ -59,8 +59,8 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithSsn'
-            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwnerRequestBody.yml#/BeneficialOwnerWithPassport'
+            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwner.yml#/CreateUSBeneficialOwner'
+            - $ref: '../../schemas/beneficial-owners/CreateBeneficialOwner.yml#/CreateInternationalBeneficialOwner'
   responses:
     '200':
       description: successful operation

@@ -55,7 +55,7 @@ post:
           properties:
             status:
               type: string
-              example: cancelled
+              const: cancelled
   responses:
     '200':
       description: successful operation

@@ -1,56 +1,59 @@
-CreateCustomerExchangeSession:
-  oneOf:
-    - type: object
+CreateCustomerExchangeSessionWithRedirect:
+  title: CreateCustomerExchangeSessionWithRedirect
+  description: Create exchange session with redirect URL (required for Visa and for mobile sessions with Plaid)
+  type: object
+  required:
+    - _links
+  properties:
+    _links:
+      type: object
       required:
-        - _links
+        - exchange-partner
+        - redirect-url
       properties:
-        _links:
+        exchange-partner:
           type: object
           required:
-            - exchange-partner
-            - redirect-url
+            - href
           properties:
-            exchange-partner:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  format: uri
-                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
-            redirect-url:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  format: uri
-                  description: Required for Visa and Plaid mobile sessions
-                  examples:
-                    - description: Visa example
-                      value: https://www.yourdomain.com/iav-callback
-                    - description: Plaid Android example
-                      value: com.example.app123
-                    - description: Plaid iOS example
-                      value: https://example.com/app123
-    - type: object
-      required:
-        - _links
-      properties:
-        _links:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+        redirect-url:
           type: object
           required:
-            - exchange-partner
+            - href
           properties:
-            exchange-partner:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  format: uri
-                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
-      description: For MX and Plaid web sessions where redirect-url is not required
+            href:
+              type: string
+              format: uri
+              description: Required for Visa and Plaid mobile sessions
+              examples:
+                - description: Visa example
+                  value: https://www.yourdomain.com/iav-callback
+                - description: Plaid Android example
+                  value: com.example.app123
+                - description: Plaid iOS example
+                  value: https://example.com/app123
+CreateCustomerExchangeSessionForWeb:
+  title: CreateCustomerExchangeSessionForWeb
+  description: Create exchange session for web (MX and Plaid web sessions where redirect-url is not required)
+  type: object
+  required:
+    - _links
+  properties:
+    _links:
+      type: object
+      required:
+        - exchange-partner
+      properties:
+        exchange-partner:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
