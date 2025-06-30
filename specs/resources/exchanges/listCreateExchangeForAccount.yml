@@ -4,7 +4,7 @@ get:
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listAccountExchanges
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api.dwolla.com/exchanges
@@ -113,7 +113,7 @@ post:
     For Flinks Secure Exchange, the request body will include a token.
     For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api.dwolla.com/exchanges

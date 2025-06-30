@@ -4,7 +4,7 @@ get:
   summary: List and search customers
   description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
   operationId: listAndSearchCustomers
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/customers
@@ -73,7 +73,7 @@ post:
   summary: Create a customer
   description: Create an unverified customer, verified customer, or receive-only user.
   operationId: createCustomer
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/customers

@@ -4,7 +4,7 @@ get:
   summary: List mass payments for an account
   description: List mass payments for an account
   operationId: listAccountMassPayments
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/mass-payments

@@ -4,7 +4,7 @@ get:
   summary: Retrieve beneficial ownership status
   description: Retrieve beneficial ownership status
   operationId: getBeneficialOwnershipStatusForCustomer
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/customers/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc/beneficial-ownership
@@ -90,7 +90,7 @@ post:
   summary: Certify beneficial ownership status
   description: certify beneficial ownership status
   operationId: certifyBeneficialOwnershipForCustomer
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/customers/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc/beneficial-ownership

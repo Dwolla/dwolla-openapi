@@ -4,6 +4,35 @@ get:
   summary: root
   description: The entry point that clients can use to discover and explore the entire API.
   operationId: root
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla.get("/").then((res) => res.body._links.account.href); // => 'https://api-sandbox.dwolla.com/accounts/ad5f2162-404a-4c4c-994e-6ab6c3a13254'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        root = app_token.get('/')
+        root.body['_links']['account']['href'] # => 'https://api-sandbox.dwolla.com/accounts/ad5f2162-404a-4c4c-994e-6ab6c3a13254'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $rootApi = new DwollaSwagger\RootApi($apiClient);
+
+        $root = $rootApi->root();
+        $accountUrl = $root->_links["account"]->href; # => "https://api-sandbox.dwolla.com/accounts/ad5f2162-404a-4c4c-994e-6ab6c3a13254"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        root = app_token.get "/"
+        root._links.account.href # => "https://api-sandbox.dwolla.com/accounts/ad5f2162-404a-4c4c-994e-6ab6c3a13254"
   responses:
     '200':
       description: successful operation

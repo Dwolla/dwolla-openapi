@@ -4,7 +4,7 @@ get:
   summary: List exchanges for a customer
   description: Retrieve the list of exchanges associated with a Customer resource.
   operationId: listCustomerExchanges
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/customers/9fc74373-a5c7-40e4-aa59-d5f4c86a24ea/exchanges
@@ -125,7 +125,7 @@ post:
     For Plaid Secure Exchange, the request body will include a processor token.
     For Plaid Open Banking, the request body will include a public token.
   operationId: createCustomerExchange
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchanges

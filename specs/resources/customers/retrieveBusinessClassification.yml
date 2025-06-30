@@ -4,7 +4,7 @@ get:
   summary: Retrieve a business classification
   description: Retrieve a business classification by id.
   operationId: retrieveBusinessClassification
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/business-classifications/9ed3f670-7d6f-11e3-b1ce-5404a6144203

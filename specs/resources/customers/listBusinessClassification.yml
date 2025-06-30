@@ -4,7 +4,7 @@ get:
   summary: List business classifications
   description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
   operationId: listBusinessClassification
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/business-classifications

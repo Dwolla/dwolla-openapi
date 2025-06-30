@@ -4,6 +4,44 @@ get:
   summary: Retrieve a transfer
   description: Retrieve a transfer
   operationId: getTransfer
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/transfers/15c6bcce-46f7-e811-8112-e8dd3bececa8
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var transferUrl =
+          "https://api-sandbox.dwolla.com/transfers/15c6bcce-46f7-e811-8112-e8dd3bececa8";
+
+        dwolla.get(transferUrl).then((res) => res.body.status); // => 'pending'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/15c6bcce-46f7-e811-8112-e8dd3bececa8'
+
+        transfer = account_token.get(transfer_url)
+        transfer.body['status'] # => 'pending'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $transferUrl = 'https://api-sandbox.dwolla.com/transfers/15c6bcce-46f7-e811-8112-e8dd3bececa8';
+
+        $transfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transfer = $transfersApi->byId($transferUrl);
+        $transfer->status; # => "pending"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        transfer_url = 'https://api.dwolla.com/transfers/15c6bcce-46f7-e811-8112-e8dd3bececa8'
+
+        transfer = app_token.get transfer_url
+        transfer.status # => "pending"
   parameters:
     - name: id
       in: path
@@ -32,6 +70,60 @@ post:
   summary: Cancel a transfer
   description: Cancel a transfer
   operationId: cancelTransfer
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/transfers/3d48c13a-0fc6-e511-80de-0aa34a9b2388
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+            "status": "cancelled"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var transferUrl =
+          "https://api-sandbox.dwolla.com/transfers/3d48c13a-0fc6-e511-80de-0aa34a9b2388";
+        var requestBody = {
+          status: "cancelled",
+        };
+
+        dwolla.post(transfer_url, requestBody).then((res) => res.body.status); // => "cancelled"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/3d48c13a-0fc6-e511-80de-0aa34a9b2388'
+        request_body = {
+          'status': 'cancelled'
+        }
+
+        transfer = app_token.post(transfer_url, request_body)
+        transfer.body['status'] # => 'cancelled'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $transfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transferUrl = 'https://api-sandbox.dwolla.com/transfers/3d48c13a-0fc6-e511-80de-0aa34a9b2388';
+        $transfer = $transfersApi->update([
+          'status' => 'cancelled',
+        ], $transferUrl);
+
+        $transfer->status; # => "cancelled"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/3d48c13a-0fc6-e511-80de-0aa34a9b2388'
+        request_body = {
+              "status" => "cancelled",
+        }
+
+        transfer = app_token.post "#{transfer_url}", request_body
+        transfer.status # => "cancelled"
   parameters:
     - name: id
       in: path

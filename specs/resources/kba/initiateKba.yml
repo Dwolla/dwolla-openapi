@@ -4,6 +4,45 @@ post:
   summary: Initiate a KBA session
   description: Initiate a KBA session
   operationId: initiateKbaForCustomer
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api.dwolla.com/customers/33aa88b1-97df-424a-9043-d5f85809858b/kba
+        Authorization: Bearer cRahPzURfaIrTKL18tmslWPqKdzkLeYJm0oB1hGJ1vMPArft1v
+        Content-Type: application/json
+        Accept: application/vnd.dwolla.v1.hal+json
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/61a74e62-e27d-46f1-9fa6-a8e57226bb3e";
+
+        dwolla.post(`${customerUrl}/kba`).then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/kba/70b0e9cc-020d-4de2-9a82-a2281afa4c31'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/61a74e62-e27d-46f1-9fa6-a8e57226bb3e'
+
+        kba = app_token.post('%s/kba' % customer_url)
+        kba.headers['location'] # => "https://api-sandbox.dwolla.com/kba/70b0e9cc-020d-4de2-9a82-a2281afa4c31"
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+
+        $customerUrl = "https://api.dwolla.com/customers/ca22d192-48f1-4b72-b29d-681e9e20795d";
+
+        $kba = $customersApi->initiateKba($customer_url);
+        $kba; # => "https://api-sandbox.dwolla.com/kba/70b0e9cc-020d-4de2-9a82-a2281afa4c31"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/ca22d192-48f1-4b72-b29d-681e9e20795d'
+
+        kba = app_token.post "#{customer_url}/kba"
+        kba.response_headers[:location] # => "https://api-sandbox.dwolla.com/kba/70b0e9cc-020d-4de2-9a82-a2281afa4c31"
   parameters:
     - name: id
       in: path

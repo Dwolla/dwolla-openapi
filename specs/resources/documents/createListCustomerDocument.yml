@@ -4,7 +4,7 @@ get:
   summary: List documents for customer
   description: List documents for customer
   operationId: listCustomerDocuments
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2/documents
@@ -117,7 +117,7 @@ post:
   summary: Create a document for customer
   description: Create a document for customer
   operationId: createCustomerDocument
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         curl -X POST

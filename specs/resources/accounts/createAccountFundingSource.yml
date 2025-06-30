@@ -4,7 +4,7 @@ post:
   summary: Create a funding source for an account
   description: Create a funding source for an account
   operationId: createAccountFundingSource
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/funding-sources

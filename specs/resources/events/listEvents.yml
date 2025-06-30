@@ -4,7 +4,7 @@ get:
   summary: List events
   description: List events
   operationId: listEvents
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/events

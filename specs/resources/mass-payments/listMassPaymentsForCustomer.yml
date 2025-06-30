@@ -4,6 +4,44 @@ get:
   summary: List mass payments for customer
   description: List mass payments for customer
   operationId: listCustomerMassPayments
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/customers/39e21228-5958-4c4f-96fe-48a4bf11332d/mass-payments
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/ca32853c-48fa-40be-ae75-77b37504581b";
+
+        dwolla
+          .get(`${customerUrl}/mass-payments`, { limit: 10 })
+          .then((res) => res.body._embedded["mass-payments"][0].status); // => "complete"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/ca32853c-48fa-40be-ae75-77b37504581b'
+
+        mass_payments = app_token.get('%s/mass-payments' % customer_url)
+        mass_payments.body['_embedded']['mass-payments'][0]['status'] # => 'complete'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customerUrl = 'http://api-sandbox.dwolla.com/customers/01B47CB2-52AC-42A7-926C-6F1F50B1F271';
+        $masspaymentsApi = new DwollaSwagger\MasspaymentsApi($apiClient);
+        $masspayments = $masspaymentsApi->getByCustomer($customerUrl);
+        $masspayments->_embedded->{'mass-payments'}[0]->status; # => "complete"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/ca32853c-48fa-40be-ae75-77b37504581b'
+
+        mass_payments = app_token.get "#{customer_url}/mass-payments", limit: 10
+        mass_payments._embedded['mass-payments'][0].status # => "complete"
   parameters:
     - name: id
       in: path

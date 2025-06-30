@@ -4,6 +4,44 @@ get:
   summary: Retrieve mass payment item
   description: Retrieve mass payment item
   operationId: getMassPaymentItem
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/mass-payment-items/c1c7d293-63ec-e511-80df-0aa34a9b2388
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var massPaymentItemUrl =
+          "https://api-sandbox.dwolla.com/mass-payment-items/c1c7d293-63ec-e511-80df-0aa34a9b2388";
+
+        dwolla.get(massPaymentItemUrl).then((res) => res.body.status); // => 'success'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        mass_payment_item_url = 'https://api-sandbox.dwolla.com/mass-payment-items/c1c7d293-63ec-e511-80df-0aa34a9b2388'
+
+        mass_payment_item = app_token.get(mass_payment_item_url)
+        mass_payment_item.body['status'] # => 'success'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $massPaymentItemUrl = 'https://api-sandbox.dwolla.com/mass-payment-items/c1c7d293-63ec-e511-80df-0aa34a9b2388';
+
+        $massPaymentItemsApi = new DwollaSwagger\MasspaymentitemsApi($apiClient);
+
+        $massPaymentItem = $massPaymentItemsApi->byId($massPaymentItemUrl);
+        $massPaymentItem->status; # => "success"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        mass_payment_item_url = 'https://api-sandbox.dwolla.com/mass-payment-items/c1c7d293-63ec-e511-80df-0aa34a9b2388'
+
+        mass_payment_item = app_token.get mass_payment_item_url
+        mass_payment_item.status # => "success"
   parameters:
     - name: id
       in: path

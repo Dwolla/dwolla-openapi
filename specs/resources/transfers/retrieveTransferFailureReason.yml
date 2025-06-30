@@ -4,6 +4,44 @@ get:
   summary: Retrieve a transfer failure reason
   description: Retrieve a transfer failure reason
   operationId: getTransferFailureReason
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/transfers/8997ebed-69be-e611-80ea-0aa34a9b2388/failure
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var transferUrl =
+          "https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388";
+
+        dwolla.get(`${transferUrl}/failure`).then((res) => res.body.code); // => 'R01'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388'
+
+        failure = app_token.get('%s/failure' % transfer_url)
+        failure.body['code'] # => 'R01'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $transferUrl = 'https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388';
+
+        $transfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transferFailure = $transfersApi->failureById($transferUrl);
+        $transferFailure->code; # => "R01"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388'
+
+        failure = app_token.get "#{transfer_url}/failure"
+        failure.code # => "R01"
   parameters:
     - name: id
       in: path

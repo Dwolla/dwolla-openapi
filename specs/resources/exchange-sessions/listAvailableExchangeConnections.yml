@@ -7,6 +7,44 @@ get:
     Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
     This information is essential for creating an exchange and corresponding funding source within Dwolla.
   operationId: listAvailableExchangeConnections
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694/available-exchange-connections
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694";
+
+        dwolla
+          .get(`${customerUrl}/available-exchange-connections`)
+          .then(
+            (res) =>
+              res.body._embedded["available-exchange-connections"][0]
+                .availableConnectionToken
+          ); // => 'eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0='
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694'
+
+        available_exchange_connection = app_token.get('%s/available-exchange-connections' % customer_url)
+        available_exchange_connection.body['_embedded']['available-exchange-connections'][0]['availableConnectionToken'] # => 'eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0='
+    - lang: php
+      source: |
+        /**
+         * No example for this language yet.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api.dwolla.com/customers/1b54c81a-261f-4779-bb57-9405e6e00694'
+
+        available_exchange_connections = app_token.get "#{customer_url}/available-exchange-connections"
+        available_exchange_connections._embedded['available-exchange-connections'][0].availableConnectionToken # => "eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0="
   parameters:
     - name: id
       in: path

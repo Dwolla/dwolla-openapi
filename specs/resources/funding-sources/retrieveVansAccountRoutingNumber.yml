@@ -4,6 +4,44 @@ get:
   summary: Retrieve account and routing numbers for a VAN (Virtual Account Number)
   description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
   operationId: getVanAchRouting
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/funding-sources/e6d68efb-c49b-43db-8867-e1ca58c6ee8c/ach-routing
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/e6d68efb-c49b-43db-8867-e1ca58c6ee8c/ach-routing";
+
+        dwolla.get(fundingSourceUrl).then((res) => res.body.name); // => "Test checking account"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/e6d68efb-c49b-43db-8867-e1ca58c6ee8c/ach-routing'
+
+        funding_source = app_token.get(funding_source_url)
+        funding_source.body['name'] # => 'Test checking account'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingSourceUrl = 'https://api-sandbox.dwolla.com/funding-sources/e6d68efb-c49b-43db-8867-e1ca58c6ee8c/ach-routing';
+
+        $fsApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fsApi->id($fundingSourceUrl);
+        $fundingSource->name; # => "Test checking account"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/e6d68efb-c49b-43db-8867-e1ca58c6ee8c/ach-routing'
+
+        funding_source = app_token.get funding_source_url
+        funding_source.name # => "Test checking account"
   parameters:
     - name: id
       in: path

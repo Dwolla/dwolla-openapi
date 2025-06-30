@@ -4,6 +4,44 @@ get:
   summary: List fees for a transfer
   description: List fees for a transfer
   operationId: listTransferFees
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388/fees
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var transferUrl =
+          "https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388";
+
+        dwolla.get(`${transferUrl}/fees`).then((res) => res.body.total); // => 2
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388'
+
+        fees = app_token.get('%s/fees' % transfer_url)
+        fees.body['total'] # => 2
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $transferUrl = 'https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388';
+
+        $transfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transferFees = $transfersApi->getFeesBySource($transferUrl);
+        $transferFees->total; # => "2"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        transfer_url = 'https://api-sandbox.dwolla.com/transfers/83eb4b5e-a5d9-e511-80de-0aa34a9b2388'
+
+        fees = app_token.get "#{transfer_url}/fees"
+        fees.total # => 2
   parameters:
     - name: id
       in: path

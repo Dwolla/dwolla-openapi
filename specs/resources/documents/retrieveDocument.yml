@@ -4,7 +4,7 @@ get:
   summary: Retrieve a document
   description: Retrieve a document for a customer or beneficial owner
   operationId: retrieveDocument
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc

@@ -4,7 +4,7 @@ get:
   summary: List beneficial owners
   description: Retrieve a list of beneficial owners that belong to a Customer
   operationId: listBeneficialOwnersForCustomer
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5/beneficial-owners
@@ -76,7 +76,7 @@ post:
   summary: Create beneficial owner
   description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
   operationId: createBeneficialOwnerForCustomer
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5/beneficial-owners

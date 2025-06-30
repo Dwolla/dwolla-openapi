@@ -4,6 +4,316 @@ post:
   summary: Initiate a transfer
   description: Initiate a transfer
   operationId: initiateTransfer
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/transfers
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "_links": {
+            "source": {
+              "href": "https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4"
+            },
+            "destination": {
+              "href": "https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db"
+            }
+          },
+          "amount": {
+            "currency": "USD",
+            "value": "1.00"
+          },
+          "clearing": {
+            "source": "standard",
+            "destination": "next-available"
+          },
+          "achDetails": {
+            "source": {
+              "addenda": {
+                "values": ["ABC123_AddendaValue"]
+              }
+            },
+            "destination": {
+              "addenda": {
+                "values": ["ZYX987_AddendaValue"]
+              }
+            }
+          },
+          "rtpDetails": {
+            "destination": {
+              "remittanceData": "ABC_123 Remittance Data"
+            }
+          },
+          "fees": [
+            {
+              "_links": {
+                "charge-to": {
+                  "href": "https://api-sandbox.dwolla.com/customers/d795f696-2cac-4662-8f16-95f1db9bddd8"
+                }
+              },
+              "amount": {
+                "value": "4.00",
+                "currency": "USD"
+              }
+            }
+          ],
+          "metadata": {
+            "key": "value"
+          },
+          "correlationId": "6d127333-69e9-4c2b-8cae-df850228e130",
+          "processingChannel": {
+            "destination": "real-time-payments"
+          }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var requestBody = {
+          _links: {
+            source: {
+              href: "https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4",
+            },
+            destination: {
+              href: "https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db",
+            },
+          },
+          amount: {
+            currency: "USD",
+            value: "1.00",
+          },
+          clearing: {
+            source: "standard",
+            destination: "next-available",
+          },
+          achDetails: {
+            source: {
+              addenda: {
+                values: ["ABC123_AddendaValue"],
+              },
+            },
+            destination: {
+              addenda: {
+                values: ["ZYX987_AddendaValue"],
+              },
+            },
+          },
+          rtpDetails: {
+            destination: {
+              remittanceData: "ABC_123 Remittance Data",
+            },
+          },
+          fees: [
+            {
+              _links: {
+                "charge-to": {
+                  href: "https://api-sandbox.dwolla.com/customers/d795f696-2cac-4662-8f16-95f1db9bddd8",
+                },
+              },
+              amount: {
+                value: "4.00",
+                currency: "USD",
+              },
+            },
+          ],
+          metadata: {
+            key: "value",
+          },
+          correlationId: "6d127333-69e9-4c2b-8cae-df850228e130",
+          processingChannel: {
+            destination: "real-time-payments",
+          },
+        };
+
+        dwolla
+          .post("transfers", requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        request_body = {
+          '_links': {
+            'source': {
+              'href': 'https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4'
+            },
+            'destination': {
+              'href': 'https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db'
+            }
+          },
+          'amount': {
+            'currency': 'USD',
+            'value': '1.00'
+          },
+          'clearing': {
+            'source': 'standard',
+            'destination': 'next-available'
+          },
+          'achDetails': {
+            'source': {
+              'addenda': {
+                'values': ['ABC123_AddendaValue']
+              }
+            },
+            'destination': {
+              'addenda': {
+                'values': ['ZYX987_AddendaValue']
+              }
+            }
+          },
+          'rtpDetails': {
+            'destination': {
+              'remittanceData': 'ABC_123 Remittance Data'
+            }
+          },
+          'fees': [
+            {
+              '_links': {
+                'charge-to': {
+                  'href': 'https://api-sandbox.dwolla.com/customers/d795f696-2cac-4662-8f16-95f1db9bddd8'
+                }
+              },
+              'amount': {
+                'value': '4.00',
+                'currency': 'USD'
+              }
+            }
+          ],
+          'metadata': {
+            'key': 'value'
+          },
+          'correlationId': '6d127333-69e9-4c2b-8cae-df850228e130',
+          'processingChannel': {
+            'destination': 'real-time-payments'
+          }
+        }
+
+        transfer = app_token.post('transfers', request_body)
+        transfer.headers['location'] # => 'https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $transfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transfer = $transfersApi->create([
+          '_links' => [
+            'source' => [
+              'href' => 'https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4',
+            ],
+            'destination' => [
+              'href' => 'https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db',
+            ]
+          ],
+          'amount' => [
+            'currency' => 'USD',
+            'value' => '1.00'
+          ],
+          'clearing' => [
+            'source' => 'standard',
+            'destination' => 'next-available'
+          ],
+          'achDetails' => [
+            'source' => [
+              'addenda' => [
+                'values' => ['ABC123_AddendaValue']
+              ]
+            ],
+            'destination' => [
+              'addenda' => [
+                'values' => ['ZYX987_AddendaValue']
+              ]
+            ]
+          ],
+          'rtpDetails' => [
+            'destination' => [
+              'remittanceData' => 'ABC_123 Remittance Data'
+            ]
+          ],
+          'fees' => [
+            [
+              '_links' => [
+                'charge-to' => [
+                  'href' => 'https://api-sandbox.dwolla.com/customers/d795f696-2cac-4662-8f16-95f1db9bddd8',
+                ]
+              ],
+              'amount' => [
+                'value' => '4.00',
+                'currency' => 'USD'
+              ]
+            ]
+          ],
+          'metadata' => [
+            'key' => 'value'
+          ],
+          'correlationId' => '6d127333-69e9-4c2b-8cae-df850228e130',
+          'processingChannel' => [
+            'destination' => 'real-time-payments'
+          ]
+        ]);
+        $transfer; # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        request_body = {
+          :_links => {
+            :source => {
+              :href => "https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4"
+            },
+            :destination => {
+              :href => "https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db"
+            }
+          },
+          :amount => {
+            :currency => "USD",
+            :value => "1.00"
+          },
+          :clearing => {
+            :source => "standard",
+            :destination => "next-available"
+          },
+          :achDetails => {
+            :source => {
+              :addenda => {
+                :values => ["ABC123_AddendaValue"]
+              }
+            },
+            :destination => {
+              :addenda => {
+                :values => ["ZYX987_AddendaValue"]
+              }
+            }
+          },
+          :rtpDetails => {
+            :destination => {
+              :remittanceData => "ABC_123 Remittance Data"
+            }
+          },
+          :fees => [
+            {
+              :_links => {
+                :"charge-to" => {
+                  :href => "https://api-sandbox.dwolla.com/customers/d795f696-2cac-4662-8f16-95f1db9bddd8"
+                }
+              },
+              :amount => {
+                :value => "4.00",
+                :currency => "USD"
+              }
+            }
+          ],
+          :metadata => {
+            :key => "value"
+          },
+          :correlationId => "6d127333-69e9-4c2b-8cae-df850228e130",
+          :processingChannel => {
+            :destination => "real-time-payments"
+          }
+        }
+
+        transfer = app_token.post "transfers", request_body
+        transfer.response_headers[:location] # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
   requestBody:
     description: Parameters to initiate a transfer
     content:

@@ -4,6 +4,42 @@ get:
   summary: Retrieve a webhook subscription
   description: Retrieve a webhook subscription
   operationId: getWebhookSubscription
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookSubscriptionUrl =
+          "https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216";
+
+        dwolla.get(webhookSubscriptionUrl).then((res) => res.body.created); // => '2016-04-20T15:49:50.340Z'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        webhook_subscription = app_token.get(webhook_subscription_url)
+        webhook_subscription.body['created'] # => '2015-10-28T16:20:47+00:00'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookApi = new DwollaSwagger\WebhooksubscriptionsApi($apiClient);
+        $retrieved = $webhookApi->id('https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216');
+
+        $retrieved->created; # => 2015-10-28T16:20:47+00:00
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        webhook_subscription = app_token.get webhook_subscription_url
+        webhook_subscription.created # => 2015-10-28T16:20:47+00:00
   parameters:
     - name: id
       in: path
@@ -25,6 +61,60 @@ post:
   summary: Update a webhook subscription
   description: Update a webhook subscription
   operationId: updateWebhookSubscription
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer 0Sn0W6kzNicvoWhDbQcVSKLRUpGjIdlPSEYyrHqrDDoRnQwE7Q
+        {
+            "paused": true
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookSubscriptionUrl =
+          "https://api-sandbox.dwolla.com/webhook-subscriptions/692486f8-29f6-4516-a6a5-c69fd2ce854c";
+
+        var requestBody = {
+          paused: true,
+        };
+
+        dwolla.post(webhookSubscriptionUrl, requestBody).then((res) => res.body.paused); // => 'true'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        request_body = {
+          'paused': true
+        }
+
+        subscription = app_token.post(webhook_subscription_url, request_body)
+        subscription.body['paused'] # => true
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookSubscriptionUrl = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        $webhookApi = new DwollaSwagger\WebhooksubscriptionsApi($apiClient);
+
+        $subscription = $webhookApi->updateSubscription(array (
+          'paused' => true
+        ), $webhookSubscriptionUrl);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        request_body = {
+          :paused => true
+        }
+
+        subscription = app_token.post "#{webhook_subscription_url}", request_body
   parameters:
     - name: id
       in: path
@@ -72,6 +162,38 @@ delete:
   summary: Delete a webhook subscription
   description: Delete a webhook subscription
   operationId: delete
+  x-codeSamples:
+    - lang: bash
+      source: |
+        DELETE https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookSubscriptionUrl =
+          "https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216";
+
+        dwolla.delete(webhookSubscriptionUrl);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        app_token.delete(webhook_subscription_url)
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookApi = new DwollaSwagger\WebhooksubscriptionsApi($apiClient);
+        $webhookApi->deleteById('https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216');
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        app_token.delete webhook_subscription_url
   parameters:
     - name: id
       in: path

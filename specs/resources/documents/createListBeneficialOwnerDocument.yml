@@ -4,7 +4,7 @@ get:
   summary: List documents for beneficial owner
   description: List documents for beneficial owner
   operationId: listBeneficialOwnerDocuments
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2/documents
@@ -117,7 +117,7 @@ post:
   summary: Create a document for beneficial owner
   description: Create a document for beneficial owner
   operationId: createBeneficialOwnerDocument
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         curl -X POST

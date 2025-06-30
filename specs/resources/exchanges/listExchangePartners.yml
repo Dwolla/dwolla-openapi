@@ -4,7 +4,7 @@ get:
   summary: List exchange partners
   description: List exchange partners
   operationId: listExchangePartners
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api.dwolla.com/exchange-partners

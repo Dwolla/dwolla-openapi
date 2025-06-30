@@ -4,7 +4,7 @@ get:
   summary: Retrieve a customer
   description: Retrieve details for a single customer
   operationId: getCustomer
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/customers/FC451A7A-AE30-4404-AB95-E3553FCD733F
@@ -81,7 +81,7 @@ post:
   summary: Update a customer
   description: Update Customer information, upgrade an unverified Customer to a verified Customer, suspend a Customer, deactivate a Customer, reactivate a Customer, and update a verified Customer's information to retry verification.
   operationId: update
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/customers/FC451A7A-AE30-4404-AB95-E3553FCD733F

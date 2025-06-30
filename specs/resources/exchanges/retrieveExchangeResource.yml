@@ -4,7 +4,7 @@ get:
   summary: Retrieve exchange resource
   description: Retrieve an exchange resource by its ID.
   operationId: getExchange
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api.dwolla.com/exchanges/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a

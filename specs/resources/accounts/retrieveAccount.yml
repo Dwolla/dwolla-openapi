@@ -4,7 +4,7 @@ get:
   summary: Retrieve Account Details
   description: Retrieve basic account information belonging to the authorized Dwolla account.
   operationId: getAccount
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b

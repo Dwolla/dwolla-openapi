@@ -4,6 +4,44 @@ get:
   summary: Retrieve a label
   description: Retrieve a label
   operationId: getLabel
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var labelUrl =
+          "https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc";
+
+        dwolla.get(labelUrl).then((res) => res.body.id); // => '7e042ffe-e25e-40d2-b86e-748b98845ecc'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        label_url = 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc'
+
+        label = app_token.get(label_url)
+        label.body['id'] # => '7e042ffe-e25e-40d2-b86e-748b98845ecc'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $labelUrl = "https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc";
+
+        $labelsApi = new DwollaSwagger\LabelsApi($apiClient);
+
+        $label = $labelsApi->getLabel($labelUrl);
+        $label->id; # => "7e042ffe-e25e-40d2-b86e-748b98845ecc"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        label_url = 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc'
+
+        label = app_token.get label_url
+        label.id # => "7e042ffe-e25e-40d2-b86e-748b98845ecc"
   parameters:
     - name: id
       in: path
@@ -25,6 +63,38 @@ delete:
   summary: Remove a label
   description: Remove a label
   operationId: removeLabel
+  x-codeSamples:
+    - lang: bash
+      source: |
+        DELETE https://api-sandbox.dwolla.com/labels/30165ded-2f32-4ee9-b340-ac44dda1d7fc
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var labelUrl =
+          "https://api-sandbox.dwolla.com/labels/30165ded-2f32-4ee9-b340-ac44dda1d7fc";
+
+        dwolla.delete(labelUrl);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        label_url = 'https://api-sandbox.dwolla.com/labels/30165ded-2f32-4ee9-b340-ac44dda1d7fc'
+
+        app_token.delete(label_url)
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $labelsApi = new DwollaSwagger\LabelsApi($apiClient);
+        $labelsApi->removeLabel('https://api-sandbox.dwolla.com/labels/30165ded-2f32-4ee9-b340-ac44dda1d7fc');
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        label_url = 'https://api-sandbox.dwolla.com/labels/30165ded-2f32-4ee9-b340-ac44dda1d7fc'
+
+        app_token.delete label_url
   parameters:
     - name: id
       in: path

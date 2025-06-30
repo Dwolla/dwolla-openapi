@@ -4,6 +4,44 @@ get:
   summary: Retrieve micro-deposits details
   description: Retrieve micro-deposits details
   operationId: getMicroDeposits
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c/micro-deposits
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c";
+
+        dwolla.get(`${fundingSourceUrl}/micro-deposits`).then((res) => res.body.status); // => "failed"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+
+        funding_source = app_token.get('%s/micro-deposits' % funding_source_url)
+        funding_source.body['status'] # => 'failed'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingSourceUrl = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c';
+
+        $fsApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fsApi->verifyMicroDepositsExist($fundingSourceUrl);
+        $fundingSource->status; # => "failed"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+
+        funding_source = app_token.get "#{funding_source_url}/micro-deposits"
+        funding_source.status # => "failed"
   parameters:
     - name: id
       in: path
@@ -56,6 +94,41 @@ post:
     For initiating micro-deposits, no request body is required.
     For verifying micro-deposits, a request body with the micro-deposit amounts is required.
   operationId: initiateOrVerifyMicroDeposits
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/funding-sources/e52006c3-7560-4ff1-99d5-b0f3a6f4f909/micro-deposits
+        Authorization: Bearer 8tJjM7iTjujLthkbVPMUcHLqMNw4uv5kG712g9j1RRBHplGpwo
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+    - lang: javascript
+      source: |
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/e52006c3-7560-4ff1-99d5-b0f3a6f4f909";
+
+        dwolla.post(`${fundingSourceUrl}/micro-deposits`);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/e52006c3-7560-4ff1-99d5-b0f3a6f4f909'
+
+        app_token.post('%s/micro-deposits' % funding_source_url)
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingSourceUrl = 'https://api-sandbox.dwolla.com/funding-sources/e52006c3-7560-4ff1-99d5-b0f3a6f4f909';
+
+        $fsApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fsApi->microDeposits(null, $fundingSourceUrl);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/e52006c3-7560-4ff1-99d5-b0f3a6f4f909'
+
+        app_token.post "#{funding_source_url}/micro-deposits"
   parameters:
     - name: id
       in: path

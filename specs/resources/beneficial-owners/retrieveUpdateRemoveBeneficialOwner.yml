@@ -4,7 +4,7 @@ get:
   summary: Retrieve beneficial owner
   description: Retrieve details for a single beneficial owner
   operationId: retrieveBeneficialOwner
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api-sandbox.dwolla.com/beneficial-owners/976a4c14-b183-40e9-b2df-ddbb3e794d3f
@@ -74,7 +74,7 @@ post:
   summary: Update beneficial owner
   description: Update beneficial owner
   operationId: updateBeneficialOwner
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8
@@ -262,7 +262,7 @@ delete:
   summary: Delete beneficial owner
   description: Delete beneficial owner
   operationId: deleteBeneficialOwner
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         DELETE https://api-sandbox.dwolla.com/beneficial-owners/692486f8-29f6-4516-a6a5-c69fd2ce854c

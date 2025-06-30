@@ -4,7 +4,7 @@ get:
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
   operationId: getExchangePartner
-  x-code-samples:
+  x-codeSamples:
     - lang: bash
       source: |
         GET https://api.dwolla.com/exchange-partners/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
