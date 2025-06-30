@@ -33,23 +33,23 @@ paths:
   /accounts/{id}/mass-payments:
     $ref: './resources/accounts/listAccountMassPayments.yml'
   /customers:
-    $ref: './resources/customers/createListCustomer.yml'
+    $ref: './resources/customers/createListCustomers.yml'
   /customers/{id}:
     $ref: './resources/customers/retrieveUpdateCustomer.yml'
   /business-classifications:
-    $ref: './resources/customers/listBusinessClassification.yml'
+    $ref: './resources/customers/listBusinessClassifications.yml'
   /business-classifications/{id}:
     $ref: './resources/customers/retrieveBusinessClassification.yml'
   /customers/{id}/beneficial-owners:
-    $ref: './resources/beneficial-owners/createListBeneficialOwner.yml'
+    $ref: './resources/beneficial-owners/createListBeneficialOwners.yml'
   /beneficial-owners/{id}:
     $ref: './resources/beneficial-owners/retrieveUpdateRemoveBeneficialOwner.yml'
   /customers/{id}/beneficial-ownership:
     $ref: './resources/beneficial-owners/retrieveCertifyBeneficialOwnership.yml'
   /customers/{id}/documents:
-    $ref: './resources/documents/createListCustomerDocument.yml'
+    $ref: './resources/documents/createListCustomerDocuments.yml'
   /beneficial-owners/{id}/documents:
-    $ref: './resources/documents/createListBeneficialOwnerDocument.yml'
+    $ref: './resources/documents/createListBeneficialOwnerDocuments.yml'
   /documents/{id}:
     $ref: './resources/documents/retrieveDocument.yml'
   /customers/{id}/kba:
@@ -91,9 +91,9 @@ paths:
   /labels/{id}:
     $ref: './resources/labels/retrieveRemoveLabel.yml'
   /customers/{id}/labels:
-    $ref: './resources/labels/createListCustomerLabel.yml'
+    $ref: './resources/labels/createListCustomerLabels.yml'
   /labels/{id}/ledger-entries:
-    $ref: './resources/labels/createListLabelLedgerEntry.yml'
+    $ref: './resources/labels/createListLabelLedgerEntries.yml'
   /ledger-entries/{id}:
     $ref: './resources/labels/retrieveLabelLedgerEntry.yml'
   /label-reallocations:
@@ -119,11 +119,11 @@ paths:
   /exchange-partners/{id}:
     $ref: './resources/exchanges/retrieveExchangePartner.yml'
   /exchanges:
-    $ref: './resources/exchanges/listCreateExchangeForAccount.yml'
+    $ref: './resources/exchanges/listCreateExchangesForAccount.yml'
   /exchanges/{id}:
     $ref: './resources/exchanges/retrieveExchangeResource.yml'
   /customers/{id}/exchanges:
-    $ref: './resources/exchanges/listCreateExchangeForCustomer.yml'
+    $ref: './resources/exchanges/listCreateExchangesForCustomer.yml'
   /customers/{id}/exchange-sessions:
     $ref: './resources/exchange-sessions/createCustomerExchangeSession.yml'
   /exchange-sessions/{id}:
