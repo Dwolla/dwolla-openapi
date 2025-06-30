@@ -1695,8 +1695,8 @@ paths:
         - Basic bank funding source (with routing/account numbers)
         - Using an exchange
       operationId: createCustomerFundingSource
-      x-speakeasy-group: fundingSources
-      x-speakeasy-name-override: createForCustomer
+      x-speakeasy-group: customer.fundingSources
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -2428,7 +2428,8 @@ paths:
       summary: List and search transfers for a customer
       description: List and search transfers for a customer
       operationId: listCustomerTransfers
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customer.transfers
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -3067,8 +3068,8 @@ paths:
       summary: List mass payments for customer
       description: List mass payments for customer
       operationId: listCustomerMassPayments
-      x-speakeasy-group: massPayments
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customer.massPayments
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path

@@ -62,8 +62,8 @@ post:
     - Basic bank funding source (with routing/account numbers)
     - Using an exchange
   operationId: createCustomerFundingSource
-  x-speakeasy-group: fundingSources
-  x-speakeasy-name-override: createForCustomer
+  x-speakeasy-group: customer.fundingSources
+  x-speakeasy-name-override: create
   parameters:
     - name: id
       in: path
