@@ -4,6 +4,7 @@ post:
   summary: Initiate a transfer
   description: Initiate a transfer
   operationId: initiateTransfer
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -314,7 +315,10 @@ post:
 
         transfer = app_token.post "transfers", request_body
         transfer.response_headers[:location] # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to initiate a transfer
     content:
       application/json:

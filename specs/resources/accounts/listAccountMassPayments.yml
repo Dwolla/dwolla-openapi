@@ -1,9 +1,11 @@
 get:
   tags:
-    - account
+    - accounts
   summary: List mass payments for an account
   description: List mass payments for an account
-  operationId: listAccountMassPayments
+  operationId: listMassPayments
+  x-speakeasy-group: accounts.massPayments
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -44,6 +46,7 @@ get:
       explode: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
     - name: limit
       in: query
       description: Maximum number of results to return

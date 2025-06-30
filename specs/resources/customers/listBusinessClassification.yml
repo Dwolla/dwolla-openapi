@@ -3,7 +3,9 @@ get:
     - customers
   summary: List business classifications
   description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
-  operationId: listBusinessClassification
+  operationId: listBusinessClassifications
+  x-speakeasy-group: businessClassifications
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -34,6 +36,8 @@ get:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         classifications = app_token.get "business-classifications"
         classifications._embedded.['business-classifications'][0].name # => "Accommodation and Food Services"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -52,3 +56,17 @@ get:
                     type: array
                     items:
                       $ref: '../../schemas/business-classifications/BusinessClassifications.yml#/BusinessClassifications'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

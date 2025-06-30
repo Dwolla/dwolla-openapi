@@ -4,6 +4,7 @@ post:
   summary: Create an on-demand transfer authorization
   description: Create an on-demand transfer authorization
   operationId: createOnDemandTransferAuthorization
+  x-speakeasy-name-override: createOnDemandAuthorization
   x-codeSamples:
     - lang: bash
       source: |
@@ -44,6 +45,8 @@ post:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         on_demand_authorization = app_token.post "on-demand-authorizations"
         on_demand_authorization.buttonText # => "Agree & Continue"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: Ok

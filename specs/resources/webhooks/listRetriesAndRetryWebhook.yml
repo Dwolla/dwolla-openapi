@@ -4,6 +4,7 @@ get:
   summary: List retries for a webhook
   description: List retries for a webhook
   operationId: listWebhookRetries
+  x-speakeasy-name-override: listRetries
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -70,6 +72,7 @@ post:
   summary: Retry a webhook
   description: Retry a webhook
   operationId: retryWebhook
+  x-speakeasy-name-override: retry
   x-codeSamples:
     - lang: bash
       source: |
@@ -113,6 +116,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '201':
       description: created

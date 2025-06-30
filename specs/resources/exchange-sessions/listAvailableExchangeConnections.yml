@@ -7,6 +7,8 @@ get:
     Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
     This information is essential for creating an exchange and corresponding funding source within Dwolla.
   operationId: listAvailableExchangeConnections
+  x-speakeasy-group: customers
+  x-speakeasy-name-override: listAvailableConnections
   x-codeSamples:
     - lang: bash
       source: |
@@ -52,6 +54,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

@@ -4,6 +4,8 @@ get:
   summary: Retrieve a business classification
   description: Retrieve a business classification by id.
   operationId: retrieveBusinessClassification
+  x-speakeasy-group: businessClassifications
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -41,6 +43,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

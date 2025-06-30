@@ -4,6 +4,8 @@ get:
   summary: List documents for beneficial owner
   description: List documents for beneficial owner
   operationId: listBeneficialOwnerDocuments
+  x-speakeasy-group: beneficialOwners.documents
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -103,6 +105,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -111,12 +114,28 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/documents/Documents.yml#/Documents'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - documents
   summary: Create a document for beneficial owner
   description: Create a document for beneficial owner
   operationId: createBeneficialOwnerDocument
+  x-speakeasy-group: beneficialOwners.documents
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -177,6 +196,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Upload a document for a beneficial owner.
     required: true
@@ -196,3 +216,41 @@ post:
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '../../schemas/common.yml#/components/schemas/MaximumNumberOfResourcesSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/InvalidFileTypeSchema'
+              - $ref: '../../schemas/common.yml#/components/schemas/DuplicateResourceSchema'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
+    '413':
+      description: request entity too large
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: fileTooLarge
+              message:
+                type: string
+                example: Document requests are limited to 10 MiB.

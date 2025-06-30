@@ -1,9 +1,10 @@
 get:
   tags:
-    - account
+    - accounts
   summary: Retrieve Account Details
-  description: Retrieve basic account information belonging to the authorized Dwolla account.
+  description: Retrieve basic account details belonging to the authorized Dwolla account.
   operationId: getAccount
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -48,6 +49,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

@@ -4,6 +4,8 @@ get:
   summary: List exchanges for a customer
   description: Retrieve the list of exchanges associated with a Customer resource.
   operationId: listCustomerExchanges
+  x-speakeasy-group: customers.exchanges
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -91,6 +93,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -111,7 +114,6 @@ get:
               message:
                 type: string
                 example: Customer ID not found. Check Customer ID.
-
 post:
   tags:
     - exchanges
@@ -125,6 +127,8 @@ post:
     For Plaid Secure Exchange, the request body will include a processor token.
     For Plaid Open Banking, the request body will include a public token.
   operationId: createCustomerExchange
+  x-speakeasy-group: customers.exchanges
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -213,6 +217,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: true
     content:
@@ -267,11 +272,4 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: NotFound
-              message:
-                type: string
-                example: The requested resource was not found.
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

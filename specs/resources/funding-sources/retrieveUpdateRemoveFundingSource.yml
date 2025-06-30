@@ -4,6 +4,8 @@ get:
   summary: Retrieve a funding source
   description: Retrieve a funding source
   operationId: getFundingSource
+  x-speakeasy-group: fundingSources
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +51,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -77,6 +80,8 @@ post:
   summary: Update or remove a funding source
   description: Update or remove a funding source
   operationId: updateOrRemoveFundingSource
+  x-speakeasy-group: fundingSources
+  x-speakeasy-name-override: updateOrRemove
   x-codeSamples:
     - lang: bash
       source: |
@@ -130,7 +135,9 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to update a customer funding source
     content:
       application/json:

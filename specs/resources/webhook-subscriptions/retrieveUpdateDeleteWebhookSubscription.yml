@@ -4,6 +4,8 @@ get:
   summary: Retrieve a webhook subscription
   description: Retrieve a webhook subscription
   operationId: getWebhookSubscription
+  x-speakeasy-group: webhookSubscriptions
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -47,6 +49,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -55,12 +58,21 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/webhook-subscriptions/WebhookSubscription.yml#/WebhookSubscription'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - webhook subscriptions
   summary: Update a webhook subscription
   description: Update a webhook subscription
   operationId: updateWebhookSubscription
+  x-speakeasy-group: webhookSubscriptions
+  x-speakeasy-name-override: update
   x-codeSamples:
     - lang: bash
       source: |
@@ -122,7 +134,9 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to update a webhook subscription
     content:
       application/json:
@@ -162,6 +176,7 @@ delete:
   summary: Delete a webhook subscription
   description: Delete a webhook subscription
   operationId: delete
+  x-speakeasy-group: webhookSubscriptions
   x-codeSamples:
     - lang: bash
       source: |
@@ -201,6 +216,7 @@ delete:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

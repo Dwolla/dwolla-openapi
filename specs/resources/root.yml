@@ -3,7 +3,8 @@ get:
     - root
   summary: root
   description: The entry point that clients can use to discover and explore the entire API.
-  operationId: root
+  operationId: getRoot
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -33,6 +34,8 @@ get:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         root = app_token.get "/"
         root._links.account.href # => "https://api-sandbox.dwolla.com/accounts/ad5f2162-404a-4c4c-994e-6ab6c3a13254"
+  parameters:
+    - $ref: '../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

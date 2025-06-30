@@ -4,6 +4,7 @@ get:
   summary: List and search customers
   description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
   operationId: listAndSearchCustomers
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -40,13 +41,13 @@ get:
       description: How many results to return
       required: false
       schema:
-        type: string
+        type: integer
     - name: offset
       in: query
       description: How many results to skip
       required: false
       schema:
-        type: string
+        type: integer
     - name: search
       in: query
       description: Searches on certain fields
@@ -59,6 +60,7 @@ get:
       required: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -67,12 +69,20 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/customers/Customers.yml#/Customers'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
 post:
   tags:
     - customers
   summary: Create a customer
   description: Create an unverified customer, verified customer, or receive-only user.
   operationId: createCustomer
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -195,6 +205,7 @@ post:
         customer = app_token.post "customers", request_body
         customer.response_headers[:location] # => "https://api-sandbox.dwolla.com/customers/62c3aa1b-3a1b-46d0-ae90-17304d60c3d5"
   requestBody:
+    required: true
     description: Parameters for customer to be created
     content:
       application/vnd.dwolla.v1.hal+json:
@@ -205,6 +216,8 @@ post:
             - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateVerifiedPersonalRequestBody'
             - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateVerifiedSolePropRequestBody'
             - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateVerifiedBusinessRequestBody'
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '201':
       description: successful operation

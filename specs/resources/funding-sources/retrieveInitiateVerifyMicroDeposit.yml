@@ -4,6 +4,7 @@ get:
   summary: Retrieve micro-deposits details
   description: Retrieve micro-deposits details
   operationId: getMicroDeposits
+  x-speakeasy-group: fundingSources
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -90,10 +92,15 @@ post:
     - funding sources
   summary: Initiate or Verify micro-deposits
   description: |
-    Initiate or Verify micro-deposits.
-    For initiating micro-deposits, no request body is required.
-    For verifying micro-deposits, a request body with the micro-deposit amounts is required.
+    This endpoint handles two different actions:
+    1. Initiating micro-deposits: No request body is required
+    2. Verifying micro-deposits: Request body with micro-deposit amounts is required
+
+    The action is determined by the presence of a request body:
+    - If no request body is provided, the endpoint will initiate micro-deposits
+    - If a request body with micro-deposit amounts is provided, the endpoint will verify the micro-deposits
   operationId: initiateOrVerifyMicroDeposits
+  x-speakeasy-group: fundingSources
   x-codeSamples:
     - lang: bash
       source: |
@@ -136,8 +143,13 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
-    description: Parameters for initiating or verifying micro-deposits
+    required: false
+    description: |
+      Optional request body for verifying micro-deposits.
+      - If omitted: Endpoint will initiate micro-deposits
+      - If provided: Must contain micro-deposit amounts for verification
     content:
       application/json:
         schema:
@@ -145,7 +157,8 @@ post:
             - type:
                 - 'object'
                 - 'null'
-              description: Optional request body for initiating micro-deposits
+              title: InitiateMicroDeposits
+              description: No request body is required for initiating micro-deposits.
             - $ref: '../../schemas/funding-sources/MicroDeposits.yml#/VerifyMicroDeposits'
               description: Required request body for verifying micro-deposits
   responses:

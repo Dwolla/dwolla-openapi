@@ -11,6 +11,8 @@ post:
     - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
     - Not required for MX exchange sessions or Plaid web sessions
   operationId: createCustomerExchangeSession
+  x-speakeasy-group: exchangeSessions
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -300,6 +302,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     description: Parameters for creating an exchange session
     required: true
@@ -320,26 +323,35 @@ post:
           schema:
             oneOf:
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
-                    example: InvalidExchangePartner
+                    example: ValidationError
                   message:
                     type: string
                     example: /_links/exchange-partner/href is invalid
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
-                    example: InvalidRedirectUrl
+                    example: ValidationError
                   message:
                     type: string
                     example: /_links/redirect-url/href is invalid
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
-                    example: InvalidRedirectUrl
+                    example: ValidationError
                   message:
                     type: string
                     example: The provided redirect URL must exactly match one of the configured URLs for the account
@@ -363,6 +375,9 @@ post:
           schema:
             oneOf:
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -371,6 +386,9 @@ post:
                     type: string
                     example: The exchange partner specified does not support this product
               - type: object
+                required:
+                  - code
+                  - message
                 properties:
                   code:
                     type: string
@@ -379,15 +397,8 @@ post:
                     type: string
                     example: Exchange sessions with this exchange partner are not enabled for your account
     '404':
-      description: not found
+      description: Not Found
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: NotFound
-              message:
-                type: string
-                example: The requested resource was not found
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

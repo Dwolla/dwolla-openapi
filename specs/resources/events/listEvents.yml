@@ -4,6 +4,7 @@ get:
   summary: List events
   description: List events
   operationId: listEvents
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -108,17 +109,20 @@ get:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         events = app_token.get "events"
         events.total # => 3
-  requestBody:
-    description: Parameters to filter events
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            limit:
-              type: integer
-            offset:
-              type: integer
+  parameters:
+    - name: limit
+      in: query
+      description: How many results to return
+      required: false
+      schema:
+        type: integer
+    - name: offset
+      in: query
+      description: How many results to skip
+      required: false
+      schema:
+        type: integer
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -133,11 +137,4 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: notFound
-              message:
-                type: string
-                example: Resource not found.
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

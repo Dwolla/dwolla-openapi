@@ -1,9 +1,10 @@
 get:
   tags:
     - funding sources
-  summary: Retrieve account and routing numbers for a VAN (Virtual Account Number)
+  summary: Retrieve VAN account and routing numbers
   description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
-  operationId: getVanAchRouting
+  operationId: getVanRouting
+  x-speakeasy-group: fundingSources
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

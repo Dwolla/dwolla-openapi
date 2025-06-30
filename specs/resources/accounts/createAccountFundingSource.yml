@@ -1,9 +1,11 @@
 post:
   tags:
-    - account
+    - accounts
   summary: Create a funding source for an account
   description: Create a funding source for an account
-  operationId: createAccountFundingSource
+  operationId: createFundingSource
+  x-speakeasy-group: accounts.fundingSources
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -69,11 +71,14 @@ post:
         funding_source = app_token.post "funding-sources", request_body
         funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/04173e17-6398-4d36-a167-9d98c4b1f1c3"
   requestBody:
+    required: true
     description: Parameters for the funding source to be created
     content:
       application/json:
         schema:
           $ref: '../../schemas/accounts/CreateFundingSourceForAccountRequestBody.yml#/CreateFundingSourceForAccountRequestBody'
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '201':
       description: successful operation

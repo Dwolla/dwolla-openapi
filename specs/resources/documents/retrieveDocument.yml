@@ -4,6 +4,7 @@ get:
   summary: Retrieve a document
   description: Retrieve a document for a customer or beneficial owner
   operationId: retrieveDocument
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -62,6 +63,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -70,3 +72,17 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/documents/Document.yml#/Document'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

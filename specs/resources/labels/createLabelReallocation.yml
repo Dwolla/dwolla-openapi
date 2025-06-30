@@ -4,6 +4,7 @@ post:
   summary: Create a label reallocation
   description: Create a label reallocation
   operationId: createLabelReallocation
+  x-speakeasy-name-override: createReallocation
   x-codeSamples:
     - lang: bash
       source: |
@@ -109,7 +110,10 @@ post:
 
         labelReallocation = app_token.post "label-reallocations", request_body
         labelReallocation.response_headers[:location] # => "https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to create a label reallocation
     content:
       application/json:
@@ -149,3 +153,38 @@ post:
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '400':
+      description: Bad Request
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/BadRequestError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to create label reallocation
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Label not found

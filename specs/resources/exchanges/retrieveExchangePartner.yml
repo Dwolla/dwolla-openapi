@@ -4,6 +4,8 @@ get:
   summary: Retrieve exchange partner
   description: Retrieve exchange partner
   operationId: getExchangePartner
+  x-speakeasy-group: exchangePartners
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -69,6 +71,7 @@ get:
       schema:
         type: string
         example: 292317ec-e252-47d8-93c3-2d128e037aa4
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -79,15 +82,7 @@ get:
             $ref: '../../schemas/exchange-partners/ExchangePartner.yml#/ExchangePartner'
     '404':
       description: Not Found
-      headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: NotFound
-              message:
-                type: string
-                example: The requested resource was not found.
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

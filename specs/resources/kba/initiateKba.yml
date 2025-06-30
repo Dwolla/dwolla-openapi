@@ -4,6 +4,7 @@ post:
   summary: Initiate a KBA session
   description: Initiate a KBA session
   operationId: initiateKbaForCustomer
+  x-speakeasy-name-override: initiate
   x-codeSamples:
     - lang: bash
       source: |
@@ -50,6 +51,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '201':
       description: created

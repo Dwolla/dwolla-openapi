@@ -4,6 +4,7 @@ get:
   summary: Retrieve exchange resource
   description: Retrieve an exchange resource by its ID.
   operationId: getExchange
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -68,6 +69,7 @@ get:
       schema:
         type: string
         example: e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

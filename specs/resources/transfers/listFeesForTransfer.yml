@@ -4,6 +4,7 @@ get:
   summary: List fees for a transfer
   description: List fees for a transfer
   operationId: listTransferFees
+  x-speakeasy-name-override: listFees
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

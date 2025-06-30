@@ -4,6 +4,7 @@ get:
   summary: List and search transfers for a customer
   description: List and search transfers for a customer
   operationId: listCustomerTransfers
+  x-speakeasy-name-override: listForCustomer
   x-codeSamples:
     - lang: bash
       source: |
@@ -105,6 +106,7 @@ get:
       required: false
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

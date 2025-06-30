@@ -4,6 +4,7 @@ get:
   summary: Retrieve a label reallocation
   description: Retrieve a label reallocation
   operationId: retrieveLabelReallocation
+  x-speakeasy-name-override: getReallocation
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -101,3 +103,17 @@ get:
                 type: string
                 format: date-time
                 example: '2022-05-16T13:41:31.036Z'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

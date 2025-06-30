@@ -4,6 +4,8 @@ get:
   summary: Retrieve exchange session
   description: Retrieve details of an exchange session
   operationId: retrieveCustomerExchangeSession
+  x-speakeasy-group: exchangeSessions
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -48,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

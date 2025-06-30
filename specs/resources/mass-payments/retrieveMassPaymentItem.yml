@@ -4,6 +4,8 @@ get:
   summary: Retrieve mass payment item
   description: Retrieve mass payment item
   operationId: getMassPaymentItem
+  x-speakeasy-group: massPayments
+  x-speakeasy-name-override: getItem
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +51,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: success operation
@@ -57,3 +60,31 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/mass-payments/MassPaymentItem.yml#/MassPaymentItem'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Forbidden
+              message:
+                type: string
+                example: Not authorized to retrieve mass payment item
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Mass payment item not found

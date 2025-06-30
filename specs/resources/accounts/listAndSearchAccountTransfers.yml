@@ -1,9 +1,11 @@
 get:
   tags:
-    - account
+    - accounts
   summary: List and search transfers for an account
   description: List and search transfers for an account
-  operationId: listAndSearchAccountTransfers
+  operationId: listAndSearchTransfers
+  x-speakeasy-group: accounts.transfers
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -42,6 +44,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
     - name: search
       in: query
       description: A string to search on fields `firstName`, `lastName`, `email`, `businessName`, Customer ID, and Account ID

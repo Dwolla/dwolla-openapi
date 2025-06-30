@@ -4,6 +4,8 @@ get:
   summary: List webhook subscriptions
   description: List webhook subscriptions
   operationId: listWebhookSubscriptions
+  x-speakeasy-group: webhookSubscriptions
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -33,6 +35,8 @@ get:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         webhook_subscriptions = app_token.get "webhook-subscriptions"
         webhook_subscriptions.total # => 1
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -62,12 +66,28 @@ get:
                 type: integer
                 format: int32
                 example: 1
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - webhook subscriptions
   summary: Create a webhook subscription
   description: Create a webhook subscription
   operationId: createWebhookSubscription
+  x-speakeasy-group: webhookSubscriptions
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -118,7 +138,10 @@ post:
         }
         subscription = app_token.post "webhook-subscriptions", request_body
         subscription.response_headers[:location] # => "https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters to create a webhook subscriptions
     content:
       application/json:
@@ -144,12 +167,26 @@ post:
       description: Bad request
       headers: {}
       content:
-        application/vnd.dwolla.v1.hal:
+        application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
               - $ref: '../../schemas/webhook-subscriptions/CreateWebhookSubscription.yml#/InvalidUrlFormatError'
               - $ref: '../../schemas/webhook-subscriptions/CreateWebhookSubscription.yml#/SecretTooLongError'
               - $ref: '../../schemas/webhook-subscriptions/CreateWebhookSubscription.yml#/MaxSubscriptionsReachedError'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
     '429':
       description: Too Many Requests
       headers: {}

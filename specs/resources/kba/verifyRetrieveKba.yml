@@ -4,6 +4,7 @@ get:
   summary: Retrieve KBA Questions
   description: Retrieve KBA Questions
   operationId: getKbaQuestions
+  x-speakeasy-name-override: getQuestions
   x-codeSamples:
     - lang: bash
       source: |
@@ -49,6 +50,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -124,7 +126,8 @@ post:
     - kba
   summary: Verify KBA Questions
   description: Verify KBA Questions
-  operationId: verifyKbaQuestions
+  operationId: verify
+  x-speakeasy-name-override: verify
   x-codeSamples:
     - lang: bash
       source: |
@@ -220,7 +223,9 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for verifying KBA questions
     content:
       application/json:

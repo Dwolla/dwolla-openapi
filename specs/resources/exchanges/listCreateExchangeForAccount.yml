@@ -4,6 +4,8 @@ get:
   summary: List exchanges for an account
   description: List exchanges for an account
   operationId: listAccountExchanges
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -94,6 +96,8 @@ get:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         exchanges = app_token.get "exchanges"
         exchanges._embedded['exchanges'][0].id # => "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -102,6 +106,20 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/exchanges/Exchanges.yml#/Exchanges'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
 post:
   tags:
     - exchanges
@@ -113,6 +131,8 @@ post:
     For Flinks Secure Exchange, the request body will include a token.
     For Plaid Secure Exchange, the request body will include a token.
   operationId: createAccountExchange
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
@@ -192,16 +212,8 @@ post:
 
         exchange = app_token.post "exchanges", request_body
         exchange.response_headers[:location] # => "https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
-  requestBody:
-    description: Parameters for creating an exchange
-    content:
-      application/json:
-        schema:
-          oneOf:
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicitySecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXSecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FlinksSecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/PlaidSecureExchangeCreateExchangeRequestBody'
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '201':
       description: Created
@@ -234,3 +246,17 @@ post:
               message:
                 type: string
                 example: The exchange is no longer active.
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

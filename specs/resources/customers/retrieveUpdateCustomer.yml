@@ -4,6 +4,7 @@ get:
   summary: Retrieve a customer
   description: Retrieve details for a single customer
   operationId: getCustomer
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -39,6 +40,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -139,7 +141,9 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for updating a Customer
     content:
       application/json:

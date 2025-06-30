@@ -4,6 +4,8 @@ get:
   summary: Retrieve beneficial owner
   description: Retrieve details for a single beneficial owner
   operationId: retrieveBeneficialOwner
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -46,6 +48,7 @@ get:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -74,6 +77,8 @@ post:
   summary: Update beneficial owner
   description: Update beneficial owner
   operationId: updateBeneficialOwner
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: update
   x-codeSamples:
     - lang: bash
       source: |
@@ -189,7 +194,9 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
+    required: true
     description: Parameters for updating a beneficial owner
     content:
       application/json:
@@ -211,23 +218,7 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: ValidationError
-              message:
-                type: string
-                example: Validation error(s) present. See embedded errors list for more details.
-              _embedded:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: ValidationError
-                  message:
-                    type: string
-                    example: Validation error(s) present. See embedded errors list for more details.
+            $ref: '../../schemas/common.yml#/components/schemas/ValidationErrorSchema'
     '403':
       description: forbidden
       headers: {}
@@ -262,6 +253,8 @@ delete:
   summary: Delete beneficial owner
   description: Delete beneficial owner
   operationId: deleteBeneficialOwner
+  x-speakeasy-group: beneficialOwners
+  x-speakeasy-name-override: delete
   x-codeSamples:
     - lang: bash
       source: |
@@ -301,6 +294,7 @@ delete:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation

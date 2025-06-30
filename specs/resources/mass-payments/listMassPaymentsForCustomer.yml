@@ -4,6 +4,8 @@ get:
   summary: List mass payments for customer
   description: List mass payments for customer
   operationId: listCustomerMassPayments
+  x-speakeasy-group: massPayments
+  x-speakeasy-name-override: listForCustomer
   x-codeSamples:
     - lang: bash
       source: |
@@ -60,13 +62,14 @@ get:
       description: Number of search results to return. Defaults to 25
       required: false
       schema:
-        type: string
+        type: integer
     - name: offset
       in: query
       description: Number of search results to skip. Use for pagination
       required: false
       schema:
-        type: string
+        type: integer
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
@@ -75,3 +78,31 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/mass-payments/MassPayments.yml#/MassPayments'
+    '403':
+      description: Not authorized to list mass payments
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotAuthorized
+              message:
+                type: string
+                example: Not authorized to list mass payments.
+    '404':
+      description: Customer not found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Customer not found.

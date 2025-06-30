@@ -2,6 +2,9 @@
 SourceNotFoundError:
   title: SourceNotFoundError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -32,6 +35,9 @@ SourceNotFoundError:
 ReceiverNotFoundError:
   title: ReceiverNotFoundError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -62,6 +68,9 @@ ReceiverNotFoundError:
 InvalidSourceFundingSourceError:
   title: InvalidSourceFundingSourceError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -92,6 +101,9 @@ InvalidSourceFundingSourceError:
 SenderRestrictedError:
   title: SenderRestrictedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -122,6 +134,9 @@ SenderRestrictedError:
 ReceiverRestrictedError:
   title: ReceiverRestrictedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -152,6 +167,9 @@ ReceiverRestrictedError:
 InvalidMetadataError:
   title: InvalidMetadataError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -182,6 +200,9 @@ InvalidMetadataError:
 OperationBlockedError:
   title: OperationBlockedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -212,6 +233,9 @@ OperationBlockedError:
 InvalidAmountLimitError:
   title: InvalidAmountLimitError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -242,6 +266,9 @@ InvalidAmountLimitError:
 CannotParseAmountError:
   title: CannotParseAmountError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -272,6 +299,9 @@ CannotParseAmountError:
 InsufficientFundsError:
   title: InsufficientFundsError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -302,6 +332,9 @@ InsufficientFundsError:
 FacilitatorFeeAccountNotFoundError:
   title: FacilitatorFeeAccountNotFoundError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -332,6 +365,9 @@ FacilitatorFeeAccountNotFoundError:
 FacilitatorFeeSumTooLargeError:
   title: FacilitatorFeeSumTooLargeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -362,6 +398,9 @@ FacilitatorFeeSumTooLargeError:
 FacilitatorFeeBelowMinimumError:
   title: FacilitatorFeeBelowMinimumError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -392,6 +431,9 @@ FacilitatorFeeBelowMinimumError:
 HighRiskError:
   title: HighRiskError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -422,6 +464,9 @@ HighRiskError:
 IncompatibleHoldingsError:
   title: IncompatibleHoldingsError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -452,6 +497,9 @@ IncompatibleHoldingsError:
 DirectAccountWithoutBankError:
   title: DirectAccountWithoutBankError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -483,6 +531,9 @@ DirectAccountWithoutBankError:
 SourceSameAsDestinationError:
   title: SourceSameAsDestinationError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -513,6 +564,9 @@ SourceSameAsDestinationError:
 InvalidFacilitatorError:
   title: InvalidFacilitatorError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -543,6 +597,9 @@ InvalidFacilitatorError:
 InvalidFacilitatorFeeCollectFromError:
   title: InvalidFacilitatorFeeCollectFromError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -573,6 +630,9 @@ InvalidFacilitatorFeeCollectFromError:
 InvalidFacilitatorFeeCollectFromCombinationError:
   title: InvalidFacilitatorFeeCollectFromCombinationError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -603,6 +663,9 @@ InvalidFacilitatorFeeCollectFromCombinationError:
 InvalidDestinationFundingSourceError:
   title: InvalidDestinationFundingSourceError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -633,6 +696,9 @@ InvalidDestinationFundingSourceError:
 InvalidFacilitatorFeeAmountError:
   title: InvalidFacilitatorFeeAmountError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -663,6 +729,9 @@ InvalidFacilitatorFeeAmountError:
 WeeklyReceiveLimitReachedError:
   title: WeeklyReceiveLimitReachedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -693,6 +762,9 @@ WeeklyReceiveLimitReachedError:
 InvalidDestinationClearingTypeError:
   title: InvalidDestinationClearingTypeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -723,6 +795,9 @@ InvalidDestinationClearingTypeError:
 InvalidAmountForDestinationClearingTypeError:
   title: InvalidAmountForDestinationClearingTypeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -753,6 +828,9 @@ InvalidAmountForDestinationClearingTypeError:
 InvalidCorrelationIdError:
   title: InvalidCorrelationIdError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -783,6 +861,9 @@ InvalidCorrelationIdError:
 SourceAddendaMaxLengthError:
   title: SourceAddendaMaxLengthError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -813,6 +894,9 @@ SourceAddendaMaxLengthError:
 DestinationAddendaMaxLengthError:
   title: DestinationAddendaMaxLengthError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -843,6 +927,9 @@ DestinationAddendaMaxLengthError:
 AchAddendaEntriesNotEnabledForAccountError:
   title: AchAddendaEntriesNotEnabledForAccountError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -873,6 +960,9 @@ AchAddendaEntriesNotEnabledForAccountError:
 PointOfSaleAddendaEntriesNotEnabledForAccountError:
   title: PointOfSaleAddendaEntriesNotEnabledForAccountError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -903,6 +993,9 @@ PointOfSaleAddendaEntriesNotEnabledForAccountError:
 IncompatibleAddendaEntriesError:
   title: IncompatibleAddendaEntriesError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -933,6 +1026,9 @@ IncompatibleAddendaEntriesError:
 InvalidPointOfSaleAddendaIdentificationCodeError:
   title: InvalidPointOfSaleAddendaIdentificationCodeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -963,6 +1059,9 @@ InvalidPointOfSaleAddendaIdentificationCodeError:
 InvalidPointOfSaleAddendaSerialNumberError:
   title: InvalidPointOfSaleAddendaSerialNumberError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -993,6 +1092,9 @@ InvalidPointOfSaleAddendaSerialNumberError:
 InvalidPointOfSaleAddendaDateError:
   title: InvalidPointOfSaleAddendaDateError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1023,6 +1125,9 @@ InvalidPointOfSaleAddendaDateError:
 InvalidPointOfSaleAddendaAddressError:
   title: InvalidPointOfSaleAddendaAddressError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1053,6 +1158,9 @@ InvalidPointOfSaleAddendaAddressError:
 InvalidPointOfSaleAddendaCityError:
   title: InvalidPointOfSaleAddendaCityError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1083,6 +1191,9 @@ InvalidPointOfSaleAddendaCityError:
 InvalidPointOfSaleAddendaStateError:
   title: InvalidPointOfSaleAddendaStateError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1113,6 +1224,9 @@ InvalidPointOfSaleAddendaStateError:
 TransferExpiredForFeeError:
   title: TransferExpiredForFeeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1143,6 +1257,9 @@ TransferExpiredForFeeError:
 InvalidFeeOdfiError:
   title: InvalidFeeOdfiError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1173,6 +1290,9 @@ InvalidFeeOdfiError:
 InvalidSourceBankAccountTypeError:
   title: InvalidBankAccountTypeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1203,6 +1323,9 @@ InvalidSourceBankAccountTypeError:
 InvalidDestinationBankAccountTypeError:
   title: InvalidDestinationBankAccountTypeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1233,6 +1356,9 @@ InvalidDestinationBankAccountTypeError:
 IncompatibleSourceAndDestinationTypesError:
   title: IncompatibleSourceAndDestinationTypesError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1263,6 +1389,9 @@ IncompatibleSourceAndDestinationTypesError:
 IncompatibleSourceForRtpDestinationError:
   title: IncompatibleSourceForRtpDestinationError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1293,6 +1422,9 @@ IncompatibleSourceForRtpDestinationError:
 InvalidAmountForDestinationProcessingChannelError:
   title: InvalidAmountForDestinationProcessingChannelError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1323,6 +1455,9 @@ InvalidAmountForDestinationProcessingChannelError:
 RtpFacilitatorFeeNotSupportedError:
   title: RtpFacilitatorFeeNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1353,6 +1488,9 @@ RtpFacilitatorFeeNotSupportedError:
 RtpUnverifiedSenderNotSupportedError:
   title: RtpUnverifiedSenderNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1383,6 +1521,9 @@ RtpUnverifiedSenderNotSupportedError:
 RtpPersonalToPersonalNotSupportedError:
   title: RtpPersonalToPersonalNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1413,6 +1554,9 @@ RtpPersonalToPersonalNotSupportedError:
 DestinationProcessingChannelNotSupportedError:
   title: DestinationProcessingChannelNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1443,6 +1587,9 @@ DestinationProcessingChannelNotSupportedError:
 DestinationRemittanceDataMaxLengthError:
   title: DestinationRemittanceDataMaxLengthError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1473,6 +1620,9 @@ DestinationRemittanceDataMaxLengthError:
 WithdrawInvalidAmountError:
   title: WithdrawInvalidAmountError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1503,6 +1653,9 @@ WithdrawInvalidAmountError:
 WithdrawInvalidFundingSourceError:
   title: WithdrawInvalidFundingSourceError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1533,6 +1686,9 @@ WithdrawInvalidFundingSourceError:
 WithdrawAccountRestrictedError:
   title: WithdrawAccountRestrictedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1563,6 +1719,9 @@ WithdrawAccountRestrictedError:
 WithdrawInvalidAmountForClearingTypeError:
   title: WithdrawInvalidAmountForClearingTypeError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1593,6 +1752,9 @@ WithdrawInvalidAmountForClearingTypeError:
 WithdrawInvalidWireBeneficiaryLocalityError:
   title: WithdrawInvalidWireBeneficiaryLocalityError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1623,6 +1785,9 @@ WithdrawInvalidWireBeneficiaryLocalityError:
 WithdrawInvalidWireBeneficiaryRegionError:
   title: WithdrawInvalidWireBeneficiaryRegionError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1653,6 +1818,9 @@ WithdrawInvalidWireBeneficiaryRegionError:
 WithdrawInvalidWireBeneficiaryCountryError:
   title: WithdrawInvalidWireBeneficiaryCountryError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1683,6 +1851,9 @@ WithdrawInvalidWireBeneficiaryCountryError:
 WithdrawInvalidWireOriginatorToBeneficiaryError:
   title: WithdrawInvalidWireOriginatorToBeneficiaryError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1713,6 +1884,9 @@ WithdrawInvalidWireOriginatorToBeneficiaryError:
 WithdrawProcessingChannelNotSupportedError:
   title: WithdrawProcessingChannelNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1743,6 +1917,9 @@ WithdrawProcessingChannelNotSupportedError:
 WithdrawRtpUnverifiedSenderNotSupportedError:
   title: WithdrawRtpUnverifiedSenderNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1773,6 +1950,9 @@ WithdrawRtpUnverifiedSenderNotSupportedError:
 WithdrawRtpPersonalWithdrawalNotSupportedError:
   title: WithdrawRtpPersonalWithdrawalNotSupportedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1803,6 +1983,9 @@ WithdrawRtpPersonalWithdrawalNotSupportedError:
 DepositAccountRestrictedError:
   title: DepositAccountRestrictedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1833,6 +2016,9 @@ DepositAccountRestrictedError:
 WireInvalidImadError:
   title: WireInvalidImadError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1863,6 +2049,9 @@ WireInvalidImadError:
 WireAccountRestrictedError:
   title: WireAccountRestrictedError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1893,6 +2082,9 @@ WireAccountRestrictedError:
 WireNotEnabledError:
   title: WireNotEnabledError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1923,6 +2115,9 @@ WireNotEnabledError:
 WireAccountNotFoundError:
   title: WireAccountNotFoundError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1954,6 +2149,9 @@ WireAccountNotFoundError:
 InvalidAttemptToFacilitateFundsError:
   title: InvalidAttemptToFacilitateFundsError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1964,6 +2162,9 @@ InvalidAttemptToFacilitateFundsError:
 InvalidAttemptToPayInFundsError:
   title: InvalidAttemptToPayInFundsError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1974,6 +2175,9 @@ InvalidAttemptToPayInFundsError:
 InvalidAttemptToPayOutFundsError:
   title: InvalidAttemptToPayOutFundsError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1984,6 +2188,9 @@ InvalidAttemptToPayOutFundsError:
 RtpAccountSettingNotEnabledError:
   title: RtpAccountSettingNotEnabledError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
@@ -1995,6 +2202,9 @@ RtpAccountSettingNotEnabledError:
 TooManyRequestsErrorError:
   title: TooManyRequestsErrorError
   type: object
+  required:
+    - code
+    - message
   properties:
     code:
       type: string
