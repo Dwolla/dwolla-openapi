@@ -64,12 +64,12 @@ post:
       application/json:
         schema:
           oneOf:
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FinicitySecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXSecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/MXOpenBankingCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/FlinksSecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/PlaidSecureExchangeCreateExchangeRequestBody'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/PlaidOpenBankingCreateExchangeRequestBody'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFinicitySecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateMXSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateMXOpenBankingExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFlinksSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreatePlaidSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreatePlaidOpenBankingExchange'
   responses:
     '201':
       description: created

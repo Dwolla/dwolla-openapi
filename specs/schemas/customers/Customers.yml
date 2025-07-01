@@ -11,4 +11,9 @@ Customers:
         customers:
           type: array
           items:
-            $ref: './Customer.yml#/Customer'
+            oneOf:
+              - $ref: './Customer.yml#/UnverifiedCustomer'
+              - $ref: './Customer.yml#/UnverifiedBusinessCustomer'
+              - $ref: './Customer.yml#/VerifiedPersonalCustomer'
+              - $ref: './Customer.yml#/VerifiedSolePropCustomer'
+              - $ref: './Customer.yml#/VerifiedBusinessCustomer'

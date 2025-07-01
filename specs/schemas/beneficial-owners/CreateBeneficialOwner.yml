@@ -1,0 +1,42 @@
+CreateUSBeneficialOwner:
+  title: CreateUSBeneficialOwner
+  description: Create a US Beneficial Owner (identified by SSN)
+  required:
+    - firstName
+    - lastName
+    - dateOfBirth
+    - address
+    - ssn
+  type: object
+  properties:
+    firstName:
+      type: string
+    lastName:
+      type: string
+    dateOfBirth:
+      type: string
+    address:
+      $ref: '../common.yml#/components/schemas/InternationalAddress'
+    ssn:
+      type: string
+CreateInternationalBeneficialOwner:
+  title: CreateInternationalBeneficialOwner
+  description: Create an International Beneficial Owner (identified by Passport)
+  required:
+    - firstName
+    - lastName
+    - dateOfBirth
+    - address
+    - passport
+  type: object
+  properties:
+    firstName:
+      type: string
+    lastName:
+      type: string
+    dateOfBirth:
+      type: string
+    address:
+      $ref: '../common.yml#/components/schemas/InternationalAddress'
+    passport:
+      $ref: '../../schemas/common.yml#/components/schemas/Passport'

@@ -209,7 +209,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateFundingSourceForAccountRequestBody'
+              $ref: '#/components/schemas/CreateAccountFundingSource'
       responses:
         '201':
           description: successful operation
@@ -540,11 +540,12 @@ paths:
           application/vnd.dwolla.v1.hal+json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/CreateReceiveOnlyRequestBody'
-                - $ref: '#/components/schemas/CreateUnverifiedCustomerRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedSolePropRequestBody'
-                - $ref: '#/components/schemas/CreateVerifiedBusinessRequestBody'
+                - $ref: '#/components/schemas/CreateReceiveOnlyUser'
+                - $ref: '#/components/schemas/CreateUnverifiedCustomer'
+                - $ref: '#/components/schemas/CreateVerifiedPersonalCustomer'
+                - $ref: '#/components/schemas/CreateVerifiedSolePropCustomer'
+                - $ref: '#/components/schemas/CreateVerifiedBusinessCustomerWithController'
+                - $ref: '#/components/schemas/CreateVerifiedBusinessCustomerWithInternationalController'
       responses:
         '201':
           description: successful operation
@@ -609,7 +610,12 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                oneOf:
+                  - $ref: '#/components/schemas/UnverifiedCustomer'
+                  - $ref: '#/components/schemas/UnverifiedBusinessCustomer'
+                  - $ref: '#/components/schemas/VerifiedPersonalCustomer'
+                  - $ref: '#/components/schemas/VerifiedSolePropCustomer'
+                  - $ref: '#/components/schemas/VerifiedBusinessCustomer'
         '403':
           description: forbidden
           headers: {}
@@ -678,7 +684,12 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                oneOf:
+                  - $ref: '#/components/schemas/UnverifiedCustomer'
+                  - $ref: '#/components/schemas/UnverifiedBusinessCustomer'
+                  - $ref: '#/components/schemas/VerifiedPersonalCustomer'
+                  - $ref: '#/components/schemas/VerifiedSolePropCustomer'
+                  - $ref: '#/components/schemas/VerifiedBusinessCustomer'
         '400':
           description: bad request
           headers: {}
@@ -853,8 +864,8 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/BeneficialOwnerWithSsn'
-                - $ref: '#/components/schemas/BeneficialOwnerWithPassport'
+                - $ref: '#/components/schemas/CreateUSBeneficialOwner'
+                - $ref: '#/components/schemas/CreateInternationalBeneficialOwner'
       responses:
         '201':
           description: successful operation
@@ -944,8 +955,8 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/BeneficialOwnerWithSsn'
-                - $ref: '#/components/schemas/BeneficialOwnerWithPassport'
+                - $ref: '#/components/schemas/CreateUSBeneficialOwner'
+                - $ref: '#/components/schemas/CreateInternationalBeneficialOwner'
       responses:
         '200':
           description: successful operation
@@ -1684,8 +1695,8 @@ paths:
         - Basic bank funding source (with routing/account numbers)
         - Using an exchange
       operationId: createCustomerFundingSource
-      x-speakeasy-group: fundingSources
-      x-speakeasy-name-override: createForCustomer
+      x-speakeasy-group: customer.fundingSources
+      x-speakeasy-name-override: create
       parameters:
         - name: id
           in: path
@@ -1700,7 +1711,10 @@ paths:
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
-              $ref: '#/components/schemas/CreateCustomerFundingSource'
+              oneOf:
+                - $ref: '#/components/schemas/CreateCustomerBankFundingSource'
+                - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
+                - $ref: '#/components/schemas/CreateCustomerVirtualFundingSource'
       responses:
         '201':
           description: created
@@ -1713,39 +1727,9 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 oneOf:
-                  - type: object
-                    required:
-                      - code
-                      - message
-                    properties:
-                      code:
-                        type: string
-                        example: InactiveExchange
-                      message:
-                        type: string
-                        example: The Exchange was removed or disabled.
-                  - type: object
-                    required:
-                      - code
-                      - message
-                    properties:
-                      code:
-                        type: string
-                        example: InvalidExchangeToken
-                      message:
-                        type: string
-                        example: The exchange token is not valid to perform this operation.
-                  - type: object
-                    required:
-                      - code
-                      - message
-                    properties:
-                      code:
-                        type: string
-                        example: ValidationError
-                      message:
-                        type: string
-                        example: Duplicate funding source or validation error. Authorization already associated to a funding source.
+                  - $ref: '#/components/schemas/InactiveExchangeError'
+                  - $ref: '#/components/schemas/InvalidExchangeTokenError'
+                  - $ref: '#/components/schemas/DuplicateFundingSourceError'
         '403':
           description: forbidden
           content:
@@ -2411,7 +2395,7 @@ paths:
               properties:
                 status:
                   type: string
-                  example: cancelled
+                  const: cancelled
       responses:
         '200':
           description: successful operation
@@ -2444,7 +2428,8 @@ paths:
       summary: List and search transfers for a customer
       description: List and search transfers for a customer
       operationId: listCustomerTransfers
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customer.transfers
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -3083,8 +3068,8 @@ paths:
       summary: List mass payments for customer
       description: List mass payments for customer
       operationId: listCustomerMassPayments
-      x-speakeasy-group: massPayments
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customer.massPayments
+      x-speakeasy-name-override: list
       parameters:
         - name: id
           in: path
@@ -4297,10 +4282,10 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/FinicitySecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/MXSecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/FlinksSecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/PlaidSecureExchangeCreateExchangeRequestBody'
+                - $ref: '#/components/schemas/CreateFinicitySecureExchange'
+                - $ref: '#/components/schemas/CreateMXSecureExchange'
+                - $ref: '#/components/schemas/CreateFlinksSecureExchange'
+                - $ref: '#/components/schemas/CreatePlaidSecureExchange'
       responses:
         '201':
           description: Created
@@ -4467,12 +4452,12 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/FinicitySecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/MXSecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/MXOpenBankingCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/FlinksSecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/PlaidSecureExchangeCreateExchangeRequestBody'
-                - $ref: '#/components/schemas/PlaidOpenBankingCreateExchangeRequestBody'
+                - $ref: '#/components/schemas/CreateFinicitySecureExchange'
+                - $ref: '#/components/schemas/CreateMXSecureExchange'
+                - $ref: '#/components/schemas/CreateMXOpenBankingExchange'
+                - $ref: '#/components/schemas/CreateFlinksSecureExchange'
+                - $ref: '#/components/schemas/CreatePlaidSecureExchange'
+                - $ref: '#/components/schemas/CreatePlaidOpenBankingExchange'
       responses:
         '201':
           description: created
@@ -4535,7 +4520,9 @@ paths:
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
-              $ref: '#/components/schemas/CreateCustomerExchangeSession'
+              oneOf:
+                - $ref: '#/components/schemas/CreateCustomerExchangeSessionWithRedirect'
+                - $ref: '#/components/schemas/CreateCustomerExchangeSessionForWeb'
       responses:
         '201':
           description: created
@@ -4716,7 +4703,9 @@ paths:
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
-              $ref: '#/components/schemas/CreateReAuthExchangeSession'
+              oneOf:
+                - $ref: '#/components/schemas/CreateReAuthExchangeSessionForWeb'
+                - $ref: '#/components/schemas/CreateReAuthExchangeSessionWithRedirect'
       responses:
         '201':
           description: created
@@ -4979,8 +4968,8 @@ components:
         message:
           type: string
           example: The requested resource was not found.
-    CreateFundingSourceForAccountRequestBody:
-      title: CreateFundingSourceForAccount
+    CreateAccountFundingSource:
+      title: CreateAccountFundingSource
       type: object
       properties:
         _links:
@@ -5283,7 +5272,7 @@ components:
           type: integer
           example: 100
     UnverifiedCustomer:
-      title: Customer
+      title: UnverifiedCustomer
       description: Shared models between all Customer types
       type: object
       properties:
@@ -5316,7 +5305,7 @@ components:
           format: date-time
           example: '2022-10-07T16:46:13.023Z'
     UnverifiedBusinessCustomer:
-      title: RetrieveReceiveOnlyCustomerResponse
+      title: UnverifiedBusinessCustomer
       allOf:
         - $ref: '#/components/schemas/UnverifiedCustomer'
         - type: object
@@ -5393,44 +5382,6 @@ components:
             businessClassification:
               type: string
               example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
-    Controller:
-      title: Controller
-      description: Controller JSON Object for Customer responses
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: John
-        lastName:
-          type: string
-          example: Controller
-        title:
-          type: string
-          example: CEO
-        address:
-          type: object
-          properties:
-            address1:
-              type: string
-              example: 462 Main Street
-            address2:
-              type: string
-              example: Suite 123
-            address3:
-              type: string
-              example: Unit 123
-            city:
-              type: string
-              example: Des Moines
-            postalCode:
-              type: string
-              example: '50309'
-            country:
-              type: string
-              example: USA
-            stateProvinceRegion:
-              type: string
-              example: IA
     VerifiedBusinessCustomer:
       title: VerifiedBusinessCustomer
       allOf:
@@ -5478,15 +5429,40 @@ components:
               example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
             controller:
               type: object
-              $ref: '#/components/schemas/Controller'
-    Customer:
-      title: Customer
-      oneOf:
-        - $ref: '#/components/schemas/UnverifiedCustomer'
-        - $ref: '#/components/schemas/UnverifiedBusinessCustomer'
-        - $ref: '#/components/schemas/VerifiedPersonalCustomer'
-        - $ref: '#/components/schemas/VerifiedSolePropCustomer'
-        - $ref: '#/components/schemas/VerifiedBusinessCustomer'
+              properties:
+                firstName:
+                  type: string
+                  example: John
+                lastName:
+                  type: string
+                  example: Controller
+                title:
+                  type: string
+                  example: CEO
+                address:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                      example: 462 Main Street
+                    address2:
+                      type: string
+                      example: Suite 123
+                    address3:
+                      type: string
+                      example: Unit 123
+                    city:
+                      type: string
+                      example: Des Moines
+                    postalCode:
+                      type: string
+                      example: '50309'
+                    country:
+                      type: string
+                      example: USA
+                    stateProvinceRegion:
+                      type: string
+                      example: IA
     Customers:
       title: Customers
       type: object
@@ -5500,7 +5476,12 @@ components:
             customers:
               type: array
               items:
-                $ref: '#/components/schemas/Customer'
+                oneOf:
+                  - $ref: '#/components/schemas/UnverifiedCustomer'
+                  - $ref: '#/components/schemas/UnverifiedBusinessCustomer'
+                  - $ref: '#/components/schemas/VerifiedPersonalCustomer'
+                  - $ref: '#/components/schemas/VerifiedSolePropCustomer'
+                  - $ref: '#/components/schemas/VerifiedBusinessCustomer'
     ForbiddenError:
       title: ForbiddenError
       description: Error response schema for 403 Forbidden
@@ -5515,10 +5496,15 @@ components:
         message:
           type: string
           example: The supplied credentials are not authorized for this resource.
-    CreateReceiveOnlyRequestBody:
-      title: CreateReceiveOnlyRequestBody
+    CreateReceiveOnlyUser:
+      title: CreateReceiveOnlyUser
       description: Create a Receive Only User
       type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - type
       properties:
         firstName:
           type: string
@@ -5531,7 +5517,7 @@ components:
           example: accountAdmin@email.com
         type:
           type: string
-          example: receive-only
+          const: receive-only
         ipAddress:
           type: string
           example: 143.156.7.8
@@ -5544,19 +5530,14 @@ components:
         businessName:
           type: string
           example: Jane Corp llc
-      required:
-        - firstName
-        - lastName
-        - email
-        - type
-    CreateUnverifiedCustomerRequestBody:
-      title: CreateUnverifiedCustomerRequestBody
+    CreateUnverifiedCustomer:
+      title: CreateUnverifiedCustomer
       description: Create an Unverified Customer
+      type: object
       required:
         - firstName
         - lastName
         - email
-      type: object
       properties:
         firstName:
           type: string
@@ -5579,88 +5560,146 @@ components:
         businessName:
           type: string
           example: Jane Corp llc
-    CreateVerifiedPersonalRequestBody:
-      title: CreateVerifiedPersonalRequestBody
+    CreateVerifiedPersonalCustomer:
+      title: CreateVerifiedPersonalCustomer
       description: Create a Verified Personal customer
       type: object
-      allOf:
-        - $ref: '#/components/schemas/CreateUnverifiedCustomerRequestBody'
-        - type: object
-          required:
-            - address1
-            - city
-            - state
-            - postalCode
-            - dateOfBirth
-            - type
-            - ssn
-          properties:
-            type:
-              type: string
-              example: personal
-            address1:
-              type: string
-              example: 99-99 33rd St
-            address2:
-              type: string
-              example: 99-99 33rd St
-            city:
-              type: string
-              example: Some City
-            state:
-              type: string
-              example: NY
-            postalCode:
-              type: string
-              example: 11101
-            ssn:
-              type: string
-              example: 1234
-            dateOfBirth:
-              type: string
-              example: '1980-09-12'
-    CreateVerifiedSolePropRequestBody:
-      title: CreateVerifiedSolePropRequestBody
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+      properties:
+        firstName:
+          type: string
+          example: Account
+        lastName:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: accountAdmin@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        phone:
+          type: string
+          example: 5555555555
+        correlationId:
+          type: string
+          example: fc451a7a-ae30-4404-aB95-e3553fcd733
+        businessName:
+          type: string
+          example: Jane Corp llc
+        type:
+          type: string
+          const: personal
+        address1:
+          type: string
+          example: 99-99 33rd St
+        address2:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        ssn:
+          type: string
+          example: 1234
+        dateOfBirth:
+          type: string
+          example: '1980-09-12'
+    CreateVerifiedSolePropCustomer:
+      title: CreateVerifiedSolePropCustomer
       description: Create a Verified Business customer (Sole Proprietorship)
       type: object
-      allOf:
-        - $ref: '#/components/schemas/CreateUnverifiedCustomerRequestBody'
-        - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-        - type: object
-          required:
-            - businessType
-            - ssn
-            - dateOfBirth
-            - businessName
-            - businessClassification
-          properties:
-            type:
-              type: string
-              example: business
-            businessClassification:
-              type: string
-              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
-            businessName:
-              type: string
-              example: Jane Corp
-            doingBusinessAs:
-              type: string
-              example: Jane's Electronics
-            ein:
-              type: string
-              example: 00-0000000
-            website:
-              type: string
-              example: https://www.domain.com
-            ssn:
-              type: string
-              example: 1234
-            dateOfBirth:
-              type: string
-              example: '1980-09-12'
-            businessType:
-              type: string
-              example: soleProprietorship
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - dateOfBirth
+        - type
+        - ssn
+        - businessType
+        - businessName
+        - businessClassification
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: johndoe@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        phone:
+          type: string
+          example: 5555555555
+        correlationId:
+          type: string
+          example: fc451a7a-ae30-4404-aB95-e3553fcd733
+        type:
+          type: string
+          const: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        address2:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        ssn:
+          type: string
+          example: 1234
+        dateOfBirth:
+          type: string
+          example: '1980-09-12'
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessName:
+          type: string
+          example: Jane Corp
+        doingBusinessAs:
+          type: string
+          example: Jane's Electronics
+        ein:
+          type: string
+          example: 00-0000000
+        website:
+          type: string
+          example: https://www.domain.com
+        businessType:
+          type: string
+          const: soleProprietorship
     InternationalAddress:
       title: InternationalAddress
       type: object
@@ -5691,43 +5730,111 @@ components:
         stateProvinceRegion:
           type: string
           example: IA
-    CreateCustomerRequestBody_Controller:
+    CreateVerifiedBusinessCustomerWithController:
+      title: CreateVerifiedBusinessCustomerWithController
+      description: Create a Verified Business customer with a US controller
       type: object
       required:
         - firstName
         - lastName
-        - title
-        - dateOfBirth
-        - address
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - type
+        - businessType
+        - controller
+        - businessName
+        - businessClassification
+        - ein
       properties:
         firstName:
           type: string
-          example: John
+          example: Jane
         lastName:
           type: string
-          example: Controller
-        title:
+          example: Business
+        email:
           type: string
-          example: CEO
-        dateOfBirth:
+          example: jane.business@email.com
+        ipAddress:
           type: string
-          format: date
-          example: '1980-01-31'
-        address:
-          $ref: '#/components/schemas/InternationalAddress'
-    ControllerWithSsn:
-      title: ControllerWithSsn
-      description: Controller object with SSN
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/CreateCustomerRequestBody_Controller'
-        - type: object
+          example: 143.156.7.8
+        phone:
+          type: string
+          example: 5555555555
+        correlationId:
+          type: string
+          example: fc451a7a-ae30-4404-aB95-e3553fcd733
+        type:
+          type: string
+          const: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        address2:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessName:
+          type: string
+          example: Jane Corp
+        doingBusinessAs:
+          type: string
+          example: Jane's Electronics
+        ein:
+          type: string
+          example: 00-0000000
+        website:
+          type: string
+          example: https://www.domain.com
+        controller:
+          type: object
           required:
+            - firstName
+            - lastName
+            - title
+            - dateOfBirth
+            - address
             - ssn
           properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            dateOfBirth:
+              type: string
+              format: date
+              example: '1980-01-31'
+            address:
+              $ref: '#/components/schemas/InternationalAddress'
             ssn:
               type: string
               example: '1234'
+        businessType:
+          type: string
+          enum:
+            - llc
+            - corporation
+            - partnership
+          example: llc
     Passport:
       title: Passport
       type: object
@@ -5739,58 +5846,110 @@ components:
           type: string
         country:
           type: string
-    ControllerWithPassport:
-      title: ControllerWithPassport
-      description: Controller object with Passport
+    CreateVerifiedBusinessCustomerWithInternationalController:
+      title: CreateVerifiedBusinessCustomerWithInternationalController
+      description: Create a Verified Business customer with an international (non US) controller
       type: object
-      allOf:
-        - $ref: '#/components/schemas/CreateCustomerRequestBody_Controller'
-        - type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - address1
+        - city
+        - state
+        - postalCode
+        - type
+        - businessType
+        - controller
+        - businessName
+        - businessClassification
+        - ein
+      properties:
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Business
+        email:
+          type: string
+          example: jane.business@email.com
+        ipAddress:
+          type: string
+          example: 143.156.7.8
+        phone:
+          type: string
+          example: 5555555555
+        correlationId:
+          type: string
+          example: fc451a7a-ae30-4404-aB95-e3553fcd733
+        type:
+          type: string
+          const: business
+        address1:
+          type: string
+          example: 99-99 33rd St
+        address2:
+          type: string
+          example: 99-99 33rd St
+        city:
+          type: string
+          example: Some City
+        state:
+          type: string
+          example: NY
+        postalCode:
+          type: string
+          example: 11101
+        businessClassification:
+          type: string
+          example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
+        businessName:
+          type: string
+          example: Jane Corp
+        doingBusinessAs:
+          type: string
+          example: Jane's Electronics
+        ein:
+          type: string
+          example: 00-0000000
+        website:
+          type: string
+          example: https://www.domain.com
+        controller:
+          type: object
           required:
+            - firstName
+            - lastName
+            - title
+            - dateOfBirth
+            - address
             - passport
           properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            dateOfBirth:
+              type: string
+              format: date
+              example: '1980-01-31'
+            address:
+              $ref: '#/components/schemas/InternationalAddress'
             passport:
               $ref: '#/components/schemas/Passport'
-    CreateVerifiedBusinessRequestBody:
-      title: CreateVerifiedBusinessRequestBody
-      description: Create a Verified Business customer
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/CreateUnverifiedCustomerRequestBody'
-        - $ref: '#/components/schemas/CreateVerifiedPersonalRequestBody'
-        - type: object
-          required:
-            - businessType
-            - controller
-            - businessName
-            - businessClassification
-            - ein
-          properties:
-            type:
-              type: string
-              example: business
-            businessClassification:
-              type: string
-              example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
-            businessName:
-              type: string
-              example: Jane Corp
-            doingBusinessAs:
-              type: string
-              example: Jane's Electronics
-            ein:
-              type: string
-              example: 00-0000000
-            website:
-              type: string
-              example: https://www.domain.com
-            controller:
-              oneOf:
-                - $ref: '#/components/schemas/ControllerWithSsn'
-                - $ref: '#/components/schemas/ControllerWithPassport'
-            businessType:
-              type: string
-              example: llc
+        businessType:
+          type: string
+          enum:
+            - llc
+            - corporation
+            - partnership
+          example: llc
     BadRequestError:
       title: BadRequestError
       description: Error response schema for 400 Bad Request
@@ -6427,14 +6586,15 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/BeneficialOwner'
-    BeneficialOwnerRequestBody:
-      title: BeneficialOwnerRequestBody
-      description: Shared Request body model for creating a Beneficial Owner
+    CreateUSBeneficialOwner:
+      title: CreateUSBeneficialOwner
+      description: Create a US Beneficial Owner (identified by SSN)
       required:
         - firstName
         - lastName
         - dateOfBirth
         - address
+        - ssn
       type: object
       properties:
         firstName:
@@ -6445,30 +6605,29 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/InternationalAddress'
-    BeneficialOwnerWithSsn:
-      title: BeneficialOwnerWithSsn
-      description: Request body for creating and updating a Beneficial Owner with an SSN
+        ssn:
+          type: string
+    CreateInternationalBeneficialOwner:
+      title: CreateInternationalBeneficialOwner
+      description: Create an International Beneficial Owner (identified by Passport)
+      required:
+        - firstName
+        - lastName
+        - dateOfBirth
+        - address
+        - passport
       type: object
-      allOf:
-        - $ref: '#/components/schemas/BeneficialOwnerRequestBody'
-        - type: object
-          required:
-            - ssn
-          properties:
-            ssn:
-              type: string
-    BeneficialOwnerWithPassport:
-      title: BeneficialOwnerWithPassport
-      description: Request body for creating and updating a Beneficial Owner with a Passport
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/BeneficialOwnerRequestBody'
-        - type: object
-          required:
-            - passport
-          properties:
-            passport:
-              $ref: '#/components/schemas/Passport'
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+        address:
+          $ref: '#/components/schemas/InternationalAddress'
+        passport:
+          $ref: '#/components/schemas/Passport'
     ValidationErrorSchema:
       title: ValidationErrorSchema
       type: object
@@ -6638,125 +6797,165 @@ components:
         message:
           type: string
           example: The kba session has expired.
-    CreateCustomerFundingSource:
-      oneOf:
-        - type: object
-          description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
-          required:
-            - routingNumber
-            - accountNumber
-            - bankAccountType
-            - name
+    CreateCustomerBankFundingSource:
+      type: object
+      description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
+      required:
+        - routingNumber
+        - accountNumber
+        - bankAccountType
+        - name
+      properties:
+        routingNumber:
+          type: string
+          description: A bank routing number that identifies a bank or credit union in the U.S.
+          example: '222222226'
+        accountNumber:
+          type: string
+          description: The bank account number
+          example: '123456789'
+        bankAccountType:
+          type: string
+          enum:
+            - checking
+            - savings
+            - general-ledger
+            - loan
+          description: Type of bank account
+          example: checking
+        name:
+          type: string
+          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+          example: Jane Doe's Checking
+        plaidToken:
+          type: string
+          description: A processor token obtained from Plaid for adding and verifying a bank
+        channels:
+          type: array
+          items:
+            type: string
+            enum:
+              - wire
+          description: An array containing a list of processing channels. ACH is the default processing channel for bank transfers.
+        _links:
+          type: object
           properties:
-            routingNumber:
-              type: string
-              description: A bank routing number that identifies a bank or credit union in the U.S.
-              example: '222222226'
-            accountNumber:
-              type: string
-              description: The bank account number
-              example: '123456789'
-            bankAccountType:
-              type: string
-              enum:
-                - checking
-                - savings
-                - general-ledger
-                - loan
-              description: Type of bank account
-              example: checking
-            name:
-              type: string
-              description: Arbitrary nickname for the funding source. Must be 50 characters or less.
-              example: Jane Doe's Checking
-            plaidToken:
-              type: string
-              description: A processor token obtained from Plaid for adding and verifying a bank
-            channels:
-              type: array
-              items:
-                type: string
-                enum:
-                  - wire
-              description: An array containing a list of processing channels. ACH is the default processing channel for bank transfers.
-            _links:
-              type: object
-              properties:
-                on-demand-authorization:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-        - type: object
-          description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
-          required:
-            - _links
-            - bankAccountType
-            - name
-          properties:
-            _links:
+            on-demand-authorization:
               type: object
               required:
-                - exchange
+                - href
               properties:
-                exchange:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      example: https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65
-                on-demand-authorization:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-            bankAccountType:
-              type: string
-              enum:
-                - checking
-                - savings
-                - general-ledger
-                - loan
-              description: Type of bank account
-              example: checking
-            name:
-              type: string
-              description: Arbitrary nickname for the funding source. Must be 50 characters or less.
-              example: Jane Doe's Checking
-        - type: object
-          description: Schema for creating a Virtual Account Number (VAN) . VANs are unique account numbers for receiving external transactions into a Dwolla Balance.
+                href:
+                  type: string
+                  format: uri
+                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+    CreateCustomerExchangeFundingSource:
+      type: object
+      description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
+      required:
+        - _links
+        - bankAccountType
+        - name
+      properties:
+        _links:
+          type: object
           required:
-            - name
-            - type
-            - bankAccountType
+            - exchange
           properties:
-            name:
-              type: string
-              description: Arbitrary nickname for the funding source. Must be 50 characters or less.
-              example: My First VAN
-            type:
-              type: string
-              enum:
-                - virtual
-              description: Type of funding source. Must be set to "virtual" for VAN creation.
-              example: virtual
-            bankAccountType:
-              type: string
-              enum:
-                - checking
-              description: Type of bank account. Must be "checking" for Virtual Account Numbers.
-              example: checking
+            exchange:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65
+            on-demand-authorization:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+        bankAccountType:
+          type: string
+          enum:
+            - checking
+            - savings
+            - general-ledger
+            - loan
+          description: Type of bank account
+          example: checking
+        name:
+          type: string
+          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+          example: Jane Doe's Checking
+    CreateCustomerVirtualFundingSource:
+      type: object
+      description: Schema for creating a Virtual Account Number (VAN) . VANs are unique account numbers for receiving external transactions into a Dwolla Balance.
+      required:
+        - name
+        - type
+        - bankAccountType
+      properties:
+        name:
+          type: string
+          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+          example: My First VAN
+        type:
+          type: string
+          enum:
+            - virtual
+          description: Type of funding source. Must be set to "virtual" for VAN creation.
+          example: virtual
+        bankAccountType:
+          type: string
+          enum:
+            - checking
+          description: Type of bank account. Must be "checking" for Virtual Account Numbers.
+          example: checking
+    InactiveExchangeError:
+      title: InactiveExchangeError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: InactiveExchange
+        message:
+          type: string
+          example: The Exchange was removed or disabled.
+    InvalidExchangeTokenError:
+      title: InvalidExchangeTokenError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: InvalidExchangeToken
+        message:
+          type: string
+          example: The exchange token is not valid to perform this operation.
+    DuplicateFundingSourceError:
+      title: DuplicateFundingSourceError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Duplicate funding source or validation error. Authorization already associated to a funding source.
     UpdateUnverifiedBank:
       title: UpdateUnverifiedBank
       description: Request body for updating information of an unverified bank funding source
@@ -9637,7 +9836,8 @@ components:
           type: integer
           format: int32
           example: 3
-    FinicitySecureExchangeCreateExchangeRequestBody:
+    CreateFinicitySecureExchange:
+      title: CreateFinicitySecureExchange
       type: object
       properties:
         _links:
@@ -9701,7 +9901,8 @@ components:
               type: string
               format: date-time
               example: '2022-07-11T06:06:23Z'
-    MXSecureExchangeCreateExchangeRequestBody:
+    CreateMXSecureExchange:
+      title: CreateMXSecureExchange
       type: object
       properties:
         _links:
@@ -9716,7 +9917,8 @@ components:
         token:
           type: string
           example: someMXProcessorToken
-    FlinksSecureExchangeCreateExchangeRequestBody:
+    CreateFlinksSecureExchange:
+      title: CreateFlinksSecureExchange
       type: object
       required:
         - _links
@@ -9740,7 +9942,8 @@ components:
           type: string
           description: The Flinks connection token
           example: MTExYTFhMWEtMTExMS0xYWExLTExMTEtMTFhMTExYTExMTFhOjIyMmIyYjFiLTIyMjItMmJiMi0yMjIyLTIyYjIyMmIyMjIyYg==
-    PlaidSecureExchangeCreateExchangeRequestBody:
+    CreatePlaidSecureExchange:
+      title: CreatePlaidSecureExchange
       type: object
       properties:
         _links:
@@ -9779,7 +9982,8 @@ components:
         message:
           type: string
           example: The exchange is no longer active.
-    MXOpenBankingCreateExchangeRequestBody:
+    CreateMXOpenBankingExchange:
+      title: CreateMXOpenBankingExchange
       type: object
       required:
         - _links
@@ -9808,7 +10012,8 @@ components:
               type: string
               description: The MX connection token for the available connection
               example: eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0=
-    PlaidOpenBankingCreateExchangeRequestBody:
+    CreatePlaidOpenBankingExchange:
+      title: CreatePlaidOpenBankingExchange
       type: object
       required:
         - _links
@@ -9837,62 +10042,65 @@ components:
               type: string
               description: The Plaid public token for the connection
               example: public-production-d5456acb-01d5-4932-9783-e4c883cf1c0c
-    CreateCustomerExchangeSession:
-      oneOf:
-        - type: object
+    CreateCustomerExchangeSessionWithRedirect:
+      title: CreateCustomerExchangeSessionWithRedirect
+      description: Create exchange session with redirect URL (required for Visa and for mobile sessions with Plaid)
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
           required:
-            - _links
+            - exchange-partner
+            - redirect-url
           properties:
-            _links:
+            exchange-partner:
               type: object
               required:
-                - exchange-partner
-                - redirect-url
+                - href
               properties:
-                exchange-partner:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
-                redirect-url:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      description: Required for Visa and Plaid mobile sessions
-                      examples:
-                        - description: Visa example
-                          value: https://www.yourdomain.com/iav-callback
-                        - description: Plaid Android example
-                          value: com.example.app123
-                        - description: Plaid iOS example
-                          value: https://example.com/app123
-        - type: object
-          required:
-            - _links
-          properties:
-            _links:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+            redirect-url:
               type: object
               required:
-                - exchange-partner
+                - href
               properties:
-                exchange-partner:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
-          description: For MX and Plaid web sessions where redirect-url is not required
+                href:
+                  type: string
+                  format: uri
+                  description: Required for Visa and Plaid mobile sessions
+                  examples:
+                    - description: Visa example
+                      value: https://www.yourdomain.com/iav-callback
+                    - description: Plaid Android example
+                      value: com.example.app123
+                    - description: Plaid iOS example
+                      value: https://example.com/app123
+    CreateCustomerExchangeSessionForWeb:
+      title: CreateCustomerExchangeSessionForWeb
+      description: Create exchange session for web (MX and Plaid web sessions where redirect-url is not required)
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
+          required:
+            - exchange-partner
+          properties:
+            exchange-partner:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
     ExchangeSession:
       type: object
       required:
@@ -9973,36 +10181,39 @@ components:
             Present for Plaid exchange sessions.
             Contains the token to initialize the Plaid Link flow.
           example: link-production-b41e8ed3-0874-4c64-b07d-a77088979d5f
-    CreateReAuthExchangeSession:
-      oneOf:
-        - type: object
+    CreateReAuthExchangeSessionForWeb:
+      title: CreateReAuthExchangeSessionForWeb
+      description: Create re-auth exchange session for web (Plaid web sessions where request body is optional)
+      type: object
+      properties: {}
+    CreateReAuthExchangeSessionWithRedirect:
+      title: CreateReAuthExchangeSessionWithRedirect
+      description: Create re-auth exchange session with redirect URL (required for mobile sessions with Visa and Plaid)
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
           required:
-            - _links
+            - redirect-url
           properties:
-            _links:
+            redirect-url:
               type: object
               required:
-                - redirect-url
+                - href
               properties:
-                redirect-url:
-                  type: object
-                  required:
-                    - href
-                  properties:
-                    href:
-                      type: string
-                      format: uri
-                      description: Required for Visa and Plaid mobile sessions
-                      examples:
-                        - description: Visa example
-                          value: https://www.yourdomain.com/iav-callback
-                        - description: Plaid Android example
-                          value: com.example.app123
-                        - description: Plaid iOS example
-                          value: https://example.com/app123
-        - type: object
-          description: Empty object for Plaid Web sessions where request body is optional
-          properties: {}
+                href:
+                  type: string
+                  format: uri
+                  description: Required for Visa and Plaid mobile sessions
+                  examples:
+                    - description: Visa example
+                      value: https://www.yourdomain.com/iav-callback
+                    - description: Plaid Android example
+                      value: com.example.app123
+                    - description: Plaid iOS example
+                      value: https://example.com/app123
     AvailableExchangeConnections:
       type: object
       required:

@@ -1,4 +1,5 @@
-FinicitySecureExchangeCreateExchangeRequestBody:
+CreateFinicitySecureExchange:
+  title: CreateFinicitySecureExchange
   type: object
   properties:
     _links:
@@ -62,7 +63,8 @@ FinicitySecureExchangeCreateExchangeRequestBody:
           type: string
           format: date-time
           example: '2022-07-11T06:06:23Z'
-MXSecureExchangeCreateExchangeRequestBody:
+CreateMXSecureExchange:
+  title: CreateMXSecureExchange
   type: object
   properties:
     _links:
@@ -77,7 +79,8 @@ MXSecureExchangeCreateExchangeRequestBody:
     token:
       type: string
       example: someMXProcessorToken
-MXOpenBankingCreateExchangeRequestBody:
+CreateMXOpenBankingExchange:
+  title: CreateMXOpenBankingExchange
   type: object
   required:
     - _links
@@ -106,7 +109,8 @@ MXOpenBankingCreateExchangeRequestBody:
           type: string
           description: The MX connection token for the available connection
           example: eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0=
-FlinksSecureExchangeCreateExchangeRequestBody:
+CreateFlinksSecureExchange:
+  title: CreateFlinksSecureExchange
   type: object
   required:
     - _links
@@ -130,7 +134,8 @@ FlinksSecureExchangeCreateExchangeRequestBody:
       type: string
       description: The Flinks connection token
       example: MTExYTFhMWEtMTExMS0xYWExLTExMTEtMTFhMTExYTExMTFhOjIyMmIyYjFiLTIyMjItMmJiMi0yMjIyLTIyYjIyMmIyMjIyYg==
-PlaidSecureExchangeCreateExchangeRequestBody:
+CreatePlaidSecureExchange:
+  title: CreatePlaidSecureExchange
   type: object
   properties:
     _links:
@@ -145,7 +150,8 @@ PlaidSecureExchangeCreateExchangeRequestBody:
     token:
       type: string
       example: somePlaidProcessorToken
-PlaidOpenBankingCreateExchangeRequestBody:
+CreatePlaidOpenBankingExchange:
+  title: CreatePlaidOpenBankingExchange
   type: object
   required:
     - _links

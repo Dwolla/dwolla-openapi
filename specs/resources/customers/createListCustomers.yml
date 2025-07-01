@@ -62,11 +62,12 @@ post:
       application/vnd.dwolla.v1.hal+json:
         schema:
           oneOf:
-            - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateReceiveOnlyRequestBody'
-            - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateUnverifiedCustomerRequestBody'
-            - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateVerifiedPersonalRequestBody'
-            - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateVerifiedSolePropRequestBody'
-            - $ref: '../../schemas/customers/CreateCustomerRequestBody.yml#/CreateVerifiedBusinessRequestBody'
+            - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateReceiveOnlyUser'
+            - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateUnverifiedCustomer'
+            - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedPersonalCustomer'
+            - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedSolePropCustomer'
+            - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedBusinessCustomerWithController'
+            - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedBusinessCustomerWithInternationalController'
   responses:
     '201':
       description: successful operation
