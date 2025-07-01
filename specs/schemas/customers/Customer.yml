@@ -1,13 +1,5 @@
-Customer:
-  title: Customer
-  oneOf:
-    - $ref: '#/UnverifiedCustomer'
-    - $ref: '#/UnverifiedBusinessCustomer'
-    - $ref: '#/VerifiedPersonalCustomer'
-    - $ref: '#/VerifiedSolePropCustomer'
-    - $ref: '#/VerifiedBusinessCustomer'
 UnverifiedCustomer:
-  title: Customer
+  title: UnverifiedCustomer
   description: Shared models between all Customer types
   type: object
   properties:
@@ -40,7 +32,7 @@ UnverifiedCustomer:
       format: date-time
       example: '2022-10-07T16:46:13.023Z'
 UnverifiedBusinessCustomer:
-  title: RetrieveReceiveOnlyCustomerResponse
+  title: UnverifiedBusinessCustomer
   allOf:
     - $ref: '#/UnverifiedCustomer'
     - type: object
@@ -185,42 +177,37 @@ VerifiedBusinessCustomer:
           example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
         controller:
           type: object
-          $ref: '#/Controller'
-Controller:
-  title: Controller
-  description: Controller JSON Object for Customer responses
-  type: object
-  properties:
-    firstName:
-      type: string
-      example: John
-    lastName:
-      type: string
-      example: Controller
-    title:
-      type: string
-      example: CEO
-    address:
-      type: object
-      properties:
-        address1:
-          type: string
-          example: 462 Main Street
-        address2:
-          type: string
-          example: Suite 123
-        address3:
-          type: string
-          example: Unit 123
-        city:
-          type: string
-          example: Des Moines
-        postalCode:
-          type: string
-          example: '50309'
-        country:
-          type: string
-          example: USA
-        stateProvinceRegion:
-          type: string
-          example: 'IA'
+          properties:
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Controller
+            title:
+              type: string
+              example: CEO
+            address:
+              type: object
+              properties:
+                address1:
+                  type: string
+                  example: 462 Main Street
+                address2:
+                  type: string
+                  example: Suite 123
+                address3:
+                  type: string
+                  example: Unit 123
+                city:
+                  type: string
+                  example: Des Moines
+                postalCode:
+                  type: string
+                  example: '50309'
+                country:
+                  type: string
+                  example: USA
+                stateProvinceRegion:
+                  type: string
+                  example: 'IA'

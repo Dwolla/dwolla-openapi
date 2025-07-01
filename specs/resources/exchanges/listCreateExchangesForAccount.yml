@@ -1,0 +1,102 @@
+get:
+  tags:
+    - exchanges
+  summary: List exchanges for an account
+  description: List exchanges for an account
+  operationId: listAccountExchanges
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: list
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/exchanges/Exchanges.yml#/Exchanges'
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
+post:
+  tags:
+    - exchanges
+  summary: Create an exchange for an account
+  description: |
+    Create an exchange for an account. The request body will vary based on the exchange partner.
+    For Finicity, the request body will include finicity-specific fields.
+    For MX Secure Exchange, the request body will include a token.
+    For Flinks Secure Exchange, the request body will include a token.
+    For Plaid Secure Exchange, the request body will include a token.
+  operationId: createAccountExchange
+  x-speakeasy-group: accounts.exchanges
+  x-speakeasy-name-override: create
+  requestBody:
+    required: true
+    description: Parameters for creating an exchange
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFinicitySecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateMXSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFlinksSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreatePlaidSecureExchange'
+  responses:
+    '201':
+      description: Created
+      headers:
+        Location:
+          $ref: '../../schemas/common.yml#/components/headers/Location'
+          example: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '400':
+      description: Bad Request
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            oneOf:
+              - $ref: '../../schemas/exchanges/CreateExchange.yml#/InvalidExchangeToken'
+              - $ref: '../../schemas/exchanges/CreateExchange.yml#/InvalidExchange'
+    '401':
+      description: Invalid Scope
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidExchange
+              message:
+                type: string
+                example: The exchange is no longer active.
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

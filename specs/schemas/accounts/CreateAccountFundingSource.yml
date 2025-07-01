@@ -1,5 +1,5 @@
-CreateFundingSourceForAccountRequestBody:
-  title: CreateFundingSourceForAccount
+CreateAccountFundingSource:
+  title: CreateAccountFundingSource
   type: object
   properties:
     _links:
@@ -14,9 +14,7 @@ CreateFundingSourceForAccountRequestBody:
       type: string
     bankAccountType:
       type: string
-      enum:
-        - checking
-        - savings
+      enum: [checking, savings]
     accountNumber:
       type: string
     routingNumber:

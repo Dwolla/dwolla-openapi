@@ -70,15 +70,15 @@ post:
 
         funding_source = app_token.post "funding-sources", request_body
         funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/04173e17-6398-4d36-a167-9d98c4b1f1c3"
+  parameters:
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: true
     description: Parameters for the funding source to be created
     content:
       application/json:
         schema:
-          $ref: '../../schemas/accounts/CreateFundingSourceForAccountRequestBody.yml#/CreateFundingSourceForAccountRequestBody'
-  parameters:
-    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
+          $ref: '../../schemas/accounts/CreateAccountFundingSource.yml#/CreateAccountFundingSource'
   responses:
     '201':
       description: successful operation

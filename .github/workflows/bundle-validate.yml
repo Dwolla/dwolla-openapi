@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install -g @redocly/cli
-          npm install -g @mintlify/cli
+          npm i -g mint
           curl -fsSL https://go.speakeasy.com/cli-install.sh | sh
 
       - name: Bundle OpenAPI spec

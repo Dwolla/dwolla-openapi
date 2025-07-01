@@ -1,15 +1,15 @@
 get:
   tags:
     - exchanges
-  summary: List exchanges for an account
-  description: List exchanges for an account
-  operationId: listAccountExchanges
-  x-speakeasy-group: accounts.exchanges
+  summary: List exchanges for a customer
+  description: Retrieve the list of exchanges associated with a Customer resource.
+  operationId: listCustomerExchanges
+  x-speakeasy-group: customers.exchanges
   x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
-        GET https://api.dwolla.com/exchanges
+        GET https://api-sandbox.dwolla.com/customers/9fc74373-a5c7-40e4-aa59-d5f4c86a24ea/exchanges
         Accept: application/vnd.dwolla.v1.hal+json
         Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
 
@@ -18,7 +18,7 @@ get:
         {
             "_links": {
                 "self": {
-                    "href": "https://api.dwolla.com/exchanges",
+                    "href": "https://api-sandbox.dwolla.com/exchanges",
                     "type": "application/vnd.dwolla.v1.hal+json",
                     "resource-type": "exchange"
                 }
@@ -28,115 +28,111 @@ get:
                     {
                         "_links": {
                             "self": {
-                                "href": "https://api-sandbox.dwolla.com/exchanges/3dad9cbf-9cb6-4efb-8a17-53d7199a0fee",
+                                "href": "https://api-sandbox.dwolla.com/exchanges/92822961-3a7f-42c0-b0cc-7ffef05717fa",
                                 "type": "application/vnd.dwolla.v1.hal+json",
                                 "resource-type": "exchange"
                             },
                             "exchange-partner": {
-                                "href": "https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
+                                "href": "https://api-sandbox.dwolla.com/exchange-partners/bca8d065-49a5-475b-a6b4-509bc8504d22",
                                 "type": "application/vnd.dwolla.v1.hal+json",
                                 "resource-type": "exchange-partner"
                             },
-                            "account": {
-                                "href": "https://api-sandbox.dwolla.com/accounts/80764434-5391-4c6e-89fa-2f96662e9a3a",
+                            "funding-sources": {
+                                "href": "https://api-sandbox.dwolla.com/funding-sources",
                                 "type": "application/vnd.dwolla.v1.hal+json",
-                                "resource-type": "account"
+                                "resource-type": "funding-source"
+                            },
+                            "customer": {
+                                "href": "https://api-sandbox.dwolla.com/customers/9fc74373-a5c7-40e4-aa59-d5f4c86a24ea",
+                                "type": "application/vnd.dwolla.v1.hal+json",
+                                "resource-type": "customer"
                             }
                         },
-                        "id": "3dad9cbf-9cb6-4efb-8a17-53d7199a0fee",
+                        "id": "92822961-3a7f-42c0-b0cc-7ffef05717fa",
                         "status": "active",
-                        "created": "2022-05-23T16:33:30.450Z"
-                    },
-                    {
-                        "_links": {
-                            "self": {
-                                "href": "https://api-sandbox.dwolla.com/exchanges/cfd39dd1-76fa-4040-86cc-77aabd0aa9e1",
-                                "type": "application/vnd.dwolla.v1.hal+json",
-                                "resource-type": "exchange"
-                            },
-                            "exchange-partner": {
-                                "href": "https://api-sandbox.dwolla.com/exchange-partners/9b55a4b3-34ae-4607-b2d1-622f1eed77f9",
-                                "type": "application/vnd.dwolla.v1.hal+json",
-                                "resource-type": "exchange-partner"
-                            },
-                            "account": {
-                                "href": "https://api-sandbox.dwolla.com/accounts/80764434-5391-4c6e-89fa-2f96662e9a3a",
-                                "type": "application/vnd.dwolla.v1.hal+json",
-                                "resource-type": "account"
-                            }
-                        },
-                        "id": "cfd39dd1-76fa-4040-86cc-77aabd0aa9e1",
-                        "status": "active",
-                        "created": "2022-05-23T16:28:02.965Z"
+                        "created": "2022-10-19T17:44:44.864Z"
                     }
                 ]
             },
-            "total": 2
+            "total": 1
         }
     - lang: javascript
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
-        token.get("exchanges").then((res) => res.body._embedded["exchanges"][0].id); // => '56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
+        var customerUrl = "https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2";
+
+        token.get(`${customerUrl}/exchanges`).then((res) => res.body._embedded["exchanges"][0].id); // => '56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
     - lang: python
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
-        exchanges = app_token.get('exchanges')
+        customer_url = 'https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2'
+
+        exchanges = app_token.get('%s/exchanges' % customer_url)
         exchanges.body['_embedded']['exchanges'][0]['id'] # => '56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
     - lang: php
       source: |
         <?php
         // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
         $exchangesApi = new ExchangesApi($apiClient);
+        $customerUrl = "https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2";
 
-        $exchanges = $exchangesApi->getAccountExchanges();
+        $exchanges = $exchangesApi->getCustomerExchanges($customerUrl);
         $exchanges->_embedded->{"exchanges"}[0]->id; # => "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
         ?>
     - lang: ruby
       source: |
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
-        exchanges = app_token.get "exchanges"
+        customer_url = 'https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2'
+
+        exchanges = app_token.get "#{customer_url}/exchanges"
         exchanges._embedded['exchanges'][0].id # => "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
   parameters:
+    - name: id
+      in: path
+      description: The ID of the Customer to list exchanges for
+      required: true
+      schema:
+        type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
       description: successful operation
-      headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
             $ref: '../../schemas/exchanges/Exchanges.yml#/Exchanges'
-    '403':
-      description: Forbidden
-      headers: {}
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
     '404':
       description: Not Found
-      headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotFound
+              message:
+                type: string
+                example: Customer ID not found. Check Customer ID.
 post:
   tags:
     - exchanges
-  summary: Create an exchange for an account
+  summary: Create an exchange for a customer
   description: |
-    Create an exchange for an account. The request body will vary based on the exchange partner.
+    Create an exchange for a customer. The request body will vary based on the exchange partner.
     For Finicity, the request body will include finicity-specific fields.
-    For MX Secure Exchange, the request body will include a token.
+    For MX Secure Exchange, the request body will include an MX token.
+    For MX Open Banking, the request body will include an available connection token.
     For Flinks Secure Exchange, the request body will include a token.
-    For Plaid Secure Exchange, the request body will include a token.
-  operationId: createAccountExchange
-  x-speakeasy-group: accounts.exchanges
+    For Plaid Secure Exchange, the request body will include a processor token.
+    For Plaid Open Banking, the request body will include a public token.
+  operationId: createCustomerExchange
+  x-speakeasy-group: customers.exchanges
   x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
-        POST https://api.dwolla.com/exchanges
+        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchanges
         Accept: application/vnd.dwolla.v1.hal+json
         Content-Type: application/vnd.dwolla.v1.hal+json
         Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
@@ -155,6 +151,7 @@ post:
     - lang: javascript
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl = "https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980";
         var requestBody = {
           _links: {
             "exchange-partner": {
@@ -164,12 +161,11 @@ post:
           token: "somePlaidProcessorToken",
         };
 
-        dwolla
-          .post("exchanges", requestBody)
-          .then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+        dwolla.post(`${customerUrl}/exchanges`, requestBody).then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
     - lang: python
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
         request_body = {
           '_links': {
             'exchange-partner': {
@@ -179,28 +175,30 @@ post:
           'token': 'somePlaidProcessorToken'
         }
 
-        exchange = app_token.post('exchange', request_body)
+        exchange = app_token.post('%s/exchanges' % customer_url, request_body)
         exchange.headers['location'] # => 'https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
     - lang: php
       source: |
         <?php
         // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
         $exchangesApi = new ExchangesApi($apiClient);
+        $customerUrl = "https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980";
 
-        $exchange = $exchangesApi->createAccountExchange(new CreateExchangeRequest([
+        $exchange = $exchangesApi->createCustomerExchange(new CreateExchangeRequest([
             "_links" => [
                 "exchange-partner" => [
                     "href" => "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
                 ]
             ],
             "token" => "somePlaidProcessorToken"
-        ]));
+        ]), $customerUrl);
 
         $exchange; # => https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
         ?>
     - lang: ruby
       source: |
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
         request_body = {
           _links: {
             'exchange-partner': {
@@ -210,21 +208,35 @@ post:
           token: 'somePlaidProcessorToken'
         }
 
-        exchange = app_token.post "exchanges", request_body
+        exchange = app_token.post "#{customer_url}/exchanges", request_body
         exchange.response_headers[:location] # => "https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
   parameters:
+    - name: id
+      in: path
+      description: The ID of the customer to create an exchange for
+      required: true
+      schema:
+        type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
+  requestBody:
+    required: true
+    content:
+      application/vnd.dwolla.v1.hal+json:
+        schema:
+          oneOf:
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFinicitySecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateMXSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateMXOpenBankingExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFlinksSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreatePlaidSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreatePlaidOpenBankingExchange'
   responses:
     '201':
-      description: Created
+      description: created
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
           example: https://api.dwolla.com/exchanges/fcd15e5f-8d13-4570-a9b7-7fb49e55941d
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            type: object
     '400':
       description: Bad Request
       content:
@@ -234,28 +246,29 @@ post:
               - $ref: '../../schemas/exchanges/CreateExchange.yml#/InvalidExchangeToken'
               - $ref: '../../schemas/exchanges/CreateExchange.yml#/InvalidExchange'
     '401':
-      description: Invalid Scope
+      description: Unauthorized
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: InvalidExchange
-              message:
-                type: string
-                example: The exchange is no longer active.
-    '403':
-      description: Forbidden
-      headers: {}
-      content:
-        application/vnd.dwolla.v1.hal+json:
-          schema:
-            $ref: '../../schemas/common.yml#/components/schemas/ForbiddenError'
+            oneOf:
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidExchangeToken
+                  message:
+                    type: string
+                    example: The exchange token is not valid to perform this operation. Either the token is expired or invalid, or the products permissions to the token are invalid or expired.
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidScope
+                  message:
+                    type: string
+                    example: The scopes for creating an exchange resource for a customer is not enabled for this application. Reach out to Dwolla for more information.
     '404':
       description: Not Found
-      headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:

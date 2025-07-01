@@ -1,112 +1,152 @@
-CreateCustomerFundingSource:
-  oneOf:
-    - type: object
-      description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
-      required:
-        - routingNumber
-        - accountNumber
-        - bankAccountType
-        - name
+CreateCustomerBankFundingSource:
+  type: object
+  description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
+  required:
+    - routingNumber
+    - accountNumber
+    - bankAccountType
+    - name
+  properties:
+    routingNumber:
+      type: string
+      description: A bank routing number that identifies a bank or credit union in the U.S.
+      example: '222222226'
+    accountNumber:
+      type: string
+      description: The bank account number
+      example: '123456789'
+    bankAccountType:
+      type: string
+      enum: [checking, savings, general-ledger, loan]
+      description: Type of bank account
+      example: checking
+    name:
+      type: string
+      description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+      example: Jane Doe's Checking
+    plaidToken:
+      type: string
+      description: A processor token obtained from Plaid for adding and verifying a bank
+    channels:
+      type: array
+      items:
+        type: string
+        enum: [wire]
+      description: An array containing a list of processing channels. ACH is the default processing channel for bank transfers.
+    _links:
+      type: object
       properties:
-        routingNumber:
-          type: string
-          description: A bank routing number that identifies a bank or credit union in the U.S.
-          example: '222222226'
-        accountNumber:
-          type: string
-          description: The bank account number
-          example: '123456789'
-        bankAccountType:
-          type: string
-          enum: [checking, savings, general-ledger, loan]
-          description: Type of bank account
-          example: checking
-        name:
-          type: string
-          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
-          example: Jane Doe's Checking
-        plaidToken:
-          type: string
-          description: A processor token obtained from Plaid for adding and verifying a bank
-        channels:
-          type: array
-          items:
-            type: string
-            enum: [wire]
-          description: An array containing a list of processing channels. ACH is the default processing channel for bank transfers.
-        _links:
-          type: object
-          properties:
-            on-demand-authorization:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  format: uri
-                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-    - type: object
-      description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
-      required:
-        - _links
-        - bankAccountType
-        - name
-      properties:
-        _links:
+        on-demand-authorization:
           type: object
           required:
-            - exchange
+            - href
           properties:
-            exchange:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  format: uri
-                  example: https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65
-            on-demand-authorization:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  format: uri
-                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-        bankAccountType:
-          type: string
-          enum: [checking, savings, general-ledger, loan]
-          description: Type of bank account
-          example: checking
-        name:
-          type: string
-          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
-          example: Jane Doe's Checking
-    - type: object
-      description: Schema for creating a Virtual Account Number (VAN) . VANs are unique account numbers for receiving external transactions into a Dwolla Balance.
+            href:
+              type: string
+              format: uri
+              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+CreateCustomerExchangeFundingSource:
+  type: object
+  description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
+  required:
+    - _links
+    - bankAccountType
+    - name
+  properties:
+    _links:
+      type: object
       required:
-        - name
-        - type
-        - bankAccountType
+        - exchange
       properties:
-        name:
-          type: string
-          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
-          example: My First VAN
-        type:
-          type: string
-          enum: [virtual]
-          description: Type of funding source. Must be set to "virtual" for VAN creation.
-          example: virtual
-        bankAccountType:
-          type: string
-          enum: [checking]
-          description: Type of bank account. Must be "checking" for Virtual Account Numbers.
-          example: checking
+        exchange:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65
+        on-demand-authorization:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+    bankAccountType:
+      type: string
+      enum: [checking, savings, general-ledger, loan]
+      description: Type of bank account
+      example: checking
+    name:
+      type: string
+      description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+      example: Jane Doe's Checking
+CreateCustomerVirtualFundingSource:
+  type: object
+  description: Schema for creating a Virtual Account Number (VAN) . VANs are unique account numbers for receiving external transactions into a Dwolla Balance.
+  required:
+    - name
+    - type
+    - bankAccountType
+  properties:
+    name:
+      type: string
+      description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+      example: My First VAN
+    type:
+      type: string
+      enum: [virtual]
+      description: Type of funding source. Must be set to "virtual" for VAN creation.
+      example: virtual
+    bankAccountType:
+      type: string
+      enum: [checking]
+      description: Type of bank account. Must be "checking" for Virtual Account Numbers.
+      example: checking
 # Error Responses
+InactiveExchangeError:
+  title: InactiveExchangeError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: InactiveExchange
+    message:
+      type: string
+      example: The Exchange was removed or disabled.
+InvalidExchangeTokenError:
+  title: InvalidExchangeTokenError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: InvalidExchangeToken
+    message:
+      type: string
+      example: The exchange token is not valid to perform this operation.
+DuplicateFundingSourceError:
+  title: DuplicateFundingSourceError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Duplicate funding source or validation error. Authorization already associated to a funding source.
 NotAuthorizedToCreateFundingSourceError:
   title: NotAuthorizedToCreateFundingSourceError
   type: object

@@ -99,7 +99,9 @@ post:
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
-          $ref: '../../schemas/exchange-sessions/CreateReAuthExchangeSession.yml#/CreateReAuthExchangeSession'
+          oneOf:
+            - $ref: '../../schemas/exchange-sessions/CreateReAuthExchangeSession.yml#/CreateReAuthExchangeSessionForWeb'
+            - $ref: '../../schemas/exchange-sessions/CreateReAuthExchangeSession.yml#/CreateReAuthExchangeSessionWithRedirect'
   responses:
     '201':
       description: created
