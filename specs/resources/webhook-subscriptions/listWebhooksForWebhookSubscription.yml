@@ -5,6 +5,42 @@ get:
   description: List webhooks for a webhook subscription
   operationId: listWebhooks
   x-speakeasy-group: webhookSubscriptions
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/webhook-subscriptions/10d4133e-b308-4646-b276-40d9d36def1c/webhooks
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookSubscriptionUrl =
+          "https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216";
+
+        dwolla.get(`${webhookSubscriptionUrl}/webhooks`).then((res) => res.body.total); // => 5
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        hooks = app_token.get('%s/webhooks' % webhook_subscription_url)
+        hooks.body['total'] # => 5
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookApi = new DwollaSwagger\WebhooksApi($apiClient);
+
+        $hooks = $webhookApi->hooksById('https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216');
+        $hooks->total; # => 5
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_subscription_url = 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+
+        hooks = app_token.get "#{webhook_subscription_url}/webhooks"
+        hooks.total # => 5
   parameters:
     - name: id
       in: path

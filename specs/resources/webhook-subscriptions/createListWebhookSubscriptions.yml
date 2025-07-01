@@ -6,6 +6,35 @@ get:
   operationId: listWebhookSubscriptions
   x-speakeasy-group: webhookSubscriptions
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/webhook-subscriptions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla.get("webhook-subscriptions").then((res) => res.body.total); // => 1
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_subscriptions = app_token.get('webhook-subscriptions')
+        webhook_subscriptions.body['total'] # => 1
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookApi = new DwollaSwagger\WebhooksubscriptionsApi($apiClient);
+
+        $retrieved = $webhookApi->_list();
+        $retrieved->total; # => 1
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_subscriptions = app_token.get "webhook-subscriptions"
+        webhook_subscriptions.total # => 1
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
@@ -59,6 +88,56 @@ post:
   operationId: createWebhookSubscription
   x-speakeasy-group: webhookSubscriptions
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/webhook-subscriptions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer 0Sn0W6kzNicvoWhDbQcVSKLRUpGjIdlPSEYyrHqrDDoRnQwE7Q
+        {
+            "url": "http://myapplication.com/webhooks",
+            "secret": "sshhhhhh"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var requestBody = {
+          url: "http://myawesomeapplication.com/destination",
+          secret: "your webhook secret",
+        };
+        dwolla
+          .post("webhook-subscriptions", requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        request_body = {
+          'url': 'http://myapplication.com/webhooks',
+          'secret': 'sshhhhhh'
+        }
+        subscription = app_token.post('webhook-subscriptions', request_body)
+        subscription.headers['location'] # => 'https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookApi = new DwollaSwagger\WebhooksubscriptionsApi($apiClient);
+        $subscription = $webhookApi->create(array (
+          'url' => 'http://myapplication.com/webhooks',
+          'secret' => 'sshhhhhh',
+        ));
+        $subscription; # => "https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        request_body = {
+          :url => "http://myawesomeapplication.com/destination",
+          :secret => "your webhook secret"
+        }
+        subscription = app_token.post "webhook-subscriptions", request_body
+        subscription.response_headers[:location] # => "https://api-sandbox.dwolla.com/webhook-subscriptions/5af4c10a-f6de-4ac8-840d-42cb65454216"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

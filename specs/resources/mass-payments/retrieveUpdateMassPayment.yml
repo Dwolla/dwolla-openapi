@@ -6,6 +6,44 @@ get:
   operationId: getMassPayment
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var massPaymentUrl =
+          "https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563";
+
+        dwolla.get(massPaymentUrl).then((res) => res.body.status); // => 'processing'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        mass_payment_url = 'https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563'
+
+        mass_payment = app_token.get(mass_payment_url)
+        mass_payment.body['status'] # => 'processing'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $massPaymentUrl = 'https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563';
+
+        $massPaymentsApi = new DwollaSwagger\MasspaymentsApi($apiClient);
+
+        $massPayment = $massPaymentsApi->byId($massPaymentUrl);
+        $massPayment->status; # => "processing"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        mass_payment_url = "https://api-sandbox.dwolla.com/mass-payments/eb467252-808c-4bc0-b86f-a5cd01454563"
+
+        mass_payment = app_token.get mass_payment_url
+        mass_payment.status # => "processing"
   parameters:
     - name: id
       in: path
@@ -58,6 +96,52 @@ post:
   operationId: updateMassPayment
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: update
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/mass-payments/692486f8-29f6-4516-a6a5-c69fd2ce854c
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "status": "pending"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var massPaymentUrl =
+          "https://api-sandbox.dwolla.com/mass-payments/692486f8-29f6-4516-a6a5-c69fd2ce854c";
+        var requestBody = {
+          status: "pending",
+        };
+
+        dwolla.post(massPaymentUrl, requestBody).then((res) => res.body.status); // => "pending"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        mass_payment_url = 'https://api-sandbox.dwolla.com/mass-payments/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+        request_body = {
+          'status': 'pending'
+        }
+
+        mass_payments = app_token.post('mass-payments', request_body)
+        mass_payments.body['status'] # => 'pending'
+    - lang: php
+      source: |
+        /**
+         *  No example for this language yet. Coming soon.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        mass_payment_url = 'https://api-sandbox.dwolla.com/mass-payments/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+        request_body = {
+              "status" => "pending",
+        }
+
+        mass_payment = app_token.post "#{mass_payment_url}", request_body
+        mass_payment.status # => "pending"
   parameters:
     - name: id
       in: path
@@ -65,6 +149,7 @@ post:
       required: true
       schema:
         type: string
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: true
     description: Parameters for updating a mass payment

@@ -6,6 +6,36 @@ get:
   operationId: listBusinessClassifications
   x-speakeasy-group: businessClassifications
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/business-classifications
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla
+          .get("business-classifications")
+          .then((res) => res.body._embedded["business-classifications"][0].name); // => 'Accommodation and Food Services'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        classifications = app_token.get('business-classifications')
+        classifications.body['_embedded']['business-classifications'][0]['name'] # => 'Accommodation and Food Services'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $businessClassificationsApi = new DwollaSwagger\BusinessClassificationsApi($apiClient);
+        $classifications = $businessClassificationsApi->_list();
+        $classifications->_embedded->{'business-classifications'}[0]->name; # => "Accommodation and Food Services"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        classifications = app_token.get "business-classifications"
+        classifications._embedded.['business-classifications'][0].name # => "Accommodation and Food Services"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:

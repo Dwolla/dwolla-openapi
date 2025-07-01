@@ -15,6 +15,70 @@ post:
   operationId: createReAuthExchangeSession
   x-speakeasy-group: exchanges
   x-speakeasy-name-override: createReAuth
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api.dwolla.com/exchanges/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+            "_links": {
+                "redirect-url": {
+                    "href": "https://www.yourdomain.com/iav-callback"
+                }
+            }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var exchangeUrl =
+          "https://api.dwolla.com/exchanges/74a207b2-b7b7-4efa-8bf8-582148e7b980";
+        var requestBody = {
+          _links: {
+            "redirect-url": {
+              href: "https://www.yourdomain.com/iav-callback",
+            },
+          },
+        };
+
+        dwolla
+          .post(`${exchangeUrl}/exchange-sessions`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        exchange_url = 'https://api.dwolla.com/exchanges/74a207b2-b7b7-4efa-8bf8-582148e7b980'
+        request_body = {
+          '_links': {
+            'redirect-url': {
+              'href': 'https://www.yourdomain.com/iav-callback'
+            }
+          }
+        }
+
+        reauthExchange = app_token.post('%s/exchange-sessions' % exchange_url, request_body)
+        reauthExchange.headers['location'] # => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+    - lang: php
+      source: |
+        /**
+         * No example for this language yet.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        exchange_url = 'https://api.dwolla.com/exchanges/74a207b2-b7b7-4efa-8bf8-582148e7b980'
+        request_body = {
+          _links: {
+            'redirect-url': {
+              href: "https://www.yourdomain.com/iav-callback"
+            }
+          }
+        }
+
+        reauthExchange = app_token.post "#{exchange_url}/exchange-sessions", request_body
+        reauthExchange.response_headers[:location] # => "https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
   parameters:
     - name: id
       in: path

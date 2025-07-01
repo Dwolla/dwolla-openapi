@@ -6,6 +6,41 @@ get:
   operationId: getFundingSourceBalance
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: getBalance
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/funding-sources/c2eb3f03-1b0e-4d18-a4a2-e552cc111418/balance
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/c2eb3f03-1b0e-4d18-a4a2-e552cc111418";
+
+        dwolla.get(`${fundingSourceUrl}/balance`).then((res) => res.body.balance.value);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/c2eb3f03-1b0e-4d18-a4a2-e552cc111418'
+
+        funding_source = app_token.get('%s/balance' % funding_source_url)
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingSourceUrl = 'https://api-sandbox.dwolla.com/funding-sources/c2eb3f03-1b0e-4d18-a4a2-e552cc111418';
+
+        $fsApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fsApi->getBalance($fundingSourceUrl);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/c2eb3f03-1b0e-4d18-a4a2-e552cc111418'
+
+        funding_source = app_token.get "#{funding_source_url}/balance"
   parameters:
     - name: id
       in: path

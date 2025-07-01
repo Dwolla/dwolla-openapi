@@ -1,11 +1,103 @@
 get:
   tags:
     - documents
-  summary: List document for beneficial owner
-  description: List document for beneficial owner
+  summary: List documents for beneficial owner
+  description: List documents for beneficial owner
   operationId: listBeneficialOwnerDocuments
   x-speakeasy-group: beneficialOwners.documents
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2/documents
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLfwKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+          "_links": {
+            "self": {
+              "href": "https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2/documents"
+            }
+          },
+          "_embedded": {
+            "documents": [
+              {
+                "_links": {
+                  "self": {
+                    "href": "https://api-sandbox.dwolla.com/documents/56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
+                  }
+                },
+                "id": "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc",
+                "status": "pending",
+                "type": "passport",
+                "created": "2015-09-29T21:42:16.000Z",
+                "documentVerificationStatus": "pending"
+              },
+              {
+                "_links": {
+                    "self": {
+                        "href": "https://api-sandbox.dwolla.com/documents/20988444-c7e1-40cf-ab1a-a20da878e568",
+                        "type": "application/vnd.dwolla.v1.hal+json",
+                        "resource-type": "document"
+                    }
+                },
+                "id": "20988444-c7e1-40cf-ab1a-a20da878e568",
+                "status": "reviewed",
+                "type": "license",
+                "created": "2019-05-30T22:01:40.000Z",
+                "documentVerificationStatus": "rejected",
+                "failureReason": "ScanDobMismatch",
+                "allFailureReasons": [
+                    {
+                        "reason": "ScanDobMismatch",
+                        "description": "Scan DOB does not match DOB on account"
+                    },
+                    {
+                        "reason": "ScanIdExpired",
+                        "description": "ID is expired or missing expiration date"
+                    }
+                ]
+              }
+            ]
+          },
+          "total": 2
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var beneficialOwnerUrl =
+          "https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2";
+
+        dwolla
+          .get(`${beneficialOwnerUrl}/documents`)
+          .then((res) => res.body._embedded["documents"][0].id); // => '56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2'
+
+        documents = app_token.get('%s/documents' % beneficial_owner_url)
+        documents.body['total'] # => 2
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $beneficialOwnerUrl = 'https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2';
+
+        $beneficialOwnersApi = new DwollaSwagger\BeneficialOwnersApi($apiClient);
+
+        $listDocsBeneficialOwner = $beneficialOwnersApi->getBeneficialOwnerDocuments($beneficialOwnerUrl);
+        $listDocsBeneficialOwner->total; # => 2
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/176878b8-ecdb-469b-a82b-43ba5e8704b2'
+
+        documents = app_token.get "#{beneficial_owner_url}/documents"
+        documents._embedded['documents'][0].id # => "56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc"
   parameters:
     - name: id
       in: path
@@ -44,6 +136,59 @@ post:
   operationId: createBeneficialOwnerDocument
   x-speakeasy-group: beneficialOwners.documents
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        curl -X POST
+        \ -H "Authorization: Bearer tJlyMNW6e3QVbzHjeJ9JvAPsRglFjwnba4NdfCzsYJm7XbckcR"
+        \ -H "Accept: application/vnd.dwolla.v1.hal+json"
+        \ -H "Cache-Control: no-cache"
+        \ -H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+        \ -F "documentType=passport"
+        \ -F "file=@foo.png"
+        \ 'https://api-sandbox.dwolla.com/beneficial-owners/1de32ec7-ff0b-4c0c-9f09-19629e6788ce/documents'
+
+        ...
+
+        HTTP/1.1 201 Created
+        Location: https://api-sandbox.dwolla.com/documents/11fe0bab-39bd-42ee-bb39-275afcc050d0
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        // Using form-data - https://github.com/form-data/form-data (Not Maintained By Dwolla)
+        var beneficialOwnerUrl = "https://api-sandbox.dwolla.com/beneficial-owners/1DE32EC7-FF0B-4C0C-9F09-19629E6788CE";
+
+        var requestBody = new FormData();
+        body.append("file", fs.createReadStream("mclovin.jpg"), {
+          filename: "mclovin.jpg",
+          contentType: "image/jpeg",
+          knownLength: fs.statSync("mclovin.jpg").size,
+        });
+        body.append("documentType", "license");
+
+        dwolla
+          .post(`${beneficialOwnerUrl}/documents`, requestBody)
+          .then((res) => res.headers.get("location")); // => "https://api-sandbox.dwolla.com/documents/fb919e0b-ffbe-4268-b1e2-947b44328a16"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/1DE32EC7-FF0B-4C0C-9F09-19629E6788CE'
+
+        document = app_token.post('%s/documents' % customer_url, file = open('mclovin.jpg', 'rb'), documentType = 'license')
+        document.headers['location'] # => 'https://api-sandbox.dwolla.com/documents/fb919e0b-ffbe-4268-b1e2-947b44328a16'
+    - lang: php
+      source: |
+        /**
+         * No example for this language yet.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/1DE32EC7-FF0B-4C0C-9F09-19629E6788CE'
+
+        file = Faraday::UploadIO.new('mclovin.jpg', 'image/jpeg')
+        document = app_token.post "#{beneficial_owner_url}/documents", file: file, documentType: 'license'
+        document.response_headers[:location] # => "https://api.dwolla.com/documents/fb919e0b-ffbe-4268-b1e2-947b44328a16"
   parameters:
     - name: id
       in: path

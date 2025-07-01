@@ -6,6 +6,43 @@ get:
   operationId: listBeneficialOwnersForCustomer
   x-speakeasy-group: customers.beneficialOwners
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5/beneficial-owners
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl = "https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2";
+
+        token
+          .get(`${customerUrl}/beneficial-owners`)
+          .then((res) => res.body._embedded["beneficial-owners"][0].id);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2'
+
+        beneficial_owners = app_token.get('%s/beneficial-owners' % customer_url)
+        beneficial_owners.body['id']
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+
+        $customerUrl = 'https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5';
+        $beneficialOwnerList = $customersApi->getBeneficialOwners($customerUrl);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/176878b8-ecdb-469b-a82b-43ba5e8704b2'
+
+        beneficial_owners = app_token.get "#{customer_url}/beneficial-owners"
+        beneficial_owners._embedded['beneficial-owners'][0].id
   parameters:
     - name: id
       in: path
@@ -44,6 +81,112 @@ post:
   operationId: createBeneficialOwnerForCustomer
   x-speakeasy-group: customers.beneficialOwners
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5/beneficial-owners
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "firstName": "document",
+          "lastName": "owner",
+          "ssn": "123-46-7890",
+          "dateOfBirth": "1960-11-30",
+          "address": {
+            "address1": "123 Main St.",
+            "city": "New York",
+            "stateProvinceRegion": "NY",
+            "country": "US",
+            "postalCode": "10005"
+          }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl = 'https://api-sandbox.dwolla.com/customers/07d59716-ef22-4fe6-98e8-f3190233dfb8';
+        var requestBody = {
+          firstName: 'John',
+          lastName: 'Doe',
+          dateOfBirth: '1970-01-01',
+          ssn: '123-56-7890',
+          address: {
+            address1: '99-99 33rd St',
+            city: 'Some City',
+            stateProvinceRegion: 'NY',
+            country: 'US',
+            postalCode: '11101'
+          }
+        };
+
+        dwolla
+          .post(`${customerUrl}/beneficial-owners`, requestBody)
+          .then(res => res.headers.get('location'));
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          'firstName': 'John',
+          'lastName': 'Doe',
+          'dateOfBirth': '1970-01-01',
+          'ssn': '123-46-7890',
+          'address': {
+            'address1': '99-99 33rd St',
+            'city': 'Some City',
+            'stateProvinceRegion': 'NY',
+            'country': 'US',
+            'postalCode': '11101'
+          }
+        }
+
+        beneficial_owner = app_token.post('%s/beneficial-owners' % customer_url, request_body)
+        beneficial_owner.headers['location']
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+        $verified_customer = 'https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5';
+
+        $addOwner = $customersApi->addBeneficialOwner([
+              'firstName' => 'document',
+              'lastName'=> 'owner',
+              'dateOfBirth' => '1990-11-11',
+              'ssn' => '123-34-9876',
+              'address' =>
+              [
+                  'address1' => '18749 18th st',
+                  'address2' => 'apt 12',
+                  'address3' => '',
+                  'city' => 'Des Moines',
+                  'stateProvinceRegion' => 'IA',
+                  'postalCode' => '50265',
+                  'country' => 'US'
+              ],
+          ], $verified_customer);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/81696e5d-a593-45a6-8863-3c20ad634de5'
+        request_body = {
+          :firstName => 'John',
+          :lastName => 'Doe',
+          :ssn => '123-46-7890',
+          :dateOfBirth => '1970-01-01',
+          :address => {
+            :address1 => '99-99 33rd St',
+            :city => 'Some City',
+            :stateProvinceRegion => 'NY',
+            :country => 'US',
+            :postalCode => '11101'
+          }
+        }
+
+        beneficial_owner = app_token.post "#{customer_url}/beneficial-owners", request_body
+        beneficial_owner.response_headers[:location]
   parameters:
     - name: id
       in: path

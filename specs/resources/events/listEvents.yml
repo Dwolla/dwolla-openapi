@@ -5,6 +5,110 @@ get:
   description: List events
   operationId: listEvents
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/events
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+          "_links": {
+            "self": {
+              "href": "https://api-sandbox.dwolla.com/events"
+            },
+            "first": {
+              "href": "https://api-sandbox.dwolla.com/events?limit=25&offset=0"
+            },
+            "last": {
+              "href": "https://api-sandbox.dwolla.com/events?limit=25&offset=150"
+            },
+            "next": {
+              "href": "https://api-sandbox.dwolla.com/events?limit=25&offset=25"
+            }
+          },
+          "_embedded": {
+            "events": [
+              {
+                "_links": {
+                  "self": {
+                    "href": "https://api-sandbox.dwolla.com/events/78e57644-56e4-4da2-b743-059479f2e80f"
+                  },
+                  "resource": {
+                    "href": "https://api-sandbox.dwolla.com/transfers/47CFDDB4-1E74-E511-80DB-0AA34A9B2388"
+                  },
+                  "account": {
+                    "href": "https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b"
+                  }
+                },
+                "id": "78e57644-56e4-4da2-b743-059479f2e80f",
+                "created": "2015-10-16T15:58:18.000Z",
+                "topic": "bank_transfer_created",
+                "resourceId": "47CFDDB4-1E74-E511-80DB-0AA34A9B2388"
+              },
+              {
+                "_links": {
+                  "self": {
+                    "href": "https://api-sandbox.dwolla.com/events/f8e70f48-b7ff-47d0-9d3d-62a099363a76"
+                  },
+                  "resource": {
+                    "href": "https://api-sandbox.dwolla.com/transfers/48CFDDB4-1E74-E511-80DB-0AA34A9B2388"
+                  },
+                  "account": {
+                    "href": "https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b"
+                  }
+                },
+                "id": "f8e70f48-b7ff-47d0-9d3d-62a099363a76",
+                "created": "2015-10-16T15:58:15.000Z",
+                "topic": "transfer_created",
+                "resourceId": "48CFDDB4-1E74-E511-80DB-0AA34A9B2388"
+              },
+              {
+                "_links": {
+                  "self": {
+                    "href": "https://api-sandbox.dwolla.com/events/9f0167e0-dce6-4a1a-ad26-30015d6f1cc1"
+                  },
+                  "resource": {
+                    "href": "https://api-sandbox.dwolla.com/transfers/08A166BC-1B74-E511-80DB-0AA34A9B2388"
+                  },
+                  "account": {
+                    "href": "https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b"
+                  }
+                },
+                "id": "9f0167e0-dce6-4a1a-ad26-30015d6f1cc1",
+                "created": "2015-10-16T15:37:03.000Z",
+                "topic": "bank_transfer_created",
+                "resourceId": "08A166BC-1B74-E511-80DB-0AA34A9B2388"
+              }
+            ]
+          },
+          "total": 3
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla.get("events").then((res) => res.body.total); // => 3
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        events = app_token.get('events')
+        events.body['total'] # => 3
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $eventsApi = new DwollaSwagger\EventsApi($apiClient);
+
+        $events = $eventsApi->events();
+        $events->total; # => 3
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        events = app_token.get "events"
+        events.total # => 3
   parameters:
     - name: limit
       in: query

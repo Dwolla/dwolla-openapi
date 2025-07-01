@@ -5,6 +5,46 @@ get:
   description: List labels for a customer
   operationId: listCustomerLabels
   x-speakeasy-name-override: listForCustomer
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb/labels
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733";
+
+        dwolla
+          .get(`${customerUrl}/labels`)
+          .then((res) => res.body._embedded["labels"][0].id); // => '7e042ffe-e25e-40d2-b86e-748b98845ecc'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb'
+
+        labels = app_token.get('%s/labels' % customer_url)
+        labels.body['_embedded']['labels'][0]['id'] # => '7e042ffe-e25e-40d2-b86e-748b98845ecc'
+    - lang: php
+      source: |
+        <?php
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        $customerUrl = 'https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb';
+
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+
+        $labels = $customersApi->getLabelsForCustomer($customerUrl);
+        $labels->_embedded->{'labels'}[0]->id; # => "7e042ffe-e25e-40d2-b86e-748b98845ecc"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/315a9456-3750-44bf-8b41-487b10d1d4bb'
+
+        labels = app_token.get "#{customer_url}/labels"
+        labels._embedded['labels'][0].id # => "7e042ffe-e25e-40d2-b86e-748b98845ecc"
   parameters:
     - name: id
       in: path
@@ -68,6 +108,75 @@ post:
   description: Create a label for a customer
   operationId: createCustomerLabel
   x-speakeasy-name-override: createForCustomer
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/labels
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+            "amount": {
+                "currency": "USD",
+                "value": "10.00"
+            }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+        var requestBody = {
+          amount: {
+            currency: "USD",
+            value: "10.00",
+          },
+        };
+
+        dwolla
+          .post(`${customerUrl}/labels`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/labels/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          'amount': {
+            'currency': 'USD',
+            'value': '10.00'
+          }
+        }
+
+        label = app_token.post('%s/labels' % customer_url, request_body)
+        label.headers['location'] # => 'https://api-sandbox.dwolla.com/labels/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customersApi = new DwollaSwagger\CustomersApi($apiClient);
+
+        $label = $customersApi->createLabel([
+          'amount' => [
+            'currency' => 'USD',
+            'value' => '10.00'
+          ]
+        ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+        $label; # => "https://api-sandbox.dwolla.com/labels/375c6781-2a17-476c-84f7-db7d2f6ffb31"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          :amount => {
+            :currency => "USD",
+            :value => "10.00"
+          }
+        }
+
+        label = app_token.post "#{customer_url}/labels", request_body
+        label.response_headers[:location] # => "https://api-sandbox.dwolla.com/labels/375c6781-2a17-476c-84f7-db7d2f6ffb31"
   parameters:
     - name: id
       in: path

@@ -6,6 +6,43 @@ get:
   operationId: retrieveCustomerExchangeSession
   x-speakeasy-group: exchangeSessions
   x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var exchangeSessionUrl =
+          "https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a";
+
+        dwolla
+          .get(exchangeSessionUrl)
+          .then((res) => res.body._links["external-provider-session"].href); // => "https://int-widgets.moneydesktop.com/md/connect/..."
+        // For Plaid: .then((res) => res.body.externalProviderSessionToken)
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        exchange_session_url = 'https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+
+        exchange_session = app_token.get(exchange_session_url)
+        exchange_session.body['_links']['external-provider-session']['href'] # => 'https://int-widgets.moneydesktop.com/md/connect/...'
+        # For Plaid: exchange_session.body['externalProviderSessionToken']
+    - lang: php
+      source: |
+        /**
+         * No example for this language yet.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        exchange_session_url = 'https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
+
+        exchange_session = app_token.get exchange_session_url
+        exchange_session['_links']['external-provider-session']['href'] # => "https://int-widgets.moneydesktop.com/md/connect/..."
+        # For Plaid: exchange_session['externalProviderSessionToken']
   parameters:
     - name: id
       in: path

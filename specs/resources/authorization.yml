@@ -4,6 +4,47 @@ post:
   summary: Create an application access token
   description: Generates an access token that contains permissions scoped to the application owner's Dwolla Client Account.
   operationId: createApplicationAccessToken
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/token
+        Authorization: Basic YkVEMGJMaEFhb0pDamplbmFPVjNwMDZSeE9Eb2pyOUNFUzN1dldXcXUyeE9RYk9GeUE6WEZ0bmJIbXR3dXEwNVI1Yk91WmVOWHlqcW9RelNSc21zUU5qelFOZUFZUlRIbmhHRGw=
+        Content-Type: application/x-www-form-urlencoded
+
+        grant_type=client_credentials
+    - lang: javascript
+      source: |
+        // Using DwollaV2 - https://github.com/Dwolla/dwolla-v2-node
+        // This example assumes you've already initialized the client. Reference the SDKs page for more information: https://developers.dwolla.com/sdks-tools
+        client.auth
+          .client()
+          .then(function (appToken) {
+            return appToken.get("/");
+          })
+          .then(function (res) {
+            console.log(JSON.stringify(res.body));
+          });
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        // This example assumes you've already initialized the client. Reference the SDKs page for more information: https://developers.dwolla.com/sdks-tools
+        app_token = client.Auth.client()
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        // This example assumes you've already intialized the client. Reference the SDKs page for more information: https://developers.dwolla.com/sdks-tools
+        $tokensApi = new DwollaSwagger\TokensApi($apiClient);
+        $appToken = $tokensApi->token();
+
+        DwollaSwagger\Configuration::$access_token = $appToken->access_token;
+        ?>
+    - lang: ruby
+      source: |
+        # Using DwollaV2 - https://github.com/Dwolla/dwolla-v2-ruby
+        // This example assumes you've already initialized the client. Reference the SDKs page for more information: https://developers.dwolla.com/sdks-tools
+        app_token = $dwolla.auths.client
+        # => #<DwollaV2::Token client=#<DwollaV2::Client id="..." secret="..." environment=:sandbox> access_token="..." expires_in=3600 scope="...">
   requestBody:
     required: true
     description: OAuth get token request. Client credentials are sent in the Authorization header using Basic authentication.

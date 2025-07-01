@@ -6,6 +6,41 @@ get:
   operationId: retrieveBeneficialOwner
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/beneficial-owners/976a4c14-b183-40e9-b2df-ddbb3e794d3f
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var beneficialOwnerUrl = "https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8";
+
+        dwolla.get(beneficialOwnerUrl).then((res) => res.body.firstName); // => 'Jane'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfB8'
+
+        beneficial_owner = app_token.get(beneficial_owner_url)
+        beneficial_owner.body['firstName']
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $beneficialOwnersApi = new DwollaSwagger\BeneficialownersApi($apiClient);
+
+        $beneficialOwnerUrl = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfB8';
+        $beneficialOwner = $beneficialOwnersApi->getById($beneficialOwnerUrl);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfB8'
+
+        beneficial_owner = app_token.get beneficial_owner_url
+        beneficial_owner.firstName # => "Jane"
   parameters:
     - name: id
       in: path
@@ -44,6 +79,114 @@ post:
   operationId: updateBeneficialOwner
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: update
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "firstName": "beneficial",
+          "lastName": "owner",
+          "ssn": "123-54-6789",
+          "dateOfBirth": "1963-11-11",
+          "address": {
+            "address1": "123 Main St.",
+            "address2": "Apt 123",
+            "city": "Des Moines",
+            "stateProvinceRegion": "IA",
+            "country": "US",
+            "postalCode": "50309"
+          }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var beneficialOwnerUrl = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8';
+        var requestBody = {
+          firstName: 'beneficial',
+          lastName: 'owner',
+          dateOfBirth: '1963-11-11',
+          ssn: '123-54-6789',
+          address: {
+            address1: '123 Main St',
+            city: 'Des Moines',
+            stateProvinceRegion: 'IA',
+            country: 'US',
+            postalCode: '50309'
+          }
+        };
+
+        dwolla
+          .post(beneficialOwnerUrl, requestBody)
+          .then(res => res.body.id); // => '00cb67f2-768c-4ee3-ac81-73bc4faf9c2b'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8'
+        request_body = {
+          'firstName': 'beneficial',
+          'lastName': 'owner',
+          'dateOfBirth': '1963-11-11',
+          'ssn': '123-54-6789',
+          'address': {
+            'address1': '123 Main St',
+            'city': 'Des Moines',
+            'stateProvinceRegion': 'IA',
+            'country': 'US',
+            'postalCode': '50309'
+          }
+        }
+
+        update_beneficial_owner = app_token.post(beneficial_owner_url, request_body)
+        update_beneficial_owner.body['id'] # => '00cb67f2-768c-4ee3-ac81-73bc4faf9c2b'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $beneficialOwnersApi = new DwollaSwagger\BeneficialownersApi($apiClient);
+
+        $beneficialOwnerUrl = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8';
+        $updateBeneficialOwner = $beneficialOwnersApi->update([
+              'firstName' => 'beneficial',
+              'lastName'=> 'owner',
+              'dateOfBirth' => '1963-11-11',
+              'ssn' => '123-54-6789',
+              'address' =>
+              [
+                  'address1' => '123 Main St.',
+                  'address2' => 'Apt 123',
+                  'city' => 'Des Moines',
+                  'stateProvinceRegion' => 'IA',
+                  'postalCode' => '50309',
+                  'country' => 'US'
+              ],
+          ], $beneficialOwnerUrl);
+
+        $updateBeneficialOwner->id; # => "00cb67f2-768c-4ee3-ac81-73bc4faf9c2b"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/07d59716-ef22-4fe6-98e8-f3190233dfb8'
+        request_body = {
+          :firstName => 'beneficial',
+          :lastName => 'owner',
+          :ssn => '123-54-6789',
+          :dateOfBirth => '1963-11-11',
+          :address => {
+            :address1 => '123 Main St',
+            :city => 'Des Moines',
+            :stateProvinceRegion => 'IA',
+            :country => 'US',
+            :postalCode => '50309'
+          }
+        }
+
+        update_beneficial_owner = app_token.post beneficial_owner_url, request_body
+        update_beneficial_owner.id # => "00cb67f2-768c-4ee3-ac81-73bc4faf9c2b"
   parameters:
     - name: id
       in: path
@@ -112,6 +255,38 @@ delete:
   operationId: deleteBeneficialOwner
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: delete
+  x-codeSamples:
+    - lang: bash
+      source: |
+        DELETE https://api-sandbox.dwolla.com/beneficial-owners/692486f8-29f6-4516-a6a5-c69fd2ce854c
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var beneficialOwnerUrl = "https://api-sandbox.dwolla.com/beneficial-owners/692486f8-29f6-4516-a6a5-c69fd2ce854c";
+
+        dwolla.delete(beneficialOwnerUrl);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+
+        app_token.delete(beneficial_owner_url)
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $beneficialOwnersApi = new DwollaSwagger\BeneficialownersApi($apiClient);
+        $beneficialOwner = 'https://api-sandbox.dwolla.com/beneficial-owners/692486f8-29f6-4516-a6a5-c69fd2ce854c';
+        $deletedBeneficialOwner = $beneficialOwnersApi->deleteById($beneficialOwner);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        beneficial_owner_url = 'https://api-sandbox.dwolla.com/beneficial-owners/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+
+        app_token.delete beneficial_owner_url
   parameters:
     - name: id
       in: path

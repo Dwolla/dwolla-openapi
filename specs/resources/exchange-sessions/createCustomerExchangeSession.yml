@@ -13,6 +13,288 @@ post:
   operationId: createCustomerExchangeSession
   x-speakeasy-group: exchangeSessions
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        # Visa Example
+        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+            "_links": {
+                "exchange-partner": {
+                    "href": "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4"
+                },
+                "redirect-url": {
+                    "href": "https://www.yourdomain.com/iav-callback"
+                }
+            }
+        }
+
+        # Plaid Web Example
+        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "_links": {
+            "exchange-partner": {
+              "href": "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            }
+          }
+        }
+
+        # Plaid Android Example
+        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "_links": {
+            "exchange-partner": {
+              "href": "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            },
+            "redirect-url": {
+              "href": "com.example.app123"
+            }
+          }
+        }
+
+        # Plaid iOS Example
+        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "_links": {
+            "exchange-partner": {
+              "href": "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            },
+            "redirect-url": {
+              "href": "https://example.com/app123"
+            }
+          }
+        }
+
+        # MX Example
+        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "_links": {
+            "exchange-partner": {
+              "href": "https://api.dwolla.com/exchange-partners/2164407f-33c3-4555-a6a1-40d5e9e58744"
+            }
+          }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        // Visa Example
+        var customerUrl =
+          "https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980";
+        var requestBody = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4",
+            },
+            "redirect-url": {
+              href: "https://www.yourdomain.com/iav-callback",
+            },
+          },
+        };
+
+        dwolla
+          .post(`${customerUrl}/exchange-sessions`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+        // Plaid Web Example
+        var requestBodyPlaidWeb = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef",
+            },
+          },
+        };
+        dwolla
+          .post(`${customerUrl}/exchange-sessions`, requestBodyPlaidWeb)
+          .then((res) => res.headers.get("location"));
+        // Plaid Android Example
+        var requestBodyPlaidAndroid = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef",
+            },
+            "redirect-url": {
+              href: "com.example.app123",
+            },
+          },
+        };
+        dwolla
+          .post(`${customerUrl}/exchange-sessions`, requestBodyPlaidAndroid)
+          .then((res) => res.headers.get("location"));
+        // Plaid iOS Example
+        var requestBodyPlaidIOS = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef",
+            },
+            "redirect-url": {
+              href: "https://example.com/app123",
+            },
+          },
+        };
+        dwolla
+          .post(`${customerUrl}/exchange-sessions`, requestBodyPlaidIOS)
+          .then((res) => res.headers.get("location"));
+        // MX Example
+        var requestBodyMX = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api.dwolla.com/exchange-partners/2164407f-33c3-4555-a6a1-40d5e9e58744",
+            },
+          },
+        };
+        dwolla
+          .post(`${customerUrl}/exchange-sessions`, requestBodyMX)
+          .then((res) => res.headers.get("location"));
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        # Visa Example
+        customer_url = 'https://api.dwolla.com/customer/74a207b2-b7b7-4efa-8bf8-582148e7b980'
+        request_body = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4'
+            },
+            'redirect-url': {
+              'href': 'https://www.yourdomain.com/iav-callback'
+            }
+          }
+        }
+        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body)
+        exchange.headers['location'] # => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
+        # Plaid Web Example
+        request_body_plaid_web = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef'
+            }
+          }
+        }
+        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_plaid_web)
+        exchange.headers['location']
+        # Plaid Android Example
+        request_body_plaid_android = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef'
+            },
+            'redirect-url': {
+              'href': 'com.example.app123'
+            }
+          }
+        }
+        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_plaid_android)
+        exchange.headers['location']
+        # Plaid iOS Example
+        request_body_plaid_ios = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef'
+            },
+            'redirect-url': {
+              'href': 'https://example.com/app123'
+            }
+          }
+        }
+        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_plaid_ios)
+        exchange.headers['location']
+        # MX Example
+        request_body_mx = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api.dwolla.com/exchange-partners/2164407f-33c3-4555-a6a1-40d5e9e58744'
+            }
+          }
+        }
+        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_mx)
+        exchange.headers['location']
+    - lang: php
+      source: |
+        /**
+         * No example for this language yet.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        # Visa Example
+        customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
+        request_body = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4"
+            },
+            'redirect-url': {
+              href: "https://www.yourdomain.com/iav-callback"
+            }
+          }
+        }
+        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body
+        exchange.response_headers[:location] # => "https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
+        # Plaid Web Example
+        request_body_plaid_web = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            }
+          }
+        }
+        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_plaid_web
+        exchange.response_headers[:location]
+        # Plaid Android Example
+        request_body_plaid_android = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            },
+            'redirect-url': {
+              href: "com.example.app123"
+            }
+          }
+        }
+        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_plaid_android
+        exchange.response_headers[:location]
+        # Plaid iOS Example
+        request_body_plaid_ios = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef"
+            },
+            'redirect-url': {
+              href: "https://example.com/app123"
+            }
+          }
+        }
+        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_plaid_ios
+        exchange.response_headers[:location]
+        # MX Example
+        request_body_mx = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api.dwolla.com/exchange-partners/2164407f-33c3-4555-a6a1-40d5e9e58744"
+            }
+          }
+        }
+        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_mx
+        exchange.response_headers[:location]
   parameters:
     - name: id
       in: path

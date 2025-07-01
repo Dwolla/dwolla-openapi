@@ -6,6 +6,46 @@ get:
   operationId: listCustomerTransfers
   x-speakeasy-group: customer.transfers
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/customers/33e56307-6754-41cb-81e2-23a7f1072295/transfers
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "http://api-sandbox.dwolla.com/customers/33e56307-6754-41cb-81e2-23a7f1072295";
+
+        dwolla
+          .get(`${customerUrl}/transfers`)
+          .then((res) => res.body._embedded["transfers"][0].status); // => "pending"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'http://api-sandbox.dwolla.com/customers/33e56307-6754-41cb-81e2-23a7f1072295'
+
+        transfers = app_token.get('%s/transfers' % customer_url)
+        transfers.body['_embedded']['transfers'][0]['status'] # => 'pending'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customerUrl = 'http://api-sandbox.dwolla.com/customers/33e56307-6754-41cb-81e2-23a7f1072295';
+
+        $TransfersApi = new DwollaSwagger\TransfersApi($apiClient);
+
+        $transfers = $TransfersApi->getCustomerTransfers($customerUrl);
+        $transfers->_embedded->{'transfers'}[0]->status; # => "pending"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'http://api-sandbox.dwolla.com/customers/33e56307-6754-41cb-81e2-23a7f1072295'
+
+        transfers = app_token.get "#{customer_url}/transfers"
+        transfers._embedded['transfers'][0].status # => "pending"
   parameters:
     - name: id
       in: path

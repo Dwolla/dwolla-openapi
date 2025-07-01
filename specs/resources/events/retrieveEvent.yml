@@ -5,6 +5,67 @@ get:
   description: Retrieve event
   operationId: getEvent
   x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+          "_links": {
+            "self": {
+              "href": "https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095"
+            },
+            "resource": {
+              "href": "https://api-sandbox.dwolla.com/transfers/09A166BC-1B74-E511-80DB-0AA34A9B2388"
+            },
+            "account": {
+              "href": "https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b"
+            },
+            "customer": {
+              "href": "https://api-sandbox.dwolla.com/customers/07d59716-ef22-4fe6-98e8-f3190233dfb8"
+            }
+          },
+          "id": "81f6e13c-557c-4449-9331-da5c65e61095",
+          "created": "2015-10-16T15:37:02.000Z",
+          "topic": "customer_transfer_created",
+          "resourceId": "09A166BC-1B74-E511-80DB-0AA34A9B2388"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var eventUrl =
+          "https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095";
+
+        dwolla.get(eventUrl).then((res) => res.body.topic); // => 'customer_transfer_created'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        event_url = 'https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095'
+
+        event = app_token.get(event_url)
+        event.body['topic'] # => 'customer_transfer_created'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $eventUrl = 'https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095';
+
+        $eventsApi = new DwollaSwagger\EventsApi($apiClient);
+
+        $event = $eventsApi->id($eventUrl);
+        $event->topic; # => "customer_transfer_created"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        event_url = 'https://api-sandbox.dwolla.com/events/81f6e13c-557c-4449-9331-da5c65e61095'
+
+        event = app_token.get event_url
+        event.topic # => "customer_transfer_created"
   parameters:
     - name: id
       in: path

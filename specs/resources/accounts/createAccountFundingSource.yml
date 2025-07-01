@@ -6,6 +6,70 @@ post:
   operationId: createFundingSource
   x-speakeasy-group: accounts.fundingSources
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/funding-sources
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+        {
+            "routingNumber": "222222226",
+            "accountNumber": "123456789",
+            "bankAccountType": "checking",
+            "name": "My Bank"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var requestBody = {
+          routingNumber: "222222226",
+          accountNumber: "123456789",
+          bankAccountType: "checking",
+          name: "My Bank",
+        };
+
+        dwolla
+          .post("funding-sources", requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/04173e17-6398-4d36-a167-9d98c4b1f1c3'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        request_body = {
+          'routingNumber': '222222226',
+          'accountNumber': '123456789',
+          'bankAccountType': 'checking',
+          'name': 'My Bank'
+        }
+
+        funding_source = app_token.post('funding-sources', request_body)
+        funding_source.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/04173e17-6398-4d36-a167-9d98c4b1f1c3'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fundingApi->createFundingSource([
+          "routingNumber" => "222222226",
+          "accountNumber" => "123456789",
+          "bankAccountType" => "checking",
+          "name" => "My Bank"
+        ]);
+        $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/04173e17-6398-4d36-a167-9d98c4b1f1c3"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        request_body = {
+          routingNumber: '222222226',
+          accountNumber: '123456789',
+          bankAccountType: 'checking',
+          name: 'My Bank'
+        }
+
+        funding_source = app_token.post "funding-sources", request_body
+        funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/04173e17-6398-4d36-a167-9d98c4b1f1c3"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

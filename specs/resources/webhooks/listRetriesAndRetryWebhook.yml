@@ -5,6 +5,44 @@ get:
   description: List retries for a webhook
   operationId: listWebhookRetries
   x-speakeasy-name-override: listRetries
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8/retries
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookUrl =
+          "https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8";
+
+        dwolla.get(`${webhookUrl}/retries`).then((res) => res.body.total); // => 1
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_url = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8'
+
+        retries = app_token.get('%s/retries' % webhook_url)
+        retries.body['total'] # => 1
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookUrl = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8';
+
+        $webhooksApi = new DwollaSwagger\WebhooksApi($apiClient);
+
+        $retries = $webhooksApi->retriesById($webhookUrl);
+        $retries->total; # => 1
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_url = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8'
+
+        retries = app_token.get "#{webhook_url}/retries"
+        retries.total # => 1
   parameters:
     - name: id
       in: path
@@ -35,6 +73,42 @@ post:
   description: Retry a webhook
   operationId: retryWebhook
   x-speakeasy-name-override: retry
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8/retries
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookUrl =
+          "https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8";
+
+        dwolla.post(`${webhookUrl}/retries`);
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_url = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8'
+
+        app_token.post('%s/retries' % webhook_url)
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookUrl = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8';
+
+        $webhooksApi = new DwollaSwagger\WebhooksApi($apiClient);
+
+        $webhooksApi->retryWebhook($webhookUrl);
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_url = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8'
+
+        app_token.post "#{webhook_url}/retries"
   parameters:
     - name: id
       in: path

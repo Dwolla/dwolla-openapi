@@ -6,6 +6,429 @@ post:
   operationId: initiateMassPayment
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/mass-payments
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+        Idempotency-Key: 19051a62-3403-11e6-ac61-9e71128cae77
+
+        {
+            "_links": {
+                "source": {
+                    "href": "https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4"
+                }
+            },
+            "achDetails": {
+              "source": {
+                "addenda": {
+                  "values": ["ABC123_AddendaValue"]
+                }
+              }
+            },
+            "clearing": {
+              "source": "next-available"
+            },
+            "items": [
+              {
+                "_links": {
+                    "destination": {
+                        "href": "https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db"
+                    }
+                },
+                "amount": {
+                    "currency": "USD",
+                    "value": "1.00"
+                },
+                "clearing": {
+                  "destination": "next-available"
+                },
+                "metadata": {
+                    "payment1": "payment1"
+                },
+                "achDetails": {
+                  "destination": {
+                    "addenda": {
+                      "values": ["ZYX987_AddendaValue"]
+                    }
+                  }
+                },
+                "correlationId": "ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841",
+                "processingChannel": {
+                  "destination": "instant"
+                }
+              },
+              {
+                "_links": {
+                    "destination": {
+                        "href": "https://api-sandbox.dwolla.com/funding-sources/b442c936-1f87-465d-a4e2-a982164b26bd"
+                    }
+                },
+                "amount": {
+                    "currency": "USD",
+                    "value": "5.00"
+                },
+                "clearing": {
+                  "destination": "next-available"
+                },
+                "metadata": {
+                    "payment2": "payment2"
+                },
+                "achDetails": {
+                  "destination": {
+                    "addenda": {
+                      "values": ["ZYX987_AddendaValue"]
+                      }
+                    }
+                }
+              }
+            ],
+            "metadata": {
+                "batch1": "batch1"
+            },
+            "correlationId": "6d127333-69e9-4c2b-8cae-df850228e130"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var requestBody = {
+          _links: {
+            source: {
+              href: "https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4",
+            },
+          },
+          achDetails: {
+            source: {
+              addenda: {
+                values: ["ABC123_AddendaValue"],
+              },
+            },
+          },
+          clearing: {
+            source: "standard",
+          },
+          items: [
+            {
+              _links: {
+                destination: {
+                  href: "https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db",
+                },
+              },
+              amount: {
+                currency: "USD",
+                value: "1.00",
+              },
+              clearing: {
+                destination: "next-available",
+              },
+              metadata: {
+                payment1: "payment1",
+              },
+              correlationId: "ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841",
+              achDetails: {
+                destination: {
+                  addenda: {
+                    values: ["ABC123_AddendaValue"],
+                  },
+                },
+              },
+              processingChannel: {
+                destination: "instant",
+              },
+            },
+            {
+              _links: {
+                destination: {
+                  href: "https://api-sandbox.dwolla.com/funding-sources/b442c936-1f87-465d-a4e2-a982164b26bd",
+                },
+              },
+              amount: {
+                currency: "USD",
+                value: "5.00",
+              },
+              clearing: {
+                destination: "next-available",
+              },
+              metadata: {
+                payment2: "payment2",
+              },
+              achDetails: {
+                destination: {
+                  addenda: {
+                    values: ["ABC123_AddendaValue"],
+                  },
+                },
+              },
+            },
+          ],
+          metadata: {
+            batch1: "batch1",
+          },
+          correlationId: "6d127333-69e9-4c2b-8cae-df850228e130",
+        };
+
+        dwolla
+          .post("mass-payments", requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/mass-payments/cf1e9e00-09cf-43da-b8b5-a43b3f6192d4'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        request_body = {
+          '_links': {
+            'source': {
+              'href': 'https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4'
+            }
+          },
+          'achDetails': {
+            'addenda': {
+              'values': ['ABC123_AddendaValue']
+            }
+          },
+          'clearing': {
+            'source': 'standard'
+          },
+          'items': [
+            {
+              '_links': {
+                'destination': {
+                  'href': 'https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db'
+                }
+              },
+              'amount': {
+                'currency': 'USD',
+                'value': '1.00'
+              },
+              'clearing': {
+                'destination': 'next-available'
+              },
+              'metadata': {
+                'payment1': 'payment1'
+              },
+              'correlationId': 'ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841',
+              'achDetails': {
+                'addenda': {
+                  'values': ['ABC123_AddendaValue']
+                }
+              },
+              'processingChannel': {
+                'destination': 'instant'
+              }
+            },
+            {
+              '_links': {
+                'destination': {
+                  'href': 'https://api-sandbox.dwolla.com/funding-sources/b442c936-1f87-465d-a4e2-a982164b26bd'
+                }
+              },
+              'amount': {
+                'currency': 'USD',
+                'value': '5.00'
+              },
+              'clearing': {
+                'destination': 'next-available'
+              },
+              'metadata': {
+                'payment2': 'payment2'
+              },
+              'achDetails': {
+                'addenda': {
+                  'values': ['ABC123_AddendaValue']
+                }
+              }
+            }
+          ],
+          'metadata': {
+            'batch1': 'batch1'
+          },
+          'correlationId': '6d127333-69e9-4c2b-8cae-df850228e130'
+        }
+
+        mass_payment = app_token.post('mass-payments', request_body)
+        mass_payment.headers['location'] # => 'https://api-sandbox.dwolla.com/mass-payments/cf1e9e00-09cf-43da-b8b5-a43b3f6192d4'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $massPaymentsApi = new DwollaSwagger\MasspaymentsApi($apiClient);
+
+        $massPayment = $massPaymentsApi->create([
+          '_links' =>
+          [
+            'source' =>
+            [
+              'href' => 'https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4',
+            ],
+          ],
+          'achDetails' =>
+          [
+            'source' => [
+              'addenda' => [
+                'values' => ['ABC123_AddendaValue']
+              ]
+            ]
+          ],
+          'clearing' =>
+          [
+            'source' => 'standard'
+          ],
+          'items' =>
+          [
+            [
+              '_links' =>
+              [
+                'destination' =>
+                [
+                  'href' => 'https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db',
+                ],
+              ],
+              'amount' =>
+              [
+                'currency' => 'USD',
+                'value' => '1.00',
+              ],
+              'clearing' =>
+              [
+                'destination' => 'next-available'
+              ],
+              'metadata' =>
+              [
+                'payment1' => 'payment1',
+              ],
+              'correlationId' => 'ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841',
+              'achDetails' =>
+              [
+                'source' => [
+                  'addenda' => [
+                    'values' => ['ABC123_AddendaValue']
+                  ]
+                ]
+              ],
+              'processingChannel' => [
+                'destination' => 'instant'
+              ]
+            ],
+            [
+              '_links' =>
+              [
+                'destination' =>
+                [
+                  'href' => 'https://api-sandbox.dwolla.com/funding-sources/b442c936-1f87-465d-a4e2-a982164b26bd',
+                ],
+              ],
+              'amount' =>
+              [
+                'currency' => 'USD',
+                'value' => '5.00',
+              ],
+              'clearing' =>
+              [
+                'destination' => 'next-available'
+              ],
+              'metadata' =>
+              [
+                'payment2' => 'payment2',
+              ],
+              'achDetails' =>
+              [
+                'source' => [
+                  'addenda' => [
+                    'values' => ['ABC123_AddendaValue']
+                  ]
+                ]
+              ]
+            ],
+          ],
+          'metadata' =>
+          [
+            'batch1' => 'batch1',
+          ],
+          'correlationId' => '6d127333-69e9-4c2b-8cae-df850228e130',
+        ]);
+        $massPayment; # => "https://api-sandbox.dwolla.com/mass-payments/cf1e9e00-09cf-43da-b8b5-a43b3f6192d4"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        request_body = {
+          :_links => {
+            :source => {
+              :href => "https://api-sandbox.dwolla.com/funding-sources/707177c3-bf15-4e7e-b37c-55c3898d9bf4"
+            }
+          },
+          :achDetails => {
+            :source => {
+              :addenda => {
+                :values => ["ABC123_AddendaValue"]
+              }
+            }
+          },
+          :clearing => {
+            :source => "standard"
+          },
+          :items => [
+            {
+              :_links => {
+                :destination => {
+                  :href => "https://api-sandbox.dwolla.com/funding-sources/9c7f8d57-cd45-4e7a-bf7a-914dbd6131db"
+                }
+              },
+              :amount => {
+                :currency => "USD",
+                :value => "1.00"
+              },
+              :clearing => {
+                :destination => "next-available"
+              },
+              :metadata => {
+                :payment1 => "payment1"
+              },
+              :correlationId => "ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841",
+              :achDetails => {
+                :destination => {
+                  :addenda => {
+                    :values => ["ABC123_AddendaValue"]
+                  }
+                }
+              },
+              :processingChannel => {
+                :destination => "instant"
+              }
+            },
+            {
+              :_links => {
+                :destination => {
+                  :href => "https://api-sandbox.dwolla.com/funding-sources/b442c936-1f87-465d-a4e2-a982164b26bd"
+                }
+              },
+              :amount => {
+                :currency => "USD",
+                :value => "5.00"
+              },
+              :clearing => {
+                :destination => "next-available"
+              },
+              :metadata => {
+                :payment2 => "payment2"
+              },
+              :achDetails => {
+                :destination => {
+                  :addenda => {
+                    :values => ["ABC123_AddendaValue"]
+                  }
+                }
+              }
+            }
+          ],
+          :metadata => {
+            :batch1 => "batch1"
+          },
+          :correlationId => "6d127333-69e9-4c2b-8cae-df850228e130"
+        }
+
+        mass_payment = app_token.post "mass-payments", request_body
+        mass_payment.response_headers[:location] # => "https://api-sandbox.dwolla.com/mass-payments/cf1e9e00-09cf-43da-b8b5-a43b3f6192d4"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

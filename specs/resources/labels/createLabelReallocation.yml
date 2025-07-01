@@ -5,6 +5,111 @@ post:
   description: Create a label reallocation
   operationId: createLabelReallocation
   x-speakeasy-name-override: createReallocation
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/label-reallocations
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+         "_links":{
+           "from": {
+             "href": "https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45"
+           },
+           "to": {
+             "href": "https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc"
+           }
+         },
+         "amount": {
+           "value": "15.00",
+           "currency": "USD"
+         }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var requestBody = {
+          _links: {
+            from: {
+              href: "https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45",
+            },
+            to: {
+              href: "https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc",
+            },
+          },
+          amount: {
+            currency: "USD",
+            value: "1.00",
+          },
+        };
+
+        dwolla
+          .post("label-reallocations", requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        request_body = {
+          '_links': {
+            'from': {
+              'href': 'https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45'
+            },
+            'to': {
+              'href': 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc'
+            }
+          },
+          'amount': {
+            'currency': 'USD',
+            'value': '15.00'
+          }
+        }
+
+        labelReallocation = app_token.post('label-reallocations', request_body)
+        labelReallocation.headers['location'] # => 'https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $labelReallocationsApi = new DwollaSwagger\LabelreallocationsApi($apiClient);
+
+        $labelReallocation = $labelReallocationsApi->reallocateLabel([
+          '_links' => [
+            'from' => [
+              'href' => 'https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45',
+            ],
+            'to' => [
+              'href' => 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc'
+            ]
+          ],
+          'amount' => [
+            'currency' => 'USD',
+            'value' => '15.00'
+          ]
+        ]);
+        $labelReallocation; # => "https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        request_body = {
+          :_links => {
+            :from => {
+              :href => "https://api-sandbox.dwolla.com/labels/c91c501c-f49b-48be-a93b-12b45e152d45"
+            },
+            :to => {
+              :href => "https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc"
+            }
+          },
+          :amount => {
+            :currency => "USD",
+            :value => "15.00"
+          }
+        }
+
+        labelReallocation = app_token.post "label-reallocations", request_body
+        labelReallocation.response_headers[:location] # => "https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   requestBody:

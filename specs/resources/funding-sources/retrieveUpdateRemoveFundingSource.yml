@@ -6,6 +6,44 @@ get:
   operationId: getFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/funding-sources/49dbaa24-1580-4b1c-8b58-24e26656fa31
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/49dbaa24-1580-4b1c-8b58-24e26656fa31";
+
+        dwolla.get(fundingSourceUrl).then((res) => res.body.name); // => "Test checking account"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/49dbaa24-1580-4b1c-8b58-24e26656fa31'
+
+        funding_source = app_token.get(funding_source_url)
+        funding_source.body['name'] # => 'Test checking account'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingSourceUrl = 'https://api-sandbox.dwolla.com/funding-sources/49dbaa24-1580-4b1c-8b58-24e26656fa31';
+
+        $fsApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fsApi->id($fundingSourceUrl);
+        $fundingSource->name; # => "Test checking account"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/49dbaa24-1580-4b1c-8b58-24e26656fa31'
+
+        funding_source = app_token.get funding_source_url
+        funding_source.name # => "Test checking account"
   parameters:
     - name: id
       in: path
@@ -44,6 +82,52 @@ post:
   operationId: updateOrRemoveFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: updateOrRemove
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "name": "Test Checking - 1234"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c";
+        var requestBody = {
+          name: "Test Checking - 1234",
+        };
+
+        dwolla.post(fundingSourceUrl, requestBody).then((res) => res.body.name); // => "Test Checking - 1234"
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+        request_body = {
+          'name': 'Test Checking - 1234'
+        }
+
+        funding_source = app_token.post(funding_source_url, request_body)
+        funding_source.body['name'] # => 'Test Checking - 1234'
+    - lang: php
+      source: |
+        /**
+         *  No example for this language yet. Coming soon.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
+        request_body = {
+              "name" => "Test Checking - 1234",
+        }
+
+        funding_source = app_token.post "#{funding_source_url}", request_body
+        funding_source.name # => "Test Checking - 1234"
   parameters:
     - name: id
       in: path

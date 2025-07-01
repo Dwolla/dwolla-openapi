@@ -5,6 +5,46 @@ get:
   description: List label ledger entries
   operationId: listLabelLedgerEntries
   x-speakeasy-name-override: listLedgerEntries
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc/ledger-entries
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var labelUrl =
+          "https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc";
+
+        dwolla
+          .get(`${labelUrl}/ledger-entries`)
+          .then((res) => res.body._embedded["ledger-entries"][0].id); // => '32d68709-62dd-43d6-a6df-562f4baec526'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        label_url = 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc'
+
+        ledger_entries = app_token.get('%s/ledger-entries' % label_url)
+        ledger_entries.body['_embedded']['ledger-entries'][0]['id'] # => '32d68709-62dd-43d6-a6df-562f4baec526'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $labelUrl = 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc';
+
+        $labelsApi = new DwollaSwagger\LabelsApi($apiClient);
+
+        $ledgerEntries = $labelsApi->getLedgerEntriesForLabel($labelUrl);
+        $ledgerEntries->_embedded->{'ledger-entries'}[0]->id; # => "32d68709-62dd-43d6-a6df-562f4baec526"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        label_url = 'https://api-sandbox.dwolla.com/labels/7e042ffe-e25e-40d2-b86e-748b98845ecc'
+
+        ledger_entries = app_token.get "#{label_url}/ledger-entries"
+        ledger_entries._embedded['ledger-entries'][0].id # => "32d68709-62dd-43d6-a6df-562f4baec526"
   parameters:
     - name: id
       in: path
@@ -61,6 +101,75 @@ post:
   description: Create a new entry on a Label Ledger. The amount tied to a Label cannot go negative, therefore if the amount of the label ledger entry exceeds the current amount tied to a Label then a validation error will be returned.
   operationId: createLabelLedgerEntry
   x-speakeasy-name-override: createLedgerEntry
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/labels/e217bcac-628a-456d-a375-6cc51230616f/ledger-entries
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+         "amount": {
+           "value": "-5.00",
+           "currency": "USD"
+         }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var labelUrl =
+          "https://api-sandbox.dwolla.com/labels/e217bcac-628a-456d-a375-6cc51230616f";
+        var requestBody = {
+          amount: {
+            currency: "USD",
+            value: "-5.00",
+          },
+        };
+
+        dwolla
+          .post(`${labelUrl}/ledger-entries`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/ledger-entries/76e5541d-18f4-e811-8112-e8dd3bececa8'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        label_url = 'https://api-sandbox.dwolla.com/labels/e217bcac-628a-456d-a375-6cc51230616f'
+        request_body = {
+          'amount': {
+            'currency': 'USD',
+            'value': '-5.00'
+          }
+        }
+
+        ledger_entry = app_token.post('%s/ledger-entries' % label_url, request_body)
+        ledger_entry.headers['location'] # => 'https://api-sandbox.dwolla.com/ledger-entries/76e5541d-18f4-e811-8112-e8dd3bececa8'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $labelsApi = new DwollaSwagger\LabelsApi($apiClient);
+
+        $label = $labelsApi->addLedgerEntry([
+          'amount' => [
+            'currency' => 'USD',
+            'value' => '-5.00'
+          ]
+        ], "https://api-sandbox.dwolla.com/labels/e217bcac-628a-456d-a375-6cc51230616f");
+        $label; # => "https://api-sandbox.dwolla.com/ledger-entries/76e5541d-18f4-e811-8112-e8dd3bececa8"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        label_url = 'https://api-sandbox.dwolla.com/labels/e217bcac-628a-456d-a375-6cc51230616f'
+        request_body = {
+          :amount => {
+            :currency => "USD",
+            :value => "-5.00"
+          }
+        }
+
+        ledger_entry = app_token.post "#{label_url}/ledger-entries", request_body
+        ledger_entry.response_headers[:location] # => "https://api-sandbox.dwolla.com/ledger-entries/76e5541d-18f4-e811-8112-e8dd3bececa8"
   parameters:
     - name: id
       in: path

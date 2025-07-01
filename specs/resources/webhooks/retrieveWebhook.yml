@@ -5,6 +5,44 @@ get:
   description: Retrieve a webhook
   operationId: getWebhook
   x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var webhookUrl =
+          "https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8";
+
+        dwolla.get(webhookUrl).then((res) => res.body.topic); // => 'transfer_created'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        webhook_url = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8'
+
+        webhook = app_token.get(webhook_url)
+        webhook.body['topic'] # => 'transfer_created'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $webhookUrl = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8';
+
+        $webhooksApi = new DwollaSwagger\WebhooksApi($apiClient);
+
+        $webhook = $webhooksApi->id($webhookUrl);
+        $webhook->topic; # => "transfer_created"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        webhook_url = 'https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8'
+
+        webhook = app_token.get webhook_url
+        webhook.topic # => "transfer_created"
   parameters:
     - name: id
       in: path

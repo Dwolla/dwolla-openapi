@@ -5,6 +5,44 @@ get:
   description: Retrieve a label reallocation
   operationId: retrieveLabelReallocation
   x-speakeasy-name-override: getReallocation
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var labelReallocationUrl =
+          "https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21";
+
+        dwolla.get(labelReallocationUrl).then((res) => res.body.created); // => '2019-05-16T13:41:31.036Z'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        label_reallocation_url = 'https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21'
+
+        label_reallocation = app_token.get(label_reallocation_url)
+        label_reallocation.body['created'] # => '2019-05-16T13:41:31.036Z'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $labelReallocationUrl = 'https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21';
+
+        $labelReallocationsApi = new DwollaSwagger\LabelreallocationsApi($apiClient);
+
+        $labelReallocation = $labelReallocationsApi->getLabelReallocation($labelReallocationUrl);
+        $labelReallocation->created; # => "2019-05-16T13:41:31.036Z"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        label_reallocation_url = 'https://api-sandbox.dwolla.com/label-reallocations/fd36b78c-42f3-4e21-8efb-09196fccbd21'
+
+        label_reallocation = app_token.get label_reallocation_url
+        label_reallocation.created # => "2019-05-16T13:41:31.036Z"
   parameters:
     - name: id
       in: path

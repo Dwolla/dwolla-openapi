@@ -6,10 +6,50 @@ get:
   operationId: listCustomerFundingSources
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733/funding-sources
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733";
+
+        dwolla
+          .get(`${customerUrl}/funding-sources`)
+          .then((res) => res.body._embedded["funding-sources"][0].name); // => 'Jane Doe's Checking'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733'
+
+        funding_sources = app_token.get('%s/funding-sources' % customer_url)
+        funding_sources.body['_embedded']['funding-sources'][0]['name'] # => 'Jane Doe's Checking'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $customerUrl = 'https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733';
+
+        $fsApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSources = $fsApi->getCustomerFundingSources($customerUrl);
+        $fundingSources->_embedded->{'funding-sources'}[0]->name; # => "Jane Doe's Checking"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/5b29279d-6359-4c87-a318-e09095532733'
+
+        funding_sources = app_token.get "#{customer_url}/funding-sources"
+        funding_sources._embedded['funding-sources'][0].name # => "Jane Doe's Checking"
   parameters:
     - name: id
       in: path
-      description: Customer funding sources
+      description: Customer's unique identifier
       required: true
       schema:
         type: string
@@ -64,6 +104,74 @@ post:
   operationId: createCustomerFundingSource
   x-speakeasy-group: customer.fundingSources
   x-speakeasy-name-override: create
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+        {
+          "routingNumber": "222222226",
+          "accountNumber": "123456789",
+          "bankAccountType": "checking",
+          "name": "Jane Doe's Checking"
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+        var requestBody = {
+          routingNumber: "222222226",
+          accountNumber: "123456789",
+          bankAccountType: "checking",
+          name: "Jane Doe's Checking",
+        };
+
+        dwolla
+          .post(`${customerUrl}/funding-sources`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          'routingNumber': '222222226',
+          'accountNumber': '123456789',
+          'bankAccountType': 'checking',
+          'name': 'Jane Doe's Checking'
+        }
+
+        customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+        customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fundingApi->createCustomerFundingSource([
+          "routingNumber" => "222222226",
+          "accountNumber" => "123456789",
+          "bankAccountType" => "checking",
+          "name" => "Jane Doe's Checking"
+        ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+        $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          routingNumber: '222222226',
+          accountNumber: '123456789',
+          bankAccountType: 'checking',
+          name: 'Jane Doe's Checking'
+        }
+
+        funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+        funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
   parameters:
     - name: id
       in: path

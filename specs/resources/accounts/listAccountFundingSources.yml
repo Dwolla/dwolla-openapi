@@ -2,10 +2,41 @@ get:
   tags:
     - accounts
   summary: List funding sources for an account
-  description: List funding source for an account
+  description: List funding sources for an account
   operationId: listFundingSources
   x-speakeasy-group: accounts.fundingSources
   x-speakeasy-name-override: list
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/funding-sources
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        dwolla
+          .get("accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/funding-sources")
+          .then((res) => res.body.total); // => 1
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_sources = app_token.get('accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/funding-sources')
+        funding_sources.body['total'] # => 1
+    - lang: php
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSources = $fundingApi->getAccountFundingSources("CA366CA3-6D30-44D6-B0F3-8D86C64462A1");
+        $fundingSources->total; # => 1
+        ?>
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_sources = app_token.get "accounts/CA366CA3-6D30-44D6-B0F3-8D86C64462A1/funding-sources"
+        funding_sources.total # => 1
   parameters:
     - name: id
       in: path
