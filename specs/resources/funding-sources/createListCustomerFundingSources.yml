@@ -186,10 +186,7 @@ post:
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
-          oneOf:
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerBankFundingSource'
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerExchangeFundingSource'
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerVirtualFundingSource'
+          $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerFundingSource'
   responses:
     '201':
       description: created

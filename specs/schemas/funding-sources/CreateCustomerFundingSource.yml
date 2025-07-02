@@ -1,4 +1,16 @@
+CreateCustomerFundingSource:
+  title: Create Customer Funding Source
+  description: |
+    Parameters for creating customer funding sources using different methods:
+    - Bank: Traditional method using routing/account numbers
+    - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
+    - Virtual: Creating Virtual Account Numbers (VANs)
+  oneOf:
+    - $ref: '#/CreateCustomerBankFundingSource'
+    - $ref: '#/CreateCustomerExchangeFundingSource'
+    - $ref: '#/CreateCustomerVirtualFundingSource'
 CreateCustomerBankFundingSource:
+  title: CreateCustomerBankFundingSource
   type: object
   description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
   required:
@@ -46,6 +58,7 @@ CreateCustomerBankFundingSource:
               format: uri
               example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
 CreateCustomerExchangeFundingSource:
+  title: CreateCustomerExchangeFundingSource
   type: object
   description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
   required:
@@ -86,6 +99,7 @@ CreateCustomerExchangeFundingSource:
       description: Arbitrary nickname for the funding source. Must be 50 characters or less.
       example: Jane Doe's Checking
 CreateCustomerVirtualFundingSource:
+  title: CreateCustomerVirtualFundingSource
   type: object
   description: Schema for creating a Virtual Account Number (VAN) . VANs are unique account numbers for receiving external transactions into a Dwolla Balance.
   required:
