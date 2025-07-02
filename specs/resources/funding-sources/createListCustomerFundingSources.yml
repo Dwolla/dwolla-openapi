@@ -102,7 +102,7 @@ post:
     - Basic bank funding source (with routing/account numbers)
     - Using an exchange
   operationId: createCustomerFundingSource
-  x-speakeasy-group: customer.fundingSources
+  x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash

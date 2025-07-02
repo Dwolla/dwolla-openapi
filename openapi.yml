@@ -3044,7 +3044,7 @@ paths:
         - Basic bank funding source (with routing/account numbers)
         - Using an exchange
       operationId: createCustomerFundingSource
-      x-speakeasy-group: customer.fundingSources
+      x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
@@ -4474,7 +4474,7 @@ paths:
       summary: List and search transfers for a customer
       description: List and search transfers for a customer
       operationId: listCustomerTransfers
-      x-speakeasy-group: customer.transfers
+      x-speakeasy-group: customers.transfers
       x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
