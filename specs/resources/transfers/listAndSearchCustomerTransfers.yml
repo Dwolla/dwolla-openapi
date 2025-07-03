@@ -4,7 +4,7 @@ get:
   summary: List and search transfers for a customer
   description: List and search transfers for a customer
   operationId: listCustomerTransfers
-  x-speakeasy-group: customer.transfers
+  x-speakeasy-group: customers.transfers
   x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash

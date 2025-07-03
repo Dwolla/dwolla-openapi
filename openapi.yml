@@ -3044,7 +3044,7 @@ paths:
         - Basic bank funding source (with routing/account numbers)
         - Using an exchange
       operationId: createCustomerFundingSource
-      x-speakeasy-group: customer.fundingSources
+      x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
@@ -3128,10 +3128,7 @@ paths:
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/CreateCustomerBankFundingSource'
-                - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
-                - $ref: '#/components/schemas/CreateCustomerVirtualFundingSource'
+              $ref: '#/components/schemas/CreateCustomerFundingSource'
       responses:
         '201':
           description: created
@@ -3523,11 +3520,50 @@ paths:
                 - $ref: '#/components/schemas/VerifyMicroDeposits'
                   description: Required request body for verifying micro-deposits
       responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                description: Response for microdeposits operations (initiation and verification)
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: uri
+                            example: https://api-sandbox.dwolla.com/funding-sources/2e446d1b-fb3c-42a0-9691-5d1d6a4dbbf0/micro-deposits
+                          type:
+                            type: string
+                            example: application/vnd.dwolla.v1.hal+json
+                          resource-type:
+                            type: string
+                            example: micro-deposits
         '201':
           description: created
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '403':
+          description: forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidResourceState
+                  message:
+                    type: string
+                    example: Bank already verified.
         '404':
           description: not found
           headers: {}
@@ -3538,10 +3574,10 @@ paths:
                 properties:
                   code:
                     type: string
-                    example: notFound
+                    example: NotFound
                   message:
                     type: string
-                    example: Funding source not found
+                    example: The requested resource was not found.
   /funding-sources/{id}/balance:
     get:
       tags:
@@ -4477,7 +4513,7 @@ paths:
       summary: List and search transfers for a customer
       description: List and search transfers for a customer
       operationId: listCustomerTransfers
-      x-speakeasy-group: customer.transfers
+      x-speakeasy-group: customers.transfers
       x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
@@ -5857,7 +5893,7 @@ paths:
       summary: List mass payments for customer
       description: List mass payments for customer
       operationId: listCustomerMassPayments
-      x-speakeasy-group: customer.massPayments
+      x-speakeasy-group: customers.massPayments
       x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
@@ -10255,9 +10291,6 @@ components:
         correlationId:
           type: string
           example: fc451a7a-ae30-4404-aB95-e3553fcd733
-        businessName:
-          type: string
-          example: Jane Corp llc
         type:
           type: string
           const: personal
@@ -10482,7 +10515,6 @@ components:
               example: CEO
             dateOfBirth:
               type: string
-              format: date
               example: '1980-01-31'
             address:
               $ref: '#/components/schemas/InternationalAddress'
@@ -10598,7 +10630,6 @@ components:
               example: CEO
             dateOfBirth:
               type: string
-              format: date
               example: '1980-01-31'
             address:
               $ref: '#/components/schemas/InternationalAddress'
@@ -11459,6 +11490,7 @@ components:
           type: string
           example: The kba session has expired.
     CreateCustomerBankFundingSource:
+      title: CreateCustomerBankFundingSource
       type: object
       description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
       required:
@@ -11488,6 +11520,11 @@ components:
           type: string
           description: Arbitrary nickname for the funding source. Must be 50 characters or less.
           example: Jane Doe's Checking
+        verified:
+          type: boolean
+          description: Use when creating an unverified bank account.
+          const: false
+          example: false
         plaidToken:
           type: string
           description: A processor token obtained from Plaid for adding and verifying a bank
@@ -11511,6 +11548,7 @@ components:
                   format: uri
                   example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
     CreateCustomerExchangeFundingSource:
+      title: CreateCustomerExchangeFundingSource
       type: object
       description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
       required:
@@ -11554,7 +11592,8 @@ components:
           type: string
           description: Arbitrary nickname for the funding source. Must be 50 characters or less.
           example: Jane Doe's Checking
-    CreateCustomerVirtualFundingSource:
+    CreateCustomerVirtualAccountFundingSource:
+      title: CreateCustomerVirtualAccountFundingSource
       type: object
       description: Schema for creating a Virtual Account Number (VAN) . VANs are unique account numbers for receiving external transactions into a Dwolla Balance.
       required:
@@ -11578,6 +11617,17 @@ components:
             - checking
           description: Type of bank account. Must be "checking" for Virtual Account Numbers.
           example: checking
+    CreateCustomerFundingSource:
+      title: Create Customer Funding Source
+      description: |
+        Parameters for creating customer funding sources using different methods:
+        - Bank Account: Traditional method using routing/account numbers
+        - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
+        - Virtual Account: Creating Virtual Account Numbers (VANs)
+      oneOf:
+        - $ref: '#/components/schemas/CreateCustomerBankFundingSource'
+        - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
+        - $ref: '#/components/schemas/CreateCustomerVirtualAccountFundingSource'
     InactiveExchangeError:
       title: InactiveExchangeError
       type: object

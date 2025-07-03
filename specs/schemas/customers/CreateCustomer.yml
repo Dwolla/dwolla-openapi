@@ -96,9 +96,6 @@ CreateVerifiedPersonalCustomer:
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
-    businessName:
-      type: string
-      example: Jane Corp llc
     type:
       type: string
       const: personal
@@ -293,7 +290,6 @@ CreateVerifiedBusinessCustomerWithController:
           example: CEO
         dateOfBirth:
           type: string
-          format: date
           example: 1980-01-31
         address:
           $ref: '../common.yml#/components/schemas/InternationalAddress'
@@ -395,7 +391,6 @@ CreateVerifiedBusinessCustomerWithInternationalController:
           example: CEO
         dateOfBirth:
           type: string
-          format: date
           example: 1980-01-31
         address:
           $ref: '../common.yml#/components/schemas/InternationalAddress'
@@ -425,7 +420,6 @@ Controller:
       example: CEO
     dateOfBirth:
       type: string
-      format: date
       example: 1980-01-31
     address:
       $ref: '../common.yml#/components/schemas/InternationalAddress'

@@ -102,7 +102,7 @@ post:
     - Basic bank funding source (with routing/account numbers)
     - Using an exchange
   operationId: createCustomerFundingSource
-  x-speakeasy-group: customer.fundingSources
+  x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
@@ -186,10 +186,7 @@ post:
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
-          oneOf:
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerBankFundingSource'
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerExchangeFundingSource'
-            - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerVirtualFundingSource'
+          $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CreateCustomerFundingSource'
   responses:
     '201':
       description: created
