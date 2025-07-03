@@ -167,6 +167,45 @@ post:
       headers:
         Location:
           $ref: '../../schemas/common.yml#/components/headers/Location'
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            description: Response for microdeposits operations (initiation and verification)
+            properties:
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        format: uri
+                        example: 'https://api-sandbox.dwolla.com/funding-sources/2e446d1b-fb3c-42a0-9691-5d1d6a4dbbf0/micro-deposits'
+                      type:
+                        type: string
+                        example: 'application/vnd.dwolla.v1.hal+json'
+                      resource-type:
+                        type: string
+                        example: 'micro-deposits'
+    '403':
+      description: forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidResourceState
+              message:
+                type: string
+                example: Bank already verified.
     '404':
       description: not found
       headers: {}
@@ -177,7 +216,7 @@ post:
             properties:
               code:
                 type: string
-                example: notFound
+                example: NotFound
               message:
                 type: string
-                example: Funding source not found
+                example: The requested resource was not found.

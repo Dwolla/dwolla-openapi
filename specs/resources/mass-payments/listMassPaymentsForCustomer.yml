@@ -4,7 +4,7 @@ get:
   summary: List mass payments for customer
   description: List mass payments for customer
   operationId: listCustomerMassPayments
-  x-speakeasy-group: customer.massPayments
+  x-speakeasy-group: customers.massPayments
   x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash

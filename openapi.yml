@@ -3520,11 +3520,50 @@ paths:
                 - $ref: '#/components/schemas/VerifyMicroDeposits'
                   description: Required request body for verifying micro-deposits
       responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                description: Response for microdeposits operations (initiation and verification)
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: uri
+                            example: https://api-sandbox.dwolla.com/funding-sources/2e446d1b-fb3c-42a0-9691-5d1d6a4dbbf0/micro-deposits
+                          type:
+                            type: string
+                            example: application/vnd.dwolla.v1.hal+json
+                          resource-type:
+                            type: string
+                            example: micro-deposits
         '201':
           description: created
           headers:
             Location:
               $ref: '#/components/headers/Location'
+        '403':
+          description: forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidResourceState
+                  message:
+                    type: string
+                    example: Bank already verified.
         '404':
           description: not found
           headers: {}
@@ -3535,10 +3574,10 @@ paths:
                 properties:
                   code:
                     type: string
-                    example: notFound
+                    example: NotFound
                   message:
                     type: string
-                    example: Funding source not found
+                    example: The requested resource was not found.
   /funding-sources/{id}/balance:
     get:
       tags:
@@ -5854,7 +5893,7 @@ paths:
       summary: List mass payments for customer
       description: List mass payments for customer
       operationId: listCustomerMassPayments
-      x-speakeasy-group: customer.massPayments
+      x-speakeasy-group: customers.massPayments
       x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
@@ -10252,9 +10291,6 @@ components:
         correlationId:
           type: string
           example: fc451a7a-ae30-4404-aB95-e3553fcd733
-        businessName:
-          type: string
-          example: Jane Corp llc
         type:
           type: string
           const: personal
@@ -10479,7 +10515,6 @@ components:
               example: CEO
             dateOfBirth:
               type: string
-              format: date
               example: '1980-01-31'
             address:
               $ref: '#/components/schemas/InternationalAddress'
@@ -10595,7 +10630,6 @@ components:
               example: CEO
             dateOfBirth:
               type: string
-              format: date
               example: '1980-01-31'
             address:
               $ref: '#/components/schemas/InternationalAddress'
@@ -11486,6 +11520,11 @@ components:
           type: string
           description: Arbitrary nickname for the funding source. Must be 50 characters or less.
           example: Jane Doe's Checking
+        verified:
+          type: boolean
+          description: Use when creating an unverified bank account.
+          const: false
+          example: false
         plaidToken:
           type: string
           description: A processor token obtained from Plaid for adding and verifying a bank
