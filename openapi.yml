@@ -4220,12 +4220,32 @@ paths:
                                 type: string
                 rtpDetails:
                   type: object
+                  description: Real-Time Payments (RTP) specific transaction details.
                   properties:
                     destination:
                       type: object
+                      description: RTP details for the destination
                       properties:
                         remittanceData:
                           type: string
+                          description: Remittance information for Real-Time Payments, providing context about the payment purpose
+                          maxLength: 140
+                          pattern: ^[A-Za-z0-9\s\-_\.\/\(\),]*$
+                          example: ABC_123 Remittance Data
+                instantDetails:
+                  type: object
+                  description: Instant Payments specific transaction details for both RTP and FedNow networks.
+                  properties:
+                    destination:
+                      type: object
+                      description: Instant payment details for the destination
+                      properties:
+                        remittanceData:
+                          type: string
+                          description: Remittance information for Instant Payments (RTP/FedNow), providing context about the payment purpose
+                          maxLength: 140
+                          pattern: ^[A-Za-z0-9\s\-_\.\/\(\),]*$
+                          example: ABC_123 Remittance Data
                 correlationId:
                   type: string
                 processingChannel:
@@ -4233,7 +4253,10 @@ paths:
                   properties:
                     destination:
                       type: string
-                      example: real-time-payments
+                      enum:
+                        - real-time-payments
+                        - instant
+                      example: instant
       responses:
         '201':
           description: created
@@ -9877,13 +9900,44 @@ components:
                         example: ZYX987_AddendaValue
         rtpDetails:
           type: object
+          description: Real-Time Payments (RTP) network specific details. Present when transfer was processed via RTP network.
           properties:
             destination:
               type: object
+              description: RTP destination details with network identifiers
               properties:
                 remittanceData:
                   type: string
+                  description: Remittance information included in the transfer request
                   example: ABC_123 Remittance Data
+                networkId:
+                  type: string
+                  description: Unique identifier for the transfer within the RTP network
+                  example: 20210617021214273T1BG27487110796028
+                endToEndReferenceId:
+                  type: string
+                  description: End-to-end reference identifier for the RTP transfer
+                  example: E2E-RTP-20210617-001
+        fedNowDetails:
+          type: object
+          description: FedNow Service network specific details. Present when transfer was processed via FedNow network.
+          properties:
+            destination:
+              type: object
+              description: FedNow destination details with network identifiers
+              properties:
+                remittanceData:
+                  type: string
+                  description: Remittance information included in the transfer request
+                  example: ABC_123 Remittance Data
+                networkId:
+                  type: string
+                  description: Unique identifier for the transfer within the FedNow network
+                  example: 20240115123456789FEDNOW123456
+                endToEndReferenceId:
+                  type: string
+                  description: End-to-end reference identifier for the FedNow transfer
+                  example: E2E-FEDNOW-20240115-001
         correlationId:
           type: string
           example: 8a2cdc8d-629d-4a24-98ac-40b735229fe2
