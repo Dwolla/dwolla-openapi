@@ -42,7 +42,7 @@ post:
               }
             }
           },
-          "rtpDetails": {
+          "instantDetails": {
             "destination": {
               "remittanceData": "ABC_123 Remittance Data"
             }
@@ -65,7 +65,7 @@ post:
           },
           "correlationId": "6d127333-69e9-4c2b-8cae-df850228e130",
           "processingChannel": {
-            "destination": "real-time-payments"
+            "destination": "instant"
           }
         }
     - lang: javascript
@@ -100,7 +100,7 @@ post:
               },
             },
           },
-          rtpDetails: {
+          instantDetails: {
             destination: {
               remittanceData: "ABC_123 Remittance Data",
             },
@@ -123,7 +123,7 @@ post:
           },
           correlationId: "6d127333-69e9-4c2b-8cae-df850228e130",
           processingChannel: {
-            destination: "real-time-payments",
+            destination: "instant",
           },
         };
 
@@ -162,7 +162,7 @@ post:
               }
             }
           },
-          'rtpDetails': {
+          'instantDetails': {
             'destination': {
               'remittanceData': 'ABC_123 Remittance Data'
             }
@@ -185,7 +185,7 @@ post:
           },
           'correlationId': '6d127333-69e9-4c2b-8cae-df850228e130',
           'processingChannel': {
-            'destination': 'real-time-payments'
+            'destination': 'instant'
           }
         }
 
@@ -226,7 +226,7 @@ post:
               ]
             ]
           ],
-          'rtpDetails' => [
+          'instantDetails' => [
             'destination' => [
               'remittanceData' => 'ABC_123 Remittance Data'
             ]
@@ -249,7 +249,7 @@ post:
           ],
           'correlationId' => '6d127333-69e9-4c2b-8cae-df850228e130',
           'processingChannel' => [
-            'destination' => 'real-time-payments'
+            'destination' => 'instant'
           ]
         ]);
         $transfer; # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
@@ -286,7 +286,7 @@ post:
               }
             }
           },
-          :rtpDetails => {
+          :instantDetails => {
             :destination => {
               :remittanceData => "ABC_123 Remittance Data"
             }
@@ -309,7 +309,7 @@ post:
           },
           :correlationId => "6d127333-69e9-4c2b-8cae-df850228e130",
           :processingChannel => {
-            :destination => "real-time-payments"
+            :destination => "instant"
           }
         }
 
@@ -397,12 +397,32 @@ post:
                             type: string
             rtpDetails:
               type: object
+              description: "Real-Time Payments (RTP) specific transaction details."
               properties:
                 destination:
                   type: object
+                  description: "RTP details for the destination"
                   properties:
                     remittanceData:
                       type: string
+                      description: "Remittance information for Real-Time Payments, providing context about the payment purpose"
+                      maxLength: 140
+                      pattern: '^[A-Za-z0-9\s\-_\.\/\(\),]*$'
+                      example: "ABC_123 Remittance Data"
+            instantDetails:
+              type: object
+              description: "Instant Payments specific transaction details for both RTP and FedNow networks."
+              properties:
+                destination:
+                  type: object
+                  description: "Instant payment details for the destination"
+                  properties:
+                    remittanceData:
+                      type: string
+                      description: "Remittance information for Instant Payments (RTP/FedNow), providing context about the payment purpose"
+                      maxLength: 140
+                      pattern: '^[A-Za-z0-9\s\-_\.\/\(\),]*$'
+                      example: "ABC_123 Remittance Data"
             correlationId:
               type: string
             processingChannel:
@@ -410,7 +430,10 @@ post:
               properties:
                 destination:
                   type: string
-                  example: real-time-payments
+                  enum:
+                    - real-time-payments
+                    - instant
+                  example: instant
   responses:
     '201':
       description: created
