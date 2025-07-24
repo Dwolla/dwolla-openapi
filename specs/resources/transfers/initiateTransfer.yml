@@ -42,7 +42,7 @@ post:
               }
             }
           },
-          "rtpDetails": {
+          "instantDetails": {
             "destination": {
               "remittanceData": "ABC_123 Remittance Data"
             }
@@ -65,7 +65,7 @@ post:
           },
           "correlationId": "6d127333-69e9-4c2b-8cae-df850228e130",
           "processingChannel": {
-            "destination": "real-time-payments"
+            "destination": "instant"
           }
         }
     - lang: javascript
@@ -100,7 +100,7 @@ post:
               },
             },
           },
-          rtpDetails: {
+          instantDetails: {
             destination: {
               remittanceData: "ABC_123 Remittance Data",
             },
@@ -123,7 +123,7 @@ post:
           },
           correlationId: "6d127333-69e9-4c2b-8cae-df850228e130",
           processingChannel: {
-            destination: "real-time-payments",
+            destination: "instant",
           },
         };
 
@@ -162,7 +162,7 @@ post:
               }
             }
           },
-          'rtpDetails': {
+          'instantDetails': {
             'destination': {
               'remittanceData': 'ABC_123 Remittance Data'
             }
@@ -185,7 +185,7 @@ post:
           },
           'correlationId': '6d127333-69e9-4c2b-8cae-df850228e130',
           'processingChannel': {
-            'destination': 'real-time-payments'
+            'destination': 'instant'
           }
         }
 
@@ -226,7 +226,7 @@ post:
               ]
             ]
           ],
-          'rtpDetails' => [
+          'instantDetails' => [
             'destination' => [
               'remittanceData' => 'ABC_123 Remittance Data'
             ]
@@ -249,7 +249,7 @@ post:
           ],
           'correlationId' => '6d127333-69e9-4c2b-8cae-df850228e130',
           'processingChannel' => [
-            'destination' => 'real-time-payments'
+            'destination' => 'instant'
           ]
         ]);
         $transfer; # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
@@ -286,7 +286,7 @@ post:
               }
             }
           },
-          :rtpDetails => {
+          :instantDetails => {
             :destination => {
               :remittanceData => "ABC_123 Remittance Data"
             }
@@ -309,7 +309,7 @@ post:
           },
           :correlationId => "6d127333-69e9-4c2b-8cae-df850228e130",
           :processingChannel => {
-            :destination => "real-time-payments"
+            :destination => "instant"
           }
         }
 
