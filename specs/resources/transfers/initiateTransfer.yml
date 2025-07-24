@@ -397,12 +397,32 @@ post:
                             type: string
             rtpDetails:
               type: object
+              description: "Real-Time Payments (RTP) specific transaction details."
               properties:
                 destination:
                   type: object
+                  description: "RTP details for the destination"
                   properties:
                     remittanceData:
                       type: string
+                      description: "Remittance information for Real-Time Payments, providing context about the payment purpose"
+                      maxLength: 140
+                      pattern: '^[A-Za-z0-9\s\-_\.\/\(\),]*$'
+                      example: "ABC_123 Remittance Data"
+            instantDetails:
+              type: object
+              description: "Instant Payments specific transaction details for both RTP and FedNow networks."
+              properties:
+                destination:
+                  type: object
+                  description: "Instant payment details for the destination"
+                  properties:
+                    remittanceData:
+                      type: string
+                      description: "Remittance information for Instant Payments (RTP/FedNow), providing context about the payment purpose"
+                      maxLength: 140
+                      pattern: '^[A-Za-z0-9\s\-_\.\/\(\),]*$'
+                      example: "ABC_123 Remittance Data"
             correlationId:
               type: string
             processingChannel:
@@ -410,7 +430,10 @@ post:
               properties:
                 destination:
                   type: string
-                  example: real-time-payments
+                  enum:
+                    - real-time-payments
+                    - instant
+                  example: instant
   responses:
     '201':
       description: created
