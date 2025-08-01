@@ -60,7 +60,7 @@ paths:
       tags:
         - tokens
       summary: Create an application access token
-      description: Generates an access token that contains permissions scoped to the application owner's Dwolla Client Account.
+      description: Generate an application access token using OAuth 2.0 client credentials flow for server-to-server authentication. Requires client ID and secret sent via Basic authentication header with grant_type=client_credentials in the request body. Returns a bearer access token with expiration time for authenticating API requests scoped to your application. Essential for secure API access.
       operationId: createApplicationAccessToken
       x-codeSamples:
         - lang: bash
@@ -162,7 +162,7 @@ paths:
       tags:
         - root
       summary: root
-      description: The entry point that clients can use to discover and explore the entire API.
+      description: Retrieve the API root entry point to discover available resources and endpoints based on your OAuth access token permissions. Returns HAL+JSON with navigation links to accessible resources including accounts, customers, events, and webhook subscriptions depending on token scope. Essential for API exploration, dynamic resource discovery, and building adaptive client applications that respond to available permissions.
       operationId: getRoot
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -221,8 +221,8 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve Account Details
-      description: Retrieve basic account details belonging to the authorized Dwolla account.
+      summary: Retrieve account details
+      description: Returns basic account information for your authorized Main Dwolla Account, including account ID, name, and links to related resources such as funding sources, transfers, and customers.
       operationId: getAccount
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -304,7 +304,10 @@ paths:
       tags:
         - accounts
       summary: Create a funding source for an account
-      description: Create a funding source for an account
+      description: |
+        Create a funding source by adding a bank account to a Main Dwolla Account. This endpoint allows you to connect a checking or savings account using either manual bank account details or an exchange resource.
+
+        For more information about funding sources, see the [Funding Sources API Reference](https://developers.dwolla.com/docs/api-reference/funding-sources).
       operationId: createFundingSource
       x-speakeasy-group: accounts.fundingSources
       x-speakeasy-name-override: create
@@ -415,7 +418,8 @@ paths:
       tags:
         - accounts
       summary: List funding sources for an account
-      description: List funding sources for an account
+      description: |
+        Get a list of all funding sources associated with a specific Main Dwolla Account. This endpoint returns both bank accounts and balance funding sources, with detailed information about each funding source's status, type, and available processing channels.
       operationId: listFundingSources
       x-speakeasy-group: accounts.fundingSources
       x-speakeasy-name-override: list
@@ -504,8 +508,8 @@ paths:
     get:
       tags:
         - accounts
-      summary: List and search transfers for an account
-      description: List and search transfers for an account
+      summary: List and search account transfers
+      description: Returns a paginated, searchable list of transfers associated with the specified Main Dwolla account. Supports advanced filtering by amount range, date range, transfer status, and correlation ID. Results are limited to 10,000 transfers per query; use date range filters for historical data beyond this limit.
       operationId: listAndSearchTransfers
       x-speakeasy-group: accounts.transfers
       x-speakeasy-name-override: list
@@ -628,8 +632,8 @@ paths:
     get:
       tags:
         - accounts
-      summary: List mass payments for an account
-      description: List mass payments for an account
+      summary: List account mass payments
+      description: Returns a paginated list of mass payments created by your Main Dwolla account. Results are sorted by creation date in descending order (newest first) and can be filtered by correlation ID.
       operationId: listMassPayments
       x-speakeasy-group: accounts.massPayments
       x-speakeasy-name-override: list
@@ -743,7 +747,7 @@ paths:
       tags:
         - customers
       summary: List and search customers
-      description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
+      description: Returns a paginated list of customers sorted by creation date. Supports fuzzy search across customer names, business names, and email addresses, plus exact filtering by email and verification status. Default limit is 25 customers per page, maximum 200.
       operationId: listAndSearchCustomers
       x-speakeasy-name-override: list
       parameters:
@@ -791,7 +795,7 @@ paths:
       tags:
         - customers
       summary: Create a customer
-      description: Create an unverified customer, verified customer, or receive-only user.
+      description: Creates a new customer with different verification levels and capabilities. Supports personal verified customers (individuals), business verified customers (businesses), unverified customers, and receive-only users. Customer type determines transaction limits, verification requirements, and available features.
       operationId: createCustomer
       x-speakeasy-name-override: create
       parameters:
@@ -855,7 +859,7 @@ paths:
       tags:
         - customers
       summary: Retrieve a customer
-      description: Retrieve details for a single customer
+      description: Returns identifying information for a specific customer. The returned data varies by customer type - verified customers include full personal/business details and verification status, unverified customers and receive-only users contain basic contact information.
       operationId: getCustomer
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -1065,7 +1069,7 @@ paths:
       tags:
         - customers
       summary: List business classifications
-      description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
+      description: Returns a directory of business and industry classifications required for creating business verified customers. Each business classification contains multiple industry classifications. The industry classification ID must be provided in the businessClassification parameter during business customer creation for verification.
       operationId: listBusinessClassifications
       x-speakeasy-group: businessClassifications
       x-speakeasy-name-override: list
@@ -1138,7 +1142,7 @@ paths:
       tags:
         - customers
       summary: Retrieve a business classification
-      description: Retrieve a business classification by id.
+      description: Returns a specific business classification with its embedded industry classifications. Use this endpoint to browse available industry options within a business category and obtain the industry classification ID required for the businessClassification parameter when creating business verified customers.
       operationId: retrieveBusinessClassification
       x-speakeasy-group: businessClassifications
       x-speakeasy-name-override: get
@@ -1206,8 +1210,8 @@ paths:
     get:
       tags:
         - beneficial owners
-      summary: List beneficial owners
-      description: Retrieve a list of beneficial owners that belong to a Customer
+      summary: List customer beneficial owners
+      description: Returns all beneficial owners associated with a business verified customer. Beneficial owners are individuals who directly or indirectly own 25% or more of the company's equity. Includes personal information, verification status, and address details for each owner.
       operationId: listBeneficialOwnersForCustomer
       x-speakeasy-group: customers.beneficialOwners
       x-speakeasy-name-override: list
@@ -1281,8 +1285,8 @@ paths:
     post:
       tags:
         - beneficial owners
-      summary: Create beneficial owner
-      description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
+      summary: Create customer beneficial owner
+      description: Creates a new beneficial owner for a business verified customer. Beneficial owners are individuals who own 25% or more of the company's equity. Requires personal information, address, and SSN or passport for identity verification.
       operationId: createBeneficialOwnerForCustomer
       x-speakeasy-group: customers.beneficialOwners
       x-speakeasy-name-override: create
@@ -1443,7 +1447,7 @@ paths:
       tags:
         - beneficial owners
       summary: Retrieve beneficial owner
-      description: Retrieve details for a single beneficial owner
+      description: Returns detailed information for a specific beneficial owner, including personal information, address, and verification status. The verification status indicates the owner's identity verification progress and affects the business customer's transaction capabilities.
       operationId: retrieveBeneficialOwner
       x-speakeasy-group: beneficialOwners
       x-speakeasy-name-override: get
@@ -1516,7 +1520,7 @@ paths:
       tags:
         - beneficial owners
       summary: Update beneficial owner
-      description: Update beneficial owner
+      description: Updates a beneficial owner's information to retry verification when their status is "incomplete". Only beneficial owners with incomplete verification status can be updated. Used to correct information that caused initial verification to fail.
       operationId: updateBeneficialOwner
       x-speakeasy-group: beneficialOwners
       x-speakeasy-name-override: update
@@ -1691,8 +1695,8 @@ paths:
     delete:
       tags:
         - beneficial owners
-      summary: Delete beneficial owner
-      description: Delete beneficial owner
+      summary: Remove beneficial owner
+      description: Permanently removes a beneficial owner from a business customer. This action is irreversible and the beneficial owner cannot be retrieved after removal. Removing a beneficial owner will change the customer's certification status to "recertify".
       operationId: deleteBeneficialOwner
       x-speakeasy-group: beneficialOwners
       x-speakeasy-name-override: delete
@@ -1763,7 +1767,7 @@ paths:
       tags:
         - beneficial owners
       summary: Retrieve beneficial ownership status
-      description: Retrieve beneficial ownership status
+      description: Returns the certification status of beneficial ownership for a business verified customer. Status indicates whether beneficial owner information has been certified and affects the customer's ability to send funds. Possible values include uncertified, certified, and recertify.
       operationId: getBeneficialOwnershipStatusForCustomer
       x-speakeasy-group: beneficialOwners
       x-speakeasy-name-override: getOwnershipStatus
@@ -1851,8 +1855,8 @@ paths:
     post:
       tags:
         - beneficial owners
-      summary: Certify beneficial ownership status
-      description: certify beneficial ownership status
+      summary: Certify beneficial ownership
+      description: Updates the beneficial ownership certification status to "certified", confirming that all beneficial owner information is accurate and complete. This action enables the business customer to send funds and is required to complete the verification process.
       operationId: certifyBeneficialOwnershipForCustomer
       x-speakeasy-group: beneficialOwners
       x-speakeasy-name-override: certifyOwnership
@@ -1956,7 +1960,7 @@ paths:
       tags:
         - documents
       summary: List documents for customer
-      description: List documents for customer
+      description: Returns all identity verification documents submitted for a customer. Includes document status, verification results, document type (passport, driver's license, etc.), and failure reasons if verification was rejected. Used to track document submission and verification progress during the business verification process.
       operationId: listCustomerDocuments
       x-speakeasy-group: customers.documents
       x-speakeasy-name-override: list
@@ -2086,7 +2090,7 @@ paths:
       tags:
         - documents
       summary: Create a document for customer
-      description: Create a document for customer
+      description: Uploads an identity verification document for a customer using multipart form-data. Required when a customer has "document" status during the business verification process.
       operationId: createCustomerDocument
       x-speakeasy-group: customers.documents
       x-speakeasy-name-override: create
@@ -2222,7 +2226,7 @@ paths:
       tags:
         - documents
       summary: List documents for beneficial owner
-      description: List documents for beneficial owner
+      description: Returns all identity verification documents submitted for a beneficial owner. Includes document status, verification results, document type (passport, driver's license, etc.), and failure reasons if verification was rejected. Used to track document submission and verification progress during the business verification process.
       operationId: listBeneficialOwnerDocuments
       x-speakeasy-group: beneficialOwners.documents
       x-speakeasy-name-override: list
@@ -2352,7 +2356,7 @@ paths:
       tags:
         - documents
       summary: Create a document for beneficial owner
-      description: Create a document for beneficial owner
+      description: Uploads an identity verification document for a beneficial owner using multipart form-data. Required when a beneficial owner has "document" status during the business verification process.
       operationId: createBeneficialOwnerDocument
       x-speakeasy-group: beneficialOwners.documents
       x-speakeasy-name-override: create
@@ -2479,7 +2483,7 @@ paths:
       tags:
         - documents
       summary: Retrieve a document
-      description: Retrieve a document for a customer or beneficial owner
+      description: Returns detailed information about a specific identity verification document, including its status, type, and verification results. Used to track document submission and verification progress during the business verification process.
       operationId: retrieveDocument
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -2568,7 +2572,7 @@ paths:
       tags:
         - kba
       summary: Initiate a KBA session
-      description: Initiate a KBA session
+      description: Creates a new KBA (Knowledge-Based Authentication) session for a personal Verified Customer. Returns a KBA identifier that represents the session and is used to retrieve authentication questions for customer verification.
       operationId: initiateKbaForCustomer
       x-speakeasy-name-override: initiate
       x-codeSamples:
@@ -2645,7 +2649,7 @@ paths:
       tags:
         - kba
       summary: Retrieve KBA Questions
-      description: Retrieve KBA Questions
+      description: Returns the KBA questions for a specific KBA session. The questions are used to verify the customer's identity during the KBA process.
       operationId: getKbaQuestions
       x-speakeasy-name-override: getQuestions
       x-codeSamples:
@@ -2768,7 +2772,7 @@ paths:
       tags:
         - kba
       summary: Verify KBA Questions
-      description: Verify KBA Questions
+      description: Submits customer answers to KBA questions for identity verification. Requires four question-answer pairs with questionId and answerId values. Returns verification status indicating whether the customer passed or failed the KBA authentication.
       operationId: verify
       x-speakeasy-name-override: verify
       x-codeSamples:
@@ -2944,7 +2948,7 @@ paths:
       tags:
         - funding sources
       summary: List customer funding sources
-      description: List customer funding sources
+      description: Returns all funding sources for a customer, including bank accounts and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Supports filtering to exclude removed funding sources using the removed parameter.
       operationId: listCustomerFundingSources
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: list
@@ -3038,11 +3042,7 @@ paths:
       tags:
         - funding sources
       summary: Create customer funding source
-      description: |
-        Create a new funding source for a customer.
-        There are multiple methods available:
-        - Basic bank funding source (with routing/account numbers)
-        - Using an exchange
+      description: Creates a bank account funding source for a customer. Supports manual entry with routing/account numbers or instant verification using existing open banking connections. Created funding sources require verification before transfers can be initiated.
       operationId: createCustomerFundingSource
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: create
@@ -3175,7 +3175,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve a funding source
-      description: Retrieve a funding source
+      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
       operationId: getFundingSource
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: get
@@ -3251,7 +3251,7 @@ paths:
       tags:
         - funding sources
       summary: Update or remove a funding source
-      description: Update or remove a funding source
+      description: Updates a bank funding source's details or soft deletes it. When updating, you can change the name (any status) or modify routing/account numbers and account type (unverified status only). When removing, the funding source is soft deleted and can still be accessed but marked as removed.
       operationId: updateOrRemoveFundingSource
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: updateOrRemove
@@ -3360,7 +3360,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve micro-deposits details
-      description: Retrieve micro-deposits details
+      description: Returns the status and details of micro-deposits for a funding source to check verification eligibility. Includes deposit status (pending, processed, failed), creation timestamp, and failure details with ACH return codes if deposits failed. Use this endpoint to determine when micro-deposits are ready for verification.
       operationId: getMicroDeposits
       x-speakeasy-group: fundingSources
       x-codeSamples:
@@ -3449,14 +3449,7 @@ paths:
       tags:
         - funding sources
       summary: Initiate or Verify micro-deposits
-      description: |
-        This endpoint handles two different actions:
-        1. Initiating micro-deposits: No request body is required
-        2. Verifying micro-deposits: Request body with micro-deposit amounts is required
-
-        The action is determined by the presence of a request body:
-        - If no request body is provided, the endpoint will initiate micro-deposits
-        - If a request body with micro-deposit amounts is provided, the endpoint will verify the micro-deposits
+      description: Handles micro-deposit bank verification process. Make a request without a request body to initiate two small deposits to the customer's bank account. Include deposit amounts to verify the received values and complete verification.
       operationId: initiateOrVerifyMicroDeposits
       x-speakeasy-group: fundingSources
       x-codeSamples:
@@ -3583,7 +3576,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve funding source balance
-      description: Retrieve funding source balance
+      description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts. All responses include currency and last updated timestamp. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
       operationId: getFundingSourceBalance
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: getBalance
@@ -3738,7 +3731,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve VAN account and routing numbers
-      description: Retrieve account and routing numbers for a VAN (Virtual Account Number)
+      description: Returns the unique account and routing numbers for a Virtual Account Number (VAN) funding source. These numbers can be used by external systems to initiate ACH transactions that pull funds from or push funds from/to the associated Dwolla balance.
       operationId: getVanRouting
       x-speakeasy-group: fundingSources
       x-codeSamples:
@@ -3825,7 +3818,7 @@ paths:
       tags:
         - transfers
       summary: Initiate a transfer
-      description: Initiate a transfer
+      description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records and processing channels. Returns the location of the created transfer resource for tracking and management.
       operationId: initiateTransfer
       x-speakeasy-name-override: create
       x-codeSamples:
@@ -4335,7 +4328,7 @@ paths:
       tags:
         - transfers
       summary: Retrieve a transfer
-      description: Retrieve a transfer
+      description: Retrieve detailed information for a specific transfer by its unique identifier belonging to an Account or Customer. Returns transfer status, amount, creation date, clearing details, and links to source and destination funding sources for complete transaction tracking. Includes cancellation links when applicable and references to related funding transfers. Essential for monitoring transfer lifecycle and transaction reconciliation.
       operationId: getTransfer
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -4403,7 +4396,7 @@ paths:
       tags:
         - transfers
       summary: Cancel a transfer
-      description: Cancel a transfer
+      description: Cancel a pending transfer by setting its status to cancelled. Only transfers in pending status can be cancelled before processing begins. Returns the updated transfer resource with cancelled status. Use this endpoint to stop a bank transfer from further processing.
       operationId: cancelTransfer
       x-speakeasy-name-override: cancel
       x-codeSamples:
@@ -4511,7 +4504,7 @@ paths:
       tags:
         - transfers
       summary: List and search transfers for a customer
-      description: List and search transfers for a customer
+      description: Retrieve and search transfers for a specific Customer with comprehensive filtering and pagination support. Supports searching by customer details (name, email, business name), amount ranges, date ranges, transfer status, and correlation IDs for enhanced transaction discovery. Returns paginated transfer results including status, amounts, metadata, and links to source and destination funding sources. Use this endpoint for transaction history analysis and reconciliation purposes.
       operationId: listCustomerTransfers
       x-speakeasy-group: customers.transfers
       x-speakeasy-name-override: list
@@ -4637,7 +4630,7 @@ paths:
       tags:
         - transfers
       summary: List fees for a transfer
-      description: List fees for a transfer
+      description: Retrieve detailed fee information for a specific transfer by its unique identifier. Returns the total number of fees and individual fee transaction details including amounts, status, and links to source and destination accounts.
       operationId: listTransferFees
       x-speakeasy-name-override: listFees
       x-codeSamples:
@@ -4738,7 +4731,7 @@ paths:
       tags:
         - transfers
       summary: Retrieve a transfer failure reason
-      description: Retrieve a transfer failure reason
+      description: Retrieve detailed failure information for a failed bank or VAN transfer including the ACH return code, description, and explanation. Returns failure details with links to the failed funding source and associated Customer for comprehensive error analysis. Available only for transfers with failure status and accessed through the failure link from transfer retrieval. Critical for troubleshooting payment failures and understanding ACH return reasons.
       operationId: getTransferFailureReason
       x-speakeasy-name-override: getFailureReason
       x-codeSamples:
@@ -4828,7 +4821,7 @@ paths:
       tags:
         - transfers
       summary: Create an on-demand transfer authorization
-      description: Create an on-demand transfer authorization
+      description: Create an on-demand transfer authorization that allows Customers to pre-authorize variable amount ACH transfers from their bank account for future payments. This authorization is used when creating Customer funding sources to enable flexible payment processing. Returns UI text elements including authorization body text and button text for display in your application's bank account addition flow.
       operationId: createOnDemandTransferAuthorization
       x-speakeasy-name-override: createOnDemandAuthorization
       x-codeSamples:
@@ -4893,7 +4886,7 @@ paths:
       tags:
         - mass payments
       summary: Initiate a mass payment
-      description: Initiate a mass payment
+      description: Create a mass payment containing up to 5,000 individual payment items from a Dwolla Main Account or Verified Customer funding source. Supports optional metadata, correlation IDs for traceability, deferred processing, and expedited transfer options including same-day ACH clearing. Returns the location of the created mass payment resource with a unique identifier for tracking and management.
       operationId: initiateMassPayment
       x-speakeasy-group: massPayments
       x-speakeasy-name-override: create
@@ -5449,7 +5442,7 @@ paths:
       tags:
         - mass payments
       summary: Retrieve a mass payment
-      description: Retrieve a mass payment
+      description: Retrieve detailed information for a mass payment by its unique identifier. Returns the current processing status (pending, processing, or complete), creation date, metadata, and links to the source funding source and payment items. Use this endpoint to monitor mass payment processing progress and determine when to check individual item results.
       operationId: getMassPayment
       x-speakeasy-group: massPayments
       x-speakeasy-name-override: get
@@ -5539,7 +5532,7 @@ paths:
       tags:
         - mass payments
       summary: Update a mass payment
-      description: This section covers how to update a mass payment's status to `pending` which triggers processing on a created and deferred mass payment, or `cancelled` which cancels a created and deferred mass payment.
+      description: Update the status of a deferred mass payment to control its processing lifecycle. Set status to `pending` to trigger processing and begin fund transfers, or `cancelled` to permanently cancel the mass payment before processing begins. Only applies to mass payments created with deferred status. Returns the updated mass payment resource with the new status.
       operationId: updateMassPayment
       x-speakeasy-group: massPayments
       x-speakeasy-name-override: update
@@ -5658,7 +5651,7 @@ paths:
       tags:
         - mass payments
       summary: List items for a mass payment
-      description: List items for a mass payment
+      description: Retrieve individual payment items within a mass payment with optional status filtering and pagination support. Each item represents a distinct payment with status indicators (failed, pending, success) showing whether a transfer was successfully created. Returns paginated item details including amount, destination, metadata, and error information for failed items. Supports filtering by status and standard pagination.
       operationId: listMassPaymentItems
       x-speakeasy-group: massPayments
       x-speakeasy-name-override: listItems
@@ -5800,7 +5793,7 @@ paths:
       tags:
         - mass payments
       summary: Retrieve mass payment item
-      description: Retrieve mass payment item
+      description: Retrieve detailed information for a specific mass payment item by its unique identifier. Returns item status, amount, metadata, and links to the parent mass payment, associated transfer, and destination funding source. Use this endpoint to check the processing status and details of an individual item within a mass payment batch.
       operationId: getMassPaymentItem
       x-speakeasy-group: massPayments
       x-speakeasy-name-override: getItem
@@ -5891,7 +5884,7 @@ paths:
       tags:
         - mass payments
       summary: List mass payments for customer
-      description: List mass payments for customer
+      description: Retrieve all previously created mass payments for a Verified Customer account with optional correlation ID filtering and pagination support. Mass payments are returned ordered by date created with most recent appearing first. Returns paginated results including mass payment status, metadata, source funding information, and item links. Supports standard pagination parameters and correlation ID search for enhanced traceability.
       operationId: listCustomerMassPayments
       x-speakeasy-group: customers.massPayments
       x-speakeasy-name-override: list
@@ -6000,7 +5993,7 @@ paths:
       tags:
         - labels
       summary: Retrieve a label
-      description: Retrieve a label
+      description: Retrieve details for a specific Label used to categorize and track funds within your account. Returns Label information including unique identifier, current amount with currency, and creation timestamp.
       operationId: getLabel
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -6075,7 +6068,7 @@ paths:
       tags:
         - labels
       summary: Remove a label
-      description: Remove a label
+      description: Delete a Label to stop tracking funds and remove it from your account. Returns success status if the Label is successfully removed. Use this to streamline your account management and remove unused Labels from your system.
       operationId: removeLabel
       x-speakeasy-name-override: remove
       x-codeSamples:
@@ -6152,7 +6145,7 @@ paths:
       tags:
         - labels
       summary: List labels for a customer
-      description: List labels for a customer
+      description: Returns all labels for a specified Verified Customer, sorted by creation date (most recent first). Supports pagination with limit and offset parameters. Each label includes its current amount and creation timestamp.
       operationId: listCustomerLabels
       x-speakeasy-name-override: listForCustomer
       x-codeSamples:
@@ -6255,7 +6248,7 @@ paths:
       tags:
         - labels
       summary: Create a label for a customer
-      description: Create a label for a customer
+      description: Creates a new label for a Verified Customer with a specified amount. Labels help organize and track funds within a customer's balance. Returns the location of the created label resource in the response header.
       operationId: createCustomerLabel
       x-speakeasy-name-override: createForCustomer
       x-codeSamples:
@@ -6400,7 +6393,7 @@ paths:
       tags:
         - labels
       summary: List label ledger entries
-      description: List label ledger entries
+      description: Returns all ledger entries for a specific Label, sorted by creation date (newest first). Supports pagination with limit and offset parameters. Each ledger entry includes its amount, currency, and creation timestamp.
       operationId: listLabelLedgerEntries
       x-speakeasy-name-override: listLedgerEntries
       x-codeSamples:
@@ -6496,7 +6489,7 @@ paths:
       tags:
         - labels
       summary: Create a label ledger entry
-      description: Create a new entry on a Label Ledger. The amount tied to a Label cannot go negative, therefore if the amount of the label ledger entry exceeds the current amount tied to a Label then a validation error will be returned.
+      description: Create a new ledger entry to track fund adjustments on a Label by specifying a positive or negative amount value. Returns the location of the created ledger entry in the response header. Label amounts cannot go negative, so validation errors occur if the entry would result in a negative Label balance.
       operationId: createLabelLedgerEntry
       x-speakeasy-name-override: createLedgerEntry
       x-codeSamples:
@@ -6632,7 +6625,7 @@ paths:
       tags:
         - labels
       summary: Retrieve a label ledger entry
-      description: Retrieve a label ledger entry
+      description: Returns detailed information for a specific ledger entry on a Label, including its amount, currency, and creation timestamp.
       operationId: getLabelLedgerEntry
       x-speakeasy-name-override: getLedgerEntry
       x-codeSamples:
@@ -6708,7 +6701,7 @@ paths:
       tags:
         - labels
       summary: Create a label reallocation
-      description: Create a label reallocation
+      description: Reallocates funds between two labels belonging to the same Verified Customer. Moves the specified amount from the source label to the destination label, creating ledger entries for both. The reallocation only succeeds if the source label has sufficient funds.
       operationId: createLabelReallocation
       x-speakeasy-name-override: createReallocation
       x-codeSamples:
@@ -6899,7 +6892,7 @@ paths:
       tags:
         - labels
       summary: Retrieve a label reallocation
-      description: Retrieve a label reallocation
+      description: Retrieve details for a specific label reallocation that transfers funds between Labels. Returns reallocation information including source and destination Labels, amount transferred, status, and creation timestamp. Use this to track and audit fund movements between different Labels.
       operationId: retrieveLabelReallocation
       x-speakeasy-name-override: getReallocation
       x-codeSamples:
@@ -7019,7 +7012,7 @@ paths:
       tags:
         - events
       summary: List events
-      description: List events
+      description: Returns a paginated list of events representing state changes to resources in your Dwolla application. Events track actions on customers, transfers, funding sources, and other resources, sorted by creation date (newest first). Events are retained for 30 days and are essential for webhook notifications and system activity monitoring.
       operationId: listEvents
       x-speakeasy-name-override: list
       x-codeSamples:
@@ -7160,7 +7153,7 @@ paths:
       tags:
         - events
       summary: Retrieve event
-      description: Retrieve event
+      description: Returns detailed information for a specific event representing a state change that occurred on a resource in your Dwolla application. Includes the event topic, timestamp, resource links, and correlation ID if applicable.
       operationId: getEvent
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -7252,7 +7245,7 @@ paths:
       tags:
         - webhook subscriptions
       summary: List webhook subscriptions
-      description: List webhook subscriptions
+      description: Retrieve all webhook subscriptions that belong to an application including their configuration details and status. Returns subscription details including webhook endpoints, status, creation dates, and links to associated webhooks with total count. Essential for webhook management and monitoring subscription health.
       operationId: listWebhookSubscriptions
       x-speakeasy-group: webhookSubscriptions
       x-speakeasy-name-override: list
@@ -7334,7 +7327,7 @@ paths:
       tags:
         - webhook subscriptions
       summary: Create a webhook subscription
-      description: Create a webhook subscription
+      description: Create a webhook subscription to deliver webhook notifications to a specified URL endpoint for your application. Requires a destination URL where Dwolla will send notifications and a secret key for webhook validation and security. Returns the location of the created subscription resource. Essential for establishing real-time event notifications and automated integrations with Dwolla's payment processing events.
       operationId: createWebhookSubscription
       x-speakeasy-group: webhookSubscriptions
       x-speakeasy-name-override: create
@@ -7449,7 +7442,7 @@ paths:
       tags:
         - webhook subscriptions
       summary: Retrieve a webhook subscription
-      description: Retrieve a webhook subscription
+      description: Retrieve detailed information for a specific webhook subscription by its unique identifier. Returns subscription configuration including URL endpoint, creation date, and links to associated webhooks for comprehensive subscription management. Essential for monitoring webhook subscription status and accessing webhook delivery history.
       operationId: getWebhookSubscription
       x-speakeasy-group: webhookSubscriptions
       x-speakeasy-name-override: get
@@ -7516,7 +7509,7 @@ paths:
       tags:
         - webhook subscriptions
       summary: Update a webhook subscription
-      description: Update a webhook subscription
+      description: Update a webhook subscription to pause or resume webhook delivery notifications. Allows toggling the paused status to temporarily stop webhook notifications without deleting the subscription. Returns the updated subscription resource with the new paused status. Use this endpoint to manage webhook delivery during maintenance or troubleshooting periods.
       operationId: updateWebhookSubscription
       x-speakeasy-group: webhookSubscriptions
       x-speakeasy-name-override: update
@@ -7621,7 +7614,7 @@ paths:
       tags:
         - webhook subscriptions
       summary: Delete a webhook subscription
-      description: Delete a webhook subscription
+      description: Delete a webhook subscription to permanently remove webhook notifications for your application. This action stops all future webhook deliveries and cannot be undone. Returns the deleted subscription resource for confirmation. Use this endpoint when webhook notifications are no longer needed or when cleaning up unused subscriptions.
       operationId: delete
       x-speakeasy-group: webhookSubscriptions
       x-codeSamples:
@@ -7684,7 +7677,7 @@ paths:
       tags:
         - webhook subscriptions
       summary: List webhooks for a webhook subscription
-      description: List webhooks for a webhook subscription
+      description: Retrieve all fired webhooks for a specific webhook subscription with comprehensive filtering and pagination support. Returns webhook delivery history including topics, attempts, request/response details, and delivery status over a rolling 30-day period. Supports filtering by resource ID, date ranges, and pagination parameters for detailed webhook delivery analysis. Critical for debugging webhook delivery issues and monitoring event notification success rates.
       operationId: listWebhooks
       x-speakeasy-group: webhookSubscriptions
       x-codeSamples:
@@ -7821,7 +7814,7 @@ paths:
       tags:
         - webhooks
       summary: Retrieve a webhook
-      description: Retrieve a webhook
+      description: Retrieve detailed information for a specific webhook by its unique identifier including delivery attempts and response data. Returns webhook details with topic, account information, delivery attempts containing request/response history, and links to subscription and retry resources. Essential for debugging webhook delivery issues, analyzing response data, and monitoring notification processing status.
       operationId: getWebhook
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -7890,7 +7883,7 @@ paths:
       tags:
         - webhooks
       summary: List retries for a webhook
-      description: List retries for a webhook
+      description: Retrieve all retry attempts for a specific webhook including timestamps and delivery details. Returns a list of retry attempts with unique identifiers, timestamps, and links to the parent webhook with total count. Essential for tracking webhook delivery failures, analyzing retry patterns, and debugging webhook notification issues to ensure reliable event processing.
       operationId: listWebhookRetries
       x-speakeasy-name-override: listRetries
       x-codeSamples:
@@ -7958,7 +7951,7 @@ paths:
       tags:
         - webhooks
       summary: Retry a webhook
-      description: Retry a webhook
+      description: Retry a webhook by its unique identifier to redeliver the notification to your endpoint. Creates a new retry attempt and returns the location of the new webhook resource. Essential for recovering from webhook delivery failures and ensuring reliable event notification processing in your application.
       operationId: retryWebhook
       x-speakeasy-name-override: retry
       x-codeSamples:
@@ -8023,7 +8016,7 @@ paths:
       tags:
         - exchanges
       summary: List exchange partners
-      description: List exchange partners
+      description: Returns a list of all supported exchange partners. Each partner includes a unique ID, name, and status indicating whether they are active or inactive.
       operationId: listExchangePartners
       x-speakeasy-group: exchangePartners
       x-speakeasy-name-override: list
@@ -8119,7 +8112,7 @@ paths:
       tags:
         - exchanges
       summary: Retrieve exchange partner
-      description: Retrieve exchange partner
+      description: Returns details for a specific open banking provider that integrates with Dwolla. Includes partner name, status, and creation date. Use this to verify partner availability before creating exchanges and funding sources.
       operationId: getExchangePartner
       x-speakeasy-group: exchangePartners
       x-speakeasy-name-override: get
@@ -8208,7 +8201,7 @@ paths:
       tags:
         - exchanges
       summary: List exchanges for an account
-      description: List exchanges for an account
+      description: Returns all exchanges for your Dwolla account. Exchanges represent connections between external bank accounts and your account through open banking partners. Includes exchange status, creation date, and associated partner information.
       operationId: listAccountExchanges
       x-speakeasy-group: accounts.exchanges
       x-speakeasy-name-override: list
@@ -8311,7 +8304,7 @@ paths:
       tags:
         - exchanges
       summary: Retrieve exchange resource
-      description: Retrieve an exchange resource by its ID.
+      description: Returns details for a specific exchange connection between Dwolla and an open banking partner for a customer's bank account. Includes exchange status, creation date, and links to the associated customer and exchange partner.
       operationId: getExchange
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -8420,7 +8413,7 @@ paths:
       tags:
         - exchanges
       summary: List exchanges for a customer
-      description: Retrieve the list of exchanges associated with a Customer resource.
+      description: Returns all exchanges for a specific customer. Exchanges represent connections between the customer's external bank accounts and open banking partners. Includes exchange status, creation date, and links to associated funding sources and partners.
       operationId: listCustomerExchanges
       x-speakeasy-group: customers.exchanges
       x-speakeasy-name-override: list
@@ -8536,14 +8529,7 @@ paths:
       tags:
         - exchanges
       summary: Create an exchange for a customer
-      description: |
-        Create an exchange for a customer. The request body will vary based on the exchange partner.
-        For Finicity, the request body will include finicity-specific fields.
-        For MX Secure Exchange, the request body will include an MX token.
-        For MX Open Banking, the request body will include an available connection token.
-        For Flinks Secure Exchange, the request body will include a token.
-        For Plaid Secure Exchange, the request body will include a processor token.
-        For Plaid Open Banking, the request body will include a public token.
+      description: Creates an exchange connection between a customer's external bank account and Dwolla through open banking partners. Acts as the handshake that establishes secure access to the customer's bank account data. Request body varies by partner (Plaid, MX, Flinks, Finicity).
       operationId: createCustomerExchange
       x-speakeasy-group: customers.exchanges
       x-speakeasy-name-override: create
@@ -8696,14 +8682,7 @@ paths:
       tags:
         - exchange sessions
       summary: Create customer exchange session
-      description: |
-        Create a new exchange session for a customer to initiate Instant Account Verification using Dwolla's trusted open banking partners.
-        Currently supported partners are Plaid, Visa, and MX.
-
-        The redirect-url is conditionally required:
-        - Required for Visa exchange sessions
-        - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
-        - Not required for MX exchange sessions or Plaid web sessions
+      description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid, Visa, and MX open banking partners for faster verification as compared to traditional micro-deposits.
       operationId: createCustomerExchangeSession
       x-speakeasy-group: exchangeSessions
       x-speakeasy-name-override: create
@@ -9103,7 +9082,7 @@ paths:
       tags:
         - exchange sessions
       summary: Retrieve exchange session
-      description: Retrieve details of an exchange session
+      description: Returns details of a previously created exchange session, including URLs and tokens needed to continue the instant account verification flow. Response varies by partner - Visa/MX provide redirect URLs while Plaid provides session tokens for Link initialization.
       operationId: retrieveCustomerExchangeSession
       x-speakeasy-group: exchangeSessions
       x-speakeasy-name-override: get
@@ -9190,16 +9169,7 @@ paths:
       tags:
         - exchange sessions
       summary: Create re-authentication exchange session
-      description: |
-        Create a new re-authentication exchange session.
-
-        Request body requirements vary by exchange type:
-        - For Visa: Request body with redirect URL is required
-        - For Plaid Web: No request body is required
-        - For Plaid Mobile: Request body with redirect URL is required
-
-        The redirect URL will be validated against previously configured URLs stored in Dwolla.
-        After completing the re-authorization process, the user will be redirected back to your application using this URL.
+      description: Creates a re-authentication exchange session to refresh a user's bank account connection when their existing authorization is no longer valid. Required when receiving an UpdateCredentials error during bank balance checks or when user re-authentication is needed.
       operationId: createReAuthExchangeSession
       x-speakeasy-group: exchanges
       x-speakeasy-name-override: createReAuth
@@ -9327,10 +9297,7 @@ paths:
       tags:
         - exchange sessions
       summary: List available exchange connections
-      description: |
-        Retrieve a list of a customer's external bank accounts that have been authorized through MX Connect.
-        Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
-        This information is essential for creating an exchange and corresponding funding source within Dwolla.
+      description: Returns available exchange connections for a customer's bank accounts authorized through MX Connect. Each connection includes an account name and availableConnectionToken required to create exchanges and funding sources for transfers.
       operationId: listAvailableExchangeConnections
       x-speakeasy-group: customers
       x-speakeasy-name-override: listAvailableConnections
@@ -9405,8 +9372,7 @@ paths:
       tags:
         - client tokens
       summary: Create a client token
-      description: |
-        Creates a client token with certain actions for Dwolla Drop-in components. The client token API request requires an `action` as well as a `link` which points to the Customer that identifies the end user performing the action within the drop-in component. The `action` is a string that contains a granular permission for the Customer performing the action within a drop-in component.
+      description: Create a client token for secure authentication within Dwolla Drop-in components. Requires a granular permission action and a Customer link to define what operations the end user can perform within the component. Returns a short-lived token for configuring client-side Drop-in components including customer creation, verification, funding source management, and payment processing. Essential for implementing secure, embeddable UI components without exposing application credentials to the frontend.
       operationId: createClientToken
       x-speakeasy-group: clientTokens
       x-speakeasy-name-override: create
