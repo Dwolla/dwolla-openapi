@@ -2,14 +2,7 @@ post:
   tags:
     - exchange sessions
   summary: Create customer exchange session
-  description: |
-    Create a new exchange session for a customer to initiate Instant Account Verification using Dwolla's trusted open banking partners.
-    Currently supported partners are Plaid, Visa, and MX.
-
-    The redirect-url is conditionally required:
-    - Required for Visa exchange sessions
-    - Required for Plaid exchange sessions on mobile platforms (Android/iOS)
-    - Not required for MX exchange sessions or Plaid web sessions
+  description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid, Visa, and MX open banking partners for faster verification as compared to traditional micro-deposits.
   operationId: createCustomerExchangeSession
   x-speakeasy-group: exchangeSessions
   x-speakeasy-name-override: create

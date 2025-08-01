@@ -2,7 +2,7 @@ get:
   tags:
     - webhook subscriptions
   summary: List webhook subscriptions
-  description: List webhook subscriptions
+  description: Retrieve all webhook subscriptions that belong to an application including their configuration details and status. Returns subscription details including webhook endpoints, status, creation dates, and links to associated webhooks with total count. Essential for webhook management and monitoring subscription health.
   operationId: listWebhookSubscriptions
   x-speakeasy-group: webhookSubscriptions
   x-speakeasy-name-override: list
@@ -84,7 +84,7 @@ post:
   tags:
     - webhook subscriptions
   summary: Create a webhook subscription
-  description: Create a webhook subscription
+  description: Create a webhook subscription to deliver webhook notifications to a specified URL endpoint for your application. Requires a destination URL where Dwolla will send notifications and a secret key for webhook validation and security. Returns the location of the created subscription resource. Essential for establishing real-time event notifications and automated integrations with Dwolla's payment processing events.
   operationId: createWebhookSubscription
   x-speakeasy-group: webhookSubscriptions
   x-speakeasy-name-override: create

@@ -2,7 +2,7 @@ get:
   tags:
     - mass payments
   summary: Retrieve a mass payment
-  description: Retrieve a mass payment
+  description: Retrieve detailed information for a mass payment by its unique identifier. Returns the current processing status (pending, processing, or complete), creation date, metadata, and links to the source funding source and payment items. Use this endpoint to monitor mass payment processing progress and determine when to check individual item results.
   operationId: getMassPayment
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: get
@@ -92,7 +92,7 @@ post:
   tags:
     - mass payments
   summary: Update a mass payment
-  description: This section covers how to update a mass payment's status to `pending` which triggers processing on a created and deferred mass payment, or `cancelled` which cancels a created and deferred mass payment.
+  description: Update the status of a deferred mass payment to control its processing lifecycle. Set status to `pending` to trigger processing and begin fund transfers, or `cancelled` to permanently cancel the mass payment before processing begins. Only applies to mass payments created with deferred status. Returns the updated mass payment resource with the new status.
   operationId: updateMassPayment
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: update

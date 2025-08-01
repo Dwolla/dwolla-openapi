@@ -1,8 +1,8 @@
 get:
   tags:
     - accounts
-  summary: List and search transfers for an account
-  description: List and search transfers for an account
+  summary: List and search account transfers
+  description: Returns a paginated, searchable list of transfers associated with the specified Main Dwolla account. Supports advanced filtering by amount range, date range, transfer status, and correlation ID. Results are limited to 10,000 transfers per query; use date range filters for historical data beyond this limit.
   operationId: listAndSearchTransfers
   x-speakeasy-group: accounts.transfers
   x-speakeasy-name-override: list

@@ -2,7 +2,7 @@ get:
   tags:
     - labels
   summary: List labels for a customer
-  description: List labels for a customer
+  description: Returns all labels for a specified Verified Customer, sorted by creation date (most recent first). Supports pagination with limit and offset parameters. Each label includes its current amount and creation timestamp.
   operationId: listCustomerLabels
   x-speakeasy-name-override: listForCustomer
   x-codeSamples:
@@ -105,7 +105,7 @@ post:
   tags:
     - labels
   summary: Create a label for a customer
-  description: Create a label for a customer
+  description: Creates a new label for a Verified Customer with a specified amount. Labels help organize and track funds within a customer's balance. Returns the location of the created label resource in the response header.
   operationId: createCustomerLabel
   x-speakeasy-name-override: createForCustomer
   x-codeSamples:

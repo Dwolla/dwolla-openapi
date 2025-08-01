@@ -2,10 +2,7 @@ get:
   tags:
     - exchange sessions
   summary: List available exchange connections
-  description: |
-    Retrieve a list of a customer's external bank accounts that have been authorized through MX Connect.
-    Each account is represented as an "available exchange connection" with details like the account name and associated availableConnectionToken.
-    This information is essential for creating an exchange and corresponding funding source within Dwolla.
+  description: Returns available exchange connections for a customer's bank accounts authorized through MX Connect. Each connection includes an account name and availableConnectionToken required to create exchanges and funding sources for transfers.
   operationId: listAvailableExchangeConnections
   x-speakeasy-group: customers
   x-speakeasy-name-override: listAvailableConnections

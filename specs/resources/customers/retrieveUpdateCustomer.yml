@@ -2,7 +2,7 @@ get:
   tags:
     - customers
   summary: Retrieve a customer
-  description: Retrieve details for a single customer
+  description: Returns identifying information for a specific customer. The returned data varies by customer type - verified customers include full personal/business details and verification status, unverified customers and receive-only users contain basic contact information.
   operationId: getCustomer
   x-speakeasy-name-override: get
   x-codeSamples:

@@ -1,8 +1,8 @@
 get:
   tags:
     - beneficial owners
-  summary: List beneficial owners
-  description: Retrieve a list of beneficial owners that belong to a Customer
+  summary: List customer beneficial owners
+  description: Returns all beneficial owners associated with a business verified customer. Beneficial owners are individuals who directly or indirectly own 25% or more of the company's equity. Includes personal information, verification status, and address details for each owner.
   operationId: listBeneficialOwnersForCustomer
   x-speakeasy-group: customers.beneficialOwners
   x-speakeasy-name-override: list
@@ -76,8 +76,8 @@ get:
 post:
   tags:
     - beneficial owners
-  summary: Create beneficial owner
-  description: Create beneficial owner which is a natural person who, directly or indirectly, owns 25% or more of the equity interests of the company.
+  summary: Create customer beneficial owner
+  description: Creates a new beneficial owner for a business verified customer. Beneficial owners are individuals who own 25% or more of the company's equity. Requires personal information, address, and SSN or passport for identity verification.
   operationId: createBeneficialOwnerForCustomer
   x-speakeasy-group: customers.beneficialOwners
   x-speakeasy-name-override: create

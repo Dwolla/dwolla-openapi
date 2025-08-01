@@ -2,7 +2,7 @@ get:
   tags:
     - customers
   summary: List business classifications
-  description: Retrieve an _embedded list of business classifications that contains an _embedded list of industry classifications.
+  description: Returns a directory of business and industry classifications required for creating business verified customers. Each business classification contains multiple industry classifications. The industry classification ID must be provided in the businessClassification parameter during business customer creation for verification.
   operationId: listBusinessClassifications
   x-speakeasy-group: businessClassifications
   x-speakeasy-name-override: list

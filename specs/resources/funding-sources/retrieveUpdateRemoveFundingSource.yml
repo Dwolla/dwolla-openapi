@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve a funding source
-  description: Retrieve a funding source
+  description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
   operationId: getFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: get
@@ -78,7 +78,7 @@ post:
   tags:
     - funding sources
   summary: Update or remove a funding source
-  description: Update or remove a funding source
+  description: Updates a bank funding source's details or soft deletes it. When updating, you can change the name (any status) or modify routing/account numbers and account type (unverified status only). When removing, the funding source is soft deleted and can still be accessed but marked as removed.
   operationId: updateOrRemoveFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: updateOrRemove

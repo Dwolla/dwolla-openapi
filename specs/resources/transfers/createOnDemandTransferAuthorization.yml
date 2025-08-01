@@ -2,7 +2,7 @@ post:
   tags:
     - transfers
   summary: Create an on-demand transfer authorization
-  description: Create an on-demand transfer authorization
+  description: Create an on-demand transfer authorization that allows Customers to pre-authorize variable amount ACH transfers from their bank account for future payments. This authorization is used when creating Customer funding sources to enable flexible payment processing. Returns UI text elements including authorization body text and button text for display in your application's bank account addition flow.
   operationId: createOnDemandTransferAuthorization
   x-speakeasy-name-override: createOnDemandAuthorization
   x-codeSamples:
