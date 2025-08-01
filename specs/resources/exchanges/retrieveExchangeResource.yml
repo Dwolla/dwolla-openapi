@@ -2,7 +2,7 @@ get:
   tags:
     - exchanges
   summary: Retrieve exchange resource
-  description: Retrieve an exchange resource by its ID.
+  description: Returns details for a specific exchange connection between Dwolla and an open banking partner for a customer's bank account. Includes exchange status, creation date, and links to the associated customer and exchange partner.
   operationId: getExchange
   x-speakeasy-name-override: get
   x-codeSamples:

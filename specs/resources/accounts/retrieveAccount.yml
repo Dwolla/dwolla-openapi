@@ -1,8 +1,8 @@
 get:
   tags:
     - accounts
-  summary: Retrieve Account Details
-  description: Retrieve basic account details belonging to the authorized Dwolla account.
+  summary: Retrieve account details
+  description: Returns basic account information for your authorized Main Dwolla Account, including account ID, name, and links to related resources such as funding sources, transfers, and customers.
   operationId: getAccount
   x-speakeasy-name-override: get
   x-codeSamples:

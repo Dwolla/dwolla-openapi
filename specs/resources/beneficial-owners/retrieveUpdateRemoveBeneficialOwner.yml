@@ -2,7 +2,7 @@ get:
   tags:
     - beneficial owners
   summary: Retrieve beneficial owner
-  description: Retrieve details for a single beneficial owner
+  description: Returns detailed information for a specific beneficial owner, including personal information, address, and verification status. The verification status indicates the owner's identity verification progress and affects the business customer's transaction capabilities.
   operationId: retrieveBeneficialOwner
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: get
@@ -75,7 +75,7 @@ post:
   tags:
     - beneficial owners
   summary: Update beneficial owner
-  description: Update beneficial owner
+  description: Updates a beneficial owner's information to retry verification when their status is "incomplete". Only beneficial owners with incomplete verification status can be updated. Used to correct information that caused initial verification to fail.
   operationId: updateBeneficialOwner
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: update
@@ -250,8 +250,8 @@ post:
 delete:
   tags:
     - beneficial owners
-  summary: Delete beneficial owner
-  description: Delete beneficial owner
+  summary: Remove beneficial owner
+  description: Permanently removes a beneficial owner from a business customer. This action is irreversible and the beneficial owner cannot be retrieved after removal. Removing a beneficial owner will change the customer's certification status to "recertify".
   operationId: deleteBeneficialOwner
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: delete

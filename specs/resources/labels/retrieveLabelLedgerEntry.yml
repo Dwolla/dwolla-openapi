@@ -2,7 +2,7 @@ get:
   tags:
     - labels
   summary: Retrieve a label ledger entry
-  description: Retrieve a label ledger entry
+  description: Returns detailed information for a specific ledger entry on a Label, including its amount, currency, and creation timestamp.
   operationId: getLabelLedgerEntry
   x-speakeasy-name-override: getLedgerEntry
   x-codeSamples:

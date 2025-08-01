@@ -2,7 +2,7 @@ post:
   tags:
     - mass payments
   summary: Initiate a mass payment
-  description: Initiate a mass payment
+  description: Create a mass payment containing up to 5,000 individual payment items from a Dwolla Main Account or Verified Customer funding source. Supports optional metadata, correlation IDs for traceability, deferred processing, and expedited transfer options including same-day ACH clearing. Returns the location of the created mass payment resource with a unique identifier for tracking and management.
   operationId: initiateMassPayment
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: create

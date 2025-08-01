@@ -2,7 +2,8 @@ get:
   tags:
     - accounts
   summary: List funding sources for an account
-  description: List funding sources for an account
+  description: |
+    Get a list of all funding sources associated with a specific Main Dwolla Account. This endpoint returns both bank accounts and balance funding sources, with detailed information about each funding source's status, type, and available processing channels.
   operationId: listFundingSources
   x-speakeasy-group: accounts.fundingSources
   x-speakeasy-name-override: list

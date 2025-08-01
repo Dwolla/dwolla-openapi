@@ -2,7 +2,7 @@ get:
   tags:
     - labels
   summary: Retrieve a label
-  description: Retrieve a label
+  description: Retrieve details for a specific Label used to categorize and track funds within your account. Returns Label information including unique identifier, current amount with currency, and creation timestamp. 
   operationId: getLabel
   x-speakeasy-name-override: get
   x-codeSamples:
@@ -77,7 +77,7 @@ delete:
   tags:
     - labels
   summary: Remove a label
-  description: Remove a label
+  description: Delete a Label to stop tracking funds and remove it from your account. Returns success status if the Label is successfully removed. Use this to streamline your account management and remove unused Labels from your system.
   operationId: removeLabel
   x-speakeasy-name-override: remove
   x-codeSamples:

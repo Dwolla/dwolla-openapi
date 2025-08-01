@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve micro-deposits details
-  description: Retrieve micro-deposits details
+  description: Returns the status and details of micro-deposits for a funding source to check verification eligibility. Includes deposit status (pending, processed, failed), creation timestamp, and failure details with ACH return codes if deposits failed. Use this endpoint to determine when micro-deposits are ready for verification.
   operationId: getMicroDeposits
   x-speakeasy-group: fundingSources
   x-codeSamples:
@@ -91,14 +91,7 @@ post:
   tags:
     - funding sources
   summary: Initiate or Verify micro-deposits
-  description: |
-    This endpoint handles two different actions:
-    1. Initiating micro-deposits: No request body is required
-    2. Verifying micro-deposits: Request body with micro-deposit amounts is required
-
-    The action is determined by the presence of a request body:
-    - If no request body is provided, the endpoint will initiate micro-deposits
-    - If a request body with micro-deposit amounts is provided, the endpoint will verify the micro-deposits
+  description: Handles micro-deposit bank verification process. Make a request without a request body to initiate two small deposits to the customer's bank account. Include deposit amounts to verify the received values and complete verification.
   operationId: initiateOrVerifyMicroDeposits
   x-speakeasy-group: fundingSources
   x-codeSamples:
