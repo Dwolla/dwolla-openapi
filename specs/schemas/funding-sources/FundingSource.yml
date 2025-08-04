@@ -29,8 +29,13 @@ FundingSource:
       example: true
     channels:
       type: array
+      description: "Payment processing channels supported by this funding source"
       items:
         type: string
+        enum:
+          - ach
+          - real-time-payments
+          - wire
         example: ach
     bankName:
       type: string

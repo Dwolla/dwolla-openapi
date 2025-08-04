@@ -116,4 +116,8 @@ Transfer:
       properties:
         destination:
           type: string
+          enum:
+            - real-time-payments
+            - fed-now
+          description: "The payment network used to process the transfer"
           example: real-time-payments
