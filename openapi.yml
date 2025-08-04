@@ -9801,8 +9801,13 @@ components:
           example: true
         channels:
           type: array
+          description: Payment processing channels supported by this funding source
           items:
             type: string
+            enum:
+              - ach
+              - real-time-payments
+              - wire
             example: ach
         bankName:
           type: string
@@ -9946,6 +9951,10 @@ components:
           properties:
             destination:
               type: string
+              enum:
+                - real-time-payments
+                - fed-now
+              description: The payment network used to process the transfer
               example: real-time-payments
     Transfers:
       title: Transfers
