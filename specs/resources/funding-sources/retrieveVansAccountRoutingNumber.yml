@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve VAN account and routing numbers
-  description: Returns the unique account and routing numbers for a Virtual Account Number (VAN) funding source. These numbers can be used by external systems to initiate ACH transactions that pull funds from or push funds from/to the associated Dwolla balance.
+  description: Returns the unique account and routing numbers for a Virtual Account Number (VAN) funding source. These numbers can be used by external systems to initiate ACH transactions that pull funds from or push funds to the associated Dwolla balance.
   operationId: getVanRouting
   x-speakeasy-group: fundingSources
   x-codeSamples:
