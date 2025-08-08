@@ -132,7 +132,7 @@ post:
   tags:
     - documents
   summary: Create a document for customer
-  description: Uploads an identity verification document for a customer using multipart form-data. Required when a customer has "document" status during the business verification process.
+  description: Uploads an identity verification document for a customer using multipart form-data. Required when a customer has "document" status during the verification process.
   operationId: createCustomerDocument
   x-speakeasy-group: customers.documents
   x-speakeasy-name-override: create
