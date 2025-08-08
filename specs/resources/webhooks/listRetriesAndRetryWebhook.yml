@@ -2,7 +2,7 @@ get:
   tags:
     - webhooks
   summary: List retries for a webhook
-  description: List retries for a webhook
+  description: Retrieve all retry attempts for a specific webhook including timestamps and delivery details. Returns a list of retry attempts with unique identifiers, timestamps, and links to the parent webhook with total count. Essential for tracking webhook delivery failures, analyzing retry patterns, and debugging webhook notification issues to ensure reliable event processing.
   operationId: listWebhookRetries
   x-speakeasy-name-override: listRetries
   x-codeSamples:
@@ -70,7 +70,7 @@ post:
   tags:
     - webhooks
   summary: Retry a webhook
-  description: Retry a webhook
+  description: Retry a webhook by its unique identifier to redeliver the notification to your endpoint. Creates a new retry attempt and returns the location of the new webhook resource. Essential for recovering from webhook delivery failures and ensuring reliable event notification processing in your application.
   operationId: retryWebhook
   x-speakeasy-name-override: retry
   x-codeSamples:

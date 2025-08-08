@@ -2,7 +2,7 @@ get:
   tags:
     - transfers
   summary: List fees for a transfer
-  description: List fees for a transfer
+  description: Retrieve detailed fee information for a specific transfer by its unique identifier. Returns the total number of fees and individual fee transaction details including amounts, status, and links to source and destination accounts. 
   operationId: listTransferFees
   x-speakeasy-name-override: listFees
   x-codeSamples:

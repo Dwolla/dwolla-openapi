@@ -2,7 +2,7 @@ get:
   tags:
     - mass payments
   summary: Retrieve mass payment item
-  description: Retrieve mass payment item
+  description: Retrieve detailed information for a specific mass payment item by its unique identifier. Returns item status, amount, metadata, and links to the parent mass payment, associated transfer, and destination funding source. Use this endpoint to check the processing status and details of an individual item within a mass payment batch.
   operationId: getMassPaymentItem
   x-speakeasy-group: massPayments
   x-speakeasy-name-override: getItem

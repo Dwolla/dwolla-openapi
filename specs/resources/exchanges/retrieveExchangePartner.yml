@@ -2,7 +2,7 @@ get:
   tags:
     - exchanges
   summary: Retrieve exchange partner
-  description: Retrieve exchange partner
+  description: Returns details for a specific open banking provider that integrates with Dwolla. Includes partner name, status, and creation date. Use this to verify partner availability before creating exchanges and funding sources.
   operationId: getExchangePartner
   x-speakeasy-group: exchangePartners
   x-speakeasy-name-override: get

@@ -2,7 +2,7 @@ get:
   tags:
     - events
   summary: Retrieve event
-  description: Retrieve event
+  description: Returns detailed information for a specific event representing a state change that occurred on a resource in your Dwolla application. Includes the event topic, timestamp, resource links, and correlation ID if applicable.
   operationId: getEvent
   x-speakeasy-name-override: get
   x-codeSamples:

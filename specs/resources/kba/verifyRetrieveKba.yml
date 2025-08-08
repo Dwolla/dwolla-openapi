@@ -2,7 +2,7 @@ get:
   tags:
     - kba
   summary: Retrieve KBA Questions
-  description: Retrieve KBA Questions
+  description: Returns the KBA questions for a specific KBA session. The questions are used to verify the customer's identity during the KBA process.
   operationId: getKbaQuestions
   x-speakeasy-name-override: getQuestions
   x-codeSamples:
@@ -125,7 +125,7 @@ post:
   tags:
     - kba
   summary: Verify KBA Questions
-  description: Verify KBA Questions
+  description: Submits customer answers to KBA questions for identity verification. Requires four question-answer pairs with questionId and answerId values. Returns verification status indicating whether the customer passed or failed the KBA authentication.
   operationId: verify
   x-speakeasy-name-override: verify
   x-codeSamples:

@@ -2,7 +2,7 @@ get:
   tags:
     - exchanges
   summary: List exchange partners
-  description: List exchange partners
+  description: Returns a list of all supported exchange partners. Each partner includes a unique ID, name, and status indicating whether they are active or inactive.
   operationId: listExchangePartners
   x-speakeasy-group: exchangePartners
   x-speakeasy-name-override: list

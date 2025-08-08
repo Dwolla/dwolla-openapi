@@ -2,7 +2,7 @@ get:
   tags:
     - transfers
   summary: Retrieve a transfer failure reason
-  description: Retrieve a transfer failure reason
+  description: Retrieve detailed failure information for a failed bank or VAN transfer including the ACH return code, description, and explanation. Returns failure details with links to the failed funding source and associated Customer for comprehensive error analysis. Available only for transfers with failure status and accessed through the failure link from transfer retrieval. Critical for troubleshooting payment failures and understanding ACH return reasons.
   operationId: getTransferFailureReason
   x-speakeasy-name-override: getFailureReason
   x-codeSamples:

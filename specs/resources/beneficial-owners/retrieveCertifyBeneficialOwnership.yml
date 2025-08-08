@@ -2,7 +2,7 @@ get:
   tags:
     - beneficial owners
   summary: Retrieve beneficial ownership status
-  description: Retrieve beneficial ownership status
+  description: Returns the certification status of beneficial ownership for a business verified customer. Status indicates whether beneficial owner information has been certified and affects the customer's ability to send funds. Possible values include uncertified, certified, and recertify.
   operationId: getBeneficialOwnershipStatusForCustomer
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: getOwnershipStatus
@@ -90,8 +90,8 @@ get:
 post:
   tags:
     - beneficial owners
-  summary: Certify beneficial ownership status
-  description: certify beneficial ownership status
+  summary: Certify beneficial ownership
+  description: Updates the beneficial ownership certification status to "certified", confirming that all beneficial owner information is accurate and complete. This action enables the business customer to send funds and is required to complete the verification process.
   operationId: certifyBeneficialOwnershipForCustomer
   x-speakeasy-group: beneficialOwners
   x-speakeasy-name-override: certifyOwnership

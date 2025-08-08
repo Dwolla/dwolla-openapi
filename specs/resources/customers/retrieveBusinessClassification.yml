@@ -2,7 +2,7 @@ get:
   tags:
     - customers
   summary: Retrieve a business classification
-  description: Retrieve a business classification by id.
+  description: Returns a specific business classification with its embedded industry classifications. Use this endpoint to browse available industry options within a business category and obtain the industry classification ID required for the businessClassification parameter when creating business verified customers.
   operationId: retrieveBusinessClassification
   x-speakeasy-group: businessClassifications
   x-speakeasy-name-override: get

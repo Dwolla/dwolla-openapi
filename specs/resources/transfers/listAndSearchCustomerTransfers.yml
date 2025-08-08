@@ -2,7 +2,7 @@ get:
   tags:
     - transfers
   summary: List and search transfers for a customer
-  description: List and search transfers for a customer
+  description: Retrieve and search transfers for a specific Customer with comprehensive filtering and pagination support. Supports searching by customer details (name, email, business name), amount ranges, date ranges, transfer status, and correlation IDs for enhanced transaction discovery. Returns paginated transfer results including status, amounts, metadata, and links to source and destination funding sources. Use this endpoint for transaction history analysis and reconciliation purposes.
   operationId: listCustomerTransfers
   x-speakeasy-group: customers.transfers
   x-speakeasy-name-override: list

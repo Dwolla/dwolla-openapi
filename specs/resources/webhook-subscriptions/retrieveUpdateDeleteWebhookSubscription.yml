@@ -2,7 +2,7 @@ get:
   tags:
     - webhook subscriptions
   summary: Retrieve a webhook subscription
-  description: Retrieve a webhook subscription
+  description: Retrieve detailed information for a specific webhook subscription by its unique identifier. Returns subscription configuration including URL endpoint, creation date, and links to associated webhooks for comprehensive subscription management. Essential for monitoring webhook subscription status and accessing webhook delivery history.
   operationId: getWebhookSubscription
   x-speakeasy-group: webhookSubscriptions
   x-speakeasy-name-override: get
@@ -69,7 +69,7 @@ post:
   tags:
     - webhook subscriptions
   summary: Update a webhook subscription
-  description: Update a webhook subscription
+  description: Update a webhook subscription to pause or resume webhook delivery notifications. Allows toggling the paused status to temporarily stop webhook notifications without deleting the subscription. Returns the updated subscription resource with the new paused status. Use this endpoint to manage webhook delivery during maintenance or troubleshooting periods.
   operationId: updateWebhookSubscription
   x-speakeasy-group: webhookSubscriptions
   x-speakeasy-name-override: update
@@ -174,7 +174,7 @@ delete:
   tags:
     - webhook subscriptions
   summary: Delete a webhook subscription
-  description: Delete a webhook subscription
+  description: Delete a webhook subscription to permanently remove webhook notifications for your application. This action stops all future webhook deliveries and cannot be undone. Returns the deleted subscription resource for confirmation. Use this endpoint when webhook notifications are no longer needed or when cleaning up unused subscriptions.
   operationId: delete
   x-speakeasy-group: webhookSubscriptions
   x-codeSamples:

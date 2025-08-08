@@ -2,7 +2,10 @@ post:
   tags:
     - accounts
   summary: Create a funding source for an account
-  description: Create a funding source for an account
+  description: |
+    Create a funding source by adding a bank account to a Main Dwolla Account. This endpoint allows you to connect a checking or savings account using either manual bank account details or an exchange resource.
+    
+    For more information about funding sources, see the [Funding Sources API Reference](https://developers.dwolla.com/docs/api-reference/funding-sources).
   operationId: createFundingSource
   x-speakeasy-group: accounts.fundingSources
   x-speakeasy-name-override: create

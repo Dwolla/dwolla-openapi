@@ -2,7 +2,7 @@ get:
   tags:
     - documents
   summary: Retrieve a document
-  description: Retrieve a document for a customer or beneficial owner
+  description: Returns detailed information about a specific identity verification document, including its status, type, and verification results. Used to track document submission and verification progress during the business verification process.
   operationId: retrieveDocument
   x-speakeasy-name-override: get
   x-codeSamples:

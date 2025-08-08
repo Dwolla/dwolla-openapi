@@ -2,7 +2,7 @@ get:
   tags:
     - transfers
   summary: Retrieve a transfer
-  description: Retrieve a transfer
+  description: Retrieve detailed information for a specific transfer by its unique identifier belonging to an Account or Customer. Returns transfer status, amount, creation date, clearing details, and links to source and destination funding sources for complete transaction tracking. Includes cancellation links when applicable and references to related funding transfers. Essential for monitoring transfer lifecycle and transaction reconciliation.
   operationId: getTransfer
   x-speakeasy-name-override: get
   x-codeSamples:
@@ -70,7 +70,7 @@ post:
   tags:
     - transfers
   summary: Cancel a transfer
-  description: Cancel a transfer
+  description: Cancel a pending transfer by setting its status to cancelled. Only transfers in pending status can be cancelled before processing begins. Returns the updated transfer resource with cancelled status. Use this endpoint to stop a bank transfer from further processing.
   operationId: cancelTransfer
   x-speakeasy-name-override: cancel
   x-codeSamples:
