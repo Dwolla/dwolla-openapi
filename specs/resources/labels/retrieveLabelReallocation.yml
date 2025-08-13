@@ -4,7 +4,7 @@ get:
   summary: Retrieve a label reallocation
   description: Retrieve details for a specific label reallocation that transfers funds between Labels. Returns reallocation information including source and destination Labels, amount transferred, status, and creation timestamp. Use this to track and audit fund movements between different Labels.
   operationId: retrieveLabelReallocation
-  x-speakeasy-group: labelsReallocations
+  x-speakeasy-group: labels.reallocations
   x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
@@ -45,7 +45,7 @@ get:
         label_reallocation = app_token.get label_reallocation_url
         label_reallocation.created # => "2019-05-16T13:41:31.036Z"
   parameters:
-    - name: id
+    - name: reallocationId
       in: path
       description: Label reallocation unique identifier
       required: true

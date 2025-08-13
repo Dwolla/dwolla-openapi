@@ -3818,6 +3818,72 @@ paths:
                   message:
                     type: string
                     example: Funding source not found.
+  /on-demand-authorizations:
+    post:
+      tags:
+        - funding sources
+      summary: Create an on-demand transfer authorization
+      description: Create an on-demand transfer authorization that allows Customers to pre-authorize variable amount ACH transfers from their bank account for future payments. This authorization is used when creating Customer funding sources to enable flexible payment processing. Returns UI text elements including authorization body text and button text for display in your application's bank account addition flow.
+      operationId: createOnDemandTransferAuthorization
+      x-speakeasy-group: fundingSources.onDemandTransferAuthorizations
+      x-speakeasy-name-override: create
+      x-codeSamples:
+        - lang: bash
+          source: |
+            POST https://api-sandbox.dwolla.com/on-demand-authorizations
+            Accept: application/vnd.dwolla.v1.hal+json
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+            {
+              "_links": {
+                "self": {
+                  "href": "https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388"
+                }
+              },
+              "bodyText": "I agree that future payments to Company ABC inc. will be processed by the Dwolla payment system from the selected account above. In order to cancel this authorization, I will change my payment settings within my Company ABC inc. account.",
+              "buttonText": "Agree & Continue"
+            }
+        - lang: javascript
+          source: |
+            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+            dwolla.post("on-demand-authorizations").then((res) => res.body.buttonText); // => "Agree & Continue"
+        - lang: python
+          source: |
+            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+            on_demand_authorization = app_token.post('on-demand-authorizations')
+            on_demand_authorization.body['buttonText'] # => 'Agree & Continue'
+        - lang: php
+          source: |
+            <?php
+            // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+            $onDemandApi = new DwollaSwagger\OndemandauthorizationsApi($apiClient);
+
+            $onDemandAuth = $onDemandApi->createAuthorization();
+            $onDemandAuth->_links["self"]->href; # => "https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388"
+            ?>
+        - lang: ruby
+          source: |
+            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+            on_demand_authorization = app_token.post "on-demand-authorizations"
+            on_demand_authorization.buttonText # => "Agree & Continue"
+      parameters:
+        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          description: Ok
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/OnDemandAuthorization'
+        '403':
+          description: 403 Error
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
   /transfers:
     post:
       tags:
@@ -4846,71 +4912,6 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
-  /on-demand-authorizations:
-    post:
-      tags:
-        - transfers
-      summary: Create an on-demand transfer authorization
-      description: Create an on-demand transfer authorization that allows Customers to pre-authorize variable amount ACH transfers from their bank account for future payments. This authorization is used when creating Customer funding sources to enable flexible payment processing. Returns UI text elements including authorization body text and button text for display in your application's bank account addition flow.
-      operationId: createOnDemandTransferAuthorization
-      x-speakeasy-name-override: createOnDemandAuthorization
-      x-codeSamples:
-        - lang: bash
-          source: |
-            POST https://api-sandbox.dwolla.com/on-demand-authorizations
-            Accept: application/vnd.dwolla.v1.hal+json
-            Content-Type: application/vnd.dwolla.v1.hal+json
-            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
-
-            {
-              "_links": {
-                "self": {
-                  "href": "https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388"
-                }
-              },
-              "bodyText": "I agree that future payments to Company ABC inc. will be processed by the Dwolla payment system from the selected account above. In order to cancel this authorization, I will change my payment settings within my Company ABC inc. account.",
-              "buttonText": "Agree & Continue"
-            }
-        - lang: javascript
-          source: |
-            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
-            dwolla.post("on-demand-authorizations").then((res) => res.body.buttonText); // => "Agree & Continue"
-        - lang: python
-          source: |
-            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
-            on_demand_authorization = app_token.post('on-demand-authorizations')
-            on_demand_authorization.body['buttonText'] # => 'Agree & Continue'
-        - lang: php
-          source: |
-            <?php
-            // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
-            $onDemandApi = new DwollaSwagger\OndemandauthorizationsApi($apiClient);
-
-            $onDemandAuth = $onDemandApi->createAuthorization();
-            $onDemandAuth->_links["self"]->href; # => "https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388"
-            ?>
-        - lang: ruby
-          source: |
-            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
-            on_demand_authorization = app_token.post "on-demand-authorizations"
-            on_demand_authorization.buttonText # => "Agree & Continue"
-      parameters:
-        - $ref: '#/components/parameters/Accept'
-      responses:
-        '200':
-          description: Ok
-          headers: {}
-          content:
-            application/vnd.dwolla.v1.hal+json:
-              schema:
-                $ref: '#/components/schemas/OnDemandAuthorization'
-        '403':
-          description: 403 Error
-          headers: {}
-          content:
-            application/vnd.dwolla.v1.hal+json:
-              schema:
-                $ref: '#/components/schemas/ForbiddenError'
   /mass-payments:
     post:
       tags:
@@ -5818,14 +5819,14 @@ paths:
                   message:
                     type: string
                     example: Mass payment not found.
-  /mass-payment-items/{id}:
+  /mass-payment-items/{itemId}:
     get:
       tags:
         - mass payments
       summary: Retrieve mass payment item
       description: Retrieve detailed information for a specific mass payment item by its unique identifier. Returns item status, amount, metadata, and links to the parent mass payment, associated transfer, and destination funding source. Use this endpoint to check the processing status and details of an individual item within a mass payment batch.
       operationId: getMassPaymentItem
-      x-speakeasy-group: massPaymentsItems
+      x-speakeasy-group: massPayments.items
       x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
@@ -5866,7 +5867,7 @@ paths:
             mass_payment_item = app_token.get mass_payment_item_url
             mass_payment_item.status # => "success"
       parameters:
-        - name: id
+        - name: itemId
           in: path
           description: ID of item to be retrieved in mass payment
           required: true
@@ -6654,14 +6655,14 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
-  /ledger-entries/{id}:
+  /ledger-entries/{ledgerEntryId}:
     get:
       tags:
         - labels
       summary: Retrieve a label ledger entry
       description: Returns detailed information for a specific ledger entry on a Label, including its amount, currency, and creation timestamp.
       operationId: getLabelLedgerEntry
-      x-speakeasy-group: labelLedgerEntries
+      x-speakeasy-group: labels.ledgerEntries
       x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
@@ -6702,7 +6703,7 @@ paths:
             ledger_entry = app_token.get ledger_entry_url
             ledger_entry.id # => "32d68709-62dd-43d6-a6df-562f4baec526"
       parameters:
-        - name: id
+        - name: ledgerEntryId
           in: path
           description: A label ledger entry unique identifier
           required: true
@@ -6738,7 +6739,7 @@ paths:
       summary: Create a label reallocation
       description: Reallocates funds between two labels belonging to the same Verified Customer. Moves the specified amount from the source label to the destination label, creating ledger entries for both. The reallocation only succeeds if the source label has sufficient funds.
       operationId: createLabelReallocation
-      x-speakeasy-group: labelReallocations
+      x-speakeasy-group: labels.reallocations
       x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
@@ -6923,14 +6924,14 @@ paths:
                   message:
                     type: string
                     example: Label not found
-  /label-reallocations/{id}:
+  /label-reallocations/{reallocationId}:
     get:
       tags:
         - labels
       summary: Retrieve a label reallocation
       description: Retrieve details for a specific label reallocation that transfers funds between Labels. Returns reallocation information including source and destination Labels, amount transferred, status, and creation timestamp. Use this to track and audit fund movements between different Labels.
       operationId: retrieveLabelReallocation
-      x-speakeasy-group: labelsReallocations
+      x-speakeasy-group: labels.reallocations
       x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
@@ -6971,7 +6972,7 @@ paths:
             label_reallocation = app_token.get label_reallocation_url
             label_reallocation.created # => "2019-05-16T13:41:31.036Z"
       parameters:
-        - name: id
+        - name: reallocationId
           in: path
           description: Label reallocation unique identifier
           required: true
@@ -11783,6 +11784,25 @@ components:
             currency:
               type: string
               example: USD
+    OnDemandAuthorization:
+      title: OnDemandAuthorization
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+        bodyText:
+          type: string
+          example: I agree that future payments to Company ABC inc. will be processed by the Dwolla payment system from the selected account above. In order to cancel this authorization, I will change my payment settings within my Company ABC inc. account.
+        buttonText:
+          type: string
+          example: Agree & Continue
     SourceNotFoundError:
       title: SourceNotFoundError
       type: object
@@ -14059,25 +14079,6 @@ components:
                   _links:
                     type: object
                     example: {}
-    OnDemandAuthorization:
-      title: OnDemandAuthorization
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: https://api.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-        bodyText:
-          type: string
-          example: I agree that future payments to Company ABC inc. will be processed by the Dwolla payment system from the selected account above. In order to cancel this authorization, I will change my payment settings within my Company ABC inc. account.
-        buttonText:
-          type: string
-          example: Agree & Continue
     MassPaymentItem:
       title: MassPaymentItem
       type: object

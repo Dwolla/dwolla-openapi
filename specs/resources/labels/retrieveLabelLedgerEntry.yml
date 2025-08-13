@@ -4,7 +4,7 @@ get:
   summary: Retrieve a label ledger entry
   description: Returns detailed information for a specific ledger entry on a Label, including its amount, currency, and creation timestamp.
   operationId: getLabelLedgerEntry
-  x-speakeasy-group: labelLedgerEntries
+  x-speakeasy-group: labels.ledgerEntries
   x-speakeasy-name-override: get
   x-codeSamples:
     - lang: bash
@@ -45,7 +45,7 @@ get:
         ledger_entry = app_token.get ledger_entry_url
         ledger_entry.id # => "32d68709-62dd-43d6-a6df-562f4baec526"
   parameters:
-    - name: id
+    - name: ledgerEntryId
       in: path
       description: A label ledger entry unique identifier
       required: true
