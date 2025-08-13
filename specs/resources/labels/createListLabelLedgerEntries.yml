@@ -2,7 +2,7 @@ get:
   tags:
     - labels
   summary: List label ledger entries
-  description: List label ledger entries
+  description: Returns all ledger entries for a specific Label, sorted by creation date (newest first). Supports pagination with limit and offset parameters. Each ledger entry includes its amount, currency, and creation timestamp.
   operationId: listLabelLedgerEntries
   x-speakeasy-name-override: listLedgerEntries
   x-codeSamples:
@@ -98,7 +98,7 @@ post:
   tags:
     - labels
   summary: Create a label ledger entry
-  description: Create a new entry on a Label Ledger. The amount tied to a Label cannot go negative, therefore if the amount of the label ledger entry exceeds the current amount tied to a Label then a validation error will be returned.
+  description: Create a new ledger entry to track fund adjustments on a Label by specifying a positive or negative amount value. Returns the location of the created ledger entry in the response header. Label amounts cannot go negative, so validation errors occur if the entry would result in a negative Label balance.
   operationId: createLabelLedgerEntry
   x-speakeasy-name-override: createLedgerEntry
   x-codeSamples:

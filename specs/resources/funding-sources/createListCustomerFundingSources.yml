@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: List customer funding sources
-  description: List customer funding sources
+  description: Returns all funding sources for a customer, including bank accounts and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Supports filtering to exclude removed funding sources using the removed parameter.
   operationId: listCustomerFundingSources
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: list
@@ -96,11 +96,7 @@ post:
   tags:
     - funding sources
   summary: Create customer funding source
-  description: |
-    Create a new funding source for a customer.
-    There are multiple methods available:
-    - Basic bank funding source (with routing/account numbers)
-    - Using an exchange
+  description: Creates a bank account funding source for a customer. Supports manual entry with routing/account numbers or instant verification using existing open banking connections. Created funding sources require verification before transfers can be initiated.
   operationId: createCustomerFundingSource
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: create

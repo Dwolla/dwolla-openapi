@@ -1,8 +1,8 @@
 get:
   tags:
     - accounts
-  summary: List mass payments for an account
-  description: List mass payments for an account
+  summary: List account mass payments
+  description: Returns a paginated list of mass payments created by your Main Dwolla account. Results are sorted by creation date in descending order (newest first) and can be filtered by correlation ID.
   operationId: listMassPayments
   x-speakeasy-group: accounts.massPayments
   x-speakeasy-name-override: list

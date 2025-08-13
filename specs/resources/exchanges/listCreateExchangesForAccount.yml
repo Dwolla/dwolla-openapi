@@ -2,7 +2,7 @@ get:
   tags:
     - exchanges
   summary: List exchanges for an account
-  description: List exchanges for an account
+  description: Returns all exchanges for your Dwolla account. Exchanges represent connections between external bank accounts and your account through open banking partners. Includes exchange status, creation date, and associated partner information.
   operationId: listAccountExchanges
   x-speakeasy-group: accounts.exchanges
   x-speakeasy-name-override: list

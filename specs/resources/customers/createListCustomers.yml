@@ -2,7 +2,7 @@ get:
   tags:
     - customers
   summary: List and search customers
-  description: List and search customers allowing you to filter by email and status, as well as search on key fields such as firstName, lastName, and businessName.
+  description: Returns a paginated list of customers sorted by creation date. Supports fuzzy search across customer names, business names, and email addresses, plus exact filtering by email and verification status. Default limit is 25 customers per page, maximum 200.
   operationId: listAndSearchCustomers
   x-speakeasy-name-override: list
   parameters:
@@ -50,7 +50,7 @@ post:
   tags:
     - customers
   summary: Create a customer
-  description: Create an unverified customer, verified customer, or receive-only user.
+  description: Creates a new customer with different verification levels and capabilities. Supports personal verified customers (individuals), business verified customers (businesses), unverified customers, and receive-only users. Customer type determines transaction limits, verification requirements, and available features.
   operationId: createCustomer
   x-speakeasy-name-override: create
   parameters:

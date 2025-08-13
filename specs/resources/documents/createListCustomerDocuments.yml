@@ -2,7 +2,7 @@ get:
   tags:
     - documents
   summary: List documents for customer
-  description: List documents for customer
+  description: Returns all identity verification documents submitted for a customer. Includes document status, verification results, document type (passport, driver's license, etc.), and failure reasons if verification was rejected. Used to track document submission and verification progress during the business verification process.
   operationId: listCustomerDocuments
   x-speakeasy-group: customers.documents
   x-speakeasy-name-override: list
@@ -132,7 +132,7 @@ post:
   tags:
     - documents
   summary: Create a document for customer
-  description: Create a document for customer
+  description: Uploads an identity verification document for a customer using multipart form-data. Required when a customer has "document" status during the verification process.
   operationId: createCustomerDocument
   x-speakeasy-group: customers.documents
   x-speakeasy-name-override: create

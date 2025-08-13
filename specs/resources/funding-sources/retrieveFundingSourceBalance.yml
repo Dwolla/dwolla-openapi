@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve funding source balance
-  description: Retrieve funding source balance
+  description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts. All responses include currency and last updated timestamp. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
   operationId: getFundingSourceBalance
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: getBalance
