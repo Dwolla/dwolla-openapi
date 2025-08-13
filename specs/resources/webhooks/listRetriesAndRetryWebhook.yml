@@ -4,7 +4,8 @@ get:
   summary: List retries for a webhook
   description: Retrieve all retry attempts for a specific webhook including timestamps and delivery details. Returns a list of retry attempts with unique identifiers, timestamps, and links to the parent webhook with total count. Essential for tracking webhook delivery failures, analyzing retry patterns, and debugging webhook notification issues to ensure reliable event processing.
   operationId: listWebhookRetries
-  x-speakeasy-name-override: listRetries
+  x-speakeasy-group: webhooks.retries
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |

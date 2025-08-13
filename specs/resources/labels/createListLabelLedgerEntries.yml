@@ -4,7 +4,8 @@ get:
   summary: List label ledger entries
   description: Returns all ledger entries for a specific Label, sorted by creation date (newest first). Supports pagination with limit and offset parameters. Each ledger entry includes its amount, currency, and creation timestamp.
   operationId: listLabelLedgerEntries
-  x-speakeasy-name-override: listLedgerEntries
+  x-speakeasy-group: labels.ledgerEntries
+  x-speakeasy-name-override: list
   x-codeSamples:
     - lang: bash
       source: |
@@ -100,7 +101,8 @@ post:
   summary: Create a label ledger entry
   description: Create a new ledger entry to track fund adjustments on a Label by specifying a positive or negative amount value. Returns the location of the created ledger entry in the response header. Label amounts cannot go negative, so validation errors occur if the entry would result in a negative Label balance.
   operationId: createLabelLedgerEntry
-  x-speakeasy-name-override: createLedgerEntry
+  x-speakeasy-group: labels.ledgerEntries
+  x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |

@@ -126,7 +126,7 @@ post:
     - kba
   summary: Verify KBA Questions
   description: Submits customer answers to KBA questions for identity verification. Requires four question-answer pairs with questionId and answerId values. Returns verification status indicating whether the customer passed or failed the KBA authentication.
-  operationId: verify
+  operationId: verifyKbaQuestions
   x-speakeasy-name-override: verify
   x-codeSamples:
     - lang: bash

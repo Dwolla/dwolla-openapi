@@ -4,6 +4,7 @@ post:
   summary: Initiate a KBA session
   description: Creates a new KBA (Knowledge-Based Authentication) session for a personal Verified Customer. Returns a KBA identifier that represents the session and is used to retrieve authentication questions for customer verification.
   operationId: initiateKbaForCustomer
+  x-speakeasy-group: customers.kba
   x-speakeasy-name-override: initiate
   x-codeSamples:
     - lang: bash
