@@ -4,7 +4,7 @@ post:
   summary: Create re-authentication exchange session
   description: Creates a re-authentication exchange session to refresh a user's bank account connection when their existing authorization is no longer valid. Required when receiving an UpdateCredentials error during bank balance checks or when user re-authentication is needed.
   operationId: createReAuthExchangeSession
-  x-speakeasy-group: exchanges
+  x-speakeasy-group: exchanges.exchangeSessions
   x-speakeasy-name-override: createReAuth
   x-codeSamples:
     - lang: bash

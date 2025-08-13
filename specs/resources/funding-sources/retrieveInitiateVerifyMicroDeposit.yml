@@ -4,7 +4,8 @@ get:
   summary: Retrieve micro-deposits details
   description: Returns the status and details of micro-deposits for a funding source to check verification eligibility. Includes deposit status (pending, processed, failed), creation timestamp, and failure details with ACH return codes if deposits failed. Use this endpoint to determine when micro-deposits are ready for verification.
   operationId: getMicroDeposits
-  x-speakeasy-group: fundingSources
+  x-speakeasy-group: fundingSources.microDeposits
+  x-speakeasy-override: get
   x-codeSamples:
     - lang: bash
       source: |
@@ -93,7 +94,8 @@ post:
   summary: Initiate or Verify micro-deposits
   description: Handles micro-deposit bank verification process. Make a request without a request body to initiate two small deposits to the customer's bank account. Include deposit amounts to verify the received values and complete verification.
   operationId: initiateOrVerifyMicroDeposits
-  x-speakeasy-group: fundingSources
+  x-speakeasy-group: fundingSources.microDeposits
+  x-speakeasy-name-override: initiateOrVerify
   x-codeSamples:
     - lang: bash
       source: |

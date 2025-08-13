@@ -62,6 +62,8 @@ paths:
       summary: Create an application access token
       description: Generate an application access token using OAuth 2.0 client credentials flow for server-to-server authentication. Requires client ID and secret sent via Basic authentication header with grant_type=client_credentials in the request body. Returns a bearer access token with expiration time for authenticating API requests scoped to your application. Essential for secure API access.
       operationId: createApplicationAccessToken
+      x-speakeasy-group: tokens
+      x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
           source: |
@@ -1769,8 +1771,8 @@ paths:
       summary: Retrieve beneficial ownership status
       description: Returns the certification status of beneficial ownership for a business verified customer. Status indicates whether beneficial owner information has been certified and affects the customer's ability to send funds. Possible values include uncertified, certified, and recertify.
       operationId: getBeneficialOwnershipStatusForCustomer
-      x-speakeasy-group: beneficialOwners
-      x-speakeasy-name-override: getOwnershipStatus
+      x-speakeasy-group: customers.beneficialOwnership
+      x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -1858,8 +1860,8 @@ paths:
       summary: Certify beneficial ownership
       description: Updates the beneficial ownership certification status to "certified", confirming that all beneficial owner information is accurate and complete. This action enables the business customer to send funds and is required to complete the verification process.
       operationId: certifyBeneficialOwnershipForCustomer
-      x-speakeasy-group: beneficialOwners
-      x-speakeasy-name-override: certifyOwnership
+      x-speakeasy-group: customers.beneficialOwnership
+      x-speakeasy-name-override: certify
       x-codeSamples:
         - lang: bash
           source: |
@@ -2574,6 +2576,7 @@ paths:
       summary: Initiate a KBA session
       description: Creates a new KBA (Knowledge-Based Authentication) session for a personal Verified Customer. Returns a KBA identifier that represents the session and is used to retrieve authentication questions for customer verification.
       operationId: initiateKbaForCustomer
+      x-speakeasy-group: customers.kba
       x-speakeasy-name-override: initiate
       x-codeSamples:
         - lang: bash
@@ -2773,7 +2776,7 @@ paths:
         - kba
       summary: Verify KBA Questions
       description: Submits customer answers to KBA questions for identity verification. Requires four question-answer pairs with questionId and answerId values. Returns verification status indicating whether the customer passed or failed the KBA authentication.
-      operationId: verify
+      operationId: verifyKbaQuestions
       x-speakeasy-name-override: verify
       x-codeSamples:
         - lang: bash
@@ -3362,7 +3365,8 @@ paths:
       summary: Retrieve micro-deposits details
       description: Returns the status and details of micro-deposits for a funding source to check verification eligibility. Includes deposit status (pending, processed, failed), creation timestamp, and failure details with ACH return codes if deposits failed. Use this endpoint to determine when micro-deposits are ready for verification.
       operationId: getMicroDeposits
-      x-speakeasy-group: fundingSources
+      x-speakeasy-group: fundingSources.microDeposits
+      x-speakeasy-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -3451,7 +3455,8 @@ paths:
       summary: Initiate or Verify micro-deposits
       description: Handles micro-deposit bank verification process. Make a request without a request body to initiate two small deposits to the customer's bank account. Include deposit amounts to verify the received values and complete verification.
       operationId: initiateOrVerifyMicroDeposits
-      x-speakeasy-group: fundingSources
+      x-speakeasy-group: fundingSources.microDeposits
+      x-speakeasy-name-override: initiateOrVerify
       x-codeSamples:
         - lang: bash
           source: |
@@ -3578,8 +3583,8 @@ paths:
       summary: Retrieve funding source balance
       description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts. All responses include currency and last updated timestamp. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
       operationId: getFundingSourceBalance
-      x-speakeasy-group: fundingSources
-      x-speakeasy-name-override: getBalance
+      x-speakeasy-group: fundingSources.balance
+      x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -4655,7 +4660,8 @@ paths:
       summary: List fees for a transfer
       description: Retrieve detailed fee information for a specific transfer by its unique identifier. Returns the total number of fees and individual fee transaction details including amounts, status, and links to source and destination accounts.
       operationId: listTransferFees
-      x-speakeasy-name-override: listFees
+      x-speakeasy-group: transfers.fees
+      x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
           source: |
@@ -4756,7 +4762,8 @@ paths:
       summary: Retrieve a transfer failure reason
       description: Retrieve detailed failure information for a failed bank or VAN transfer including the ACH return code, description, and explanation. Returns failure details with links to the failed funding source and associated Customer for comprehensive error analysis. Available only for transfers with failure status and accessed through the failure link from transfer retrieval. Critical for troubleshooting payment failures and understanding ACH return reasons.
       operationId: getTransferFailureReason
-      x-speakeasy-name-override: getFailureReason
+      x-speakeasy-group: transfers.failure
+      x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -5676,8 +5683,8 @@ paths:
       summary: List items for a mass payment
       description: Retrieve individual payment items within a mass payment with optional status filtering and pagination support. Each item represents a distinct payment with status indicators (failed, pending, success) showing whether a transfer was successfully created. Returns paginated item details including amount, destination, metadata, and error information for failed items. Supports filtering by status and standard pagination.
       operationId: listMassPaymentItems
-      x-speakeasy-group: massPayments
-      x-speakeasy-name-override: listItems
+      x-speakeasy-group: massPayments.items
+      x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
           source: |
@@ -5818,8 +5825,8 @@ paths:
       summary: Retrieve mass payment item
       description: Retrieve detailed information for a specific mass payment item by its unique identifier. Returns item status, amount, metadata, and links to the parent mass payment, associated transfer, and destination funding source. Use this endpoint to check the processing status and details of an individual item within a mass payment batch.
       operationId: getMassPaymentItem
-      x-speakeasy-group: massPayments
-      x-speakeasy-name-override: getItem
+      x-speakeasy-group: massPaymentsItems
+      x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -6170,7 +6177,8 @@ paths:
       summary: List labels for a customer
       description: Returns all labels for a specified Verified Customer, sorted by creation date (most recent first). Supports pagination with limit and offset parameters. Each label includes its current amount and creation timestamp.
       operationId: listCustomerLabels
-      x-speakeasy-name-override: listForCustomer
+      x-speakeasy-group: customers.labels
+      x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
           source: |
@@ -6273,7 +6281,8 @@ paths:
       summary: Create a label for a customer
       description: Creates a new label for a Verified Customer with a specified amount. Labels help organize and track funds within a customer's balance. Returns the location of the created label resource in the response header.
       operationId: createCustomerLabel
-      x-speakeasy-name-override: createForCustomer
+      x-speakeasy-group: customers.labels
+      x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
           source: |
@@ -6418,7 +6427,8 @@ paths:
       summary: List label ledger entries
       description: Returns all ledger entries for a specific Label, sorted by creation date (newest first). Supports pagination with limit and offset parameters. Each ledger entry includes its amount, currency, and creation timestamp.
       operationId: listLabelLedgerEntries
-      x-speakeasy-name-override: listLedgerEntries
+      x-speakeasy-group: labels.ledgerEntries
+      x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
           source: |
@@ -6514,7 +6524,8 @@ paths:
       summary: Create a label ledger entry
       description: Create a new ledger entry to track fund adjustments on a Label by specifying a positive or negative amount value. Returns the location of the created ledger entry in the response header. Label amounts cannot go negative, so validation errors occur if the entry would result in a negative Label balance.
       operationId: createLabelLedgerEntry
-      x-speakeasy-name-override: createLedgerEntry
+      x-speakeasy-group: labels.ledgerEntries
+      x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
           source: |
@@ -6650,7 +6661,8 @@ paths:
       summary: Retrieve a label ledger entry
       description: Returns detailed information for a specific ledger entry on a Label, including its amount, currency, and creation timestamp.
       operationId: getLabelLedgerEntry
-      x-speakeasy-name-override: getLedgerEntry
+      x-speakeasy-group: labelLedgerEntries
+      x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -6726,7 +6738,8 @@ paths:
       summary: Create a label reallocation
       description: Reallocates funds between two labels belonging to the same Verified Customer. Moves the specified amount from the source label to the destination label, creating ledger entries for both. The reallocation only succeeds if the source label has sufficient funds.
       operationId: createLabelReallocation
-      x-speakeasy-name-override: createReallocation
+      x-speakeasy-group: labelReallocations
+      x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
           source: |
@@ -6917,7 +6930,8 @@ paths:
       summary: Retrieve a label reallocation
       description: Retrieve details for a specific label reallocation that transfers funds between Labels. Returns reallocation information including source and destination Labels, amount transferred, status, and creation timestamp. Use this to track and audit fund movements between different Labels.
       operationId: retrieveLabelReallocation
-      x-speakeasy-name-override: getReallocation
+      x-speakeasy-group: labelsReallocations
+      x-speakeasy-name-override: get
       x-codeSamples:
         - lang: bash
           source: |
@@ -7702,7 +7716,8 @@ paths:
       summary: List webhooks for a webhook subscription
       description: Retrieve all fired webhooks for a specific webhook subscription with comprehensive filtering and pagination support. Returns webhook delivery history including topics, attempts, request/response details, and delivery status over a rolling 30-day period. Supports filtering by resource ID, date ranges, and pagination parameters for detailed webhook delivery analysis. Critical for debugging webhook delivery issues and monitoring event notification success rates.
       operationId: listWebhooks
-      x-speakeasy-group: webhookSubscriptions
+      x-speakeasy-group: webhookSubscriptions.webhooks
+      x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
           source: |
@@ -7908,7 +7923,8 @@ paths:
       summary: List retries for a webhook
       description: Retrieve all retry attempts for a specific webhook including timestamps and delivery details. Returns a list of retry attempts with unique identifiers, timestamps, and links to the parent webhook with total count. Essential for tracking webhook delivery failures, analyzing retry patterns, and debugging webhook notification issues to ensure reliable event processing.
       operationId: listWebhookRetries
-      x-speakeasy-name-override: listRetries
+      x-speakeasy-group: webhooks.retries
+      x-speakeasy-name-override: list
       x-codeSamples:
         - lang: bash
           source: |
@@ -8707,7 +8723,7 @@ paths:
       summary: Create customer exchange session
       description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid, Visa, and MX open banking partners for faster verification as compared to traditional micro-deposits.
       operationId: createCustomerExchangeSession
-      x-speakeasy-group: exchangeSessions
+      x-speakeasy-group: customers.exchangeSessions
       x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
@@ -9194,7 +9210,7 @@ paths:
       summary: Create re-authentication exchange session
       description: Creates a re-authentication exchange session to refresh a user's bank account connection when their existing authorization is no longer valid. Required when receiving an UpdateCredentials error during bank balance checks or when user re-authentication is needed.
       operationId: createReAuthExchangeSession
-      x-speakeasy-group: exchanges
+      x-speakeasy-group: exchanges.exchangeSessions
       x-speakeasy-name-override: createReAuth
       x-codeSamples:
         - lang: bash
@@ -14503,24 +14519,6 @@ components:
           type: integer
           format: int32
           example: 1
-    ExchangePartners:
-      title: ExchangePartners
-      type: object
-      properties:
-        _links:
-          additionalProperties:
-            $ref: '#/components/schemas/HalLink'
-        _embedded:
-          type: object
-          properties:
-            exchange-partners:
-              type: array
-              items:
-                $ref: '#/components/schemas/ExchangePartners'
-        total:
-          type: integer
-          format: int32
-          example: 3
     ExchangePartner:
       title: ExchangePartner
       type: object
@@ -14541,6 +14539,24 @@ components:
           type: string
           format: date-time
           example: '2022-07-23T00:18:21.419Z'
+    ExchangePartners:
+      title: ExchangePartners
+      type: object
+      properties:
+        _links:
+          additionalProperties:
+            $ref: '#/components/schemas/HalLink'
+        _embedded:
+          type: object
+          properties:
+            exchange-partners:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExchangePartner'
+        total:
+          type: integer
+          format: int32
+          example: 3
     Exchange:
       title: Exchange
       type: object

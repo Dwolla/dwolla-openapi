@@ -11,7 +11,7 @@ ExchangePartners:
         exchange-partners:
           type: array
           items:
-            $ref: './ExchangePartners.yml#/ExchangePartners'
+            $ref: './ExchangePartner.yml#/ExchangePartner'
     total:
       type: integer
       format: int32
