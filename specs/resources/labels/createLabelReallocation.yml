@@ -4,7 +4,7 @@ post:
   summary: Create a label reallocation
   description: Reallocates funds between two labels belonging to the same Verified Customer. Moves the specified amount from the source label to the destination label, creating ledger entries for both. The reallocation only succeeds if the source label has sufficient funds.
   operationId: createLabelReallocation
-  x-speakeasy-group: labelReallocations
+  x-speakeasy-group: labels.reallocations
   x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash

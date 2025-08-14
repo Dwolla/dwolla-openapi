@@ -66,6 +66,8 @@ paths:
     $ref: './resources/funding-sources/retrieveFundingSourceBalance.yml'
   /funding-sources/{id}/ach-routing:
     $ref: './resources/funding-sources/retrieveVansAccountRoutingNumber.yml'
+  /on-demand-authorizations:
+    $ref: './resources/funding-sources/createOnDemandTransferAuthorization.yml'
   /transfers:
     $ref: './resources/transfers/initiateTransfer.yml'
   /transfers/{id}:
@@ -76,15 +78,13 @@ paths:
     $ref: './resources/transfers/listFeesForTransfer.yml'
   /transfers/{id}/failure:
     $ref: './resources/transfers/retrieveTransferFailureReason.yml'
-  /on-demand-authorizations:
-    $ref: './resources/transfers/createOnDemandTransferAuthorization.yml'
   /mass-payments:
     $ref: './resources/mass-payments/initiateMassPayment.yml'
   /mass-payments/{id}:
     $ref: './resources/mass-payments/retrieveUpdateMassPayment.yml'
   /mass-payments/{id}/items:
     $ref: './resources/mass-payments/listMassPaymentItems.yml'
-  /mass-payment-items/{id}:
+  /mass-payment-items/{itemId}:
     $ref: './resources/mass-payments/retrieveMassPaymentItem.yml'
   /customers/{id}/mass-payments:
     $ref: './resources/mass-payments/listMassPaymentsForCustomer.yml'
@@ -94,11 +94,11 @@ paths:
     $ref: './resources/labels/createListCustomerLabels.yml'
   /labels/{id}/ledger-entries:
     $ref: './resources/labels/createListLabelLedgerEntries.yml'
-  /ledger-entries/{id}:
+  /ledger-entries/{ledgerEntryId}:
     $ref: './resources/labels/retrieveLabelLedgerEntry.yml'
   /label-reallocations:
     $ref: './resources/labels/createLabelReallocation.yml'
-  /label-reallocations/{id}:
+  /label-reallocations/{reallocationId}:
     $ref: './resources/labels/retrieveLabelReallocation.yml'
   /events:
     $ref: './resources/events/listEvents.yml'
