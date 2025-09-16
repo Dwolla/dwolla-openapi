@@ -2,30 +2,13 @@ post:
   tags:
     - exchange sessions
   summary: Create customer exchange session
-  description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid, Visa, and MX open banking partners for faster verification as compared to traditional micro-deposits.
+  description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid and MX open banking partners for faster verification as compared to traditional micro-deposits.
   operationId: createCustomerExchangeSession
   x-speakeasy-group: customers.exchangeSessions
   x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
       source: |
-        # Visa Example
-        POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
-        Accept: application/vnd.dwolla.v1.hal+json
-        Content-Type: application/vnd.dwolla.v1.hal+json
-        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
-
-        {
-            "_links": {
-                "exchange-partner": {
-                    "href": "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4"
-                },
-                "redirect-url": {
-                    "href": "https://www.yourdomain.com/iav-callback"
-                }
-            }
-        }
-
         # Plaid Web Example
         POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
         Accept: application/vnd.dwolla.v1.hal+json
@@ -90,24 +73,9 @@ post:
     - lang: javascript
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
-        // Visa Example
+        // Plaid Web Example
         var customerUrl =
           "https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980";
-        var requestBody = {
-          _links: {
-            "exchange-partner": {
-              href: "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4",
-            },
-            "redirect-url": {
-              href: "https://www.yourdomain.com/iav-callback",
-            },
-          },
-        };
-
-        dwolla
-          .post(`${customerUrl}/exchange-sessions`, requestBody)
-          .then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
-        // Plaid Web Example
         var requestBodyPlaidWeb = {
           _links: {
             "exchange-partner": {
@@ -160,21 +128,8 @@ post:
     - lang: python
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
-        # Visa Example
-        customer_url = 'https://api.dwolla.com/customer/74a207b2-b7b7-4efa-8bf8-582148e7b980'
-        request_body = {
-          '_links': {
-            'exchange-partner': {
-              'href': 'https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4'
-            },
-            'redirect-url': {
-              'href': 'https://www.yourdomain.com/iav-callback'
-            }
-          }
-        }
-        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body)
-        exchange.headers['location'] # => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
         # Plaid Web Example
+        customer_url = 'https://api.dwolla.com/customer/74a207b2-b7b7-4efa-8bf8-582148e7b980'
         request_body_plaid_web = {
           '_links': {
             'exchange-partner': {
@@ -228,21 +183,8 @@ post:
     - lang: ruby
       source: |
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
-        # Visa Example
-        customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
-        request_body = {
-          _links: {
-            'exchange-partner': {
-              href: "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4"
-            },
-            'redirect-url': {
-              href: "https://www.yourdomain.com/iav-callback"
-            }
-          }
-        }
-        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body
-        exchange.response_headers[:location] # => "https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
         # Plaid Web Example
+        customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
         request_body_plaid_web = {
           _links: {
             'exchange-partner': {

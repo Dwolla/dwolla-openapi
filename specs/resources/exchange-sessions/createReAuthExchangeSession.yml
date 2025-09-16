@@ -83,7 +83,6 @@ post:
     description: |
       Request body containing the redirect URL.
       Required for:
-      - Visa exchange sessions
       - Plaid mobile sessions
       Not required for:
       - Plaid web sessions
