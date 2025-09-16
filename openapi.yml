@@ -8722,30 +8722,13 @@ paths:
       tags:
         - exchange sessions
       summary: Create customer exchange session
-      description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid, Visa, and MX open banking partners for faster verification as compared to traditional micro-deposits.
+      description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid and MX open banking partners for faster verification as compared to traditional micro-deposits.
       operationId: createCustomerExchangeSession
       x-speakeasy-group: customers.exchangeSessions
       x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
           source: |
-            # Visa Example
-            POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
-            Accept: application/vnd.dwolla.v1.hal+json
-            Content-Type: application/vnd.dwolla.v1.hal+json
-            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
-
-            {
-                "_links": {
-                    "exchange-partner": {
-                        "href": "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4"
-                    },
-                    "redirect-url": {
-                        "href": "https://www.yourdomain.com/iav-callback"
-                    }
-                }
-            }
-
             # Plaid Web Example
             POST https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980/exchange-sessions
             Accept: application/vnd.dwolla.v1.hal+json
@@ -8810,24 +8793,9 @@ paths:
         - lang: javascript
           source: |
             // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
-            // Visa Example
+            // Plaid Web Example
             var customerUrl =
               "https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980";
-            var requestBody = {
-              _links: {
-                "exchange-partner": {
-                  href: "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4",
-                },
-                "redirect-url": {
-                  href: "https://www.yourdomain.com/iav-callback",
-                },
-              },
-            };
-
-            dwolla
-              .post(`${customerUrl}/exchange-sessions`, requestBody)
-              .then((res) => res.headers.get("location")); // => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
-            // Plaid Web Example
             var requestBodyPlaidWeb = {
               _links: {
                 "exchange-partner": {
@@ -8880,21 +8848,8 @@ paths:
         - lang: python
           source: |
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
-            # Visa Example
-            customer_url = 'https://api.dwolla.com/customer/74a207b2-b7b7-4efa-8bf8-582148e7b980'
-            request_body = {
-              '_links': {
-                'exchange-partner': {
-                  'href': 'https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4'
-                },
-                'redirect-url': {
-                  'href': 'https://www.yourdomain.com/iav-callback'
-                }
-              }
-            }
-            exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body)
-            exchange.headers['location'] # => 'https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d'
             # Plaid Web Example
+            customer_url = 'https://api.dwolla.com/customer/74a207b2-b7b7-4efa-8bf8-582148e7b980'
             request_body_plaid_web = {
               '_links': {
                 'exchange-partner': {
@@ -8948,21 +8903,8 @@ paths:
         - lang: ruby
           source: |
             # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
-            # Visa Example
-            customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
-            request_body = {
-              _links: {
-                'exchange-partner': {
-                  href: "https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4"
-                },
-                'redirect-url': {
-                  href: "https://www.yourdomain.com/iav-callback"
-                }
-              }
-            }
-            exchange = app_token.post "#{customer_url}/exchange-sessions", request_body
-            exchange.response_headers[:location] # => "https://api.dwolla.com/exchange-sessions/fcd15e5f-8d13-4570-a9b7-7fb49e55941d"
             # Plaid Web Example
+            customer_url = 'https://api.dwolla.com/customers/74a207b2-b7b7-4efa-8bf8-582148e7b980'
             request_body_plaid_web = {
               _links: {
                 'exchange-partner': {
@@ -9122,7 +9064,7 @@ paths:
       tags:
         - exchange sessions
       summary: Retrieve exchange session
-      description: Returns details of a previously created exchange session, including URLs and tokens needed to continue the instant account verification flow. Response varies by partner - Visa/MX provide redirect URLs while Plaid provides session tokens for Link initialization.
+      description: Returns details of a previously created exchange session, including URLs and tokens needed to continue the instant account verification flow. Response varies by partner - MX provides redirect URLs while Plaid provides session tokens for Link initialization.
       operationId: retrieveCustomerExchangeSession
       x-speakeasy-group: exchangeSessions
       x-speakeasy-name-override: get
@@ -9290,7 +9232,6 @@ paths:
         description: |
           Request body containing the redirect URL.
           Required for:
-          - Visa exchange sessions
           - Plaid mobile sessions
           Not required for:
           - Plaid web sessions
@@ -11596,7 +11537,7 @@ components:
     CreateCustomerExchangeFundingSource:
       title: CreateCustomerExchangeFundingSource
       type: object
-      description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, Visa, MX, or Finicity).
+      description: Schema for creating a funding source using an exchange resource. This method is used when the bank account information is obtained via Instant Account Verification (IAV) through an exchange partner (like Plaid, MX, or Finicity).
       required:
         - _links
         - bankAccountType
@@ -14801,7 +14742,7 @@ components:
               example: public-production-d5456acb-01d5-4932-9783-e4c883cf1c0c
     CreateCustomerExchangeSessionWithRedirect:
       title: CreateCustomerExchangeSessionWithRedirect
-      description: Create exchange session with redirect URL (required for Visa and for mobile sessions with Plaid)
+      description: Create exchange session with redirect URL (required for mobile sessions with Plaid)
       type: object
       required:
         - _links
@@ -14829,10 +14770,8 @@ components:
                 href:
                   type: string
                   format: uri
-                  description: Required for Visa and Plaid mobile sessions
+                  description: Required for Plaid mobile sessions
                   examples:
-                    - description: Visa example
-                      value: https://www.yourdomain.com/iav-callback
                     - description: Plaid Android example
                       value: com.example.app123
                     - description: Plaid iOS example
@@ -14919,11 +14858,9 @@ components:
                   type: string
                   format: uri
                   description: |
-                    Present for Visa and MX exchange sessions.
+                    Present for MX exchange sessions.
                     Contains the URL to redirect the user to complete the authorization process.
                   examples:
-                    - description: Visa example
-                      value: https://link.visa.com/1.0/account-check/connect?client_id=f16f7c7407f4434dbcaf269b230c12ed&redirect_uri=https://api-uat.dwolla.com/redirect/tink&authorization_code=47e23deab3924351a0c6193d90e5add5&market=US&locale=en_US&state=a2V5Ojk6dWRiRkRYWGlIVGdZZUNycUdCa0s3Zz09OmI1ZVE0YWRUYkFrSWNiKzFxTXdmQlVkcVNWWW5nMjtQNjBaWERxUDh5aTBpWEQzTHROdUZRd2xLMTUzYnZ4RU8=&session_id=628d927030ee43a38054da5166dcbee14e06dc02c00e45f2b4a5d986bab5d08f
                     - description: MX example
                       value: https://www.mx.com/connect/lAfkc7m897s3t1ks9mmwyj4ry7Zq0xql4grzAg1kz77x7c9jrwls1t22w6xt8d2lsxx9zpqv30js3wswfdwcrpAsqgbAfkqwpksp7c2chsx167xy90Asfc67dkj9y48y8p142xw3yp4x5l9t9gkk6m3yk5vwsvyq2qq7w9trszxwdl14lmkg7l6949bn5n41chdkbnxycy40n9b6fkbdwl6qt5wl107k1x8srvlkpz325p412x9tkyA5clf39109lsfrgz2lkgsvntqf7l0zzwb5hl658gdjbxwhb52krwybnbdAqfq69cdy54l05jkvfwyf01q89x48jtgtx290lzjdfcty1lwb8d648wns/eyJ1aV9tZXNzYWdlX3ZlcnNpb24iOjQsInVpX21lc3NhZ2Vfd2Vidmlld191cmxfc2NoZW1lIjoibXgiLCJtb2RlIjoidmVyaWZpY2F0aW9uIn0%3D
                 type:
@@ -14945,7 +14882,7 @@ components:
       properties: {}
     CreateReAuthExchangeSessionWithRedirect:
       title: CreateReAuthExchangeSessionWithRedirect
-      description: Create re-auth exchange session with redirect URL (required for mobile sessions with Visa and Plaid)
+      description: Create re-auth exchange session with redirect URL (required for mobile sessions with Plaid)
       type: object
       required:
         - _links
@@ -14963,10 +14900,8 @@ components:
                 href:
                   type: string
                   format: uri
-                  description: Required for Visa and Plaid mobile sessions
+                  description: Required for Plaid mobile sessions
                   examples:
-                    - description: Visa example
-                      value: https://www.yourdomain.com/iav-callback
                     - description: Plaid Android example
                       value: com.example.app123
                     - description: Plaid iOS example
