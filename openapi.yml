@@ -9804,29 +9804,122 @@ components:
               example: Payment for completed work Dec. 1
         achDetails:
           type: object
+          description: ACH-specific details for the transfer. Present when transfer was processed via ACH network.
           properties:
             source:
               type: object
+              description: Information sent to the source/originating bank account along with the transfer
               properties:
                 addenda:
                   type: object
+                  description: Contains addenda information for the transfer
                   properties:
                     values:
                       type: array
                       items:
                         type: string
                         example: ABC123_AddendaValue
+                      description: An array containing a single string addenda value
+                beneficiaryName:
+                  type: string
+                  description: Beneficiary of the transaction's name. In general, should match the user onboarded to the Platform's name
+                  example: John Doe
+                companyEntryDescription:
+                  type: string
+                  description: Describes the purpose of the transaction
+                  example: PAYMENT
+                  enum:
+                    - REVERSAL
+                    - RECLAIM
+                    - NO CHECK
+                    - AUTOENROLL
+                    - REDEPCHECK
+                    - RETURN FEE
+                    - RETRY PMNT
+                    - HEALTHCARE
+                    - PAYMENT
+                companyId:
+                  type: string
+                  description: Numeric identifier of originator
+                  example: '1234567890'
+                companyName:
+                  type: string
+                  description: Name of the originator
+                  example: Acme Corporation
+                effectiveDate:
+                  type: string
+                  format: date
+                  description: The date when the ACH transaction becomes effective, formatted as YYYY-MM-DD. This is typically the settlement date for the transaction
+                  example: '2021-12-01'
+                postingData:
+                  type: string
+                  description: Suggested memo line format for bank statements, structured as companyName:companyDiscretionaryData:beneficiaryName
+                  example: Acme Corporation:Payment Reference:John Doe
+                routingNumber:
+                  type: string
+                  description: Routing number of Originating Depository Financial Institution (ODFI). Identifies the financial institution that originated the ACH transaction
+                  example: '222222226'
+                traceId:
+                  type: string
+                  description: A unique identifier for tracing the ACH transaction through the banking network. Used for transaction tracking and reconciliation purposes
+                  example: '222222225926346'
             destination:
               type: object
+              description: Information sent to the destination/receiving bank account along with the transfer
               properties:
                 addenda:
                   type: object
+                  description: Contains addenda information for the transfer
                   properties:
                     values:
                       type: array
                       items:
                         type: string
                         example: ZYX987_AddendaValue
+                      description: An array containing a single string addenda value
+                beneficiaryName:
+                  type: string
+                  description: Beneficiary of the transaction's name. In general, should match the user onboarded to the Platform's name
+                  example: Jane Smith
+                companyEntryDescription:
+                  type: string
+                  description: Describes the purpose of the transaction
+                  example: PAYMENT
+                  enum:
+                    - REVERSAL
+                    - RECLAIM
+                    - NO CHECK
+                    - AUTOENROLL
+                    - REDEPCHECK
+                    - RETURN FEE
+                    - RETRY PMNT
+                    - HEALTHCARE
+                    - PAYMENT
+                companyId:
+                  type: string
+                  description: Numeric identifier of originator
+                  example: '1234567890'
+                companyName:
+                  type: string
+                  description: Name of the originator
+                  example: Acme Corporation
+                effectiveDate:
+                  type: string
+                  format: date
+                  description: The date when the ACH transaction becomes effective, formatted as YYYY-MM-DD. This is typically the settlement date for the transaction
+                  example: '2021-12-01'
+                postingData:
+                  type: string
+                  description: Suggested memo line format for bank statements, structured as companyName:companyDiscretionaryData:beneficiaryName
+                  example: Acme Corporation:Payment Reference:Jane Smith
+                routingNumber:
+                  type: string
+                  description: Routing number of Originating Depository Financial Institution (ODFI). Identifies the financial institution that originated the ACH transaction
+                  example: '222222226'
+                traceId:
+                  type: string
+                  description: A unique identifier for tracing the ACH transaction through the banking network. Used for transaction tracking and reconciliation purposes
+                  example: '222222225926346'
         rtpDetails:
           type: object
           description: Real-Time Payments (RTP) network specific details. Present when transfer was processed via RTP network.
