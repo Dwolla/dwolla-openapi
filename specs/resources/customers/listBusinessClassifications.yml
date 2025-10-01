@@ -45,17 +45,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              _links:
-                type: object
-              _embedded:
-                type: object
-                properties:
-                  business-classifications:
-                    type: array
-                    items:
-                      $ref: '../../schemas/business-classifications/BusinessClassifications.yml#/BusinessClassifications'
+            $ref: '../../schemas/business-classifications/BusinessClassifications.yml#/BusinessClassifications'
     '403':
       description: Forbidden
       headers: {}

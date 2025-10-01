@@ -3,13 +3,16 @@ BusinessClassifications:
   type: object
   properties:
     _links:
-      type: object
       additionalProperties:
         $ref: '../common.yml#/components/schemas/HalLink'
     _embedded:
       type: object
       properties:
-        mass-payments:
+        business-classifications:
           type: array
           items:
             $ref: './BusinessClassification.yml#/BusinessClassification'
+    total:
+      type: integer
+      format: int32
+      example: 3

@@ -204,7 +204,6 @@ UpgradeToVerifiedBusiness:
           example: 6789
         dateOfBirth:
           type: string
-          format: date
           example: 1980-01-31
         address:
           type: object
@@ -282,7 +281,6 @@ UpgradeToVerifiedSoleProp:
       example: business
     dateOfBirth:
       type: string
-      format: date
       example: 1980-01-31
     ssn:
       type: string
@@ -429,7 +427,6 @@ RetryVerifiedBusiness:
           example: 6789
         dateOfBirth:
           type: string
-          format: date
           example: 1980-01-31
         address:
           type: object
@@ -507,7 +504,6 @@ RetryVerifiedSoleProp:
       example: business
     dateOfBirth:
       type: string
-      format: date
       example: 1980-01-31
     ssn:
       type: string

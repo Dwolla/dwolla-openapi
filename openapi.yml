@@ -1114,17 +1114,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                  _embedded:
-                    type: object
-                    properties:
-                      business-classifications:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/BusinessClassifications'
+                $ref: '#/components/schemas/BusinessClassifications'
         '403':
           description: Forbidden
           headers: {}
@@ -3010,9 +3000,7 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FundingSources'
+                $ref: '#/components/schemas/FundingSources'
         '403':
           description: forbidden
           headers: {}
@@ -9554,6 +9542,9 @@ components:
         state:
           type: string
           example: IA
+        country:
+          type: string
+          example: US
     Account:
       title: Account
       type: object
@@ -10942,7 +10933,6 @@ components:
               example: 6789
             dateOfBirth:
               type: string
-              format: date
               example: '1980-01-31'
             address:
               type: object
@@ -11020,7 +11010,6 @@ components:
           example: business
         dateOfBirth:
           type: string
-          format: date
           example: '1980-01-31'
         ssn:
           type: string
@@ -11167,7 +11156,6 @@ components:
               example: 6789
             dateOfBirth:
               type: string
-              format: date
               example: '1980-01-31'
             address:
               type: object
@@ -11245,7 +11233,6 @@ components:
           example: business
         dateOfBirth:
           type: string
-          format: date
           example: '1980-01-31'
         ssn:
           type: string
@@ -11308,16 +11295,19 @@ components:
       type: object
       properties:
         _links:
-          type: object
           additionalProperties:
             $ref: '#/components/schemas/HalLink'
         _embedded:
           type: object
           properties:
-            mass-payments:
+            business-classifications:
               type: array
               items:
                 $ref: '#/components/schemas/BusinessClassification'
+        total:
+          type: integer
+          format: int32
+          example: 3
     BeneficialOwner:
       title: BeneficialOwner
       description: Request body model for a Beneficial Owner

@@ -61,9 +61,7 @@ get:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: array
-            items:
-              $ref: '../../schemas/funding-sources/FundingSources.yml#/FundingSources'
+            $ref: '../../schemas/funding-sources/FundingSources.yml#/FundingSources'
     '403':
       description: forbidden
       headers: {}
