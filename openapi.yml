@@ -4194,6 +4194,10 @@ paths:
             transfer.response_headers[:location] # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
       parameters:
         - $ref: '#/components/parameters/Accept'
+        - name: Idempotency-Key
+          schema:
+            type: string
+          in: header
       requestBody:
         required: true
         description: Parameters to initiate a transfer
@@ -5336,6 +5340,10 @@ paths:
             mass_payment.response_headers[:location] # => "https://api-sandbox.dwolla.com/mass-payments/cf1e9e00-09cf-43da-b8b5-a43b3f6192d4"
       parameters:
         - $ref: '#/components/parameters/Accept'
+        - name: Idempotency-Key
+          schema:
+            type: string
+          in: header
       requestBody:
         required: true
         description: Parameters for initiating a mass payment
