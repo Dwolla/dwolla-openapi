@@ -317,6 +317,10 @@ post:
         transfer.response_headers[:location] # => "https://api-sandbox.dwolla.com/transfers/0e6b8c1e-7b6e-4b2e-8e2e-1b2e2e2e2e2e"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
+    - name: Idempotency-Key
+      schema:
+        type: string
+      in: header
   requestBody:
     required: true
     description: Parameters to initiate a transfer

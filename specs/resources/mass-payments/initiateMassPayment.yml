@@ -431,6 +431,10 @@ post:
         mass_payment.response_headers[:location] # => "https://api-sandbox.dwolla.com/mass-payments/cf1e9e00-09cf-43da-b8b5-a43b3f6192d4"
   parameters:
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
+    - name: Idempotency-Key
+      schema:
+        type: string
+      in: header
   requestBody:
     required: true
     description: Parameters for initiating a mass payment
