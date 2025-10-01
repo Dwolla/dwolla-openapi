@@ -164,7 +164,9 @@ post:
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedBusiness'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedSoleProp'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedPersonal'
-            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedBusiness'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedBusinessNoController'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedBusinessWithController'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedBusinessWithInternationalController'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/RetryVerifiedSoleProp'
   responses:
     '200':

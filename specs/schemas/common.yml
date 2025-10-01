@@ -219,6 +219,9 @@ components:
         state:
           type: string
           example: IA
+        country:
+          type: string
+          example: US
     InternationalAddress:
       title: InternationalAddress
       type: object
