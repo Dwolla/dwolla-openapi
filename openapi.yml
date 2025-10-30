@@ -11809,8 +11809,8 @@ components:
         message:
           type: string
           example: The kba session has expired.
-    CreateCustomerBankFundingSourceViaNumbers:
-      title: CreateCustomerBankFundingSourceViaNumbers
+    CreateCustomerBankFundingSourceWithAccountNumbers:
+      title: CreateCustomerBankFundingSourceWithAccountNumbers
       type: object
       description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
       required:
@@ -11864,8 +11864,8 @@ components:
                   type: string
                   format: uri
                   example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
-    CreateCustomerBankFundingSourceViaPlaid:
-      title: CreateCustomerBankFundingSourceViaPlaid
+    CreateCustomerBankFundingSourceWithPlaid:
+      title: CreateCustomerBankFundingSourceWithPlaid
       type: object
       description: Schema for creating a bank funding source using a Plaid processor token.
       required:
@@ -11983,8 +11983,8 @@ components:
         - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
         - Virtual Account: Creating Virtual Account Numbers (VANs)
       oneOf:
-        - $ref: '#/components/schemas/CreateCustomerBankFundingSourceViaNumbers'
-        - $ref: '#/components/schemas/CreateCustomerBankFundingSourceViaPlaid'
+        - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithAccountNumbers'
+        - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithPlaid'
         - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
         - $ref: '#/components/schemas/CreateCustomerVirtualAccountFundingSource'
     InactiveExchangeError:
