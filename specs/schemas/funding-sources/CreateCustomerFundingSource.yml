@@ -75,7 +75,7 @@ CreateCustomerBankFundingSourceViaPlaid:
       example: processor-sandbox-plaidauth-123456
     bankAccountType:
       type: string
-      enum: [checking, savings, general-ledger, loan]
+      enum: [checking, savings]
       description: Type of bank account
       example: checking
     name:
@@ -134,7 +134,7 @@ CreateCustomerExchangeFundingSource:
               example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
     bankAccountType:
       type: string
-      enum: [checking, savings, general-ledger, loan]
+      enum: [checking, savings]
       description: Type of bank account
       example: checking
     name:

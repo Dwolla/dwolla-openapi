@@ -11882,8 +11882,6 @@ components:
           enum:
             - checking
             - savings
-            - general-ledger
-            - loan
           description: Type of bank account
           example: checking
         name:
@@ -11946,8 +11944,6 @@ components:
           enum:
             - checking
             - savings
-            - general-ledger
-            - loan
           description: Type of bank account
           example: checking
         name:
