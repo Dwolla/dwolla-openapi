@@ -6,11 +6,12 @@ CreateCustomerFundingSource:
     - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
     - Virtual Account: Creating Virtual Account Numbers (VANs)
   oneOf:
-    - $ref: '#/CreateCustomerBankFundingSource'
+    - $ref: '#/CreateCustomerBankFundingSourceViaNumbers'
+    - $ref: '#/CreateCustomerBankFundingSourceViaPlaid'
     - $ref: '#/CreateCustomerExchangeFundingSource'
     - $ref: '#/CreateCustomerVirtualAccountFundingSource'
-CreateCustomerBankFundingSource:
-  title: CreateCustomerBankFundingSource
+CreateCustomerBankFundingSourceViaNumbers:
+  title: CreateCustomerBankFundingSourceViaNumbers
   type: object
   description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
   required:
@@ -41,9 +42,46 @@ CreateCustomerBankFundingSource:
       description: Use when creating an unverified bank account.
       const: false
       example: false
+    channels:
+      type: array
+      items:
+        type: string
+        enum: [wire]
+      description: An array containing a list of processing channels. ACH is the default processing channel for bank transfers.
+    _links:
+      type: object
+      properties:
+        on-demand-authorization:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+CreateCustomerBankFundingSourceViaPlaid:
+  title: CreateCustomerBankFundingSourceViaPlaid
+  type: object
+  description: Schema for creating a bank funding source using a Plaid processor token.
+  required:
+    - plaidToken
+    - bankAccountType
+    - name
+  properties:
     plaidToken:
       type: string
       description: A processor token obtained from Plaid for adding and verifying a bank
+      example: processor-sandbox-plaidauth-123456
+    bankAccountType:
+      type: string
+      enum: [checking, savings, general-ledger, loan]
+      description: Type of bank account
+      example: checking
+    name:
+      type: string
+      description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+      example: Jane Doe's Checking
     channels:
       type: array
       items:

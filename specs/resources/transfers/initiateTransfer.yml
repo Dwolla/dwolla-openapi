@@ -321,6 +321,7 @@ post:
       schema:
         type: string
       in: header
+      example: 19051a62-3403-11e6-ac61-9e71128cae77
   requestBody:
     required: true
     description: Parameters to initiate a transfer
