@@ -54,6 +54,8 @@ tags:
     description: Operations related to Webhooks
   - name: client tokens
     description: Operations related to Client Tokens
+  - name: sandbox simulations
+    description: Sandbox-only operations for simulating processing of bank transfers
 paths:
   /token:
     post:
@@ -4198,6 +4200,7 @@ paths:
           schema:
             type: string
           in: header
+          example: 19051a62-3403-11e6-ac61-9e71128cae77
       requestBody:
         required: true
         description: Parameters to initiate a transfer
@@ -5344,6 +5347,7 @@ paths:
           schema:
             type: string
           in: header
+          example: 19051a62-3403-11e6-ac61-9e71128cae77
       requestBody:
         required: true
         description: Parameters for initiating a mass payment
@@ -8049,6 +8053,64 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
+  /sandbox-simulations:
+    post:
+      tags:
+        - sandbox simulations
+      summary: Simulate bank transfer processing (Sandbox only)
+      description: |
+        Triggers processing for the last 500 bank transfers on the authorized application or Sandbox account. This endpoint is only available in the Sandbox environment. It will process or fail pending bank-to-bank transactions (including both sides of a transfer when applicable) and initiated micro-deposits. If webhooks are configured, corresponding events will be delivered.
+
+        If a bank-to-bank transaction is initiated between two users, call this endpoint twice to process both the debit and credit sides.
+      operationId: simulateBankTransferProcessing
+      x-speakeasy-name-override: simulate
+      x-codeSamples:
+        - lang: bash
+          source: |
+            POST https://api-sandbox.dwolla.com/sandbox-simulations
+            Accept: application/vnd.dwolla.v1.hal+json
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer {Your access token}
+      requestBody:
+        required: false
+        description: Optional JSON body. Typically empty; presence of body is not required.
+        content:
+          application/vnd.dwolla.v1.hal+json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Simulation executed. Pending bank transfers and micro-deposits were processed or failed.
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+        '401':
+          description: unauthorized
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidAccessToken
+                  message:
+                    type: string
+                    example: Invalid access token.
+        '403':
+          description: forbidden
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  message:
+                    type: string
+                    example: Not authorized to simulate transfer processing.
   /exchange-partners:
     get:
       tags:
@@ -11747,8 +11809,8 @@ components:
         message:
           type: string
           example: The kba session has expired.
-    CreateCustomerBankFundingSource:
-      title: CreateCustomerBankFundingSource
+    CreateCustomerBankFundingSourceWithAccountNumbers:
+      title: CreateCustomerBankFundingSourceWithAccountNumbers
       type: object
       description: Schema for creating a basic bank funding source using routing and account numbers. This is the traditional method of adding a bank account.
       required:
@@ -11783,9 +11845,49 @@ components:
           description: Use when creating an unverified bank account.
           const: false
           example: false
+        channels:
+          type: array
+          items:
+            type: string
+            enum:
+              - wire
+          description: An array containing a list of processing channels. ACH is the default processing channel for bank transfers.
+        _links:
+          type: object
+          properties:
+            on-demand-authorization:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+    CreateCustomerBankFundingSourceWithPlaid:
+      title: CreateCustomerBankFundingSourceWithPlaid
+      type: object
+      description: Schema for creating a bank funding source using a Plaid processor token.
+      required:
+        - plaidToken
+        - bankAccountType
+        - name
+      properties:
         plaidToken:
           type: string
           description: A processor token obtained from Plaid for adding and verifying a bank
+          example: processor-sandbox-plaidauth-123456
+        bankAccountType:
+          type: string
+          enum:
+            - checking
+            - savings
+          description: Type of bank account
+          example: checking
+        name:
+          type: string
+          description: Arbitrary nickname for the funding source. Must be 50 characters or less.
+          example: Jane Doe's Checking
         channels:
           type: array
           items:
@@ -11842,8 +11944,6 @@ components:
           enum:
             - checking
             - savings
-            - general-ledger
-            - loan
           description: Type of bank account
           example: checking
         name:
@@ -11883,7 +11983,8 @@ components:
         - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
         - Virtual Account: Creating Virtual Account Numbers (VANs)
       oneOf:
-        - $ref: '#/components/schemas/CreateCustomerBankFundingSource'
+        - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithAccountNumbers'
+        - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithPlaid'
         - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
         - $ref: '#/components/schemas/CreateCustomerVirtualAccountFundingSource'
     InactiveExchangeError:

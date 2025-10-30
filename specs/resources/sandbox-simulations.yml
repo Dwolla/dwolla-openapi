@@ -1,0 +1,58 @@
+post:
+  tags:
+    - sandbox simulations
+  summary: Simulate bank transfer processing (Sandbox only)
+  description: |
+    Triggers processing for the last 500 bank transfers on the authorized application or Sandbox account. This endpoint is only available in the Sandbox environment. It will process or fail pending bank-to-bank transactions (including both sides of a transfer when applicable) and initiated micro-deposits. If webhooks are configured, corresponding events will be delivered.
+
+    If a bank-to-bank transaction is initiated between two users, call this endpoint twice to process both the debit and credit sides.
+  operationId: simulateBankTransferProcessing
+  x-speakeasy-name-override: simulate
+  x-codeSamples:
+    - lang: bash
+      source: |
+        POST https://api-sandbox.dwolla.com/sandbox-simulations
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer {Your access token}
+  requestBody:
+    required: false
+    description: Optional JSON body. Typically empty; presence of body is not required.
+    content:
+      application/vnd.dwolla.v1.hal+json:
+        schema:
+          type: object
+  responses:
+    '200':
+      description: Simulation executed. Pending bank transfers and micro-deposits were processed or failed.
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+    '401':
+      description: unauthorized
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidAccessToken
+              message:
+                type: string
+                example: Invalid access token.
+    '403':
+      description: forbidden
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: forbidden
+              message:
+                type: string
+                example: Not authorized to simulate transfer processing.
+
