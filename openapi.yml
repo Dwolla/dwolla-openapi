@@ -8071,6 +8071,8 @@ paths:
             Accept: application/vnd.dwolla.v1.hal+json
             Content-Type: application/vnd.dwolla.v1.hal+json
             Authorization: Bearer {Your access token}
+      parameters:
+        - $ref: '#/components/parameters/Accept'
       requestBody:
         required: false
         description: Optional JSON body. Typically empty; presence of body is not required.
