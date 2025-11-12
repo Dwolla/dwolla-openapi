@@ -3631,6 +3631,11 @@ paths:
                   - title: Dwolla Balance Response
                     description: Response for retrieving balance of a Dwolla Balance funding source
                     type: object
+                    required:
+                      - _links
+                      - balance
+                      - total
+                      - lastUpdated
                     properties:
                       _links:
                         type: object
@@ -3660,6 +3665,11 @@ paths:
                   - title: Bank Balance Response
                     description: Response for retrieving balance of a bank account verified through Open Banking
                     type: object
+                    required:
+                      - _links
+                      - available
+                      - closing
+                      - lastUpdated
                     properties:
                       _links:
                         type: object
@@ -11845,7 +11855,8 @@ components:
         verified:
           type: boolean
           description: Use when creating an unverified bank account.
-          const: false
+          enum:
+            - false
           example: false
         channels:
           type: array
