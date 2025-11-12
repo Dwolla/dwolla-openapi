@@ -60,6 +60,11 @@ get:
               - title: Dwolla Balance Response
                 description: Response for retrieving balance of a Dwolla Balance funding source
                 type: object
+                required:
+                  - _links
+                  - balance
+                  - total
+                  - lastUpdated
                 properties:
                   _links:
                     type: object
@@ -89,6 +94,11 @@ get:
               - title: Bank Balance Response
                 description: Response for retrieving balance of a bank account verified through Open Banking
                 type: object
+                required:
+                  - _links
+                  - available
+                  - closing
+                  - lastUpdated
                 properties:
                   _links:
                     type: object
