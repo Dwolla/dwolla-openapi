@@ -52,19 +52,17 @@ actions:
             - Customer must exist (use get_customer or list_customers to verify if needed)
             - Choose appropriate funding source creation method based on available data:
               * Use account/routing numbers for traditional manual entry
-              * Use Plaid token if bank account was verified through Plaid
-              * Use exchange resource if bank was connected via IAV (Instant Account Verification)
-              * Use virtual account type for creating Virtual Account Numbers (VANs) for receiving funds
-            - Ensure customer type supports the chosen funding source method
+              * Use exchange resource if bank was connected via Instant Account Verification (IAV) through an Open Banking provider (e.g. Plaid, MX, Finicity, Flinks)
+              * Use virtual account type for creating Virtual Account Numbers (VANs) for enabling ACH transactions to and from a Dwolla Balance (digital wallet)
           </prerequisites>
           <workflow>
             1. Determine which funding source creation method to use based on available data
             2. For traditional method: Obtain valid US routing number and account number
-            3. For Plaid method: First obtain a Plaid processor token
-            4. For exchange method: First create an exchange session and obtain exchange resource
-            5. Specify bank account type (checking, savings, or for VANs: checking only)
-            6. Provide a nickname for the funding source (max 50 characters)
-            7. After creation, funding source may require verification before use in transfers
+            3. For exchange method: First obtain an exchange resource via Secure Exchage or Open Banking 
+            4. For virtual account method: Supply type "virtual"
+            4. Specify bank account type (checking, savings, or for VANs: checking only)
+            5. Provide a nickname for the funding source (max 50 characters)
+            6. After creation, funding source may require verification before use in transfers
           </workflow>
 
   # Add x-gram extensions to CreateCustomerBankFundingSourceWithAccountNumbers schema
@@ -122,37 +120,6 @@ actions:
             and can be used for debit and credit transfers immediately without micro-deposit verification.
           </benefits>
 
-  # Add x-gram extensions to CreateCustomerExchangeFundingSource schema
-  - target: $["components"]["schemas"]["CreateCustomerExchangeFundingSource"]
-    update:
-      x-gram:
-        name: create_funding_source_with_exchange
-        description: |
-          <context>
-            Creates a funding source using an exchange resource from Dwolla's Open Banking partners.
-            Exchange resources represent bank accounts that were connected and verified through
-            Instant Account Verification (IAV) partners like MX, Plaid, or Finicity.
-          </context>
-          <when_to_use>
-            - Customer connected their bank through Dwolla's Open Banking flow
-            - You have an exchange resource URL from a previous IAV session
-            - You want instant verification with enhanced security
-            - Adding checking or savings accounts with pre-verified credentials
-          </when_to_use>
-          <prerequisites>
-            - Create an exchange session first (use exchange partner integration)
-            - Customer must complete the bank connection through IAV flow
-            - Obtain the exchange resource URL from the successful connection
-            - Use list_available_connections to see which banks were connected
-          </prerequisites>
-          <workflow>
-            1. Create exchange session for the customer
-            2. Customer completes bank connection in IAV widget
-            3. List available exchange connections to get exchange resource URL
-            4. Use the exchange resource URL in _links.exchange.href
-            5. Funding source is created with instant verification
-          </workflow>
-
   # Add x-gram extensions to CreateCustomerVirtualAccountFundingSource schema
   - target: $["components"]["schemas"]["CreateCustomerVirtualAccountFundingSource"]
     update:
@@ -173,7 +140,7 @@ actions:
           </when_to_use>
           <prerequisites>
             - Customer must be a verified customer with Dwolla Balance access
-            - Virtual account type must be set to "virtual"
+            - Type must be set to "virtual"
             - Bank account type must be "checking" (only supported type for VANs)
           </prerequisites>
           <use_cases>
