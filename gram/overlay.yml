@@ -119,6 +119,29 @@ actions:
             Funding sources created with Plaid tokens are instantly verified
             and can be used for debit and credit transfers immediately without micro-deposit verification.
           </benefits>
+  
+  # Add x-gram extensions to CreateCustomerExchangeFundingSource schema
+  - target: $["components"]["schemas"]["CreateCustomerExchangeFundingSource"]
+    update:
+      x-gram:
+        name: create_funding_source_with_exchange
+        description: |
+          <context>
+            Creates a funding source using an exchange resource from Dwolla's Open Banking or Secure Exchange partners .
+            Exchange resources represent bank account details that were obtained and verified through
+            Instant Account Verification (IAV) partners like MX, Plaid, or Finicity.
+          </context>
+          <when_to_use>
+            - Customer connected their bank through Dwolla's Open Banking flow or Secure Exchange flow
+            - You have an exchange resource URL from a previous IAV session
+            - You want instant verification with enhanced security
+            - Adding checking or savings accounts with pre-verified credentials
+          </when_to_use>
+          <prerequisites>
+            - Create an exchange session first (use Secure Exchange or Open Banking integration)
+            - Customer must complete the bank connection through IAV flow
+            - Obtain the exchange resource URL from the successful connection
+          </prerequisites>
 
   # Add x-gram extensions to CreateCustomerVirtualAccountFundingSource schema
   - target: $["components"]["schemas"]["CreateCustomerVirtualAccountFundingSource"]
