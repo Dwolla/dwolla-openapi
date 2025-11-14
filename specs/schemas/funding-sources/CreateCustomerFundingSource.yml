@@ -40,7 +40,7 @@ CreateCustomerBankFundingSourceWithAccountNumbers:
     verified:
       type: boolean
       description: Use when creating an unverified bank account.
-      const: false
+      enum: [false]
       example: false
     channels:
       type: array

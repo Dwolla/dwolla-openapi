@@ -13,12 +13,11 @@ info:
     url: https://github.com/Dwolla/dwolla-openapi/blob/master/LICENSE
 jsonSchemaDialect: https://spec.openapis.org/oas/3.1/dialect/base
 servers:
-  - url: https://api.dwolla.com
-    description: Production server
   - url: https://api-sandbox.dwolla.com
-    description: Sandbox server
+    description: Sandbox server (default)
+    x-speakeasy-server-id: sandbox
 security:
-  - clientCredentials: []
+  - bearerAuth: []
 tags:
   - name: tokens
     description: Operations related to Application Access Tokens
@@ -3165,6 +3164,9 @@ paths:
                   message:
                     type: string
                     example: Customer ID not found. Check Customer ID.
+      x-gram:
+        name: create_customer_funding_source
+        description: "<context>\n  Creates a bank account funding source for a customer to enable money transfers.\n  Funding sources are the origin or destination of funds in transfers.\n  Multiple methods are available depending on how bank account information is obtained.\n</context>\n<prerequisites>\n  - Customer must exist (use get_customer or list_customers to verify if needed)\n  - Choose appropriate funding source creation method based on available data:\n    * Use account/routing numbers for traditional manual entry\n    * Use exchange resource if bank was connected via Instant Account Verification (IAV) through an Open Banking provider (e.g. Plaid, MX, Finicity, Flinks)\n    * Use virtual account type for creating Virtual Account Numbers (VANs) for enabling ACH transactions to and from a Dwolla Balance (digital wallet)\n</prerequisites>\n<workflow>\n  1. Determine which funding source creation method to use based on available data\n  2. For traditional method: Obtain valid US routing number and account number\n  3. For exchange method: First obtain an exchange resource via Secure Exchage or Open Banking \n  4. For virtual account method: Supply type \"virtual\"\n  4. Specify bank account type (checking, savings, or for VANs: checking only)\n  5. Provide a nickname for the funding source (max 50 characters)\n  6. After creation, funding source may require verification before use in transfers\n</workflow>\n"
   /funding-sources/{id}:
     get:
       tags:
@@ -9561,13 +9563,9 @@ paths:
                 $ref: '#/components/schemas/ForbiddenError'
 components:
   securitySchemes:
-    clientCredentials:
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: /token
-          x-speakeasy-token-endpoint-authentication: client_secret_basic
-          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
   parameters:
     Accept:
       name: Accept
@@ -11877,6 +11875,30 @@ components:
                   type: string
                   format: uri
                   example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+      x-gram:
+        name: create_funding_source_with_account_numbers
+        description: |
+          <context>
+            Traditional method for adding a bank account using routing and account numbers.
+            Use this when you have the customer's bank routing number and account number directly as well as the bankAccountType and name.
+            This is the most common method to attach an unverified bank account.
+          </context>
+          <when_to_use>
+            - Bank account details are provided
+            - You have routing number (9 digits) and account number
+            - Customer wants to add checking, savings, general-ledger, or loan accounts
+            - You need to support wire transfers (add 'wire' to channels array)
+            - Creating unverified bank accounts
+          </when_to_use>
+          <verification>
+            After creation, the funding source can be used for credits. In order to use it for debits, it will need verification via micro-deposits.
+          </verification>
+          <critical_requirements>
+            - routingNumber MUST be a STRING (e.g., "222222226", not 222222226)
+            - accountNumber MUST be a STRING (e.g., "123456789", not 123456789)
+            - Always use string values for numeric fields to preserve leading zeros
+            - Do NOT convert these values to numbers - they must remain strings
+          </critical_requirements>
     CreateCustomerBankFundingSourceWithPlaid:
       title: CreateCustomerBankFundingSourceWithPlaid
       type: object
@@ -11920,6 +11942,29 @@ components:
                   type: string
                   format: uri
                   example: https://api-sandbox.dwolla.com/on-demand-authorizations/30e7c028-0bdf-e511-80de-0aa34a9b2388
+      x-gram:
+        name: create_funding_source_with_plaid
+        description: |
+          <context>
+            Creates a bank funding source using a Plaid processor token.
+            This method provides instant account verification through Plaid's banking infrastructure.
+            The processor token contains pre-verified bank account information.
+          </context>
+          <when_to_use>
+            - Customer has already connected their bank through Plaid Link
+            - You have obtained a Plaid processor token for Dwolla
+            - You want instant verification without micro-deposits
+            - Customer is connecting checking or savings accounts only
+          </when_to_use>
+          <prerequisites>
+            - Must have Plaid integration set up
+            - Obtain a Plaid processor token (not a public token or access token)
+            - The processor token must be specifically for Dwolla
+          </prerequisites>
+          <benefits>
+            Funding sources created with Plaid tokens are instantly verified
+            and can be used for debit and credit transfers immediately without micro-deposit verification.
+          </benefits>
     CreateCustomerExchangeFundingSource:
       title: CreateCustomerExchangeFundingSource
       type: object
@@ -11963,6 +12008,25 @@ components:
           type: string
           description: Arbitrary nickname for the funding source. Must be 50 characters or less.
           example: Jane Doe's Checking
+      x-gram:
+        name: create_funding_source_with_exchange
+        description: |
+          <context>
+            Creates a funding source using an exchange resource from Dwolla's Open Banking or Secure Exchange partners .
+            Exchange resources represent bank account details that were obtained and verified through
+            Instant Account Verification (IAV) partners like MX, Plaid, or Finicity.
+          </context>
+          <when_to_use>
+            - Customer connected their bank through Dwolla's Open Banking flow or Secure Exchange flow
+            - You have an exchange resource URL from a previous IAV session
+            - You want instant verification with enhanced security
+            - Adding checking or savings accounts with pre-verified credentials
+          </when_to_use>
+          <prerequisites>
+            - Create an exchange session first (use Secure Exchange or Open Banking integration)
+            - Customer must complete the bank connection through IAV flow
+            - Obtain the exchange resource URL from the successful connection
+          </prerequisites>
     CreateCustomerVirtualAccountFundingSource:
       title: CreateCustomerVirtualAccountFundingSource
       type: object
@@ -11988,6 +12052,36 @@ components:
             - checking
           description: Type of bank account. Must be "checking" for Virtual Account Numbers.
           example: checking
+      x-gram:
+        name: create_virtual_account_funding_source
+        description: |
+          <context>
+            Creates a Virtual Account Number (VAN) for receiving external ACH transactions.
+            VANs provide unique account and routing numbers that route incoming funds
+            directly into a customer's Dwolla Balance, enabling customers to receive funds
+            from external sources outside the Dwolla network.
+          </context>
+          <when_to_use>
+            - Customer needs to receive ACH payments from external sources
+            - You want to provide customers with unique account numbers for receiving funds
+            - Customer has a Dwolla Balance (verified customers only)
+            - Enabling direct deposits or recurring payments into Dwolla Balance
+          </when_to_use>
+          <prerequisites>
+            - Customer must be a verified customer with Dwolla Balance access
+            - Type must be set to "virtual"
+            - Bank account type must be "checking" (only supported type for VANs)
+          </prerequisites>
+          <use_cases>
+            - Direct deposit for payroll
+            - Receiving customer payments via ACH
+            - Collecting recurring subscription payments
+            - Consolidating funds from multiple external sources
+          </use_cases>
+          <note>
+            After creation, use get_van_routing endpoint to retrieve the unique
+            account and routing numbers to share with external payers.
+          </note>
     CreateCustomerFundingSource:
       title: Create Customer Funding Source
       description: |
@@ -12000,6 +12094,37 @@ components:
         - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithPlaid'
         - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
         - $ref: '#/components/schemas/CreateCustomerVirtualAccountFundingSource'
+      x-gram:
+        name: funding_source_creation_options
+        description: |-
+          <context>
+            This schema represents all available methods for creating a customer funding source.
+            Choose the appropriate method based on how you obtained the bank account information
+            and the customer's requirements.
+          </context>
+          <decision_tree>
+            IF you have routing number and account number directly:
+              → Use CreateCustomerBankFundingSourceWithAccountNumbers
+              → IMPORTANT: routingNumber and accountNumber MUST be strings, not numbers
+            ELSE IF you have a Plaid processor token:
+              → Use CreateCustomerBankFundingSourceWithPlaid
+            ELSE IF customer connected bank via IAV and you have exchange resource:
+              → Use CreateCustomerExchangeFundingSource
+            ELSE IF customer needs to receive external ACH payments into Dwolla Balance:
+              → Use CreateCustomerVirtualAccountFundingSource
+          </decision_tree>
+          <selection_criteria>
+            - Account Numbers method: Most flexible, supports all account types, requires verification
+            - Plaid method: Instant verification, best UX, requires Plaid integration
+            - Exchange method: Instant verification, uses Dwolla's IAV partners (MX, Finicity, Plaid)
+            - Virtual Account method: For receiving external funds, verified customers only
+          </selection_criteria>
+          <common_mistakes>
+            - Using numbers instead of strings for routingNumber and accountNumber
+            - Forgetting to include all required fields for the chosen method
+            - Using the wrong bankAccountType for VANs (must be "checking")
+            - Mixing fields from different schemas (e.g., including plaidToken with routingNumber)
+          </common_mistakes>
     InactiveExchangeError:
       title: InactiveExchangeError
       type: object
