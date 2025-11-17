@@ -17,7 +17,7 @@ Label:
       properties:
         value:
           type: string
-          example: 10.00
+          example: '10.00'
         currency:
           type: string
           example: USD

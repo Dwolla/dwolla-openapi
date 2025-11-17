@@ -51,9 +51,7 @@ post:
         schema:
           oneOf:
             - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFinicitySecureExchange'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateMXSecureExchange'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateFlinksSecureExchange'
-            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreatePlaidSecureExchange'
+            - $ref: '../../schemas/exchanges/CreateExchange.yml#/CreateTokenBasedExchange'
   responses:
     '201':
       description: Created

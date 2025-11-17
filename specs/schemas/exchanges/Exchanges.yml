@@ -1,12 +1,18 @@
 Exchanges:
   title: Exchanges
   type: object
+  required:
+    - _links
+    - _embedded
+    - total
   properties:
     _links:
       additionalProperties:
         $ref: '../common.yml#/components/schemas/HalLink'
     _embedded:
       type: object
+      required:
+        - exchanges
       properties:
         exchanges:
           type: array
