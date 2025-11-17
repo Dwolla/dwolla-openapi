@@ -1,6 +1,14 @@
 Document:
   title: Document
+  description: Identity verification document for a customer or beneficial owner
   type: object
+  required:
+    - _links
+    - id
+    - status
+    - documentVerificationStatus
+    - type
+    - created
   properties:
     _links:
       type: object
@@ -9,31 +17,55 @@ Document:
           $ref: '../../schemas/common.yml#/components/schemas/HalLink'
     id:
       type: string
+      description: Unique identifier for the document
       example: 56502f7a-fa59-4a2f-8579-0f8bc9d7b9cc
     status:
       type: string
+      description: Current status of the document upload
+      enum:
+        - pending
+        - reviewed
       example: reviewed
     type:
       type: string
+      description: Type of identity document uploaded
+      enum:
+        - passport
+        - license
+        - idCard
+        - other
       example: passport
     created:
       type: string
       format: date-time
+      description: ISO-8601 timestamp when the document was uploaded
       example: '2015-09-29T21:42:16.000Z'
     documentVerificationStatus:
       type: string
+      description: Verification status of the document after review
+      enum:
+        - pending
+        - accepted
+        - rejected
       example: rejected
     failureReason:
       type: string
+      description: Primary reason why document verification failed (if rejected)
       example: ScanDobMismatch
     allFailureReasons:
       type: array
+      description: Complete list of all failure reasons if document verification was rejected
       items:
         type: object
+        required:
+          - reason
+          - description
         properties:
           reason:
             type: string
+            description: Failure reason code
             example: ScanDobMismatch
           description:
             type: string
+            description: Human-readable explanation of the failure reason
             example: Scan DOB does not match DOB on account

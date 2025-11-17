@@ -1,6 +1,6 @@
 CreateUSBeneficialOwner:
   title: CreateUSBeneficialOwner
-  description: Create a US Beneficial Owner (identified by SSN)
+  description: Create a US Beneficial Owner (identified by SSN). For US-based beneficial owners only. Use SSN for identity verification instead of passport.
   required:
     - firstName
     - lastName
@@ -11,17 +11,21 @@ CreateUSBeneficialOwner:
   properties:
     firstName:
       type: string
+      example: John
     lastName:
       type: string
+      example: Doe
     dateOfBirth:
       type: string
+      example: '1980-01-31'
     address:
       $ref: '../common.yml#/components/schemas/InternationalAddress'
     ssn:
       type: string
+      example: '123456789'
 CreateInternationalBeneficialOwner:
   title: CreateInternationalBeneficialOwner
-  description: Create an International Beneficial Owner (identified by Passport)
+  description: Create an International Beneficial Owner (identified by Passport). For non-US beneficial owners who don't have a US SSN. Requires passport information for identity verification.
   required:
     - firstName
     - lastName
@@ -32,10 +36,13 @@ CreateInternationalBeneficialOwner:
   properties:
     firstName:
       type: string
+      example: Jane
     lastName:
       type: string
+      example: Smith
     dateOfBirth:
       type: string
+      example: '1985-03-15'
     address:
       $ref: '../common.yml#/components/schemas/InternationalAddress'
     passport:

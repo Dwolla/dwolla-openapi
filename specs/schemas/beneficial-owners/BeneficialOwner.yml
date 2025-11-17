@@ -2,6 +2,14 @@ BeneficialOwner:
   title: BeneficialOwner
   description: Request body model for a Beneficial Owner
   type: object
+  required:
+    - _links
+    - id
+    - firstName
+    - lastName
+    - address
+    - verificationStatus
+    - created
   properties:
     _links:
       additionalProperties:
@@ -11,12 +19,18 @@ BeneficialOwner:
       example: d3d6b41e-5567-4bc6-9c6e-0efd0a3e647e
     firstName:
       type: string
+      example: John
     lastName:
       type: string
+      example: Doe
     address:
       $ref: '../../schemas/common.yml#/components/schemas/InternationalAddress'
     verificationStatus:
       type: string
+      enum:
+        - verified
+        - document
+        - incomplete
       example: verified
     created:
       type: string
