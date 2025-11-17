@@ -13,7 +13,7 @@ Customers:
           items:
             oneOf:
               - $ref: './Customer.yml#/UnverifiedCustomer'
-              - $ref: './Customer.yml#/UnverifiedBusinessCustomer'
+              - $ref: './Customer.yml#/ReceiveOnlyCustomer'
               - $ref: './Customer.yml#/VerifiedPersonalCustomer'
               - $ref: './Customer.yml#/VerifiedSolePropCustomer'
               - $ref: './Customer.yml#/VerifiedBusinessCustomer'

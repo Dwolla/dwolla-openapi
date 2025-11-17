@@ -87,6 +87,16 @@ UpdateVerifiedBusiness:
         website:
           type: string
           example: https://www.domain.com
+UpgradeToUnverified:
+  title: UpgradeToUnverified
+  description: Upgrade Receive Only User to Unverified Customer
+  type: object
+  required:   
+    - type
+  properties:
+    type:
+      type: string
+      example: unverified
 UpgradeToVerifiedPersonal:
   title: UpgradeToVerifiedPersonal
   description: Upgrade Unverified Customer to Verified Personal Customer

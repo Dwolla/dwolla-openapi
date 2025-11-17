@@ -50,9 +50,8 @@ get:
           schema:
             oneOf:
               - $ref: '../../schemas/customers/Customer.yml#/UnverifiedCustomer'
-              - $ref: '../../schemas/customers/Customer.yml#/UnverifiedBusinessCustomer'
+              - $ref: '../../schemas/customers/Customer.yml#/ReceiveOnlyCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedPersonalCustomer'
-              - $ref: '../../schemas/customers/Customer.yml#/VerifiedSolePropCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedBusinessCustomer'
     '403':
       description: forbidden
@@ -160,6 +159,7 @@ post:
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpdateUnverifiedAndReceiveOnly'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpdateVerifiedPersonal'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpdateVerifiedBusiness'
+            - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToUnverified'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedPersonal'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedBusiness'
             - $ref: '../../schemas/customers/UpdateCustomer.yml#/UpgradeToVerifiedSoleProp'
@@ -177,7 +177,7 @@ post:
           schema:
             oneOf:
               - $ref: '../../schemas/customers/Customer.yml#/UnverifiedCustomer'
-              - $ref: '../../schemas/customers/Customer.yml#/UnverifiedBusinessCustomer'
+              - $ref: '../../schemas/customers/Customer.yml#/ReceiveOnlyCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedPersonalCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedSolePropCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedBusinessCustomer'

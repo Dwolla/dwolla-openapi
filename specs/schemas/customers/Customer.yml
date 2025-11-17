@@ -1,7 +1,14 @@
-UnverifiedCustomer:
-  title: UnverifiedCustomer
-  description: Shared models between all Customer types
+BaseCustomer:
+  title: BaseCustomer
+  description: Base schema containing common fields for all customer types
   type: object
+  required:
+    - _links
+    - id
+    - firstName
+    - lastName
+    - email 
+    - created
   properties:
     _links:
       additionalProperties:
@@ -18,12 +25,6 @@ UnverifiedCustomer:
     email:
       type: string
       example: janedoe@mail.com
-    type:
-      type: string
-      example: unverified
-    status:
-      type: string
-      example: unverified
     correlationId:
       type: string
       example: 'CID-abe2bb3d-d2ff-433b-95a3-0debd960ed25'
@@ -31,53 +32,69 @@ UnverifiedCustomer:
       type: string
       format: date-time
       example: '2022-10-07T16:46:13.023Z'
-UnverifiedBusinessCustomer:
-  title: UnverifiedBusinessCustomer
+UnverifiedCustomer:
+  title: UnverifiedCustomer
+  description: Unverified customer - basic customer type with no KYC verification
   allOf:
-    - $ref: '#/UnverifiedCustomer'
+    - $ref: '#/BaseCustomer'
     - type: object
+      required:
+        - type
+        - status
       properties:
         type:
           type: string
-          example: receive-only
+          enum: [unverified]
+          example: unverified
         status:
           type: string
+          enum: [unverified, suspended, deactivated]
           example: unverified
         businessName:
           type: string
           example: Jane Corp llc
 ReceiveOnlyCustomer:
   title: ReceiveOnlyCustomer
+  description: Receive-only user - can only receive funds, not send
   allOf:
-    - $ref: '#/UnverifiedCustomer'
+    - $ref: '#/BaseCustomer'
     - type: object
+      required:
+        - type
+        - status
       properties:
         type:
           type: string
+          enum: [receive-only]
           example: receive-only
         status:
           type: string
+          enum: [unverified, suspended, deactivated]
           example: unverified
-ReceiveOnlyBusinessCustomer:
-  title: ReceiveOnlyBusinessCustomer
-  allOf:
-    - $ref: '#/ReceiveOnlyCustomer'
-    - type: object
-      properties:
         businessName:
           type: string
           example: Jane Corp llc
 VerifiedPersonalCustomer:
   title: VerifiedPersonalCustomer
+  description: Verified personal customer - fully KYC verified individual with send and receive capabilities
   allOf:
-    - $ref: '#/UnverifiedCustomer'
+    - $ref: '#/BaseCustomer'
     - type: object
+      required:
+        - type
+        - status
+        - address1
+        - city
+        - state
+        - postalCode
       properties:
         type:
           type: string
+          enum: [personal]
           example: personal
         status:
           type: string
+          enum: [verified, suspended, deactivated, document, retry, kba]
           example: verified
         address1:
           type: string
@@ -96,15 +113,28 @@ VerifiedPersonalCustomer:
           example: '50309'
 VerifiedSolePropCustomer:
   title: VerifiedSolePropCustomer
+  description: Verified sole proprietorship customer - distinguished from VerifiedBusinessCustomer by businessType=soleProprietorship
   allOf:
-    - $ref: '#/UnverifiedCustomer'
+    - $ref: '#/BaseCustomer'
     - type: object
+      required:
+        - type
+        - status
+        - address1
+        - city
+        - state
+        - postalCode
+        - businessName
+        - businessType
+        - businessClassification
       properties:
         type:
           type: string
+          enum: [business]
           example: business
         status:
           type: string
+          enum: [verified, suspended, deactivated, document, retry]
           example: verified
         address1:
           type: string
@@ -126,21 +156,36 @@ VerifiedSolePropCustomer:
           example: Jane Corp
         businessType:
           type: string
+          enum: [soleProprietorship]
           example: soleProprietorship
         businessClassification:
           type: string
           example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
 VerifiedBusinessCustomer:
   title: VerifiedBusinessCustomer
+  description: Verified business customer (LLC, Corporation, Partnership) - distinguished from VerifiedSolePropCustomer by presence of a controller object
   allOf:
-    - $ref: '#/UnverifiedCustomer'
+    - $ref: '#/BaseCustomer'
     - type: object
+      required:
+        - type
+        - status
+        - address1
+        - city
+        - state
+        - postalCode
+        - businessName
+        - businessType
+        - businessClassification
+        - controller
       properties:
         type:
           type: string
+          enum: [business]
           example: business
         status:
           type: string
+          enum: [verified, suspended, deactivated, document, retry]
           example: verified
         address1:
           type: string
@@ -171,12 +216,21 @@ VerifiedBusinessCustomer:
           example: Jane's Coffee and Sweets
         businessType:
           type: string
+          enum:
+            - llc
+            - corporation
+            - partnership
           example: llc
         businessClassification:
           type: string
           example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
         controller:
           type: object
+          required:
+            - firstName
+            - lastName
+            - title
+            - address
           properties:
             firstName:
               type: string

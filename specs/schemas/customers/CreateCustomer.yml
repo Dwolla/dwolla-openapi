@@ -40,6 +40,7 @@ CreateUnverifiedCustomer:
     - firstName
     - lastName
     - email
+    - type
   properties:
     firstName:
       type: string
@@ -50,6 +51,9 @@ CreateUnverifiedCustomer:
     email:
       type: string
       example: accountAdmin@email.com
+    type:
+      type: string
+      const: unverified
     ipAddress:
       type: string
       example: 143.156.7.8
