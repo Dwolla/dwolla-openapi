@@ -7,10 +7,10 @@ UpdateUnverifiedBank:
   properties:
     routingNumber:
       type: string
-      example: 222222226
+      example: '222222226'
     accountNumber:
       type: string
-      example: 123456789
+      example: '123456789'
     bankAccountType:
       type: string
       example: checking

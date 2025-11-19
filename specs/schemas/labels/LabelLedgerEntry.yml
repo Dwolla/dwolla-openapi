@@ -13,7 +13,7 @@ LabelLedgerEntry:
       properties:
         value:
           type: string
-          example: -5.00
+          example: '-5.00'
         currency:
           type: string
           example: USD

@@ -204,9 +204,18 @@ post:
       multipart/form-data:
         schema:
           type: object
+          required:
+            - documentType
+            - file
           properties:
             documentType:
               type: string
+              enum:
+                - passport
+                - license
+                - idCard
+                - other
+              example: license
             file:
               type: string
               format: binary

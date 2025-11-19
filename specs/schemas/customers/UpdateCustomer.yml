@@ -73,7 +73,7 @@ UpdateVerifiedPersonal:
       example: '50309'
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
 UpdateVerifiedBusiness:
   title: UpdateVerifiedBusiness
   description: Update Verified Business Customer Information (both Sole Proprietorship and Non-Sole Proprietorship)
@@ -87,6 +87,16 @@ UpdateVerifiedBusiness:
         website:
           type: string
           example: https://www.domain.com
+UpgradeToUnverified:
+  title: UpgradeToUnverified
+  description: Upgrade Receive Only User to Unverified Customer
+  type: object
+  required:   
+    - type
+  properties:
+    type:
+      type: string
+      example: unverified
 UpgradeToVerifiedPersonal:
   title: UpgradeToVerifiedPersonal
   description: Upgrade Unverified Customer to Verified Personal Customer
@@ -129,13 +139,13 @@ UpgradeToVerifiedPersonal:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     dateOfBirth:
       type: string
       example: 1970-01-01
     ssn:
       type: string
-      example: 1234
+      example: '1234'
 UpgradeToVerifiedBusiness:
   title: UpgradeToVerifiedBusiness
   description: Upgrade Unverified Customer to Verified Business Customer
@@ -181,7 +191,7 @@ UpgradeToVerifiedBusiness:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     controller:
       type: object
       required:
@@ -202,7 +212,7 @@ UpgradeToVerifiedBusiness:
           example: CEO
         ssn:
           type: string
-          example: 6789
+          example: '6789'
         dateOfBirth:
           type: string
           example: 1980-01-31
@@ -229,7 +239,7 @@ UpgradeToVerifiedBusiness:
               example: IA
             postalCode:
               type: string
-              example: 50266
+              example: '50266'
             country:
               type: string
               example: US
@@ -285,7 +295,7 @@ UpgradeToVerifiedSoleProp:
       example: 1980-01-31
     ssn:
       type: string
-      example: 6789
+      example: '6789'
     address1:
       type: string
       example: 99-99 33rd St
@@ -297,7 +307,7 @@ UpgradeToVerifiedSoleProp:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     businessClassification:
       type: string
       example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
@@ -352,13 +362,13 @@ RetryVerifiedPersonal:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     dateOfBirth:
       type: string
       example: 1970-01-01
     ssn:
       type: string
-      example: 1234
+      example: '1234'
 RetryVerifiedBusinessNoController:
   title: RetryVerifiedBusinessNoController
   description: Retry Verification for Verified Business Customer where only Business Details need to be retried
@@ -403,7 +413,7 @@ RetryVerifiedBusinessNoController:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     businessClassification:
       type: string
       example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
@@ -461,7 +471,7 @@ RetryVerifiedBusinessWithController:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     controller:
       type: object
       required:
@@ -483,7 +493,7 @@ RetryVerifiedBusinessWithController:
           example: CEO
         ssn:
           type: string
-          example: 123456789
+          example: '123456789'
         dateOfBirth:
           type: string
           example: 1980-01-31
@@ -510,7 +520,7 @@ RetryVerifiedBusinessWithController:
               example: IA
             postalCode:
               type: string
-              example: 50266
+              example: '50266'
             country:
               type: string
               example: US
@@ -571,7 +581,7 @@ RetryVerifiedBusinessWithInternationalController:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     controller:
       type: object
       required:
@@ -685,7 +695,7 @@ RetryVerifiedSoleProp:
       example: 1980-01-31
     ssn:
       type: string
-      example: 6789
+      example: '6789'
     address1:
       type: string
       example: 99-99 33rd St
@@ -697,7 +707,7 @@ RetryVerifiedSoleProp:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     businessClassification:
       type: string
       example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203

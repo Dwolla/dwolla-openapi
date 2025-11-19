@@ -59,9 +59,15 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+            required:
+              - _links
+              - id
+              - questions
             properties:
               _links:
                 type: object
+                required:
+                  - answer
                 properties:
                   answer:
                     type: object
@@ -82,10 +88,14 @@ get:
                 type: array
                 items:
                   type: object
+                  required:
+                    - id
+                    - text
+                    - answers
                   properties:
                     id:
                       type: string
-                      example: 2355953375
+                      example: '2355953375'
                     text:
                       type: string
                       example: In what county do you currently live?
@@ -93,10 +103,13 @@ get:
                       type: array
                       items:
                         type: object
+                        required:
+                          - id
+                          - text
                         properties:
                           id:
                             type: string
-                            example: 2687969295
+                            example: '2687969295'
                           text:
                             type: string
                             example: Pulaski
@@ -238,13 +251,16 @@ post:
               type: array
               items:
                 type: object
+                required:
+                  - questionId
+                  - answerId
                 properties:
                   questionId:
                     type: string
-                    example: 2355953375
+                    example: '2355953375'
                   answerId:
                     type: string
-                    example: 2687969335
+                    example: '2687969335'
   responses:
     '200':
       description: created

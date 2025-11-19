@@ -25,7 +25,7 @@ CreateReceiveOnlyUser:
       example: 143.156.7.8
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
@@ -40,6 +40,7 @@ CreateUnverifiedCustomer:
     - firstName
     - lastName
     - email
+    - type
   properties:
     firstName:
       type: string
@@ -50,12 +51,15 @@ CreateUnverifiedCustomer:
     email:
       type: string
       example: accountAdmin@email.com
+    type:
+      type: string
+      const: unverified
     ipAddress:
       type: string
       example: 143.156.7.8
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
@@ -92,7 +96,7 @@ CreateVerifiedPersonalCustomer:
       example: 143.156.7.8
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
@@ -113,10 +117,10 @@ CreateVerifiedPersonalCustomer:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     ssn:
       type: string
-      example: 1234
+      example: '1234'
     dateOfBirth:
       type: string
       example: 1980-09-12
@@ -153,7 +157,7 @@ CreateVerifiedSolePropCustomer:
       example: 143.156.7.8
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
@@ -174,10 +178,10 @@ CreateVerifiedSolePropCustomer:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     ssn:
       type: string
-      example: 1234
+      example: '1234'
     dateOfBirth:
       type: string
       example: 1980-09-12
@@ -232,7 +236,7 @@ CreateVerifiedBusinessCustomerWithController:
       example: 143.156.7.8
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
@@ -253,7 +257,7 @@ CreateVerifiedBusinessCustomerWithController:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     businessClassification:
       type: string
       example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203
@@ -333,7 +337,7 @@ CreateVerifiedBusinessCustomerWithInternationalController:
       example: 143.156.7.8
     phone:
       type: string
-      example: 5555555555
+      example: '5555555555'
     correlationId:
       type: string
       example: fc451a7a-ae30-4404-aB95-e3553fcd733
@@ -354,7 +358,7 @@ CreateVerifiedBusinessCustomerWithInternationalController:
       example: NY
     postalCode:
       type: string
-      example: 11101
+      example: '11101'
     businessClassification:
       type: string
       example: 9ed3f670-7d6f-11e3-b1ce-5404a6144203

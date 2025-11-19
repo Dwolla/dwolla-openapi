@@ -1,6 +1,12 @@
 ExchangePartner:
   title: ExchangePartner
   type: object
+  required:
+    - _links
+    - id
+    - name
+    - status
+    - created
   properties:
     _links:
       additionalProperties:
@@ -10,10 +16,16 @@ ExchangePartner:
       example: d3d6b41e-5567-4bc6-9c6e-0efd0a3e647e
     name:
       type: string
-      example: MX
+      enum:
+        - MX
+        - Plaid
+        - Flinks
+        - Finicity
+      example: Plaid
     status:
       type: string
-      example: unverified
+      enum: [active]
+      example: active
     created:
       type: string
       format: date-time

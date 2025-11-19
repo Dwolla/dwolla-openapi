@@ -40,7 +40,7 @@ MassPaymentItem:
       properties:
         value:
           type: string
-          example: 1.00
+          example: '1.00'
         currency:
           type: string
           example: USD

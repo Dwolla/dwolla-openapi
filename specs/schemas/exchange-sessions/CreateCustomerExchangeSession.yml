@@ -28,12 +28,11 @@ CreateCustomerExchangeSessionWithRedirect:
             href:
               type: string
               format: uri
-              description: Required for Plaid mobile sessions
-              examples:
-                - description: Plaid Android example
-                  value: com.example.app123
-                - description: Plaid iOS example
-                  value: https://example.com/app123
+              description: |
+                Required for Plaid mobile sessions.
+                For Android: use app URI scheme (e.g., com.example.app123)
+                For iOS: use HTTPS URL (e.g., https://example.com/app123)
+              example: 'https://example.com/app123'
 CreateCustomerExchangeSessionForWeb:
   title: CreateCustomerExchangeSessionForWeb
   description: Create exchange session for web (MX and Plaid web sessions where redirect-url is not required)

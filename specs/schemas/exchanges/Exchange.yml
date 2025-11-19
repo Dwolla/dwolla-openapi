@@ -1,6 +1,11 @@
 Exchange:
   title: Exchange
   type: object
+  required:
+    - _links
+    - id
+    - status
+    - created
   properties:
     _links:
       additionalProperties:
@@ -10,7 +15,11 @@ Exchange:
       example: d3d6b41e-5567-4bc6-9c6e-0efd0a3e647e
     status:
       type: string
-      example: unverified
+      enum:
+        - active
+        - deactivated
+        - removed
+      example: active
     created:
       type: string
       format: date-time

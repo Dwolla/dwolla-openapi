@@ -1,6 +1,9 @@
 BeneficialOwnership:
   title: BeneficialOwnership
   type: object
+  required:
+    - _links
+    - status
   properties:
     _links:
       type: object
@@ -9,4 +12,8 @@ BeneficialOwnership:
           $ref: '../../schemas/common.yml#/components/schemas/HalLink'
     status:
       type: string
+      enum:
+        - uncertified
+        - certified
+        - recertify
       example: uncertified

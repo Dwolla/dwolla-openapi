@@ -1,6 +1,9 @@
 CreateFinicitySecureExchange:
   title: CreateFinicitySecureExchange
   type: object
+  required:
+    - _links
+    - finicity
   properties:
     _links:
       type: object
@@ -20,16 +23,16 @@ CreateFinicitySecureExchange:
           example: 3
         version:
           type: string
-          example: 1
+          example: '1'
         receiptId:
           type: string
           example: cr_4N47ou7SlppuIxq0ZUtACh10vYcloY
         receiptVersion:
           type: string
-          example: 1
+          example: '1'
         customerId:
           type: string
-          example: 5454874858510164117
+          example: '5454874858510164117'
         partnerId:
           type: integer
           format: int64
@@ -44,7 +47,7 @@ CreateFinicitySecureExchange:
                 example: moneyTransferDetails
               accountId:
                 type: string
-                example: 1015199035827334916
+                example: '1015199035827334916'
               accessPeriod:
                 type: object
                 properties:
@@ -63,12 +66,18 @@ CreateFinicitySecureExchange:
           type: string
           format: date-time
           example: '2022-07-11T06:06:23Z'
-CreateMXSecureExchange:
-  title: CreateMXSecureExchange
+CreateTokenBasedExchange:
+  title: CreateTokenBasedExchange
+  description: Create an exchange using a token. Supports MX, Plaid, and Flinks secure exchange flows.
   type: object
+  required:
+    - _links
+    - token
   properties:
     _links:
       type: object
+      required:
+        - exchange-partner
       properties:
         exchange-partner:
           type: object
@@ -78,7 +87,8 @@ CreateMXSecureExchange:
               example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
     token:
       type: string
-      example: someMXProcessorToken
+      description: Connection or processor token from the exchange partner
+      example: sandbox-token-abc123
 CreateMXOpenBankingExchange:
   title: CreateMXOpenBankingExchange
   type: object
@@ -109,47 +119,6 @@ CreateMXOpenBankingExchange:
           type: string
           description: The MX connection token for the available connection
           example: eyJhY2NvdW50SWQiOiJBQ1QtMjAxY2FkM2MtYzc2Yi00N2M1LWI3Y2QtMTkxY2FhNzdlZWM5IiwibWVtYmVySWQiOiJNQlItZGNjZWY0ZWMtOGM4MC00NTlmLTlhMGItMTc1ZTA0OTJmZWIzIn0=
-CreateFlinksSecureExchange:
-  title: CreateFlinksSecureExchange
-  type: object
-  required:
-    - _links
-    - token
-  properties:
-    _links:
-      type: object
-      required:
-        - exchange-partner
-      properties:
-        exchange-partner:
-          type: object
-          required:
-            - href
-          properties:
-            href:
-              type: string
-              format: uri
-              example: https://api.dwolla.com/exchange-partners/a0b22a57-68df-4450-b507-47c937e64e89
-    token:
-      type: string
-      description: The Flinks connection token
-      example: MTExYTFhMWEtMTExMS0xYWExLTExMTEtMTFhMTExYTExMTFhOjIyMmIyYjFiLTIyMjItMmJiMi0yMjIyLTIyYjIyMmIyMjIyYg==
-CreatePlaidSecureExchange:
-  title: CreatePlaidSecureExchange
-  type: object
-  properties:
-    _links:
-      type: object
-      properties:
-        exchange-partner:
-          type: object
-          properties:
-            href:
-              type: string
-              example: https://api.dwolla.com/exchange-partners/f53ffb32-c84f-496a-9d9d-acd100d396ef
-    token:
-      type: string
-      example: somePlaidProcessorToken
 CreatePlaidOpenBankingExchange:
   title: CreatePlaidOpenBankingExchange
   type: object
@@ -181,6 +150,7 @@ CreatePlaidOpenBankingExchange:
           description: The Plaid public token for the connection
           example: public-production-d5456acb-01d5-4932-9783-e4c883cf1c0c
 InvalidExchangeToken:
+  title: InvalidExchangeToken
   type: object
   required:
     - code
@@ -193,6 +163,7 @@ InvalidExchangeToken:
       type: string
       example: Exchange token is expired.
 InvalidExchange:
+  title: InvalidExchange
   type: object
   required:
     - code

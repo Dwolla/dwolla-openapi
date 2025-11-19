@@ -1,6 +1,10 @@
 Documents:
   title: Documents
   type: object
+  required:
+    - _links
+    - _embedded
+    - total
   properties:
     _links:
       type: object
@@ -8,6 +12,8 @@ Documents:
         $ref: '../common.yml#/components/schemas/HalLink'
     _embedded:
       type: object
+      required:
+        - documents
       properties:
         documents:
           type: array
@@ -15,4 +21,4 @@ Documents:
             $ref: './Document.yml#/Document'
     total:
       type: integer
-      example: 100
+      example: 2
