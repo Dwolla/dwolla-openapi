@@ -68,12 +68,6 @@ post:
             - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedSolePropCustomer'
             - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedBusinessCustomerWithController'
             - $ref: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedBusinessCustomerWithInternationalController'
-          discriminator:
-            propertyName: type
-            mapping:
-              receive-only: '../../schemas/customers/CreateCustomer.yml#/CreateReceiveOnlyUser'
-              unverified: '../../schemas/customers/CreateCustomer.yml#/CreateUnverifiedCustomer'
-              personal: '../../schemas/customers/CreateCustomer.yml#/CreateVerifiedPersonalCustomer'
   responses:
     '201':
       description: successful operation

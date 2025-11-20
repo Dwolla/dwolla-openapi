@@ -817,12 +817,6 @@ paths:
                 - $ref: '#/components/schemas/CreateVerifiedSolePropCustomer'
                 - $ref: '#/components/schemas/CreateVerifiedBusinessCustomerWithController'
                 - $ref: '#/components/schemas/CreateVerifiedBusinessCustomerWithInternationalController'
-              discriminator:
-                propertyName: type
-                mapping:
-                  receive-only: '#/components/schemas/CreateReceiveOnlyUser'
-                  unverified: '#/components/schemas/CreateUnverifiedCustomer'
-                  personal: '#/components/schemas/CreateVerifiedPersonalCustomer'
       responses:
         '201':
           description: successful operation
