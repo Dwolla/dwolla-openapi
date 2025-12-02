@@ -114,7 +114,7 @@ post:
     '200':
       description: Client token created successfully
       content:
-        application/json:
+        application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
             required:

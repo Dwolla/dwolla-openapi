@@ -36,6 +36,7 @@ FundingSource:
           - ach
           - real-time-payments
           - wire
+          - external
         example: ach
     bankName:
       type: string

@@ -6,6 +6,8 @@ post:
   operationId: createApplicationAccessToken
   x-speakeasy-group: tokens
   x-speakeasy-name-override: create
+  security:
+    - basicAuth: []
   x-codeSamples:
     - lang: bash
       source: |
@@ -81,9 +83,8 @@ post:
                 example: gTm0p62yYXFiB1rOdhV0TsNOinC2V2P1CMaAtojkO9JEGbv3i5
               token_type:
                 type: string
-                enum: [bearer]
-                description: The type of token, always "bearer"
-                example: bearer
+                description: The type of token, always "Bearer"
+                example: Bearer
               expires_in:
                 type: integer
                 description: The lifetime of the access token, in seconds. Default is 3600.

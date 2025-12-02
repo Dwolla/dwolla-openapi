@@ -90,8 +90,9 @@ get:
                       format: date-time
                       example: '2016-02-22T20:46:38.777Z'
               total:
-                type: string
-                example: '1'
+                type: integer
+                format: int32
+                example: 1
     '404':
       description: 404 Not Found
       headers: {}
