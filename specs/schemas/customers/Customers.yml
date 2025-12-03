@@ -17,3 +17,6 @@ Customers:
               - $ref: './Customer.yml#/VerifiedPersonalCustomer'
               - $ref: './Customer.yml#/VerifiedSolePropCustomer'
               - $ref: './Customer.yml#/VerifiedBusinessCustomer'
+    total:
+      type: integer
+      example: 2
