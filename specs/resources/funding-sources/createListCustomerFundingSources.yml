@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: List customer funding sources
-  description: Returns all funding sources for a customer, including bank accounts and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Supports filtering to exclude removed funding sources using the removed parameter.
+  description: Returns all funding sources for a customer, including bank accounts, card funding sources, and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Card funding sources include masked card information. Supports filtering to exclude removed funding sources using the removed parameter.
   operationId: listCustomerFundingSources
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: list
@@ -94,12 +94,13 @@ post:
   tags:
     - funding sources
   summary: Create customer funding source
-  description: Creates a bank account funding source for a customer. Supports manual entry with routing/account numbers or instant verification using existing open banking connections. Created funding sources require verification before transfers can be initiated.
+  description: Creates a bank account or card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
   operationId: createCustomerFundingSource
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: create
   x-codeSamples:
     - lang: bash
+      label: Create Bank Funding Source
       source: |
         POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
         Content-Type: application/vnd.dwolla.v1.hal+json
@@ -111,7 +112,29 @@ post:
           "bankAccountType": "checking",
           "name": "Jane Doe's Checking"
         }
+    - lang: bash
+      label: Create Card Funding Source
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+        {
+          "cardToken": "src_abc123_test_token_xyz789",
+          "name": "My Visa Debit Card",
+          "cardDetails": {
+            "billingAddress": {
+              "address1": "123 Main St",
+              "address2": "Apt 4B",
+              "city": "Dallas",
+              "stateProvinceRegion": "TX",
+              "country": "US",
+              "postalCode": "76034"
+            }
+          }
+        }
     - lang: javascript
+      label: Create Bank Funding Source
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
         var customerUrl =
@@ -126,7 +149,32 @@ post:
         dwolla
           .post(`${customerUrl}/funding-sources`, requestBody)
           .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: javascript
+      label: Create Card Funding Source
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+        var requestBody = {
+          cardToken: "src_abc123_test_token_xyz789",
+          name: "My Visa Debit Card",
+          cardDetails: {
+            billingAddress: {
+              address1: "123 Main St",
+              address2: "Apt 4B",
+              city: "Dallas",
+              stateProvinceRegion: "TX",
+              country: "US",
+              postalCode: "76034"
+            }
+          }
+        };
+
+        dwolla
+          .post(`${customerUrl}/funding-sources`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012'
     - lang: python
+      label: Create Bank Funding Source
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
         customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -139,7 +187,30 @@ post:
 
         customer = app_token.post('%s/funding-sources' % customer_url, request_body)
         customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: python
+      label: Create Card Funding Source
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          'cardToken': 'src_abc123_test_token_xyz789',
+          'name': 'My Visa Debit Card',
+          'cardDetails': {
+            'billingAddress': {
+              'address1': '123 Main St',
+              'address2': 'Apt 4B',
+              'city': 'Dallas',
+              'stateProvinceRegion': 'TX',
+              'country': 'US',
+              'postalCode': '76034'
+            }
+          }
+        }
+
+        customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+        customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012'
     - lang: php
+      label: Create Bank Funding Source
       source: |
         <?php
         // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
@@ -153,7 +224,31 @@ post:
         ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
         $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
         ?>
+    - lang: php
+      label: Create Card Funding Source
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fundingApi->createCustomerFundingSource([
+          "cardToken" => "src_abc123_test_token_xyz789",
+          "name" => "My Visa Debit Card",
+          "cardDetails" => [
+            "billingAddress" => [
+              "address1" => "123 Main St",
+              "address2" => "Apt 4B",
+              "city" => "Dallas",
+              "stateProvinceRegion" => "TX",
+              "country" => "US",
+              "postalCode" => "76034"
+            ]
+          ]
+        ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+        $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012"
+        ?>
     - lang: ruby
+      label: Create Bank Funding Source
       source: |
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -162,6 +257,182 @@ post:
           accountNumber: '123456789',
           bankAccountType: 'checking',
           name: 'Jane Doe's Checking'
+        }
+
+        funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+        funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
+    - lang: ruby
+      label: Create Card Funding Source
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          cardToken: 'src_abc123_test_token_xyz789',
+          name: 'My Visa Debit Card',
+          cardDetails: {
+            billingAddress: {
+              address1: '123 Main St',
+              address2: 'Apt 4B',
+              city: 'Dallas',
+              stateProvinceRegion: 'TX',
+              country: 'US',
+              postalCode: '76034'
+            }
+          }
+        }
+
+        funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+        funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012"
+    - lang: bash
+      label: Create Virtual Account Number (VAN)
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+        {
+          "name": "My First VAN",
+          "type": "virtual",
+          "bankAccountType": "checking"
+        }
+    - lang: bash
+      label: Create Funding Source via Exchange
+      source: |
+        POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+        {
+          "_links": {
+            "exchange": {
+              "href": "https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65"
+            }
+          },
+          "bankAccountType": "checking",
+          "name": "My Bank Account"
+        }
+    - lang: javascript
+      label: Create Virtual Account Number (VAN)
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+        var requestBody = {
+          name: "My First VAN",
+          type: "virtual",
+          bankAccountType: "checking",
+        };
+
+        dwolla
+          .post(`${customerUrl}/funding-sources`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd'
+    - lang: javascript
+      label: Create Funding Source via Exchange
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var customerUrl =
+          "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+        var requestBody = {
+          _links: {
+            exchange: {
+              href: "https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65"
+            }
+          },
+          bankAccountType: "checking",
+          name: "My Bank Account"
+        };
+
+        dwolla
+          .post(`${customerUrl}/funding-sources`, requestBody)
+          .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: python
+      label: Create Virtual Account Number (VAN)
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          'name': 'My First VAN',
+          'type': 'virtual',
+          'bankAccountType': 'checking'
+        }
+
+        customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+        customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd'
+    - lang: python
+      label: Create Funding Source via Exchange
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          '_links': {
+            'exchange': {
+              'href': 'https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65'
+            }
+          },
+          'bankAccountType': 'checking',
+          'name': 'My Bank Account'
+        }
+
+        customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+        customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+    - lang: php
+      label: Create Virtual Account Number (VAN)
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fundingApi->createCustomerFundingSource([
+          "name" => "My First VAN",
+          "type" => "virtual",
+          "bankAccountType" => "checking"
+        ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+        $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd"
+        ?>
+    - lang: php
+      label: Create Funding Source via Exchange
+      source: |
+        <?php
+        // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+        $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+        $fundingSource = $fundingApi->createCustomerFundingSource([
+          "_links" => [
+            "exchange" => [
+              "href" => "https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65"
+            ]
+          ],
+          "bankAccountType" => "checking",
+          "name" => "My Bank Account"
+        ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+        $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
+        ?>
+    - lang: ruby
+      label: Create Virtual Account Number (VAN)
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          name: 'My First VAN',
+          type: 'virtual',
+          bankAccountType: 'checking'
+        }
+
+        funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+        funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd"
+    - lang: ruby
+      label: Create Funding Source via Exchange
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+        request_body = {
+          _links: {
+            exchange: {
+              href: 'https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65'
+            }
+          },
+          bankAccountType: 'checking',
+          name: 'My Bank Account'
         }
 
         funding_source = app_token.post "#{customer_url}/funding-sources", request_body
@@ -196,6 +467,43 @@ post:
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InactiveExchangeError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidExchangeTokenError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/DuplicateFundingSourceError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/UnsupportedCardCountryError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/MaximumCardsExceededError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CardMissingRequiredFieldsError'
+          examples:
+            unsupported_card_country:
+              summary: Unsupported card country
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Invalid
+                      message: The card's country is not supported.
+                      path: /cardToken
+            maximum_cards_exceeded:
+              summary: Maximum number of cards exceeded
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Invalid
+                      message: The maximum number of cards has been exceeded.
+                      path: /cardToken
+            missing_required_fields:
+              summary: Missing required fields for card
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Required
+                      message: Card token is required.
+                      path: /cardToken
+                    - code: Required
+                      message: Name is required.
+                      path: /name
     '403':
       description: forbidden
       content:

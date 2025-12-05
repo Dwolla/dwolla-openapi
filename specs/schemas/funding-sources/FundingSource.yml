@@ -44,3 +44,35 @@ FundingSource:
     fingerprint:
       type: string
       example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c
+    bankUsageType:
+      type: string
+      description: "The usage type of the bank account. Indicates if this is a settlement account for card network processors."
+      enum:
+        - card-network
+      example: card-network
+    cardDetails:
+      type: object
+      description: "Card-specific details. Only present when type is 'card'."
+      properties:
+        brand:
+          type: string
+          description: "The card brand/network (e.g., Visa, Mastercard, American Express)"
+          example: Visa
+        lastFour:
+          type: string
+          description: "The last four digits of the card number"
+          example: "1234"
+        expirationMonth:
+          type: integer
+          description: "The card expiration month (1-12)"
+          example: 12
+          minimum: 1
+          maximum: 12
+        expirationYear:
+          type: integer
+          description: "The card expiration year (4-digit year)"
+          example: 2026
+        nameOnCard:
+          type: string
+          description: "The cardholder name as it appears on the card"
+          example: John Doe
