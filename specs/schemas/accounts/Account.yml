@@ -11,50 +11,10 @@ Account:
       example: 2e21f010-3023-4891-aced-ed726d7cd5e1
     name:
       type: string
-      example: Self Employed
-    preferredBusinessName:
-      type: string
-      example: Business XYZ
-    authorizedRep:
-      type: string
-      example: Jane Doe
+      example: Jane Doe's Business
     timezoneOffset:
-      type: integer
-      example: -6
-    email:
-      type: string
-      example: janedoe@mail.com
-    phone:
-      type: string
-      example: '5555552368'
-    address:
-      type: object
-      properties:
-        address1:
-          type: string
-          example: 462 Main Street
-        city:
-          type: string
-          example: Des Moines
-        postalCode:
-          type: string
-          example: '50309'
-        state:
-          type: string
-          example: IA
-    verificationStatus:
-      type: string
-      example: Verified
-    ownershipStatus:
-      type: string
-      example: Exempt
-    ownershipCertificationStatus:
-      type: string
-      example: Exempt
+      type: number
+      example: -6.0
     type:
       type: string
       example: Commercial
-    created:
-      type: string
-      format: date-time
-      example: '2021-10-25T00:39:38.283Z'
