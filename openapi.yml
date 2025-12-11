@@ -9641,6 +9641,9 @@ components:
         name:
           type: string
           example: Self Employed
+        preferredBusinessName:
+          type: string
+          example: Business XYZ
         authorizedRep:
           type: string
           example: Jane Doe
@@ -9659,9 +9662,6 @@ components:
             address1:
               type: string
               example: 462 Main Street
-            address2:
-              type: string
-              example: Suite 124
             city:
               type: string
               example: Des Moines
