@@ -25,7 +25,23 @@ Account:
       type: string
       example: '5555552368'
     address:
-      $ref: '../common.yml#/components/schemas/Address'
+      type: object
+      properties:
+        address1:
+          type: string
+          example: 462 Main Street
+        address2:
+          type: string
+          example: Suite 124
+        city:
+          type: string
+          example: Des Moines
+        postalCode:
+          type: string
+          example: '50309'
+        state:
+          type: string
+          example: IA
     verificationStatus:
       type: string
       example: Verified
