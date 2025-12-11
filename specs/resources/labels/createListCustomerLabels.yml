@@ -202,10 +202,10 @@ post:
               properties:
                 currency:
                   type: string
-                  example: '12.34'
+                  example: 'USD'
                 value:
                   type: string
-                  example: USD
+                  example: '12.34'
   responses:
     '201':
       description: create

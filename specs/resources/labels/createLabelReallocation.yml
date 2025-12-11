@@ -144,10 +144,10 @@ post:
               properties:
                 currency:
                   type: string
-                  example: '15.00'
+                  example: 'USD'
                 value:
                   type: string
-                  example: USD
+                  example: '15.00'
   responses:
     '201':
       description: created

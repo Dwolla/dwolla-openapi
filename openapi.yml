@@ -4287,12 +4287,7 @@ paths:
                               href:
                                 type: string
                       amount:
-                        type: object
-                        properties:
-                          amount:
-                            type: string
-                          currency:
-                            type: string
+                        $ref: '#/components/schemas/TransferAmount'
                 clearing:
                   type: object
                   properties:
@@ -6423,10 +6418,10 @@ paths:
                   properties:
                     currency:
                       type: string
-                      example: '12.34'
+                      example: USD
                     value:
                       type: string
-                      example: USD
+                      example: '12.34'
       responses:
         '201':
           description: create
@@ -6926,10 +6921,10 @@ paths:
                   properties:
                     currency:
                       type: string
-                      example: '15.00'
+                      example: USD
                     value:
                       type: string
-                      example: USD
+                      example: '15.00'
       responses:
         '201':
           description: created
@@ -9632,34 +9627,6 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/HalLink'
-    Address:
-      title: Address
-      type: object
-      required:
-        - address1
-        - city
-        - country
-        - postalCode
-        - state
-      properties:
-        address1:
-          type: string
-          example: 462 Main Street
-        address2:
-          type: string
-          example: Suite 124
-        city:
-          type: string
-          example: Des Moines
-        postalCode:
-          type: string
-          example: '50309'
-        state:
-          type: string
-          example: IA
-        country:
-          type: string
-          example: US
     Account:
       title: Account
       type: object
@@ -9673,37 +9640,13 @@ components:
           example: 2e21f010-3023-4891-aced-ed726d7cd5e1
         name:
           type: string
-          example: Self Employed
-        authorizedRep:
-          type: string
-          example: Jane Doe
+          example: Jane Doe's Business
         timezoneOffset:
-          type: integer
+          type: number
           example: -6
-        email:
-          type: string
-          example: janedoe@mail.com
-        phone:
-          type: string
-          example: '5555552368'
-        address:
-          $ref: '#/components/schemas/Address'
-        verificationStatus:
-          type: string
-          example: Verified
-        ownershipStatus:
-          type: string
-          example: Exempt
-        ownershipCertificationStatus:
-          type: string
-          example: Exempt
         type:
           type: string
           example: Commercial
-        created:
-          type: string
-          format: date-time
-          example: '2021-10-25T00:39:38.283Z'
     NotFoundError:
       title: NotFoundError
       description: Error response schema for 404 NotFound

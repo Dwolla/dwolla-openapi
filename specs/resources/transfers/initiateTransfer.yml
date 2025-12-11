@@ -364,12 +364,7 @@ post:
                           href:
                             type: string
                   amount:
-                    type: object
-                    properties:
-                      amount:
-                        type: string
-                      currency:
-                        type: string
+                    $ref: '../../schemas/common.yml#/components/schemas/TransferAmount'
             clearing:
               type: object
               properties:
