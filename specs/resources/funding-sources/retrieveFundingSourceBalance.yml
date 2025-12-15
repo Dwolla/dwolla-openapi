@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve funding source balance
-  description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts. All responses include currency and last updated timestamp. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
+  description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts; for settlement accounts (bankUsageType = card-network), includes available balance only. Supports bank accounts (via Open Banking), Dwolla balance (verified customers only), and settlement accounts for card network processing.
   operationId: getFundingSourceBalance
   x-speakeasy-group: fundingSources.balance
   x-speakeasy-name-override: get
@@ -148,6 +148,51 @@ get:
                   lastUpdated:
                     type: string
                     example: '2024-09-09T16:39:14.219Z'
+              - title: Settlement Account Balance Response
+                description: Response for retrieving balance of a settlement account with bankUsageType = card-network
+                type: object
+                x-speakeasy-ignore: true
+                x-internal: true
+                required:
+                  - _links
+                  - available
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012/balance'
+                          type:
+                            type: string
+                            example: 'application/vnd.dwolla.v1.hal+json'
+                          resource-type:
+                            type: string
+                            example: 'balance'
+                      funding-source:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012'
+                          type:
+                            type: string
+                            example: 'application/vnd.dwolla.v1.hal+json'
+                          resource-type:
+                            type: string
+                            example: 'funding-source'
+                  available:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        example: '3209.55'
+                      currency:
+                        type: string
+                        example: USD
     '404':
       description: not found
       headers: {}

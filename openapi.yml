@@ -3619,24 +3619,43 @@ paths:
                         href: https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012
                         type: application/vnd.dwolla.v1.hal+json
                         resource-type: funding-source
+                      transfer-to-balance:
+                        href: https://api-sandbox.dwolla.com/transfers
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: transfer
                       remove:
                         href: https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012
                         type: application/vnd.dwolla.v1.hal+json
                         resource-type: funding-source
-                    id: 12345678-abcd-1234-abcd-123456789012
-                    status: unverified
+                      customer:
+                        href: https://api-sandbox.dwolla.com/customers/91f059e7-fac6-4677-bee1-49057a6e528f
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: customer
+                      transfer-receive:
+                        href: https://api-sandbox.dwolla.com/transfers
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: transfer
+                    id: 12fb2f3c-39c7-40cf-99e2-b0311ba39261
+                    status: verified
                     type: card
                     name: My Visa Debit Card
-                    created: '2024-01-20T14:23:45.123Z'
+                    created: '2025-12-10T18:02:47.985Z'
                     removed: false
                     channels: []
                     fingerprint: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2
                     cardDetails:
-                      brand: Visa
-                      lastFour: '1234'
-                      expirationMonth: 12
-                      expirationYear: 2026
-                      nameOnCard: John Doe
+                      brand: VISA
+                      lastFour: '1519'
+                      expirationMonth: 10
+                      expirationYear: 2027
+                      nameOnCard: Jane Doe
+                      bin: '40247644'
+                      billingAddress:
+                        address1: 552 test
+                        city: Des Moines
+                        stateProvinceRegion: IA
+                        country: US
+                        postalCode: '50310'
         '404':
           description: not found
           headers: {}
@@ -3982,7 +4001,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve funding source balance
-      description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts. All responses include currency and last updated timestamp. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
+      description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts; for settlement accounts (bankUsageType = card-network), includes available balance only. Supports bank accounts (via Open Banking), Dwolla balance (verified customers only), and settlement accounts for card network processing.
       operationId: getFundingSourceBalance
       x-speakeasy-group: fundingSources.balance
       x-speakeasy-name-override: get
@@ -4128,6 +4147,51 @@ paths:
                       lastUpdated:
                         type: string
                         example: '2024-09-09T16:39:14.219Z'
+                  - title: Settlement Account Balance Response
+                    description: Response for retrieving balance of a settlement account with bankUsageType = card-network
+                    type: object
+                    x-speakeasy-ignore: true
+                    x-internal: true
+                    required:
+                      - _links
+                      - available
+                    properties:
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012/balance
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: balance
+                          funding-source:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: funding-source
+                      available:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '3209.55'
+                          currency:
+                            type: string
+                            example: USD
         '404':
           description: not found
           headers: {}
@@ -10258,6 +10322,42 @@ components:
               type: string
               description: The cardholder name as it appears on the card
               example: John Doe
+            bin:
+              type: string
+              description: Bank Identification Number (BIN) - the first 6-8 digits of the card number
+              example: '40247644'
+            billingAddress:
+              type: object
+              description: The billing address associated with the card
+              properties:
+                address1:
+                  type: string
+                  description: First line of the street address
+                  example: 552 test
+                address2:
+                  type: string
+                  description: Second line of the street address (optional)
+                  example: Apt 4B
+                address3:
+                  type: string
+                  description: Third line of the street address (optional)
+                  example: Unit 101
+                city:
+                  type: string
+                  description: City name
+                  example: Des Moines
+                stateProvinceRegion:
+                  type: string
+                  description: Two-letter state, province, or region code
+                  example: IA
+                country:
+                  type: string
+                  description: Two-letter country code (ISO 3166-1 alpha-2)
+                  example: US
+                postalCode:
+                  type: string
+                  description: Postal code or ZIP code
+                  example: '50310'
     FundingSources:
       title: FundingSources
       type: object
