@@ -53,6 +53,12 @@ get:
       required: true
       schema:
         type: string
+    - name: removed
+      in: query
+      description: Filter removed funding sources. Boolean value. Defaults to `true`
+      required: false
+      schema:
+        type: string
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
