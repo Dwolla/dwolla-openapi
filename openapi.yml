@@ -3030,6 +3030,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: removed
+          in: query
+          description: Filter removed funding sources. Boolean value. Defaults to `true`
+          required: false
+          schema:
+            type: string
         - $ref: '#/components/parameters/Accept'
       responses:
         '200':
