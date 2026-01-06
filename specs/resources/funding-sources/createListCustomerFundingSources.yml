@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: List customer funding sources
-  description: Returns all funding sources for a customer, including bank accounts, card funding sources, and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Card funding sources include masked card information. Supports filtering to exclude removed funding sources using the removed parameter.
+  description: Returns all funding sources for a customer, including bank accounts, debit card funding sources, and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Card funding sources include masked card information. Supports filtering to exclude removed funding sources using the removed parameter.
   operationId: listCustomerFundingSources
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: list
@@ -94,7 +94,7 @@ post:
   tags:
     - funding sources
   summary: Create customer funding source
-  description: Creates a bank account or card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
+  description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
   operationId: createCustomerFundingSource
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: create
@@ -113,7 +113,7 @@ post:
           "name": "Jane Doe's Checking"
         }
     - lang: bash
-      label: Create Card Funding Source
+      label: Create Debit Card Funding Source
       source: |
         POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
         Content-Type: application/vnd.dwolla.v1.hal+json
@@ -150,7 +150,7 @@ post:
           .post(`${customerUrl}/funding-sources`, requestBody)
           .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
     - lang: javascript
-      label: Create Card Funding Source
+      label: Create Debit Card Funding Source
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
         var customerUrl =
@@ -188,7 +188,7 @@ post:
         customer = app_token.post('%s/funding-sources' % customer_url, request_body)
         customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
     - lang: python
-      label: Create Card Funding Source
+      label: Create Debit Card Funding Source
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
         customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -225,7 +225,7 @@ post:
         $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
         ?>
     - lang: php
-      label: Create Card Funding Source
+      label: Create Debit Card Funding Source
       source: |
         <?php
         // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
@@ -262,7 +262,7 @@ post:
         funding_source = app_token.post "#{customer_url}/funding-sources", request_body
         funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
     - lang: ruby
-      label: Create Card Funding Source
+      label: Create Debit Card Funding Source
       source: |
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'

@@ -5,7 +5,7 @@ CreateCustomerFundingSource:
     - Bank Account: Traditional method using routing/account numbers
     - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
     - Virtual Account: Creating Virtual Account Numbers (VANs)
-    - Card: Creating card funding sources using tokenized card data
+    - Card: Creating debit card funding sources using tokenized card data
   oneOf:
     - $ref: '#/CreateCustomerBankFundingSourceWithAccountNumbers'
     - $ref: '#/CreateCustomerBankFundingSourceWithPlaid'
@@ -169,7 +169,7 @@ CreateCustomerVirtualAccountFundingSource:
 CreateCustomerCardFundingSource:
   title: CreateCustomerCardFundingSource
   type: object
-  description: Schema for creating a card funding source using a tokenized card. The card token is obtained from a card tokenization service.
+  description: Schema for creating a debit card funding source using a tokenized card. The card token is obtained from a card tokenization service.
   required:
     - cardToken
     - name
@@ -181,7 +181,7 @@ CreateCustomerCardFundingSource:
       example: src_abc123_test_token_xyz789
     name:
       type: string
-      description: Arbitrary nickname for the card funding source. Must be 50 characters or less.
+      description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
       example: My Visa Debit Card
     cardDetails:
       type: object
@@ -289,7 +289,7 @@ VANSNotEnabledError:
 UnsupportedCardCountryError:
   title: UnsupportedCardCountryError
   type: object
-  description: Error returned when attempting to create a card funding source from an unsupported country
+  description: Error returned when attempting to create a debit card funding source from an unsupported country
   required:
     - code
     - message
@@ -332,7 +332,7 @@ UnsupportedCardCountryError:
 InvalidCardTokenError:
   title: InvalidCardTokenError
   type: object
-  description: Error returned when attempting to create a card funding source with an invalid card token
+  description: Error returned when attempting to create a debit card funding source with an invalid card token
   required:
     - code
     - message
@@ -375,7 +375,7 @@ InvalidCardTokenError:
 MaximumCardsExceededError:
   title: MaximumCardsExceededError
   type: object
-  description: Error returned when a customer has exceeded the maximum number of card funding sources
+  description: Error returned when a customer has exceeded the maximum number of debit card funding sources
   required:
     - code
     - message
@@ -413,7 +413,7 @@ MaximumCardsExceededError:
 CardMissingRequiredFieldsError:
   title: CardMissingRequiredFieldsError
   type: object
-  description: Error returned when required fields are missing when creating a card funding source
+  description: Error returned when required fields are missing when creating a debit card funding source
   required:
     - code
     - message

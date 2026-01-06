@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve a funding source
-  description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), card funding sources, and Dwolla balance (verified customers only). Card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
+  description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
   operationId: getFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: get
@@ -102,7 +102,7 @@ get:
                 fingerprint: "4cf31392f678cb26c62b75096e1a09d4465a801798b3d5c3729de44a4f54c794"
                 bankUsageType: "card-network"
             card_funding_source:
-              summary: Card funding source
+              summary: Debit card funding source
               value:
                 _links:
                   self:
