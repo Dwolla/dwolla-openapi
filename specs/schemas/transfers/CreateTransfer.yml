@@ -2211,6 +2211,39 @@ InvalidOrRemovedCardDestinationError:
               _links:
                 type: object
                 example: {}
+PrefundingSourceNotAllowedError:
+  title: PrefundingSourceNotAllowedError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotAllowed
+              message:
+                type: string
+                example: Only the prefunding account owner is able to prefund the account.
+              path:
+                type: string
+                example: /_links/source/href
+              _links:
+                type: object
+                example: {}
 # API errors (403)
 InvalidAttemptToFacilitateFundsError:
   title: InvalidAttemptToFacilitateFundsError

@@ -3445,42 +3445,9 @@ paths:
                   - $ref: '#/components/schemas/InvalidExchangeTokenError'
                   - $ref: '#/components/schemas/DuplicateFundingSourceError'
                   - $ref: '#/components/schemas/UnsupportedCardCountryError'
+                  - $ref: '#/components/schemas/InvalidCardTokenError'
                   - $ref: '#/components/schemas/MaximumCardsExceededError'
                   - $ref: '#/components/schemas/CardMissingRequiredFieldsError'
-              examples:
-                unsupported_card_country:
-                  summary: Unsupported card country
-                  value:
-                    code: ValidationError
-                    message: Validation error(s) present. See embedded errors list for more details.
-                    _embedded:
-                      errors:
-                        - code: Invalid
-                          message: The card's country is not supported.
-                          path: /cardToken
-                maximum_cards_exceeded:
-                  summary: Maximum number of cards exceeded
-                  value:
-                    code: ValidationError
-                    message: Validation error(s) present. See embedded errors list for more details.
-                    _embedded:
-                      errors:
-                        - code: Invalid
-                          message: The maximum number of cards has been exceeded.
-                          path: /cardToken
-                missing_required_fields:
-                  summary: Missing required fields for card
-                  value:
-                    code: ValidationError
-                    message: Validation error(s) present. See embedded errors list for more details.
-                    _embedded:
-                      errors:
-                        - code: Required
-                          message: Card token is required.
-                          path: /cardToken
-                        - code: Required
-                          message: Name is required.
-                          path: /name
         '403':
           description: forbidden
           content:
@@ -4150,8 +4117,6 @@ paths:
                   - title: Settlement Account Balance Response
                     description: Response for retrieving balance of a settlement account with bankUsageType = card-network
                     type: object
-                    x-speakeasy-ignore: true
-                    x-internal: true
                     required:
                       - _links
                       - available
@@ -4881,6 +4846,7 @@ paths:
                   - $ref: '#/components/schemas/WireAccountRestrictedError'
                   - $ref: '#/components/schemas/WireNotEnabledError'
                   - $ref: '#/components/schemas/WireAccountNotFoundError'
+                  - $ref: '#/components/schemas/PrefundingSourceNotAllowedError'
         '403':
           description: Forbidden
           headers: {}
@@ -12871,6 +12837,52 @@ components:
                   path:
                     type: string
                     example: /cardToken
+                  _links:
+                    type: object
+                    example: {}
+    InvalidCardTokenError:
+      title: InvalidCardTokenError
+      type: object
+      description: Error returned when attempting to create a card funding source with an invalid card token
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          enum:
+            - ValidationError
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: The card data is invalid.
+                  path:
+                    type: string
+                    example: /cardToken
+                  _links:
+                    type: object
+                    example: {}
     MaximumCardsExceededError:
       title: MaximumCardsExceededError
       type: object
@@ -15245,6 +15257,39 @@ components:
                   path:
                     type: string
                     example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    PrefundingSourceNotAllowedError:
+      title: PrefundingSourceNotAllowedError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Only the prefunding account owner is able to prefund the account.
+                  path:
+                    type: string
+                    example: /_links/source/href
                   _links:
                     type: object
                     example: {}

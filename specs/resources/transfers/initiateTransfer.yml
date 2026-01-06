@@ -519,6 +519,7 @@ post:
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WireAccountRestrictedError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WireNotEnabledError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WireAccountNotFoundError'
+              - $ref: '../../schemas/transfers/CreateTransfer.yml#/PrefundingSourceNotAllowedError'
     '403':
       description: Forbidden
       headers: {}

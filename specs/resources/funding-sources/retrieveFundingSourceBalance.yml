@@ -151,8 +151,6 @@ get:
               - title: Settlement Account Balance Response
                 description: Response for retrieving balance of a settlement account with bankUsageType = card-network
                 type: object
-                x-speakeasy-ignore: true
-                x-internal: true
                 required:
                   - _links
                   - available

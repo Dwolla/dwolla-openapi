@@ -326,6 +326,52 @@ UnsupportedCardCountryError:
               path:
                 type: string
                 example: /cardToken
+              _links:
+                type: object
+                example: {}
+InvalidCardTokenError:
+  title: InvalidCardTokenError
+  type: object
+  description: Error returned when attempting to create a card funding source with an invalid card token
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: The card data is invalid.
+              path:
+                type: string
+                example: /cardToken
+              _links:
+                type: object
+                example: {}
 MaximumCardsExceededError:
   title: MaximumCardsExceededError
   type: object

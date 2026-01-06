@@ -468,42 +468,9 @@ post:
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidExchangeTokenError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/DuplicateFundingSourceError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/UnsupportedCardCountryError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidCardTokenError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/MaximumCardsExceededError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CardMissingRequiredFieldsError'
-          examples:
-            unsupported_card_country:
-              summary: Unsupported card country
-              value:
-                code: ValidationError
-                message: Validation error(s) present. See embedded errors list for more details.
-                _embedded:
-                  errors:
-                    - code: Invalid
-                      message: The card's country is not supported.
-                      path: /cardToken
-            maximum_cards_exceeded:
-              summary: Maximum number of cards exceeded
-              value:
-                code: ValidationError
-                message: Validation error(s) present. See embedded errors list for more details.
-                _embedded:
-                  errors:
-                    - code: Invalid
-                      message: The maximum number of cards has been exceeded.
-                      path: /cardToken
-            missing_required_fields:
-              summary: Missing required fields for card
-              value:
-                code: ValidationError
-                message: Validation error(s) present. See embedded errors list for more details.
-                _embedded:
-                  errors:
-                    - code: Required
-                      message: Card token is required.
-                      path: /cardToken
-                    - code: Required
-                      message: Name is required.
-                      path: /name
     '403':
       description: forbidden
       content:
