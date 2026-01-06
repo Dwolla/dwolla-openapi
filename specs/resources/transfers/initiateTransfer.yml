@@ -2,7 +2,7 @@ post:
   tags:
     - transfers
   summary: Initiate a transfer
-  description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records and processing channels. Returns the location of the created transfer resource for tracking and management.
+  description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), Push-to-Debit Card, and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records and processing channels. Returns the location of the created transfer resource for tracking and management.
   operationId: initiateTransfer
   x-speakeasy-name-override: create
   x-codeSamples:
@@ -468,6 +468,7 @@ post:
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidFacilitatorFeeCollectFromError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidFacilitatorFeeCollectFromCombinationError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidDestinationFundingSourceError'
+              - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidOrRemovedCardDestinationError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidFacilitatorFeeAmountError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WeeklyReceiveLimitReachedError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidDestinationClearingTypeError'
@@ -489,6 +490,8 @@ post:
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidSourceBankAccountTypeError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidDestinationBankAccountTypeError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/IncompatibleSourceAndDestinationTypesError'
+              - $ref: '../../schemas/transfers/CreateTransfer.yml#/SourceNotCardNetworkSettlementError'
+              - $ref: '../../schemas/transfers/CreateTransfer.yml#/CardSourceNotAllowedError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/IncompatibleSourceForRtpDestinationError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidAmountForDestinationProcessingChannelError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/RtpFacilitatorFeeNotSupportedError'
@@ -512,6 +515,7 @@ post:
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WireAccountRestrictedError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WireNotEnabledError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/WireAccountNotFoundError'
+              - $ref: '../../schemas/transfers/CreateTransfer.yml#/PrefundingSourceNotAllowedError'
     '403':
       description: Forbidden
       headers: {}

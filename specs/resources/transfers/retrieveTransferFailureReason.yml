@@ -60,6 +60,9 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             type: object
+            required:
+              - code
+              - description
             properties:
               _links:
                 type: object

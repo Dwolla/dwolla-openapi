@@ -461,6 +461,56 @@ HighRiskError:
               _links:
                 type: object
                 example: {}
+CardSourceNotAllowedError:
+  title: CardSourceNotAllowedError
+  description: Error returned when attempting to use a debit card funding source as the transfer source
+  type: object
+  required:
+    - code
+    - message
+    - _embedded
+  additionalProperties: false
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                enum:
+                  - NotAllowed
+                example: NotAllowed
+              message:
+                type: string
+                enum:
+                  - Cards cannot be used as a source for transfers.
+                example: Cards cannot be used as a source for transfers.
+              path:
+                type: string
+                enum:
+                  - /_links/source/href
+                example: /_links/source/href
+              _links:
+                type: object
+                example: {}
 IncompatibleHoldingsError:
   title: IncompatibleHoldingsError
   type: object
@@ -2142,6 +2192,105 @@ WireAccountNotFoundError:
               path:
                 type: string
                 example: /_links/destination/href
+              _links:
+                type: object
+                example: {}
+SourceNotCardNetworkSettlementError:
+  title: SourceNotCardNetworkSettlementError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotAllowed
+              message:
+                type: string
+                example: Source funding source does not support card payouts.
+              path:
+                type: string
+                example: /_links/source/href
+              _links:
+                type: object
+                example: {}
+InvalidOrRemovedCardDestinationError:
+  title: InvalidOrRemovedCardDestinationError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: Destination funding source is either removed or does not exist.
+              path:
+                type: string
+                example: /_links/destination/href
+              _links:
+                type: object
+                example: {}
+PrefundingSourceNotAllowedError:
+  title: PrefundingSourceNotAllowedError
+  type: object
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: NotAllowed
+              message:
+                type: string
+                example: Only the prefunding account owner is able to prefund the account.
+              path:
+                type: string
+                example: /_links/source/href
               _links:
                 type: object
                 example: {}

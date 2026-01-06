@@ -44,3 +44,71 @@ FundingSource:
     fingerprint:
       type: string
       example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c
+    bankUsageType:
+      type: string
+      description: "The usage type of the bank account. Indicates if this is a settlement account for card network processors."
+      enum:
+        - card-network
+      example: card-network
+    cardDetails:
+      type: object
+      description: "Card-specific details. Only present when type is 'card'."
+      properties:
+        brand:
+          type: string
+          description: "The card brand/network (e.g., Visa, Mastercard, American Express)"
+          example: Visa
+        lastFour:
+          type: string
+          description: "The last four digits of the card number"
+          example: "1234"
+        expirationMonth:
+          type: integer
+          description: "The card expiration month (1-12)"
+          example: 12
+          minimum: 1
+          maximum: 12
+        expirationYear:
+          type: integer
+          description: "The card expiration year (4-digit year)"
+          example: 2026
+        nameOnCard:
+          type: string
+          description: "The cardholder name as it appears on the card"
+          example: John Doe
+        bin:
+          type: string
+          description: "Bank Identification Number (BIN) - the first 6-8 digits of the card number"
+          example: "40247644"
+        billingAddress:
+          type: object
+          description: "The billing address associated with the card"
+          properties:
+            address1:
+              type: string
+              description: "First line of the street address"
+              example: "552 test"
+            address2:
+              type: string
+              description: "Second line of the street address (optional)"
+              example: "Apt 4B"
+            address3:
+              type: string
+              description: "Third line of the street address (optional)"
+              example: "Unit 101"
+            city:
+              type: string
+              description: "City name"
+              example: "Des Moines"
+            stateProvinceRegion:
+              type: string
+              description: "Two-letter state, province, or region code"
+              example: "IA"
+            country:
+              type: string
+              description: "Two-letter country code (ISO 3166-1 alpha-2)"
+              example: "US"
+            postalCode:
+              type: string
+              description: "Postal code or ZIP code"
+              example: "50310"

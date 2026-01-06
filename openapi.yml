@@ -2979,7 +2979,7 @@ paths:
       tags:
         - funding sources
       summary: List customer funding sources
-      description: Returns all funding sources for a customer, including bank accounts and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Supports filtering to exclude removed funding sources using the removed parameter.
+      description: Returns all funding sources for a customer, including bank accounts, debit card funding sources, and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Card funding sources include masked card information. Supports filtering to exclude removed funding sources using the removed parameter.
       operationId: listCustomerFundingSources
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: list
@@ -3077,12 +3077,13 @@ paths:
       tags:
         - funding sources
       summary: Create customer funding source
-      description: Creates a bank account funding source for a customer. Supports manual entry with routing/account numbers or instant verification using existing open banking connections. Created funding sources require verification before transfers can be initiated.
+      description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
       operationId: createCustomerFundingSource
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: create
       x-codeSamples:
         - lang: bash
+          label: Create Bank Funding Source
           source: |
             POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
             Content-Type: application/vnd.dwolla.v1.hal+json
@@ -3094,7 +3095,29 @@ paths:
               "bankAccountType": "checking",
               "name": "Jane Doe's Checking"
             }
+        - lang: bash
+          label: Create Debit Card Funding Source
+          source: |
+            POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Accept: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+            {
+              "cardToken": "src_abc123_test_token_xyz789",
+              "name": "My Visa Debit Card",
+              "cardDetails": {
+                "billingAddress": {
+                  "address1": "123 Main St",
+                  "address2": "Apt 4B",
+                  "city": "Dallas",
+                  "stateProvinceRegion": "TX",
+                  "country": "US",
+                  "postalCode": "76034"
+                }
+              }
+            }
         - lang: javascript
+          label: Create Bank Funding Source
           source: |
             // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
             var customerUrl =
@@ -3109,7 +3132,32 @@ paths:
             dwolla
               .post(`${customerUrl}/funding-sources`, requestBody)
               .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+        - lang: javascript
+          label: Create Debit Card Funding Source
+          source: |
+            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+            var customerUrl =
+              "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+            var requestBody = {
+              cardToken: "src_abc123_test_token_xyz789",
+              name: "My Visa Debit Card",
+              cardDetails: {
+                billingAddress: {
+                  address1: "123 Main St",
+                  address2: "Apt 4B",
+                  city: "Dallas",
+                  stateProvinceRegion: "TX",
+                  country: "US",
+                  postalCode: "76034"
+                }
+              }
+            };
+
+            dwolla
+              .post(`${customerUrl}/funding-sources`, requestBody)
+              .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012'
         - lang: python
+          label: Create Bank Funding Source
           source: |
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
             customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -3122,7 +3170,30 @@ paths:
 
             customer = app_token.post('%s/funding-sources' % customer_url, request_body)
             customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+        - lang: python
+          label: Create Debit Card Funding Source
+          source: |
+            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+            customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+            request_body = {
+              'cardToken': 'src_abc123_test_token_xyz789',
+              'name': 'My Visa Debit Card',
+              'cardDetails': {
+                'billingAddress': {
+                  'address1': '123 Main St',
+                  'address2': 'Apt 4B',
+                  'city': 'Dallas',
+                  'stateProvinceRegion': 'TX',
+                  'country': 'US',
+                  'postalCode': '76034'
+                }
+              }
+            }
+
+            customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+            customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012'
         - lang: php
+          label: Create Bank Funding Source
           source: |
             <?php
             // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
@@ -3136,7 +3207,31 @@ paths:
             ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
             $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
             ?>
+        - lang: php
+          label: Create Debit Card Funding Source
+          source: |
+            <?php
+            // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+            $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+            $fundingSource = $fundingApi->createCustomerFundingSource([
+              "cardToken" => "src_abc123_test_token_xyz789",
+              "name" => "My Visa Debit Card",
+              "cardDetails" => [
+                "billingAddress" => [
+                  "address1" => "123 Main St",
+                  "address2" => "Apt 4B",
+                  "city" => "Dallas",
+                  "stateProvinceRegion" => "TX",
+                  "country" => "US",
+                  "postalCode" => "76034"
+                ]
+              ]
+            ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+            $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012"
+            ?>
         - lang: ruby
+          label: Create Bank Funding Source
           source: |
             # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
             customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -3145,6 +3240,182 @@ paths:
               accountNumber: '123456789',
               bankAccountType: 'checking',
               name: 'Jane Doe's Checking'
+            }
+
+            funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+            funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
+        - lang: ruby
+          label: Create Debit Card Funding Source
+          source: |
+            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+            customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+            request_body = {
+              cardToken: 'src_abc123_test_token_xyz789',
+              name: 'My Visa Debit Card',
+              cardDetails: {
+                billingAddress: {
+                  address1: '123 Main St',
+                  address2: 'Apt 4B',
+                  city: 'Dallas',
+                  stateProvinceRegion: 'TX',
+                  country: 'US',
+                  postalCode: '76034'
+                }
+              }
+            }
+
+            funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+            funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012"
+        - lang: bash
+          label: Create Virtual Account Number (VAN)
+          source: |
+            POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Accept: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+            {
+              "name": "My First VAN",
+              "type": "virtual",
+              "bankAccountType": "checking"
+            }
+        - lang: bash
+          label: Create Funding Source via Exchange
+          source: |
+            POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Accept: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+            {
+              "_links": {
+                "exchange": {
+                  "href": "https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65"
+                }
+              },
+              "bankAccountType": "checking",
+              "name": "My Bank Account"
+            }
+        - lang: javascript
+          label: Create Virtual Account Number (VAN)
+          source: |
+            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+            var customerUrl =
+              "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+            var requestBody = {
+              name: "My First VAN",
+              type: "virtual",
+              bankAccountType: "checking",
+            };
+
+            dwolla
+              .post(`${customerUrl}/funding-sources`, requestBody)
+              .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd'
+        - lang: javascript
+          label: Create Funding Source via Exchange
+          source: |
+            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+            var customerUrl =
+              "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
+            var requestBody = {
+              _links: {
+                exchange: {
+                  href: "https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65"
+                }
+              },
+              bankAccountType: "checking",
+              name: "My Bank Account"
+            };
+
+            dwolla
+              .post(`${customerUrl}/funding-sources`, requestBody)
+              .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+        - lang: python
+          label: Create Virtual Account Number (VAN)
+          source: |
+            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+            customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+            request_body = {
+              'name': 'My First VAN',
+              'type': 'virtual',
+              'bankAccountType': 'checking'
+            }
+
+            customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+            customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd'
+        - lang: python
+          label: Create Funding Source via Exchange
+          source: |
+            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+            customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+            request_body = {
+              '_links': {
+                'exchange': {
+                  'href': 'https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65'
+                }
+              },
+              'bankAccountType': 'checking',
+              'name': 'My Bank Account'
+            }
+
+            customer = app_token.post('%s/funding-sources' % customer_url, request_body)
+            customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
+        - lang: php
+          label: Create Virtual Account Number (VAN)
+          source: |
+            <?php
+            // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+            $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+            $fundingSource = $fundingApi->createCustomerFundingSource([
+              "name" => "My First VAN",
+              "type" => "virtual",
+              "bankAccountType" => "checking"
+            ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+            $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd"
+            ?>
+        - lang: php
+          label: Create Funding Source via Exchange
+          source: |
+            <?php
+            // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
+            $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
+
+            $fundingSource = $fundingApi->createCustomerFundingSource([
+              "_links" => [
+                "exchange" => [
+                  "href" => "https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65"
+                ]
+              ],
+              "bankAccountType" => "checking",
+              "name" => "My Bank Account"
+            ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
+            $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
+            ?>
+        - lang: ruby
+          label: Create Virtual Account Number (VAN)
+          source: |
+            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+            customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+            request_body = {
+              name: 'My First VAN',
+              type: 'virtual',
+              bankAccountType: 'checking'
+            }
+
+            funding_source = app_token.post "#{customer_url}/funding-sources", request_body
+            funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/fc84d628-f694-47e8-8d57-0d5872a81afd"
+        - lang: ruby
+          label: Create Funding Source via Exchange
+          source: |
+            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+            customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
+            request_body = {
+              _links: {
+                exchange: {
+                  href: 'https://api-sandbox.dwolla.com/exchanges/6bc9109a-04fd-49b6-ace6-ca06fd282d65'
+                }
+              },
+              bankAccountType: 'checking',
+              name: 'My Bank Account'
             }
 
             funding_source = app_token.post "#{customer_url}/funding-sources", request_body
@@ -3179,6 +3450,10 @@ paths:
                   - $ref: '#/components/schemas/InactiveExchangeError'
                   - $ref: '#/components/schemas/InvalidExchangeTokenError'
                   - $ref: '#/components/schemas/DuplicateFundingSourceError'
+                  - $ref: '#/components/schemas/UnsupportedCardCountryError'
+                  - $ref: '#/components/schemas/InvalidCardTokenError'
+                  - $ref: '#/components/schemas/MaximumCardsExceededError'
+                  - $ref: '#/components/schemas/CardMissingRequiredFieldsError'
         '403':
           description: forbidden
           content:
@@ -3210,7 +3485,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve a funding source
-      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
+      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
       operationId: getFundingSource
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: get
@@ -3268,6 +3543,92 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 $ref: '#/components/schemas/FundingSource'
+              examples:
+                standard_bank_account:
+                  summary: Standard bank account
+                  value:
+                    _links:
+                      self:
+                        href: https://api-sandbox.dwolla.com/funding-sources/49dbaa24-1580-4b1c-8b58-24e26656fa31
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: funding-source
+                    id: 49dbaa24-1580-4b1c-8b58-24e26656fa31
+                    status: verified
+                    type: bank
+                    bankAccountType: checking
+                    name: Test checking account
+                    created: '2022-07-23T00:18:21.419Z'
+                    removed: false
+                    channels:
+                      - ach
+                    bankName: SANDBOX TEST BANK
+                    fingerprint: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c
+                settlement_account:
+                  summary: Card network settlement account
+                  value:
+                    _links:
+                      self:
+                        href: https://api-sandbox.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: funding-source
+                    id: 12345678-1234-1234-1234-123456789012
+                    status: unverified
+                    type: bank
+                    bankAccountType: checking
+                    name: Checkout.com Settlement Account
+                    created: '2024-01-15T10:30:00.000Z'
+                    removed: false
+                    channels:
+                      - ach
+                      - real-time-payments
+                    bankName: ABC Bank
+                    fingerprint: 4cf31392f678cb26c62b75096e1a09d4465a801798b3d5c3729de44a4f54c794
+                    bankUsageType: card-network
+                card_funding_source:
+                  summary: Debit card funding source
+                  value:
+                    _links:
+                      self:
+                        href: https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: funding-source
+                      transfer-to-balance:
+                        href: https://api-sandbox.dwolla.com/transfers
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: transfer
+                      remove:
+                        href: https://api-sandbox.dwolla.com/funding-sources/12345678-abcd-1234-abcd-123456789012
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: funding-source
+                      customer:
+                        href: https://api-sandbox.dwolla.com/customers/91f059e7-fac6-4677-bee1-49057a6e528f
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: customer
+                      transfer-receive:
+                        href: https://api-sandbox.dwolla.com/transfers
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: transfer
+                    id: 12fb2f3c-39c7-40cf-99e2-b0311ba39261
+                    status: verified
+                    type: card
+                    name: My Visa Debit Card
+                    created: '2025-12-10T18:02:47.985Z'
+                    removed: false
+                    channels: []
+                    fingerprint: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2
+                    cardDetails:
+                      brand: VISA
+                      lastFour: '1519'
+                      expirationMonth: 10
+                      expirationYear: 2027
+                      nameOnCard: Jane Doe
+                      bin: '40247644'
+                      billingAddress:
+                        address1: 552 test
+                        city: Des Moines
+                        stateProvinceRegion: IA
+                        country: US
+                        postalCode: '50310'
         '404':
           description: not found
           headers: {}
@@ -3375,7 +3736,7 @@ paths:
                     example: validationError
                   message:
                     type: string
-                    example: Only funding sources of type="bank" can be updated.
+                    example: Only funding sources of type='bank' can be updated.
         '403':
           description: forbidden
           headers: {}
@@ -3613,7 +3974,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve funding source balance
-      description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts. All responses include currency and last updated timestamp. Supports bank accounts (via Open Banking) and Dwolla balance (verified customers only).
+      description: Returns the current balance for a specific funding source. For bank accounts, includes available and closing balances; for Dwolla balance, includes balance and total amounts; for settlement accounts (bankUsageType = card-network), includes available balance only. Supports bank accounts (via Open Banking), Dwolla balance (verified customers only), and settlement accounts for card network processing.
       operationId: getFundingSourceBalance
       x-speakeasy-group: fundingSources.balance
       x-speakeasy-name-override: get
@@ -3759,6 +4120,49 @@ paths:
                       lastUpdated:
                         type: string
                         example: '2024-09-09T16:39:14.219Z'
+                  - title: Settlement Account Balance Response
+                    description: Response for retrieving balance of a settlement account with bankUsageType = card-network
+                    type: object
+                    required:
+                      - _links
+                      - available
+                    properties:
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012/balance
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: balance
+                          funding-source:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example: https://api.dwolla.com/funding-sources/12345678-1234-1234-1234-123456789012
+                              type:
+                                type: string
+                                example: application/vnd.dwolla.v1.hal+json
+                              resource-type:
+                                type: string
+                                example: funding-source
+                      available:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            example: '3209.55'
+                          currency:
+                            type: string
+                            example: USD
         '404':
           description: not found
           headers: {}
@@ -3931,7 +4335,7 @@ paths:
       tags:
         - transfers
       summary: Initiate a transfer
-      description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records and processing channels. Returns the location of the created transfer resource for tracking and management.
+      description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), Push-to-Debit Card, and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records and processing channels. Returns the location of the created transfer resource for tracking and management.
       operationId: initiateTransfer
       x-speakeasy-name-override: create
       x-codeSamples:
@@ -4397,6 +4801,7 @@ paths:
                   - $ref: '#/components/schemas/InvalidFacilitatorFeeCollectFromError'
                   - $ref: '#/components/schemas/InvalidFacilitatorFeeCollectFromCombinationError'
                   - $ref: '#/components/schemas/InvalidDestinationFundingSourceError'
+                  - $ref: '#/components/schemas/InvalidOrRemovedCardDestinationError'
                   - $ref: '#/components/schemas/InvalidFacilitatorFeeAmountError'
                   - $ref: '#/components/schemas/WeeklyReceiveLimitReachedError'
                   - $ref: '#/components/schemas/InvalidDestinationClearingTypeError'
@@ -4418,6 +4823,8 @@ paths:
                   - $ref: '#/components/schemas/InvalidSourceBankAccountTypeError'
                   - $ref: '#/components/schemas/InvalidDestinationBankAccountTypeError'
                   - $ref: '#/components/schemas/IncompatibleSourceAndDestinationTypesError'
+                  - $ref: '#/components/schemas/SourceNotCardNetworkSettlementError'
+                  - $ref: '#/components/schemas/CardSourceNotAllowedError'
                   - $ref: '#/components/schemas/IncompatibleSourceForRtpDestinationError'
                   - $ref: '#/components/schemas/InvalidAmountForDestinationProcessingChannelError'
                   - $ref: '#/components/schemas/RtpFacilitatorFeeNotSupportedError'
@@ -4441,6 +4848,7 @@ paths:
                   - $ref: '#/components/schemas/WireAccountRestrictedError'
                   - $ref: '#/components/schemas/WireNotEnabledError'
                   - $ref: '#/components/schemas/WireAccountNotFoundError'
+                  - $ref: '#/components/schemas/PrefundingSourceNotAllowedError'
         '403':
           description: Forbidden
           headers: {}
@@ -4927,6 +5335,9 @@ paths:
             application/vnd.dwolla.v1.hal+json:
               schema:
                 type: object
+                required:
+                  - code
+                  - description
                 properties:
                   _links:
                     type: object
@@ -9795,6 +10206,74 @@ components:
         fingerprint:
           type: string
           example: 5012989b55af15400e8102f95d2ec5e7ce3aef45c01613280d80a236dd8d6c
+        bankUsageType:
+          type: string
+          description: The usage type of the bank account. Indicates if this is a settlement account for card network processors.
+          enum:
+            - card-network
+          example: card-network
+        cardDetails:
+          type: object
+          description: Card-specific details. Only present when type is 'card'.
+          properties:
+            brand:
+              type: string
+              description: The card brand/network (e.g., Visa, Mastercard, American Express)
+              example: Visa
+            lastFour:
+              type: string
+              description: The last four digits of the card number
+              example: '1234'
+            expirationMonth:
+              type: integer
+              description: The card expiration month (1-12)
+              example: 12
+              minimum: 1
+              maximum: 12
+            expirationYear:
+              type: integer
+              description: The card expiration year (4-digit year)
+              example: 2026
+            nameOnCard:
+              type: string
+              description: The cardholder name as it appears on the card
+              example: John Doe
+            bin:
+              type: string
+              description: Bank Identification Number (BIN) - the first 6-8 digits of the card number
+              example: '40247644'
+            billingAddress:
+              type: object
+              description: The billing address associated with the card
+              properties:
+                address1:
+                  type: string
+                  description: First line of the street address
+                  example: 552 test
+                address2:
+                  type: string
+                  description: Second line of the street address (optional)
+                  example: Apt 4B
+                address3:
+                  type: string
+                  description: Third line of the street address (optional)
+                  example: Unit 101
+                city:
+                  type: string
+                  description: City name
+                  example: Des Moines
+                stateProvinceRegion:
+                  type: string
+                  description: Two-letter state, province, or region code
+                  example: IA
+                country:
+                  type: string
+                  description: Two-letter country code (ISO 3166-1 alpha-2)
+                  example: US
+                postalCode:
+                  type: string
+                  description: Postal code or ZIP code
+                  example: '50310'
     FundingSources:
       title: FundingSources
       type: object
@@ -12155,6 +12634,66 @@ components:
             - checking
           description: Type of bank account. Must be "checking" for Virtual Account Numbers.
           example: checking
+    CreateCustomerCardFundingSource:
+      title: CreateCustomerCardFundingSource
+      type: object
+      description: Schema for creating a debit card funding source using a tokenized card. The card token is obtained from a card tokenization service.
+      required:
+        - cardToken
+        - name
+        - cardDetails
+      properties:
+        cardToken:
+          type: string
+          description: A tokenized representation of the card obtained from a card tokenization service
+          example: src_abc123_test_token_xyz789
+        name:
+          type: string
+          description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
+          example: My Visa Debit Card
+        cardDetails:
+          type: object
+          required:
+            - billingAddress
+          properties:
+            billingAddress:
+              type: object
+              description: The billing address associated with the card
+              required:
+                - address1
+                - city
+                - stateProvinceRegion
+                - country
+                - postalCode
+              properties:
+                address1:
+                  type: string
+                  description: First line of the street address. Must be 50 characters or less.
+                  example: 123 Main St
+                address2:
+                  type: string
+                  description: Second line of the street address (optional). Must be 100 characters or less.
+                  example: Apt 4B
+                address3:
+                  type: string
+                  description: Third line of the street address (optional). Must be 100 characters or less.
+                  example: Unit 101
+                city:
+                  type: string
+                  description: City name. Must be 50 characters or less.
+                  example: Dallas
+                stateProvinceRegion:
+                  type: string
+                  description: Two-letter state, province, or region code.
+                  example: TX
+                country:
+                  type: string
+                  description: Two-letter country code (ISO 3166-1 alpha-2)
+                  example: US
+                postalCode:
+                  type: string
+                  description: Postal code or ZIP code
+                  example: '76034'
     CreateCustomerFundingSource:
       title: Create Customer Funding Source
       description: |
@@ -12162,11 +12701,13 @@ components:
         - Bank Account: Traditional method using routing/account numbers
         - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
         - Virtual Account: Creating Virtual Account Numbers (VANs)
+        - Card: Creating debit card funding sources using tokenized card data
       oneOf:
         - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithAccountNumbers'
         - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithPlaid'
         - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
         - $ref: '#/components/schemas/CreateCustomerVirtualAccountFundingSource'
+        - $ref: '#/components/schemas/CreateCustomerCardFundingSource'
     InactiveExchangeError:
       title: InactiveExchangeError
       type: object
@@ -12206,6 +12747,168 @@ components:
         message:
           type: string
           example: Duplicate funding source or validation error. Authorization already associated to a funding source.
+    UnsupportedCardCountryError:
+      title: UnsupportedCardCountryError
+      type: object
+      description: Error returned when attempting to create a debit card funding source from an unsupported country
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          enum:
+            - ValidationError
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: The card's country is not supported.
+                  path:
+                    type: string
+                    example: /cardToken
+                  _links:
+                    type: object
+                    example: {}
+    InvalidCardTokenError:
+      title: InvalidCardTokenError
+      type: object
+      description: Error returned when attempting to create a debit card funding source with an invalid card token
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          enum:
+            - ValidationError
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: The card data is invalid.
+                  path:
+                    type: string
+                    example: /cardToken
+                  _links:
+                    type: object
+                    example: {}
+    MaximumCardsExceededError:
+      title: MaximumCardsExceededError
+      type: object
+      description: Error returned when a customer has exceeded the maximum number of debit card funding sources
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: The maximum number of cards has been exceeded.
+                  path:
+                    type: string
+                    example: /cardToken
+    CardMissingRequiredFieldsError:
+      title: CardMissingRequiredFieldsError
+      type: object
+      description: Error returned when required fields are missing when creating a debit card funding source
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    example: Required
+                  message:
+                    type: string
+                    example: Card token is required.
+                  path:
+                    type: string
+                    example: /cardToken
     UpdateUnverifiedBank:
       title: UpdateUnverifiedBank
       description: Request body for updating information of an unverified bank funding source
@@ -12989,6 +13692,39 @@ components:
                   _links:
                     type: object
                     example: {}
+    InvalidOrRemovedCardDestinationError:
+      title: InvalidOrRemovedCardDestinationError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Destination funding source is either removed or does not exist.
+                  path:
+                    type: string
+                    example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
     InvalidFacilitatorFeeAmountError:
       title: InvalidFacilitatorFeeAmountError
       type: object
@@ -13679,6 +14415,89 @@ components:
                   path:
                     type: string
                     example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    SourceNotCardNetworkSettlementError:
+      title: SourceNotCardNetworkSettlementError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Source funding source does not support card payouts.
+                  path:
+                    type: string
+                    example: /_links/source/href
+                  _links:
+                    type: object
+                    example: {}
+    CardSourceNotAllowedError:
+      title: CardSourceNotAllowedError
+      description: Error returned when attempting to use a debit card funding source as the transfer source
+      type: object
+      required:
+        - code
+        - message
+        - _embedded
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          enum:
+            - ValidationError
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    enum:
+                      - NotAllowed
+                    example: NotAllowed
+                  message:
+                    type: string
+                    enum:
+                      - Cards cannot be used as a source for transfers.
+                    example: Cards cannot be used as a source for transfers.
+                  path:
+                    type: string
+                    enum:
+                      - /_links/source/href
+                    example: /_links/source/href
                   _links:
                     type: object
                     example: {}
@@ -14438,6 +15257,39 @@ components:
                   path:
                     type: string
                     example: /_links/destination/href
+                  _links:
+                    type: object
+                    example: {}
+    PrefundingSourceNotAllowedError:
+      title: PrefundingSourceNotAllowedError
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Only the prefunding account owner is able to prefund the account.
+                  path:
+                    type: string
+                    example: /_links/source/href
                   _links:
                     type: object
                     example: {}

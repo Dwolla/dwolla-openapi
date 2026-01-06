@@ -5,11 +5,13 @@ CreateCustomerFundingSource:
     - Bank Account: Traditional method using routing/account numbers
     - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
     - Virtual Account: Creating Virtual Account Numbers (VANs)
+    - Card: Creating debit card funding sources using tokenized card data
   oneOf:
     - $ref: '#/CreateCustomerBankFundingSourceWithAccountNumbers'
     - $ref: '#/CreateCustomerBankFundingSourceWithPlaid'
     - $ref: '#/CreateCustomerExchangeFundingSource'
     - $ref: '#/CreateCustomerVirtualAccountFundingSource'
+    - $ref: '#/CreateCustomerCardFundingSource'
 CreateCustomerBankFundingSourceWithAccountNumbers:
   title: CreateCustomerBankFundingSourceWithAccountNumbers
   type: object
@@ -164,6 +166,66 @@ CreateCustomerVirtualAccountFundingSource:
       enum: [checking]
       description: Type of bank account. Must be "checking" for Virtual Account Numbers.
       example: checking
+CreateCustomerCardFundingSource:
+  title: CreateCustomerCardFundingSource
+  type: object
+  description: Schema for creating a debit card funding source using a tokenized card. The card token is obtained from a card tokenization service.
+  required:
+    - cardToken
+    - name
+    - cardDetails
+  properties:
+    cardToken:
+      type: string
+      description: A tokenized representation of the card obtained from a card tokenization service
+      example: src_abc123_test_token_xyz789
+    name:
+      type: string
+      description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
+      example: My Visa Debit Card
+    cardDetails:
+      type: object
+      required:
+        - billingAddress
+      properties:
+        billingAddress:
+          type: object
+          description: The billing address associated with the card
+          required:
+            - address1
+            - city
+            - stateProvinceRegion
+            - country
+            - postalCode
+          properties:
+            address1:
+              type: string
+              description: First line of the street address. Must be 50 characters or less.
+              example: 123 Main St
+            address2:
+              type: string
+              description: Second line of the street address (optional). Must be 100 characters or less.
+              example: Apt 4B
+            address3:
+              type: string
+              description: Third line of the street address (optional). Must be 100 characters or less.
+              example: Unit 101
+            city:
+              type: string
+              description: City name. Must be 50 characters or less.
+              example: Dallas
+            stateProvinceRegion:
+              type: string  
+              description: Two-letter state, province, or region code.
+              example: TX
+            country:
+              type: string
+              description: Two-letter country code (ISO 3166-1 alpha-2)
+              example: US
+            postalCode:
+              type: string
+              description: Postal code or ZIP code
+              example: '76034'
 # Error Responses
 InactiveExchangeError:
   title: InactiveExchangeError
@@ -224,3 +286,165 @@ VANSNotEnabledError:
     message:
       type: string
       example: Virtual account numbers are not enabled for this account.
+UnsupportedCardCountryError:
+  title: UnsupportedCardCountryError
+  type: object
+  description: Error returned when attempting to create a debit card funding source from an unsupported country
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: The card's country is not supported.
+              path:
+                type: string
+                example: /cardToken
+              _links:
+                type: object
+                example: {}
+InvalidCardTokenError:
+  title: InvalidCardTokenError
+  type: object
+  description: Error returned when attempting to create a debit card funding source with an invalid card token
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: The card data is invalid.
+              path:
+                type: string
+                example: /cardToken
+              _links:
+                type: object
+                example: {}
+MaximumCardsExceededError:
+  title: MaximumCardsExceededError
+  type: object
+  description: Error returned when a customer has exceeded the maximum number of debit card funding sources
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: The maximum number of cards has been exceeded.
+              path:
+                type: string
+                example: /cardToken
+CardMissingRequiredFieldsError:
+  title: CardMissingRequiredFieldsError
+  type: object
+  description: Error returned when required fields are missing when creating a debit card funding source
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Required
+              message:
+                type: string
+                example: Card token is required.
+              path:
+                type: string
+                example: /cardToken
