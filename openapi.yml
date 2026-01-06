@@ -2979,7 +2979,7 @@ paths:
       tags:
         - funding sources
       summary: List customer funding sources
-      description: Returns all funding sources for a customer, including bank accounts, card funding sources, and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Card funding sources include masked card information. Supports filtering to exclude removed funding sources using the removed parameter.
+      description: Returns all funding sources for a customer, including bank accounts, debit card funding sources, and Dwolla balance (verified customers only). Shows verification status, limited account details, and creation dates. Card funding sources include masked card information. Supports filtering to exclude removed funding sources using the removed parameter.
       operationId: listCustomerFundingSources
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: list
@@ -3071,7 +3071,7 @@ paths:
       tags:
         - funding sources
       summary: Create customer funding source
-      description: Creates a bank account or card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
+      description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
       operationId: createCustomerFundingSource
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: create
@@ -3090,7 +3090,7 @@ paths:
               "name": "Jane Doe's Checking"
             }
         - lang: bash
-          label: Create Card Funding Source
+          label: Create Debit Card Funding Source
           source: |
             POST https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C/funding-sources
             Content-Type: application/vnd.dwolla.v1.hal+json
@@ -3127,7 +3127,7 @@ paths:
               .post(`${customerUrl}/funding-sources`, requestBody)
               .then((res) => res.headers.get("location")); // => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
         - lang: javascript
-          label: Create Card Funding Source
+          label: Create Debit Card Funding Source
           source: |
             // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
             var customerUrl =
@@ -3165,7 +3165,7 @@ paths:
             customer = app_token.post('%s/funding-sources' % customer_url, request_body)
             customer.headers['location'] # => 'https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31'
         - lang: python
-          label: Create Card Funding Source
+          label: Create Debit Card Funding Source
           source: |
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
             customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -3202,7 +3202,7 @@ paths:
             $fundingSource; # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
             ?>
         - lang: php
-          label: Create Card Funding Source
+          label: Create Debit Card Funding Source
           source: |
             <?php
             // Using dwollaswagger - https://github.com/Dwolla/dwolla-swagger-php
@@ -3239,7 +3239,7 @@ paths:
             funding_source = app_token.post "#{customer_url}/funding-sources", request_body
             funding_source.response_headers[:location] # => "https://api-sandbox.dwolla.com/funding-sources/375c6781-2a17-476c-84f7-db7d2f6ffb31"
         - lang: ruby
-          label: Create Card Funding Source
+          label: Create Debit Card Funding Source
           source: |
             # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
             customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
@@ -3479,7 +3479,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve a funding source
-      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), card funding sources, and Dwolla balance (verified customers only). Card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
+      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
       operationId: getFundingSource
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: get
@@ -3579,7 +3579,7 @@ paths:
                     fingerprint: 4cf31392f678cb26c62b75096e1a09d4465a801798b3d5c3729de44a4f54c794
                     bankUsageType: card-network
                 card_funding_source:
-                  summary: Card funding source
+                  summary: Debit card funding source
                   value:
                     _links:
                       self:
@@ -12687,7 +12687,7 @@ components:
     CreateCustomerCardFundingSource:
       title: CreateCustomerCardFundingSource
       type: object
-      description: Schema for creating a card funding source using a tokenized card. The card token is obtained from a card tokenization service.
+      description: Schema for creating a debit card funding source using a tokenized card. The card token is obtained from a card tokenization service.
       required:
         - cardToken
         - name
@@ -12699,7 +12699,7 @@ components:
           example: src_abc123_test_token_xyz789
         name:
           type: string
-          description: Arbitrary nickname for the card funding source. Must be 50 characters or less.
+          description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
           example: My Visa Debit Card
         cardDetails:
           type: object
@@ -12751,7 +12751,7 @@ components:
         - Bank Account: Traditional method using routing/account numbers
         - Exchange: Using IAV through exchange partners (Plaid, MX, etc.)
         - Virtual Account: Creating Virtual Account Numbers (VANs)
-        - Card: Creating card funding sources using tokenized card data
+        - Card: Creating debit card funding sources using tokenized card data
       oneOf:
         - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithAccountNumbers'
         - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithPlaid'
@@ -12800,7 +12800,7 @@ components:
     UnsupportedCardCountryError:
       title: UnsupportedCardCountryError
       type: object
-      description: Error returned when attempting to create a card funding source from an unsupported country
+      description: Error returned when attempting to create a debit card funding source from an unsupported country
       required:
         - code
         - message
@@ -12843,7 +12843,7 @@ components:
     InvalidCardTokenError:
       title: InvalidCardTokenError
       type: object
-      description: Error returned when attempting to create a card funding source with an invalid card token
+      description: Error returned when attempting to create a debit card funding source with an invalid card token
       required:
         - code
         - message
@@ -12886,7 +12886,7 @@ components:
     MaximumCardsExceededError:
       title: MaximumCardsExceededError
       type: object
-      description: Error returned when a customer has exceeded the maximum number of card funding sources
+      description: Error returned when a customer has exceeded the maximum number of debit card funding sources
       required:
         - code
         - message
@@ -12924,7 +12924,7 @@ components:
     CardMissingRequiredFieldsError:
       title: CardMissingRequiredFieldsError
       type: object
-      description: Error returned when required fields are missing when creating a card funding source
+      description: Error returned when required fields are missing when creating a debit card funding source
       required:
         - code
         - message
