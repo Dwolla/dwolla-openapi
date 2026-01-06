@@ -461,6 +461,56 @@ HighRiskError:
               _links:
                 type: object
                 example: {}
+CardSourceNotAllowedError:
+  title: CardSourceNotAllowedError
+  description: Error returned when attempting to use a debit card funding source as the transfer source
+  type: object
+  required:
+    - code
+    - message
+    - _embedded
+  additionalProperties: false
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                enum:
+                  - NotAllowed
+                example: NotAllowed
+              message:
+                type: string
+                enum:
+                  - Cards cannot be used as a source for transfers.
+                example: Cards cannot be used as a source for transfers.
+              path:
+                type: string
+                enum:
+                  - /_links/source/href
+                example: /_links/source/href
+              _links:
+                type: object
+                example: {}
 IncompatibleHoldingsError:
   title: IncompatibleHoldingsError
   type: object

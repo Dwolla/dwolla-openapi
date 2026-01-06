@@ -496,6 +496,7 @@ post:
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidDestinationBankAccountTypeError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/IncompatibleSourceAndDestinationTypesError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/SourceNotCardNetworkSettlementError'
+              - $ref: '../../schemas/transfers/CreateTransfer.yml#/CardSourceNotAllowedError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/IncompatibleSourceForRtpDestinationError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/InvalidAmountForDestinationProcessingChannelError'
               - $ref: '../../schemas/transfers/CreateTransfer.yml#/RtpFacilitatorFeeNotSupportedError'
