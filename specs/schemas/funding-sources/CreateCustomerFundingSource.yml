@@ -297,8 +297,6 @@ UnsupportedCardCountryError:
   properties:
     code:
       type: string
-      enum:
-        - ValidationError
       example: ValidationError
     message:
       type: string
@@ -340,8 +338,6 @@ InvalidCardTokenError:
   properties:
     code:
       type: string
-      enum:
-        - ValidationError
       example: ValidationError
     message:
       type: string

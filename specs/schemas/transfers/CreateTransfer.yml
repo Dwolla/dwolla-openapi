@@ -473,8 +473,6 @@ CardSourceNotAllowedError:
   properties:
     code:
       type: string
-      enum:
-        - ValidationError
       example: ValidationError
     message:
       type: string
