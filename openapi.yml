@@ -4738,9 +4738,9 @@ paths:
                       properties:
                         remittanceData:
                           type: string
-                          description: Remittance information for Real-Time Payments, providing context about the payment purpose
+                          description: 'Remittance information for Real-Time Payments, providing context about the payment purpose. Acceptable characters: alphanumeric (0-9, a-z, A-Z), space, and special characters (#,.''&/-@!$%*()_+={}|:;`[]^~\")'
                           maxLength: 140
-                          pattern: ^[A-Za-z0-9\s\-_\.\/\(\),]*$
+                          pattern: '^[0-9a-zA-Z #,.''&/\-@!$%*()_+={}|:;`\[\]\^\~\\"]+$'
                           example: ABC_123 Remittance Data
                 instantDetails:
                   type: object
@@ -4752,9 +4752,9 @@ paths:
                       properties:
                         remittanceData:
                           type: string
-                          description: Remittance information for Instant Payments (RTP/FedNow), providing context about the payment purpose
+                          description: 'Remittance information for Instant Payments (RTP/FedNow), providing context about the payment purpose. Acceptable characters: alphanumeric (0-9, a-z, A-Z), space, and special characters (#,.''&/-@!$%*()_+={}|:;`[]^~\")'
                           maxLength: 140
-                          pattern: ^[A-Za-z0-9\s\-_\.\/\(\),]*$
+                          pattern: '^[0-9a-zA-Z #,.''&/\-@!$%*()_+={}|:;`\[\]\^\~\\"]+$'
                           example: ABC_123 Remittance Data
                 correlationId:
                   type: string
