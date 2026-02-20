@@ -2,7 +2,10 @@ post:
   tags:
     - exchange sessions
   summary: Create customer exchange session
-  description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid and MX open banking partners for faster verification as compared to traditional micro-deposits.
+  description: |
+    Creates an exchange session for a customer. Use cases include:
+    - **Plaid / MX**: Instant bank account verification (open banking). For faster verification as compared to traditional micro-deposits.
+    - **Checkout.com**: Debit card capture for Push to Card. Create a session, then retrieve it to get `externalProviderSessionData` (payment session) for the Checkout.com Flow component.
   operationId: createCustomerExchangeSession
   x-speakeasy-group: customers.exchangeSessions
   x-speakeasy-name-override: create
@@ -67,6 +70,20 @@ post:
           "_links": {
             "exchange-partner": {
               "href": "https://api.dwolla.com/exchange-partners/2164407f-33c3-4555-a6a1-40d5e9e58744"
+            }
+          }
+        }
+
+        # Checkout.com (Push to Card / debit card) Example
+        POST https://api-sandbox.dwolla.com/customers/bb0e1dc7-f2ea-4cca-b053-4049d49a1c0d/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer your_dwolla_access_token
+
+        {
+          "_links": {
+            "exchange-partner": {
+              "href": "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850"
             }
           }
         }

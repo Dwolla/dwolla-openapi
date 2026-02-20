@@ -2,7 +2,11 @@ get:
   tags:
     - exchange sessions
   summary: Retrieve exchange session
-  description: Returns details of a previously created exchange session, including URLs and tokens needed to continue the instant account verification flow. Response varies by partner - MX provides redirect URLs while Plaid provides session tokens for Link initialization.
+  description: |
+    Returns details of a previously created exchange session. Response varies by partner:
+    - **MX**: `_links.external-provider-session.href` (redirect URL for verification).
+    - **Plaid**: `externalProviderSessionToken` (token to initialize Plaid Link).
+    - **Checkout.com**: `externalProviderSessionData` with `id`, `payment_session_secret`, and `payment_session_token` to initialize the Checkout.com Flow component for debit card capture (Push to Card).
   operationId: retrieveCustomerExchangeSession
   x-speakeasy-group: exchangeSessions
   x-speakeasy-name-override: get
@@ -20,16 +24,18 @@ get:
 
         dwolla
           .get(exchangeSessionUrl)
-          .then((res) => res.body._links["external-provider-session"].href); // => "https://int-widgets.moneydesktop.com/md/connect/..."
+          .then((res) => res.body._links["external-provider-session"].href); // MX => redirect URL
         // For Plaid: .then((res) => res.body.externalProviderSessionToken)
+        // For Checkout.com (Push to Card): .then((res) => res.body.externalProviderSessionData) // => { id, payment_session_secret, payment_session_token }
     - lang: python
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
         exchange_session_url = 'https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
 
         exchange_session = app_token.get(exchange_session_url)
-        exchange_session.body['_links']['external-provider-session']['href'] # => 'https://int-widgets.moneydesktop.com/md/connect/...'
+        exchange_session.body['_links']['external-provider-session']['href']  # MX => redirect URL
         # For Plaid: exchange_session.body['externalProviderSessionToken']
+        # For Checkout.com: exchange_session.body['externalProviderSessionData']  # => { id, payment_session_secret, payment_session_token }
     - lang: php
       source: |
         /**
@@ -41,8 +47,9 @@ get:
         exchange_session_url = 'https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
 
         exchange_session = app_token.get exchange_session_url
-        exchange_session['_links']['external-provider-session']['href'] # => "https://int-widgets.moneydesktop.com/md/connect/..."
+        exchange_session['_links']['external-provider-session']['href']  # MX => redirect URL
         # For Plaid: exchange_session['externalProviderSessionToken']
+        # For Checkout.com: exchange_session['externalProviderSessionData']  # => { id, payment_session_secret, payment_session_token }
   parameters:
     - name: id
       in: path

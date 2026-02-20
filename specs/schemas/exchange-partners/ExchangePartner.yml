@@ -21,6 +21,7 @@ ExchangePartner:
         - Plaid
         - Flinks
         - Finicity
+        - Checkout.com
       example: Plaid
     status:
       type: string

@@ -1,4 +1,10 @@
 ExchangeSession:
+  title: ExchangeSession
+  description: |
+    Details of a previously created exchange session. Response shape varies by exchange partner.
+    - **MX**: includes `_links.external-provider-session.href` (redirect URL).
+    - **Plaid**: includes `externalProviderSessionToken` (Link initialization token).
+    - **Checkout.com**: includes `externalProviderSessionData` (payment session for Flow/debit card capture).
   type: object
   required:
     - created
@@ -74,3 +80,21 @@ ExchangeSession:
         Present for Plaid exchange sessions.
         Contains the token to initialize the Plaid Link flow.
       example: link-production-b41e8ed3-0874-4c64-b07d-a77088979d5f
+    externalProviderSessionData:
+      type: object
+      description: |
+        Present for Checkout.com exchange sessions (Push to Card / debit card flow).
+        Use these fields to initialize the Checkout.com Flow component for card capture.
+      properties:
+        id:
+          type: string
+          description: Checkout.com payment session ID (e.g. ps_xxx).
+          example: ps_39vhHjFxZuJRKOw5Hexbnv39fC7
+        payment_session_secret:
+          type: string
+          description: Checkout.com payment session secret.
+          example: pss_2400dd88-171d-4a9c-bebf-e06b56d59bb6
+        payment_session_token:
+          type: string
+          description: Checkout.com payment session token (base64) for Flow initialization.
+          example: YmFzZTY0:eyJpZCI6InBzXzM5dmhIakZ4WnVKUktPdzVIZXhibnYzOWZDNyIs...
