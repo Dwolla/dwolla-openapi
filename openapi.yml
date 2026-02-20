@@ -9237,7 +9237,10 @@ paths:
       tags:
         - exchange sessions
       summary: Create customer exchange session
-      description: Creates an exchange session to initiate instant bank account verification for a customer. Supports Plaid and MX open banking partners for faster verification as compared to traditional micro-deposits.
+      description: |
+        Creates an exchange session for a customer. Use cases include:
+        - **Plaid / MX**: Instant bank account verification (open banking). For faster verification as compared to traditional micro-deposits.
+        - **Checkout.com**: Debit card capture for Push to Card. Create a session, then retrieve it to get `externalProviderSessionData` (payment session) for the Checkout.com Flow component.
       operationId: createCustomerExchangeSession
       x-speakeasy-group: customers.exchangeSessions
       x-speakeasy-name-override: create
@@ -9302,6 +9305,20 @@ paths:
               "_links": {
                 "exchange-partner": {
                   "href": "https://api.dwolla.com/exchange-partners/2164407f-33c3-4555-a6a1-40d5e9e58744"
+                }
+              }
+            }
+
+            # Checkout.com (Push to Card / debit card) Example
+            POST https://api-sandbox.dwolla.com/customers/bb0e1dc7-f2ea-4cca-b053-4049d49a1c0d/exchange-sessions
+            Accept: application/vnd.dwolla.v1.hal+json
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer your_dwolla_access_token
+
+            {
+              "_links": {
+                "exchange-partner": {
+                  "href": "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850"
                 }
               }
             }
@@ -9579,7 +9596,11 @@ paths:
       tags:
         - exchange sessions
       summary: Retrieve exchange session
-      description: Returns details of a previously created exchange session, including URLs and tokens needed to continue the instant account verification flow. Response varies by partner - MX provides redirect URLs while Plaid provides session tokens for Link initialization.
+      description: |
+        Returns details of a previously created exchange session. Response varies by partner:
+        - **MX**: `_links.external-provider-session.href` (redirect URL for verification).
+        - **Plaid**: `externalProviderSessionToken` (token to initialize Plaid Link).
+        - **Checkout.com**: `externalProviderSessionData` with `id`, `payment_session_secret`, and `payment_session_token` to initialize the Checkout.com Flow component for debit card capture (Push to Card).
       operationId: retrieveCustomerExchangeSession
       x-speakeasy-group: exchangeSessions
       x-speakeasy-name-override: get
@@ -9597,16 +9618,18 @@ paths:
 
             dwolla
               .get(exchangeSessionUrl)
-              .then((res) => res.body._links["external-provider-session"].href); // => "https://int-widgets.moneydesktop.com/md/connect/..."
+              .then((res) => res.body._links["external-provider-session"].href); // MX => redirect URL
             // For Plaid: .then((res) => res.body.externalProviderSessionToken)
+            // For Checkout.com (Push to Card): .then((res) => res.body.externalProviderSessionData) // => { id, payment_session_secret, payment_session_token }
         - lang: python
           source: |
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
             exchange_session_url = 'https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
 
             exchange_session = app_token.get(exchange_session_url)
-            exchange_session.body['_links']['external-provider-session']['href'] # => 'https://int-widgets.moneydesktop.com/md/connect/...'
+            exchange_session.body['_links']['external-provider-session']['href']  # MX => redirect URL
             # For Plaid: exchange_session.body['externalProviderSessionToken']
+            # For Checkout.com: exchange_session.body['externalProviderSessionData']  # => { id, payment_session_secret, payment_session_token }
         - lang: php
           source: |
             /**
@@ -9618,8 +9641,9 @@ paths:
             exchange_session_url = 'https://api.dwolla.com/exchange-sessions/e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a'
 
             exchange_session = app_token.get exchange_session_url
-            exchange_session['_links']['external-provider-session']['href'] # => "https://int-widgets.moneydesktop.com/md/connect/..."
+            exchange_session['_links']['external-provider-session']['href']  # MX => redirect URL
             # For Plaid: exchange_session['externalProviderSessionToken']
+            # For Checkout.com: exchange_session['externalProviderSessionData']  # => { id, payment_session_secret, payment_session_token }
       parameters:
         - name: id
           in: path
@@ -15882,6 +15906,7 @@ components:
             - Plaid
             - Flinks
             - Finicity
+            - Checkout.com
           example: Plaid
         status:
           type: string
@@ -16194,6 +16219,12 @@ components:
                   format: uri
                   example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
     ExchangeSession:
+      title: ExchangeSession
+      description: |
+        Details of a previously created exchange session. Response shape varies by exchange partner.
+        - **MX**: includes `_links.external-provider-session.href` (redirect URL).
+        - **Plaid**: includes `externalProviderSessionToken` (Link initialization token).
+        - **Checkout.com**: includes `externalProviderSessionData` (payment session for Flow/debit card capture).
       type: object
       required:
         - created
@@ -16269,6 +16300,24 @@ components:
             Present for Plaid exchange sessions.
             Contains the token to initialize the Plaid Link flow.
           example: link-production-b41e8ed3-0874-4c64-b07d-a77088979d5f
+        externalProviderSessionData:
+          type: object
+          description: |
+            Present for Checkout.com exchange sessions (Push to Card / debit card flow).
+            Use these fields to initialize the Checkout.com Flow component for card capture.
+          properties:
+            id:
+              type: string
+              description: Checkout.com payment session ID (e.g. ps_xxx).
+              example: ps_39vhHjFxZuJRKOw5Hexbnv39fC7
+            payment_session_secret:
+              type: string
+              description: Checkout.com payment session secret.
+              example: pss_2400dd88-171d-4a9c-bebf-e06b56d59bb6
+            payment_session_token:
+              type: string
+              description: Checkout.com payment session token (base64) for Flow initialization.
+              example: YmFzZTY0:eyJpZCI6InBzXzM5dmhIakZ4WnVKUktPdzVIZXhibnYzOWZDNyIs...
     CreateReAuthExchangeSessionForWeb:
       title: CreateReAuthExchangeSessionForWeb
       description: Create re-auth exchange session for web (Plaid web sessions where request body is optional)
