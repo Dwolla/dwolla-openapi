@@ -11,7 +11,7 @@ CreateCustomerFundingSource:
     - $ref: '#/CreateCustomerBankFundingSourceWithPlaid'
     - $ref: '#/CreateCustomerExchangeFundingSource'
     - $ref: '#/CreateCustomerVirtualAccountFundingSource'
-    - $ref: '#/CreateCustomerCardFundingSourceWithExchange'
+    - $ref: '#/CreateCustomerCardFundingSourceWithExchangeWithExchange'
 CreateCustomerBankFundingSourceWithAccountNumbers:
   title: CreateCustomerBankFundingSourceWithAccountNumbers
   type: object
