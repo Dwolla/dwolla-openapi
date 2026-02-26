@@ -87,7 +87,7 @@ CreateTokenBasedExchange:
               example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
     token:
       type: string
-      description: Connection or processor token from the exchange partner (e.g., Plaid, MX, Flinks), or card token from Checkout.com Flow for Push to Card
+      description: Connection or processor token from the exchange partner (e.g., Plaid, MX, Flinks), or payment ID (pay_xxx) from Checkout.com Flow for Push to Card
       example: sandbox-token-abc123
 CreateMXOpenBankingExchange:
   title: CreateMXOpenBankingExchange

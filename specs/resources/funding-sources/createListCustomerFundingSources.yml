@@ -504,7 +504,7 @@ post:
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidExchangeTokenError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/DuplicateFundingSourceError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/UnsupportedCardCountryError'
-              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidCardTokenError'
+              - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/InvalidTokenError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/MaximumCardsExceededError'
               - $ref: '../../schemas/funding-sources/CreateCustomerFundingSource.yml#/CardMissingRequiredFieldsError'
     '403':

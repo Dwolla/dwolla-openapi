@@ -3481,7 +3481,7 @@ paths:
                   - $ref: '#/components/schemas/InvalidExchangeTokenError'
                   - $ref: '#/components/schemas/DuplicateFundingSourceError'
                   - $ref: '#/components/schemas/UnsupportedCardCountryError'
-                  - $ref: '#/components/schemas/InvalidCardTokenError'
+                  - $ref: '#/components/schemas/InvalidTokenError'
                   - $ref: '#/components/schemas/MaximumCardsExceededError'
                   - $ref: '#/components/schemas/CardMissingRequiredFieldsError'
         '403':
@@ -9116,7 +9116,7 @@ paths:
       tags:
         - exchanges
       summary: Create an exchange for a customer
-      description: Creates an exchange connection between a customer and Dwolla. Request body varies by partner (Plaid, MX, Flinks, Finicity, Checkout.com). For bank accounts, use Plaid, MX, Flinks, or Finicity to establish secure access to the customer's bank account data. For debit cards (Push to Card), use Checkout.com and pass the card token from Checkout.com Flow.
+      description: Creates an exchange connection between a customer and Dwolla. Request body varies by partner (Plaid, MX, Flinks, Finicity, Checkout.com). For bank accounts, use Plaid, MX, Flinks, or Finicity to establish secure access to the customer's bank account data. For debit cards (Push to Card), use Checkout.com and pass the payment ID from Checkout.com Flow.
       operationId: createCustomerExchange
       x-speakeasy-group: customers.exchanges
       x-speakeasy-name-override: create
@@ -12863,10 +12863,10 @@ components:
                   _links:
                     type: object
                     example: {}
-    InvalidCardTokenError:
-      title: InvalidCardTokenError
+    InvalidTokenError:
+      title: InvalidTokenError
       type: object
-      description: Error returned when creating an Exchange with an invalid card token, or when the card data is invalid
+      description: Error returned when creating an Exchange with an invalid token, or when the card data is invalid
       required:
         - code
         - message
@@ -16125,7 +16125,7 @@ components:
                   example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
         token:
           type: string
-          description: Connection or processor token from the exchange partner (e.g., Plaid, MX, Flinks), or card token from Checkout.com Flow for Push to Card
+          description: Connection or processor token from the exchange partner (e.g., Plaid, MX, Flinks), or payment ID (pay_xxx) from Checkout.com Flow for Push to Card
           example: sandbox-token-abc123
     InvalidExchangeToken:
       title: InvalidExchangeToken

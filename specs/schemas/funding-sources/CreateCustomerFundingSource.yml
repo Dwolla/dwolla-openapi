@@ -348,10 +348,10 @@ UnsupportedCardCountryError:
               _links:
                 type: object
                 example: {}
-InvalidCardTokenError:
-  title: InvalidCardTokenError
+InvalidTokenError:
+  title: InvalidTokenError
   type: object
-  description: Error returned when creating an Exchange with an invalid card token, or when the card data is invalid
+  description: Error returned when creating an Exchange with an invalid token, or when the card data is invalid
   required:
     - code
     - message
