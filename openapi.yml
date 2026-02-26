@@ -3077,7 +3077,7 @@ paths:
       tags:
         - funding sources
       summary: Create customer funding source
-      description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
+      description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, debit card addition via Exchange, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
       operationId: createCustomerFundingSource
       x-speakeasy-group: customers.fundingSources
       x-speakeasy-name-override: create
@@ -3103,9 +3103,15 @@ paths:
             Accept: application/vnd.dwolla.v1.hal+json
             Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
             {
-              "cardToken": "src_abc123_test_token_xyz789",
+              "_links": {
+                "exchange": {
+                  "href": "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04"
+                }
+              },
               "name": "My Visa Debit Card",
               "cardDetails": {
+                "firstName": "Jane",
+                "lastName": "Doe",
                 "billingAddress": {
                   "address1": "123 Main St",
                   "address2": "Apt 4B",
@@ -3139,9 +3145,15 @@ paths:
             var customerUrl =
               "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
             var requestBody = {
-              cardToken: "src_abc123_test_token_xyz789",
+              _links: {
+                exchange: {
+                  href: "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04"
+                }
+              },
               name: "My Visa Debit Card",
               cardDetails: {
+                firstName: "Jane",
+                lastName: "Doe",
                 billingAddress: {
                   address1: "123 Main St",
                   address2: "Apt 4B",
@@ -3176,9 +3188,15 @@ paths:
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
             customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
             request_body = {
-              'cardToken': 'src_abc123_test_token_xyz789',
+              '_links': {
+                'exchange': {
+                  'href': 'https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04'
+                }
+              },
               'name': 'My Visa Debit Card',
               'cardDetails': {
+                'firstName': 'Jane',
+                'lastName': 'Doe',
                 'billingAddress': {
                   'address1': '123 Main St',
                   'address2': 'Apt 4B',
@@ -3215,9 +3233,15 @@ paths:
             $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
 
             $fundingSource = $fundingApi->createCustomerFundingSource([
-              "cardToken" => "src_abc123_test_token_xyz789",
+              "_links" => [
+                "exchange" => [
+                  "href" => "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04"
+                ]
+              ],
               "name" => "My Visa Debit Card",
               "cardDetails" => [
+                "firstName" => "Jane",
+                "lastName" => "Doe",
                 "billingAddress" => [
                   "address1" => "123 Main St",
                   "address2" => "Apt 4B",
@@ -3250,9 +3274,15 @@ paths:
             # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
             customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
             request_body = {
-              cardToken: 'src_abc123_test_token_xyz789',
+              _links: {
+                exchange: {
+                  href: 'https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04'
+                }
+              },
               name: 'My Visa Debit Card',
               cardDetails: {
+                firstName: 'Jane',
+                lastName: 'Doe',
                 billingAddress: {
                   address1: '123 Main St',
                   address2: 'Apt 4B',
@@ -9086,7 +9116,7 @@ paths:
       tags:
         - exchanges
       summary: Create an exchange for a customer
-      description: Creates an exchange connection between a customer's external bank account and Dwolla through open banking partners. Acts as the handshake that establishes secure access to the customer's bank account data. Request body varies by partner (Plaid, MX, Flinks, Finicity).
+      description: Creates an exchange connection between a customer and Dwolla. Request body varies by partner (Plaid, MX, Flinks, Finicity, Checkout.com). For bank accounts, use Plaid, MX, Flinks, or Finicity to establish secure access to the customer's bank account data. For debit cards (Push to Card), use Checkout.com and pass the card token from Checkout.com Flow.
       operationId: createCustomerExchange
       x-speakeasy-group: customers.exchanges
       x-speakeasy-name-override: create
@@ -12658,19 +12688,30 @@ components:
             - checking
           description: Type of bank account. Must be "checking" for Virtual Account Numbers.
           example: checking
-    CreateCustomerCardFundingSource:
-      title: CreateCustomerCardFundingSource
+    CreateCustomerCardFundingSourceWithExchange:
+      title: CreateCustomerCardFundingSourceWithExchange
       type: object
-      description: Schema for creating a debit card funding source using a tokenized card. The card token is obtained from a card tokenization service.
+      description: Schema for creating a debit card funding source using an Exchange. Used for Push to Card.
       required:
-        - cardToken
+        - _links
         - name
         - cardDetails
       properties:
-        cardToken:
-          type: string
-          description: A tokenized representation of the card obtained from a card tokenization service
-          example: src_abc123_test_token_xyz789
+        _links:
+          type: object
+          required:
+            - exchange
+          properties:
+            exchange:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  description: URL of the Exchange resource created with a card token
+                  example: https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04
         name:
           type: string
           description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
@@ -12678,8 +12719,18 @@ components:
         cardDetails:
           type: object
           required:
+            - firstName
+            - lastName
             - billingAddress
           properties:
+            firstName:
+              type: string
+              description: Cardholder first name
+              example: Jane
+            lastName:
+              type: string
+              description: Cardholder last name
+              example: Doe
             billingAddress:
               type: object
               description: The billing address associated with the card
@@ -12731,7 +12782,7 @@ components:
         - $ref: '#/components/schemas/CreateCustomerBankFundingSourceWithPlaid'
         - $ref: '#/components/schemas/CreateCustomerExchangeFundingSource'
         - $ref: '#/components/schemas/CreateCustomerVirtualAccountFundingSource'
-        - $ref: '#/components/schemas/CreateCustomerCardFundingSource'
+        - $ref: '#/components/schemas/CreateCustomerCardFundingSourceWithExchange'
     InactiveExchangeError:
       title: InactiveExchangeError
       type: object
@@ -12808,14 +12859,14 @@ components:
                     example: The card's country is not supported.
                   path:
                     type: string
-                    example: /cardToken
+                    example: /token
                   _links:
                     type: object
                     example: {}
     InvalidCardTokenError:
       title: InvalidCardTokenError
       type: object
-      description: Error returned when attempting to create a debit card funding source with an invalid card token
+      description: Error returned when creating an Exchange with an invalid card token, or when the card data is invalid
       required:
         - code
         - message
@@ -12849,7 +12900,7 @@ components:
                     example: The card data is invalid.
                   path:
                     type: string
-                    example: /cardToken
+                    example: /token
                   _links:
                     type: object
                     example: {}
@@ -12890,11 +12941,11 @@ components:
                     example: The maximum number of cards has been exceeded.
                   path:
                     type: string
-                    example: /cardToken
+                    example: /_links/exchange
     CardMissingRequiredFieldsError:
       title: CardMissingRequiredFieldsError
       type: object
-      description: Error returned when required fields are missing when creating a debit card funding source
+      description: Error returned when required fields are missing when creating an Exchange or a debit card funding source
       required:
         - code
         - message
@@ -12925,10 +12976,10 @@ components:
                     example: Required
                   message:
                     type: string
-                    example: Card token is required.
+                    example: Token is required.
                   path:
                     type: string
-                    example: /cardToken
+                    example: /token
     UpdateUnverifiedBank:
       title: UpdateUnverifiedBank
       description: Request body for updating information of an unverified bank funding source
@@ -16055,7 +16106,7 @@ components:
               example: '2022-07-11T06:06:23Z'
     CreateTokenBasedExchange:
       title: CreateTokenBasedExchange
-      description: Create an exchange using a token. Supports MX, Plaid, and Flinks secure exchange flows.
+      description: Create an exchange using a token. Supports MX, Plaid, and Flinks secure exchange flows, and Checkout.com for Push to Card (debit card).
       type: object
       required:
         - _links
@@ -16074,7 +16125,7 @@ components:
                   example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
         token:
           type: string
-          description: Connection or processor token from the exchange partner
+          description: Connection or processor token from the exchange partner (e.g., Plaid, MX, Flinks), or card token from Checkout.com Flow for Push to Card
           example: sandbox-token-abc123
     InvalidExchangeToken:
       title: InvalidExchangeToken

@@ -100,7 +100,7 @@ post:
   tags:
     - funding sources
   summary: Create customer funding source
-  description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, tokenized card creation, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
+  description: Creates a bank account or debit card funding source for a customer. Supports multiple methods including manual entry with routing/account numbers, instant verification using existing open banking connections, debit card addition via Exchange, and virtual account numbers. Bank funding sources require verification before transfers can be initiated.
   operationId: createCustomerFundingSource
   x-speakeasy-group: customers.fundingSources
   x-speakeasy-name-override: create
@@ -126,9 +126,15 @@ post:
         Accept: application/vnd.dwolla.v1.hal+json
         Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
         {
-          "cardToken": "src_abc123_test_token_xyz789",
+          "_links": {
+            "exchange": {
+              "href": "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04"
+            }
+          },
           "name": "My Visa Debit Card",
           "cardDetails": {
+            "firstName": "Jane",
+            "lastName": "Doe",
             "billingAddress": {
               "address1": "123 Main St",
               "address2": "Apt 4B",
@@ -162,9 +168,15 @@ post:
         var customerUrl =
           "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C";
         var requestBody = {
-          cardToken: "src_abc123_test_token_xyz789",
+          _links: {
+            exchange: {
+              href: "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04"
+            }
+          },
           name: "My Visa Debit Card",
           cardDetails: {
+            firstName: "Jane",
+            lastName: "Doe",
             billingAddress: {
               address1: "123 Main St",
               address2: "Apt 4B",
@@ -199,9 +211,15 @@ post:
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
         customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
         request_body = {
-          'cardToken': 'src_abc123_test_token_xyz789',
+          '_links': {
+            'exchange': {
+              'href': 'https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04'
+            }
+          },
           'name': 'My Visa Debit Card',
           'cardDetails': {
+            'firstName': 'Jane',
+            'lastName': 'Doe',
             'billingAddress': {
               'address1': '123 Main St',
               'address2': 'Apt 4B',
@@ -238,9 +256,15 @@ post:
         $fundingApi = new DwollaSwagger\FundingsourcesApi($apiClient);
 
         $fundingSource = $fundingApi->createCustomerFundingSource([
-          "cardToken" => "src_abc123_test_token_xyz789",
+          "_links" => [
+            "exchange" => [
+              "href" => "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04"
+            ]
+          ],
           "name" => "My Visa Debit Card",
           "cardDetails" => [
+            "firstName" => "Jane",
+            "lastName" => "Doe",
             "billingAddress" => [
               "address1" => "123 Main St",
               "address2" => "Apt 4B",
@@ -273,9 +297,15 @@ post:
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         customer_url = 'https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C'
         request_body = {
-          cardToken: 'src_abc123_test_token_xyz789',
+          _links: {
+            exchange: {
+              href: 'https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04'
+            }
+          },
           name: 'My Visa Debit Card',
           cardDetails: {
+            firstName: 'Jane',
+            lastName: 'Doe',
             billingAddress: {
               address1: '123 Main St',
               address2: 'Apt 4B',

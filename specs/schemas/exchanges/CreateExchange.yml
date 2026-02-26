@@ -68,7 +68,7 @@ CreateFinicitySecureExchange:
           example: '2022-07-11T06:06:23Z'
 CreateTokenBasedExchange:
   title: CreateTokenBasedExchange
-  description: Create an exchange using a token. Supports MX, Plaid, and Flinks secure exchange flows.
+  description: Create an exchange using a token. Supports MX, Plaid, and Flinks secure exchange flows, and Checkout.com for Push to Card (debit card).
   type: object
   required:
     - _links
@@ -87,7 +87,7 @@ CreateTokenBasedExchange:
               example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
     token:
       type: string
-      description: Connection or processor token from the exchange partner
+      description: Connection or processor token from the exchange partner (e.g., Plaid, MX, Flinks), or card token from Checkout.com Flow for Push to Card
       example: sandbox-token-abc123
 CreateMXOpenBankingExchange:
   title: CreateMXOpenBankingExchange
