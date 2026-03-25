@@ -913,6 +913,7 @@ paths:
                   - $ref: '#/components/schemas/UnverifiedCustomer'
                   - $ref: '#/components/schemas/ReceiveOnlyCustomer'
                   - $ref: '#/components/schemas/VerifiedPersonalCustomer'
+                  - $ref: '#/components/schemas/VerifiedSolePropCustomer'
                   - $ref: '#/components/schemas/VerifiedBusinessCustomer'
         '403':
           description: forbidden
@@ -8544,11 +8545,17 @@ paths:
     post:
       tags:
         - sandbox simulations
-      summary: Simulate bank transfer processing (Sandbox only)
+      summary: Sandbox simulations (bank transfer processing or VAN transfers)
       description: |
-        Triggers processing for the last 500 bank transfers on the authorized application or Sandbox account. This endpoint is only available in the Sandbox environment. It will process or fail pending bank-to-bank transactions (including both sides of a transfer when applicable) and initiated micro-deposits. If webhooks are configured, corresponding events will be delivered.
+        Sandbox-only endpoint with two modes:
 
-        If a bank-to-bank transaction is initiated between two users, call this endpoint twice to process both the debit and credit sides.
+        **Simulate bank transfer processing** — Omit the body or send an empty JSON object. Processes or fails
+        the last 500 bank transfers on the authorized application or Sandbox account (and initiated micro-deposits).
+        If webhooks are configured, events are delivered. If a bank-to-bank transaction involves two users,
+        call this twice to process debit and credit sides. Returns **200** with a HAL document including `total`.
+
+        **Simulate VAN (virtual) transfers** — Send a JSON body with `type` set to `virtual` and a `transfers`
+        array (up to 10 items). External transfers are created and processed immediately. Returns **202 Accepted**.
       operationId: simulateBankTransferProcessing
       x-speakeasy-name-override: simulate
       x-codeSamples:
@@ -8562,18 +8569,33 @@ paths:
         - $ref: '#/components/parameters/Accept'
       requestBody:
         required: false
-        description: Optional JSON body. Typically empty; presence of body is not required.
+        description: |
+          Optional. Use an empty object (or omit the body) for bank transfer processing. For VAN simulation,
+          send `type`: `virtual` and a `transfers` array (see schema).
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
-              type: object
+              $ref: '#/components/schemas/SandboxSimulationRequest'
       responses:
         '200':
-          description: Simulation executed. Pending bank transfers and micro-deposits were processed or failed.
+          description: |
+            Bank transfer processing simulation completed. Pending bank transfers and micro-deposits were
+            processed or failed.
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SandboxSimulationBankProcessingResponse'
+              example:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/sandbox-simulations
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: sandbox-simulation
+                total: 8
+        '202':
+          description: |
+            Accepted. Virtual (VAN) transfer simulation: requested transfers were accepted for immediate
+            processing in Sandbox.
         '401':
           description: unauthorized
           content:
@@ -15934,6 +15956,93 @@ components:
           type: integer
           format: int32
           example: 1
+    SandboxSimulationBankProcessingRequest:
+      title: SandboxSimulationBankProcessingRequest
+      description: |
+        Omit the body, send JSON null, or an empty JSON object. Triggers processing (or failure) for the last
+        500 bank transfers on the authorized application or Sandbox account, and initiated micro-deposits.
+        Successful response is 200 with a HAL body including total.
+      oneOf:
+        - title: SandboxSimulationBankProcessingEmptyObject
+          description: Empty JSON object.
+          type: object
+          additionalProperties: false
+        - type: 'null'
+          description: JSON null body (uncommon).
+    SandboxSimulationVirtualTransferItem:
+      title: SandboxSimulationVirtualTransferItem
+      description: One simulated external (VAN) transfer in a sandbox-simulations request.
+      type: object
+      required:
+        - _link
+        - amount
+      properties:
+        _link:
+          type: object
+          description: Link wrapper for the destination funding source (Dwolla HAL-style single link).
+          required:
+            - destination
+          properties:
+            destination:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  example: https://api-sandbox.dwolla.com/funding-sources/5880e310-675a-4ce3-87d9-a475cc565e09
+        amount:
+          $ref: '#/components/schemas/TransferAmount'
+    SandboxSimulationVirtualRequest:
+      title: SandboxSimulationVirtualRequest
+      description: |
+        Simulate Virtual Account Number (VAN) / external transfers in Sandbox. Up to 10 transfers per request;
+        transfers are created and processed immediately. Successful response is 202 Accepted.
+      type: object
+      required:
+        - type
+        - transfers
+      properties:
+        type:
+          type: string
+          const: virtual
+          description: Must be set to virtual for VAN transfer simulation.
+        transfers:
+          type: array
+          description: Transfers to simulate (max 10 per request).
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/SandboxSimulationVirtualTransferItem'
+    SandboxSimulationRequest:
+      title: SandboxSimulationRequest
+      description: |
+        Bank transfer processing (empty body) or VAN transfer simulation (type virtual + transfers).
+        Use an empty object or omit the body for bank processing; use a virtual payload for VAN simulation.
+      oneOf:
+        - $ref: '#/components/schemas/SandboxSimulationBankProcessingRequest'
+        - $ref: '#/components/schemas/SandboxSimulationVirtualRequest'
+    SandboxSimulationBankProcessingResponse:
+      title: SandboxSimulationBankProcessingResponse
+      description: Response when simulating bank transfer processing (200 OK).
+      type: object
+      required:
+        - _links
+        - total
+      properties:
+        total:
+          type: integer
+          format: int32
+          example: 8
+          description: Count of bank transfers (and related items) affected by the simulation run.
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              $ref: '#/components/schemas/HalLink'
     ExchangePartner:
       title: ExchangePartner
       type: object
