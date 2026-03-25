@@ -1,9 +1,9 @@
 post:
   tags:
     - sandbox simulations
-  summary: Sandbox simulations (bank transfer processing or VAN transfers)
+  summary: Sandbox simulations (bank transfers, VAN transfers, or customer verification directives)
   description: |
-    Sandbox-only endpoint with two modes:
+    Sandbox-only endpoint with three modes:
 
     **Simulate bank transfer processing** — Omit the body or send an empty JSON object. Processes or fails
     the last 500 bank transfers on the authorized application or Sandbox account (and initiated micro-deposits).
@@ -12,6 +12,12 @@ post:
 
     **Simulate VAN (virtual) transfers** — Send a JSON body with `type` set to `virtual` and a `transfers`
     array (up to 10 items). External transfers are created and processed immediately. Returns **202 Accepted**.
+
+    **Simulate verification directives** — For a business Verified Customer in **`retry`** or **`document`**
+    status, send `type`: `customer-verification`, `_links.customer.href` pointing at that customer, and
+    `errorCode` set to one of: `PersonalIDRequired`, `POBoxNotAllowed`, `AddressNotAssociatedWithBusiness`,
+    `EINDocumentRequired`. Returns **200** with HAL `_links.self` and `errorCode`. Then **GET** the Customer;
+    the same code appears in `_embedded.errors` for end-to-end testing.
   operationId: simulateBankTransferProcessing
   x-speakeasy-name-override: simulate
   x-codeSamples:
@@ -27,7 +33,8 @@ post:
     required: false
     description: |
       Optional. Use an empty object (or omit the body) for bank transfer processing. For VAN simulation,
-      send `type`: `virtual` and a `transfers` array (see schema).
+      send `type`: `virtual` and a `transfers` array. For verification directives, send `type`:
+      `customer-verification`, `_links.customer`, and `errorCode` (see schema).
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
@@ -35,19 +42,33 @@ post:
   responses:
     '200':
       description: |
-        Bank transfer processing simulation completed. Pending bank transfers and micro-deposits were
-        processed or failed.
+        Success. **Bank transfer processing** returns HAL with `total`. **Customer verification directives**
+        return HAL `_links.self` and `errorCode` (retrieve the Customer for `_embedded.errors`).
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            $ref: '../schemas/sandbox/SandboxSimulations.yml#/SandboxSimulationBankProcessingResponse'
-          example:
-            _links:
-              self:
-                href: https://api-sandbox.dwolla.com/sandbox-simulations
-                type: application/vnd.dwolla.v1.hal+json
-                resource-type: sandbox-simulation
-            total: 8
+            oneOf:
+              - $ref: '../schemas/sandbox/SandboxSimulations.yml#/SandboxSimulationBankProcessingResponse'
+              - $ref: '../schemas/sandbox/SandboxSimulations.yml#/SandboxSimulationCustomerVerificationResponse'
+          examples:
+            bankTransferProcessing:
+              summary: Bank transfer processing
+              value:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/sandbox-simulations
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: sandbox-simulation
+                total: 8
+            customerVerificationDirective:
+              summary: Customer verification directive simulation
+              value:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/sandbox-simulations
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: sandbox-simulation
+                errorCode: AddressNotAssociatedWithBusiness
     '202':
       description: |
         Accepted. Virtual (VAN) transfer simulation: requested transfers were accepted for immediate

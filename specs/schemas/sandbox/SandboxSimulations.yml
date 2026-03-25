@@ -24,8 +24,8 @@ SandboxSimulationVirtualTransferItem:
     amount:
       $ref: '../common.yml#/components/schemas/TransferAmount'
 
-SandboxSimulationVirtualRequest:
-  title: SandboxSimulationVirtualRequest
+SandboxSimulationVirtualAccountTransfersRequest:
+  title: SandboxSimulationVirtualAccountTransfersRequest
   description: |
     Simulate Virtual Account Number (VAN) / external transfers in Sandbox. Up to 10 transfers per request;
     transfers are created and processed immediately. Successful response is 202 Accepted.
@@ -46,6 +46,47 @@ SandboxSimulationVirtualRequest:
       items:
         $ref: './SandboxSimulations.yml#/SandboxSimulationVirtualTransferItem'
 
+SandboxSimulationCustomerVerificationRequest:
+  title: SandboxSimulationCustomerVerificationRequest
+  description: |
+    Simulate a verification directive for a business Verified Customer in Sandbox. The customer must be in
+    `retry` or `document` status. After a successful call, retrieve the Customer resource; the given `errorCode`
+    appears under `_embedded.errors`. See Dwolla documentation for verification directive meanings.
+  type: object
+  required:
+    - type
+    - _links
+    - errorCode
+  properties:
+    type:
+      type: string
+      const: customer-verification
+      description: Must be set to customer-verification for verification directive simulation.
+    _links:
+      type: object
+      required:
+        - customer
+      properties:
+        customer:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              description: URL of the Sandbox customer to attach the simulated directive to.
+              example: https://api-sandbox.dwolla.com/customers/00000000-0000-0000-0000-000000000000
+    errorCode:
+      type: string
+      description: Verification directive to simulate for the linked customer.
+      enum:
+        - PersonalIDRequired
+        - POBoxNotAllowed
+        - AddressNotAssociatedWithBusiness
+        - EINDocumentRequired
+      example: AddressNotAssociatedWithBusiness
+
 SandboxSimulationBankProcessingRequest:
   title: SandboxSimulationBankProcessingRequest
   description: |
@@ -63,11 +104,40 @@ SandboxSimulationBankProcessingRequest:
 SandboxSimulationRequest:
   title: SandboxSimulationRequest
   description: |
-    Bank transfer processing (empty body) or VAN transfer simulation (type virtual + transfers).
-    Use an empty object or omit the body for bank processing; use a virtual payload for VAN simulation.
+    Bank transfer processing (empty body), VAN transfer simulation (`type` virtual + transfers), or verification
+    directive simulation (`type` customer-verification, customer link, and errorCode). Typed bodies are mutually
+    exclusive; omit the body or send `{}` / null only for bank processing.
   oneOf:
+    - $ref: './SandboxSimulations.yml#/SandboxSimulationVirtualAccountTransfersRequest'
+    - $ref: './SandboxSimulations.yml#/SandboxSimulationCustomerVerificationRequest'
     - $ref: './SandboxSimulations.yml#/SandboxSimulationBankProcessingRequest'
-    - $ref: './SandboxSimulations.yml#/SandboxSimulationVirtualRequest'
+
+SandboxSimulationCustomerVerificationResponse:
+  title: SandboxSimulationCustomerVerificationResponse
+  description: |
+    Response when simulating customer verification directives (200 OK). Echoes the simulated `errorCode`;
+    retrieve the Customer resource to inspect `_embedded.errors`.
+  type: object
+  required:
+    - _links
+    - errorCode
+  properties:
+    _links:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          $ref: '../common.yml#/components/schemas/HalLink'
+    errorCode:
+      type: string
+      description: Verification directive that was simulated.
+      enum:
+        - PersonalIDRequired
+        - POBoxNotAllowed
+        - AddressNotAssociatedWithBusiness
+        - EINDocumentRequired
+      example: AddressNotAssociatedWithBusiness
 
 SandboxSimulationBankProcessingResponse:
   title: SandboxSimulationBankProcessingResponse
