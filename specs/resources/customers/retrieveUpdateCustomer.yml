@@ -52,6 +52,7 @@ get:
               - $ref: '../../schemas/customers/Customer.yml#/UnverifiedCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/ReceiveOnlyCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedPersonalCustomer'
+              - $ref: '../../schemas/customers/Customer.yml#/VerifiedSolePropCustomer'
               - $ref: '../../schemas/customers/Customer.yml#/VerifiedBusinessCustomer'
     '403':
       description: forbidden
