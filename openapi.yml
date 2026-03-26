@@ -8576,9 +8576,8 @@ paths:
       requestBody:
         required: false
         description: |
-          Optional. Use an empty object (or omit the body) for bank transfer processing. For VAN simulation,
-          send `type`: `virtual` and a `transfers` array. For verification directives, send `type`:
-          `customer-verification`, `_links.customer`, and `errorCode` (see schema).
+          Optional. For bank transfer processing, omit the body or send `{}`. For VAN simulation, send `type`: `virtual` and a `transfers` array. For verification
+          directives, send `type`: `customer-verification`, `_links.customer`, and `errorCode` (see schema).
         content:
           application/vnd.dwolla.v1.hal+json:
             schema:
@@ -8617,6 +8616,13 @@ paths:
           description: |
             Accepted. Virtual (VAN) transfer simulation: requested transfers were accepted for immediate
             processing in Sandbox.
+        '400':
+          description: |
+            Bad Request.
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
         '401':
           description: unauthorized
           content:
@@ -16066,22 +16072,17 @@ components:
     SandboxSimulationBankProcessingRequest:
       title: SandboxSimulationBankProcessingRequest
       description: |
-        Omit the body, send JSON null, or an empty JSON object. Triggers processing (or failure) for the last
+        Omit the request body or send an empty JSON object (`{}`). Triggers processing (or failure) for the last
         500 bank transfers on the authorized application or Sandbox account, and initiated micro-deposits.
         Successful response is 200 with a HAL body including total.
-      oneOf:
-        - title: SandboxSimulationBankProcessingEmptyObject
-          description: Empty JSON object.
-          type: object
-          additionalProperties: false
-        - type: 'null'
-          description: JSON null body (uncommon).
+      type: object
+      additionalProperties: false
     SandboxSimulationRequest:
       title: SandboxSimulationRequest
       description: |
-        Bank transfer processing (empty body), VAN transfer simulation (`type` virtual + transfers), or verification
-        directive simulation (`type` customer-verification, customer link, and errorCode). Typed bodies are mutually
-        exclusive; omit the body or send `{}` / null only for bank processing.
+        Bank transfer processing (omit body or `{}`), VAN transfer simulation (`type` virtual + transfers), or
+        verification directive simulation (`type` customer-verification, customer link, and errorCode). Typed bodies
+        are mutually exclusive; use only an omitted body or `{}` for bank processing.
       oneOf:
         - $ref: '#/components/schemas/SandboxSimulationVirtualAccountTransfersRequest'
         - $ref: '#/components/schemas/SandboxSimulationCustomerVerificationRequest'
