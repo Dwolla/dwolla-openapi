@@ -32,9 +32,8 @@ post:
   requestBody:
     required: false
     description: |
-      Optional. Use an empty object (or omit the body) for bank transfer processing. For VAN simulation,
-      send `type`: `virtual` and a `transfers` array. For verification directives, send `type`:
-      `customer-verification`, `_links.customer`, and `errorCode` (see schema).
+      Optional. For bank transfer processing, omit the body or send `{}`. For VAN simulation, send `type`: `virtual` and a `transfers` array. For verification
+      directives, send `type`: `customer-verification`, `_links.customer`, and `errorCode` (see schema).
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
@@ -73,6 +72,13 @@ post:
       description: |
         Accepted. Virtual (VAN) transfer simulation: requested transfers were accepted for immediate
         processing in Sandbox.
+    '400':
+      description: |
+        Bad Request.
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../schemas/common.yml#/components/schemas/BadRequestError'
     '401':
       description: unauthorized
       content:
