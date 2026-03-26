@@ -1,11 +1,23 @@
 post:
   tags:
     - sandbox simulations
-  summary: Simulate bank transfer processing (Sandbox only)
+  summary: Sandbox simulations (bank transfers, VAN transfers, or customer verification directives)
   description: |
-    Triggers processing for the last 500 bank transfers on the authorized application or Sandbox account. This endpoint is only available in the Sandbox environment. It will process or fail pending bank-to-bank transactions (including both sides of a transfer when applicable) and initiated micro-deposits. If webhooks are configured, corresponding events will be delivered.
+    Sandbox-only endpoint with three modes:
 
-    If a bank-to-bank transaction is initiated between two users, call this endpoint twice to process both the debit and credit sides.
+    **Simulate bank transfer processing** — Omit the body or send an empty JSON object. Processes or fails
+    the last 500 bank transfers on the authorized application or Sandbox account (and initiated micro-deposits).
+    If webhooks are configured, events are delivered. If a bank-to-bank transaction involves two users,
+    call this twice to process debit and credit sides. Returns **200** with a HAL document including `total`.
+
+    **Simulate VAN (virtual) transfers** — Send a JSON body with `type` set to `virtual` and a `transfers`
+    array (up to 10 items). External transfers are created and processed immediately. Returns **202 Accepted**.
+
+    **Simulate verification directives** — For a business Verified Customer in **`retry`** or **`document`**
+    status, send `type`: `customer-verification`, `_links.customer.href` pointing at that customer, and
+    `errorCode` set to one of: `PersonalIDRequired`, `POBoxNotAllowed`, `AddressNotAssociatedWithBusiness`,
+    `EINDocumentRequired`. Returns **200** with HAL `_links.self` and `errorCode`. Then **GET** the Customer;
+    the same code appears in `_embedded.errors` for end-to-end testing.
   operationId: simulateBankTransferProcessing
   x-speakeasy-name-override: simulate
   x-codeSamples:
@@ -19,18 +31,54 @@ post:
     - $ref: '../schemas/common.yml#/components/parameters/Accept'
   requestBody:
     required: false
-    description: Optional JSON body. Typically empty; presence of body is not required.
+    description: |
+      Optional. For bank transfer processing, omit the body or send `{}`. For VAN simulation, send `type`: `virtual` and a `transfers` array. For verification
+      directives, send `type`: `customer-verification`, `_links.customer`, and `errorCode` (see schema).
     content:
       application/vnd.dwolla.v1.hal+json:
         schema:
-          type: object
+          $ref: '../schemas/sandbox/SandboxSimulations.yml#/SandboxSimulationRequest'
   responses:
     '200':
-      description: Simulation executed. Pending bank transfers and micro-deposits were processed or failed.
+      description: |
+        Success. **Bank transfer processing** returns HAL with `total`. **Customer verification directives**
+        return HAL `_links.self` and `errorCode` (retrieve the Customer for `_embedded.errors`).
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
+            oneOf:
+              - $ref: '../schemas/sandbox/SandboxSimulations.yml#/SandboxSimulationBankProcessingResponse'
+              - $ref: '../schemas/sandbox/SandboxSimulations.yml#/SandboxSimulationCustomerVerificationResponse'
+          examples:
+            bankTransferProcessing:
+              summary: Bank transfer processing
+              value:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/sandbox-simulations
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: sandbox-simulation
+                total: 8
+            customerVerificationDirective:
+              summary: Customer verification directive simulation
+              value:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/sandbox-simulations
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: sandbox-simulation
+                errorCode: AddressNotAssociatedWithBusiness
+    '202':
+      description: |
+        Accepted. Virtual (VAN) transfer simulation: requested transfers were accepted for immediate
+        processing in Sandbox.
+    '400':
+      description: |
+        Bad Request.
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../schemas/common.yml#/components/schemas/BadRequestError'
     '401':
       description: unauthorized
       content:
@@ -57,4 +105,3 @@ post:
               message:
                 type: string
                 example: Not authorized to simulate transfer processing.
-
