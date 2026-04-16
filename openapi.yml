@@ -4396,7 +4396,6 @@ paths:
               },
               "achDetails": {
                 "source": {
-                  "companyEntryDescription": "PURCHASE",
                   "addenda": {
                     "values": ["ABC123_AddendaValue"]
                   }
@@ -4455,7 +4454,6 @@ paths:
               },
               achDetails: {
                 source: {
-                  companyEntryDescription: "PURCHASE",
                   addenda: {
                     values: ["ABC123_AddendaValue"],
                   },
@@ -4518,7 +4516,6 @@ paths:
               },
               'achDetails': {
                 'source': {
-                  'companyEntryDescription': 'PURCHASE',
                   'addenda': {
                     'values': ['ABC123_AddendaValue']
                   }
@@ -4583,7 +4580,6 @@ paths:
               ],
               'achDetails' => [
                 'source' => [
-                  'companyEntryDescription' => 'PURCHASE',
                   'addenda' => [
                     'values' => ['ABC123_AddendaValue']
                   ]
@@ -4644,7 +4640,6 @@ paths:
               },
               :achDetails => {
                 :source => {
-                  :companyEntryDescription => "PURCHASE",
                   :addenda => {
                     :values => ["ABC123_AddendaValue"]
                   }
