@@ -32,7 +32,6 @@ post:
           },
           "achDetails": {
             "source": {
-              "companyEntryDescription": "PURCHASE",
               "addenda": {
                 "values": ["ABC123_AddendaValue"]
               }
@@ -91,7 +90,6 @@ post:
           },
           achDetails: {
             source: {
-              companyEntryDescription: "PURCHASE",
               addenda: {
                 values: ["ABC123_AddendaValue"],
               },
@@ -154,7 +152,6 @@ post:
           },
           'achDetails': {
             'source': {
-              'companyEntryDescription': 'PURCHASE',
               'addenda': {
                 'values': ['ABC123_AddendaValue']
               }
@@ -219,7 +216,6 @@ post:
           ],
           'achDetails' => [
             'source' => [
-              'companyEntryDescription' => 'PURCHASE',
               'addenda' => [
                 'values' => ['ABC123_AddendaValue']
               ]
@@ -280,7 +276,6 @@ post:
           },
           :achDetails => {
             :source => {
-              :companyEntryDescription => "PURCHASE",
               :addenda => {
                 :values => ["ABC123_AddendaValue"]
               }
@@ -385,6 +380,7 @@ post:
                   properties:
                     companyEntryDescription:
                       type: string
+                      x-internal: true
                       description: >
                         Optional custom Company Entry Description (CED) for the source ACH entry, up to 10 characters.
                         Appears on the bank statement to briefly describe the transaction purpose.
@@ -411,6 +407,7 @@ post:
                   properties:
                     companyEntryDescription:
                       type: string
+                      x-internal: true
                       description: >
                         Optional custom Company Entry Description (CED) for the destination ACH entry, up to 10 characters.
                         Appears on the bank statement to briefly describe the transaction purpose.

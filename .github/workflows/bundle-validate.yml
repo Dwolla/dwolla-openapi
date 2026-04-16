@@ -26,9 +26,13 @@ jobs:
           npm i -g mint
           curl -fsSL https://go.speakeasy.com/cli-install.sh | sh
 
-      - name: Bundle OpenAPI spec
+      - name: Bundle OpenAPI spec (full, for Speakeasy)
         run: |
-          npx @redocly/cli bundle specs/spec.yml -o openapi.yml
+          npx @redocly/cli bundle full -o openapi.yml
+
+      - name: Bundle OpenAPI spec (public, for Mintlify)
+        run: |
+          npx @redocly/cli bundle public -o openapi-docs.yml
 
       - name: Run Redocly linter
         run: |
@@ -36,17 +40,19 @@ jobs:
 
       - name: Run Mintlify linter
         run: |
-          npx mint openapi-check openapi.yml
+          npx mint openapi-check openapi-docs.yml
 
       - name: Run Speakeasy linter
         run: |
           speakeasy lint openapi -s openapi.yml
 
-      - name: Upload bundled spec
+      - name: Upload bundled specs
         uses: actions/upload-artifact@v4
         with:
           name: openapi-spec
-          path: openapi.yml
+          path: |
+            openapi.yml
+            openapi-docs.yml
           if-no-files-found: error
         continue-on-error: false
 
@@ -68,10 +74,10 @@ jobs:
           name: openapi-spec
           path: .
 
-      - name: Commit Bundled API Spec
+      - name: Commit Bundled API Specs
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add openapi.yml
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update bundled openapi.yml" && git push)
+          git add openapi.yml openapi-public.yml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update bundled openapi specs" && git push)
         continue-on-error: false

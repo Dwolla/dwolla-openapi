@@ -4396,7 +4396,6 @@ paths:
               },
               "achDetails": {
                 "source": {
-                  "companyEntryDescription": "PURCHASE",
                   "addenda": {
                     "values": ["ABC123_AddendaValue"]
                   }
@@ -4455,7 +4454,6 @@ paths:
               },
               achDetails: {
                 source: {
-                  companyEntryDescription: "PURCHASE",
                   addenda: {
                     values: ["ABC123_AddendaValue"],
                   },
@@ -4518,7 +4516,6 @@ paths:
               },
               'achDetails': {
                 'source': {
-                  'companyEntryDescription': 'PURCHASE',
                   'addenda': {
                     'values': ['ABC123_AddendaValue']
                   }
@@ -4583,7 +4580,6 @@ paths:
               ],
               'achDetails' => [
                 'source' => [
-                  'companyEntryDescription' => 'PURCHASE',
                   'addenda' => [
                     'values' => ['ABC123_AddendaValue']
                   ]
@@ -4644,7 +4640,6 @@ paths:
               },
               :achDetails => {
                 :source => {
-                  :companyEntryDescription => "PURCHASE",
                   :addenda => {
                     :values => ["ABC123_AddendaValue"]
                   }
@@ -4747,21 +4742,6 @@ paths:
                     source:
                       type: object
                       properties:
-                        companyEntryDescription:
-                          type: string
-                          x-internal: true
-                          description: |
-                            Optional custom Company Entry Description (CED) for the source ACH entry, up to 10 characters. Appears on the bank statement to briefly describe the transaction purpose. Values are not limited to the examples below.
-                          maxLength: 10
-                          example: PURCHASE
-                          examples:
-                            - PURCHASE
-                            - INVOICE
-                            - LOANPYMT
-                            - REFUND
-                            - PAYROLL
-                            - DEPOSIT
-                            - GIFTCARD
                         addenda:
                           type: object
                           properties:
@@ -4772,21 +4752,6 @@ paths:
                     destination:
                       type: object
                       properties:
-                        companyEntryDescription:
-                          type: string
-                          x-internal: true
-                          description: |
-                            Optional custom Company Entry Description (CED) for the destination ACH entry, up to 10 characters. Appears on the bank statement to briefly describe the transaction purpose. Values are not limited to the examples below.
-                          maxLength: 10
-                          example: PAYROLL
-                          examples:
-                            - PURCHASE
-                            - INVOICE
-                            - LOANPYMT
-                            - REFUND
-                            - PAYROLL
-                            - DEPOSIT
-                            - GIFTCARD
                         addenda:
                           type: object
                           properties:
@@ -10497,22 +10462,6 @@ components:
                   type: string
                   description: Beneficiary of the transaction's name. In general, should match the user onboarded to the Platform's name
                   example: John Doe
-                companyEntryDescription:
-                  type: string
-                  x-internal: true
-                  description: |
-                    Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters). Values are not limited to the examples below.
-                  example: PURCHASE
-                  examples:
-                    - REVERSAL
-                    - RECLAIM
-                    - NO CHECK
-                    - AUTOENROLL
-                    - REDEPCHECK
-                    - RETURN FEE
-                    - RETRY PMNT
-                    - HEALTHCARE
-                    - PAYMENT
                 companyId:
                   type: string
                   description: Numeric identifier of originator
@@ -10556,22 +10505,6 @@ components:
                   type: string
                   description: Beneficiary of the transaction's name. In general, should match the user onboarded to the Platform's name
                   example: Jane Smith
-                companyEntryDescription:
-                  type: string
-                  x-internal: true
-                  description: |
-                    Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters). Values are not limited to the examples below.
-                  example: PURCHASE
-                  examples:
-                    - REVERSAL
-                    - RECLAIM
-                    - NO CHECK
-                    - AUTOENROLL
-                    - REDEPCHECK
-                    - RETURN FEE
-                    - RETRY PMNT
-                    - HEALTHCARE
-                    - PAYMENT
                 companyId:
                   type: string
                   description: Numeric identifier of originator

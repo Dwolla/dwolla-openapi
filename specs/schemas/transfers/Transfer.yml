@@ -67,6 +67,7 @@ Transfer:
               example: "John Doe"
             companyEntryDescription:
               type: string
+              x-internal: true
               description: >
                 Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters).
                 Values are not limited to the examples below.
@@ -126,6 +127,7 @@ Transfer:
               example: "Jane Smith"
             companyEntryDescription:
               type: string
+              x-internal: true
               description: >
                 Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters).
                 Values are not limited to the examples below.
