@@ -37,3 +37,154 @@ RemoveBank:
     removed:
       type: boolean
       example: true
+UpdateCardFundingSource:
+  title: UpdateCardFundingSource
+  description: |
+    Request body for updating a debit card funding source.
+
+    Every field is optional, but you must provide at least one. Only the fields you send are
+    changed; omitted fields keep their current values. Use this operation to add or update the
+    optional cardholder identity fields - `dateOfBirth`, `countryOfBirth`, and `identification` -
+    on a card funding source that already exists.
+
+    Card funding sources cannot be updated with bank fields such as `routingNumber`,
+    `accountNumber`, `bankAccountType`, or `bankAccountHolderType`.
+  type: object
+  minProperties: 1
+  properties:
+    name:
+      type: string
+      description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
+      example: My Visa Debit Card
+    cardDetails:
+      type: object
+      description: Cardholder details to add or update. Provide only the fields you want to change.
+      minProperties: 1
+      properties:
+        firstName:
+          type: string
+          description: Cardholder first name
+          example: Jane
+        lastName:
+          type: string
+          description: Cardholder last name
+          example: Doe
+        billingAddress:
+          type: object
+          description: |
+            The billing address associated with the card. When you include `billingAddress`,
+            `postalCode` is required.
+          required:
+            - postalCode
+          properties:
+            address1:
+              type: string
+              description: First line of the street address. Must be 50 characters or less.
+              example: 123 Main St
+            address2:
+              type: string
+              description: Second line of the street address (optional). Must be 100 characters or less.
+              example: Apt 4B
+            address3:
+              type: string
+              description: Third line of the street address (optional). Must be 100 characters or less.
+              example: Unit 101
+            city:
+              type: string
+              description: City name. Must be 50 characters or less.
+              example: Dallas
+            stateProvinceRegion:
+              type: string
+              description: Two-letter state, province, or region code.
+              example: TX
+            country:
+              type: string
+              description: Two-letter country code (ISO 3166-1 alpha-2)
+              example: US
+            postalCode:
+              type: string
+              description: Postal code or ZIP code
+              example: '76034'
+        dateOfBirth:
+          type: string
+          description: |
+            Cardholder date of birth in `YYYY-MM-DD` format.
+            Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
+          example: '1990-01-15'
+        countryOfBirth:
+          type: string
+          description: |
+            Cardholder country of birth as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+            Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
+          minLength: 2
+          maxLength: 2
+          example: US
+        identification:
+          type: object
+          description: |
+            A government identification document for the cardholder.
+            Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
+          required:
+            - type
+            - number
+            - country
+          properties:
+            type:
+              type: string
+              enum: [passport, license, idCard, taxId]
+              description: The kind of government identification document provided.
+              example: passport
+            number:
+              type: string
+              description: The identification document number.
+              example: P123456
+            country:
+              type: string
+              description: Country that issued the identification document, as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+              minLength: 2
+              maxLength: 2
+              example: GB
+UpdateFundingSourceValidationError:
+  title: UpdateFundingSourceValidationError
+  type: object
+  description: |
+    Validation error returned when an update request cannot be applied. The specific problem is
+    described by the embedded error's `code`, `message`, and `path`. Common cases:
+    - no updateable field was provided (`Invalid` at `/`)
+    - bank fields were sent to a card funding source (`NotAllowed` at `/routingNumber`)
+    - card fields were sent to a bank funding source (`NotAllowed` at `/cardDetails`)
+    - a `cardDetails` value failed validation, such as `countryOfBirth` not being exactly 2 characters
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: NotAllowed
+              message:
+                type: string
+                example: Card funding sources cannot be updated with bank fields
+              path:
+                type: string
+                example: /routingNumber

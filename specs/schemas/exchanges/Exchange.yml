@@ -24,3 +24,26 @@ Exchange:
       type: string
       format: date-time
       example: '2022-07-23T00:18:21.419Z'
+    cardDetails:
+      type: object
+      description: |
+        Card-specific details. Only present for card exchanges where an Account Name Inquiry (ANI)
+        was requested on the exchange session.
+      properties:
+        accountNameInquiry:
+          type: string
+          description: |
+            The result of comparing the expected cardholder name supplied on the exchange session
+            against the name the card issuer has on file.
+            - `full-match`: the expected name matched the name on file.
+            - `partial-match`: part of the expected name matched, for example the last name only.
+            - `no-match`: the expected name did not match the name on file.
+            - `not-performed`: ANI was not requested, or the check did not run.
+            - `not-supported`: the card issuer or network does not support ANI.
+          enum:
+            - full-match
+            - partial-match
+            - no-match
+            - not-performed
+            - not-supported
+          example: full-match

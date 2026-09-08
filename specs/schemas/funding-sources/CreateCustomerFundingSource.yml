@@ -247,6 +247,45 @@ CreateCustomerCardFundingSourceWithExchange:
               type: string
               description: Postal code or ZIP code
               example: '76034'
+        dateOfBirth:
+          type: string
+          description: |
+            Optional. Cardholder date of birth in `YYYY-MM-DD` format.
+            Supplying this value reduces the number of sanctions screening alerts raised when the card is registered and processed.
+          example: '1990-01-15'
+        countryOfBirth:
+          type: string
+          description: |
+            Optional. Cardholder country of birth as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+            Supplying this value reduces the number of sanctions screening alerts raised when the card is registered and processed.
+          minLength: 2
+          maxLength: 2
+          example: US
+        identification:
+          type: object
+          description: |
+            Optional. A government identification document for the cardholder.
+            Supplying this value reduces the number of sanctions screening alerts raised when the card is registered and processed.
+          required:
+            - type
+            - number
+            - country
+          properties:
+            type:
+              type: string
+              enum: [passport, license, idCard, taxId]
+              description: The kind of government identification document provided.
+              example: passport
+            number:
+              type: string
+              description: The identification document number.
+              example: P123456
+            country:
+              type: string
+              description: Country that issued the identification document, as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+              minLength: 2
+              maxLength: 2
+              example: GB
 # Error Responses
 InactiveExchangeError:
   title: InactiveExchangeError
