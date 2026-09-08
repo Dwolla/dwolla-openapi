@@ -3120,6 +3120,13 @@ paths:
                   "stateProvinceRegion": "TX",
                   "country": "US",
                   "postalCode": "76034"
+                },
+                "dateOfBirth": "1990-01-15",
+                "countryOfBirth": "US",
+                "identification": {
+                  "type": "passport",
+                  "number": "P123456",
+                  "country": "GB"
                 }
               }
             }
@@ -3162,6 +3169,13 @@ paths:
                   stateProvinceRegion: "TX",
                   country: "US",
                   postalCode: "76034"
+                },
+                dateOfBirth: "1990-01-15",
+                countryOfBirth: "US",
+                identification: {
+                  type: "passport",
+                  number: "P123456",
+                  country: "GB"
                 }
               }
             };
@@ -3205,6 +3219,13 @@ paths:
                   'stateProvinceRegion': 'TX',
                   'country': 'US',
                   'postalCode': '76034'
+                },
+                'dateOfBirth': '1990-01-15',
+                'countryOfBirth': 'US',
+                'identification': {
+                  'type': 'passport',
+                  'number': 'P123456',
+                  'country': 'GB'
                 }
               }
             }
@@ -3250,6 +3271,13 @@ paths:
                   "stateProvinceRegion" => "TX",
                   "country" => "US",
                   "postalCode" => "76034"
+                ],
+                "dateOfBirth" => "1990-01-15",
+                "countryOfBirth" => "US",
+                "identification" => [
+                  "type" => "passport",
+                  "number" => "P123456",
+                  "country" => "GB"
                 ]
               ]
             ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
@@ -3291,6 +3319,13 @@ paths:
                   stateProvinceRegion: 'TX',
                   country: 'US',
                   postalCode: '76034'
+                },
+                dateOfBirth: '1990-01-15',
+                countryOfBirth: 'US',
+                identification: {
+                  type: 'passport',
+                  number: 'P123456',
+                  country: 'GB'
                 }
               }
             }
@@ -3516,7 +3551,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve a funding source
-      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
+      description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name, along with `dateOfBirth` and `countryOfBirth` when those optional identity fields were supplied.
       operationId: getFundingSource
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: get
@@ -3660,6 +3695,8 @@ paths:
                         stateProvinceRegion: IA
                         country: US
                         postalCode: '50310'
+                      dateOfBirth: '1990-01-15'
+                      countryOfBirth: US
         '404':
           description: not found
           headers: {}
@@ -3678,12 +3715,27 @@ paths:
       tags:
         - funding sources
       summary: Update or remove a funding source
-      description: Updates a bank funding source's details or soft deletes it. When updating, you can change the name (any status) or modify routing/account numbers and account type (unverified status only). When removing, the funding source is soft deleted and can still be accessed but marked as removed.
+      description: |
+        Updates a bank or debit card funding source's details, or soft deletes it.
+
+        For **bank** funding sources you can change the name (any status), or modify routing/account
+        numbers and account type (unverified status only).
+
+        For **debit card** funding sources you can change the name and any field within `cardDetails`,
+        including the optional cardholder identity fields `dateOfBirth`, `countryOfBirth`, and
+        `identification`. This is how you add or update those identity values on a card funding source
+        that already exists.
+
+        You must provide at least one updateable field. Bank funding sources cannot be updated with
+        card fields, and card funding sources cannot be updated with bank fields.
+
+        When removing, the funding source is soft deleted and can still be accessed but marked as removed.
       operationId: updateOrRemoveFundingSource
       x-speakeasy-group: fundingSources
       x-speakeasy-name-override: updateOrRemove
       x-codeSamples:
         - lang: bash
+          label: Update Bank Funding Source
           source: |
             POST https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c
             Accept: application/vnd.dwolla.v1.hal+json
@@ -3693,7 +3745,27 @@ paths:
             {
               "name": "Test Checking - 1234"
             }
+        - lang: bash
+          label: Update Card Funding Source
+          source: |
+            POST https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261
+            Accept: application/vnd.dwolla.v1.hal+json
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+            {
+              "cardDetails": {
+                "dateOfBirth": "1990-01-15",
+                "countryOfBirth": "US",
+                "identification": {
+                  "type": "passport",
+                  "number": "P123456",
+                  "country": "GB"
+                }
+              }
+            }
         - lang: javascript
+          label: Update Bank Funding Source
           source: |
             // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
             var fundingSourceUrl =
@@ -3703,7 +3775,29 @@ paths:
             };
 
             dwolla.post(fundingSourceUrl, requestBody).then((res) => res.body.name); // => "Test Checking - 1234"
+        - lang: javascript
+          label: Update Card Funding Source
+          source: |
+            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+            var fundingSourceUrl =
+              "https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261";
+            var requestBody = {
+              cardDetails: {
+                dateOfBirth: "1990-01-15",
+                countryOfBirth: "US",
+                identification: {
+                  type: "passport",
+                  number: "P123456",
+                  country: "GB",
+                },
+              },
+            };
+
+            dwolla
+              .post(fundingSourceUrl, requestBody)
+              .then((res) => res.body.cardDetails.countryOfBirth); // => "US"
         - lang: python
+          label: Update Bank Funding Source
           source: |
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
             funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
@@ -3713,12 +3807,32 @@ paths:
 
             funding_source = app_token.post(funding_source_url, request_body)
             funding_source.body['name'] # => 'Test Checking - 1234'
+        - lang: python
+          label: Update Card Funding Source
+          source: |
+            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+            funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261'
+            request_body = {
+              'cardDetails': {
+                'dateOfBirth': '1990-01-15',
+                'countryOfBirth': 'US',
+                'identification': {
+                  'type': 'passport',
+                  'number': 'P123456',
+                  'country': 'GB'
+                }
+              }
+            }
+
+            funding_source = app_token.post(funding_source_url, request_body)
+            funding_source.body['cardDetails']['countryOfBirth'] # => 'US'
         - lang: php
           source: |
             /**
              *  No example for this language yet. Coming soon.
              **/
         - lang: ruby
+          label: Update Bank Funding Source
           source: |
             # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
             funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
@@ -3728,6 +3842,25 @@ paths:
 
             funding_source = app_token.post "#{funding_source_url}", request_body
             funding_source.name # => "Test Checking - 1234"
+        - lang: ruby
+          label: Update Card Funding Source
+          source: |
+            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+            funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261'
+            request_body = {
+              cardDetails: {
+                dateOfBirth: "1990-01-15",
+                countryOfBirth: "US",
+                identification: {
+                  type: "passport",
+                  number: "P123456",
+                  country: "GB"
+                }
+              }
+            }
+
+            funding_source = app_token.post "#{funding_source_url}", request_body
+            funding_source.cardDetails.countryOfBirth # => "US"
       parameters:
         - name: id
           in: path
@@ -3745,6 +3878,7 @@ paths:
               oneOf:
                 - $ref: '#/components/schemas/UpdateUnverifiedBank'
                 - $ref: '#/components/schemas/UpdateVerifiedBank'
+                - $ref: '#/components/schemas/UpdateCardFundingSource'
                 - $ref: '#/components/schemas/RemoveBank'
       responses:
         '200':
@@ -3760,14 +3894,48 @@ paths:
           content:
             application/vnd.dwolla.v1.hal+json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: validationError
-                  message:
-                    type: string
-                    example: Only funding sources of type='bank' can be updated.
+                $ref: '#/components/schemas/UpdateFundingSourceValidationError'
+              examples:
+                no_fields_to_update:
+                  summary: No updateable fields provided
+                  value:
+                    code: ValidationError
+                    message: Validation error(s) present. See embedded errors list for more details.
+                    _embedded:
+                      errors:
+                        - code: Invalid
+                          message: At least one field must be provided for update
+                          path: /
+                card_updated_with_bank_fields:
+                  summary: Bank fields sent to a card funding source
+                  value:
+                    code: ValidationError
+                    message: Validation error(s) present. See embedded errors list for more details.
+                    _embedded:
+                      errors:
+                        - code: NotAllowed
+                          message: Card funding sources cannot be updated with bank fields
+                          path: /routingNumber
+                bank_updated_with_card_fields:
+                  summary: Card fields sent to a bank funding source
+                  value:
+                    code: ValidationError
+                    message: Validation error(s) present. See embedded errors list for more details.
+                    _embedded:
+                      errors:
+                        - code: NotAllowed
+                          message: Bank funding sources cannot be updated with card fields
+                          path: /cardDetails
+                invalid_country_of_birth:
+                  summary: Invalid country of birth
+                  value:
+                    code: ValidationError
+                    message: Validation error(s) present. See embedded errors list for more details.
+                    _embedded:
+                      errors:
+                        - code: InvalidFormat
+                          message: Card details country of birth must be exactly 2 characters.
+                          path: /cardDetails/countryOfBirth
         '403':
           description: forbidden
           headers: {}
@@ -8940,7 +9108,15 @@ paths:
       tags:
         - exchanges
       summary: Retrieve exchange resource
-      description: Returns details for a specific exchange connection between Dwolla and an open banking partner for a customer's bank account. Includes exchange status, creation date, and links to the associated customer and exchange partner.
+      description: |
+        Returns details for a specific exchange connection between Dwolla and an open banking partner
+        for a customer's bank account. Includes exchange status, creation date, and links to the
+        associated customer and exchange partner.
+
+        For card exchanges created from an exchange session that requested an Account Name Inquiry
+        (ANI), the response also includes `cardDetails.accountNameInquiry` with the name-match result.
+        Read this value before creating a card funding source to get an early signal of fraudulent
+        card usage.
       operationId: getExchange
       x-speakeasy-name-override: get
       x-codeSamples:
@@ -8968,6 +9144,35 @@ paths:
                 "id": "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a",
                 "status": "active",
                 "created": "2022-10-21T21:41:03.283Z"
+            }
+
+            # Card exchange with an Account Name Inquiry (ANI) result
+
+            GET https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04
+            Accept: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+            ...
+
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04",
+                        "type": "application/vnd.dwolla.v1.hal+json",
+                        "resource-type": "exchange"
+                    },
+                    "exchange-partner": {
+                        "href": "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850",
+                        "type": "application/vnd.dwolla.v1.hal+json",
+                        "resource-type": "exchange-partner"
+                    }
+                },
+                "id": "d46b028c-244b-4054-b19b-72f09cd1dc04",
+                "status": "active",
+                "created": "2026-02-20T10:14:02.118Z",
+                "cardDetails": {
+                    "accountNameInquiry": "full-match"
+                }
             }
         - lang: javascript
           source: |
@@ -9401,6 +9606,25 @@ paths:
                 }
               }
             }
+
+            # Checkout.com with Account Name Inquiry (ANI) Example
+            POST https://api-sandbox.dwolla.com/customers/bb0e1dc7-f2ea-4cca-b053-4049d49a1c0d/exchange-sessions
+            Accept: application/vnd.dwolla.v1.hal+json
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer your_dwolla_access_token
+
+            {
+              "_links": {
+                "exchange-partner": {
+                  "href": "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850"
+                }
+              },
+              "cardDetails": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "accountNameInquiry": true
+              }
+            }
         - lang: javascript
           source: |
             // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
@@ -9456,6 +9680,22 @@ paths:
             dwolla
               .post(`${customerUrl}/exchange-sessions`, requestBodyMX)
               .then((res) => res.headers.get("location"));
+            // Checkout.com with Account Name Inquiry (ANI) Example
+            var requestBodyCardWithANI = {
+              _links: {
+                "exchange-partner": {
+                  href: "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850",
+                },
+              },
+              cardDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                accountNameInquiry: true,
+              },
+            };
+            dwolla
+              .post(`${customerUrl}/exchange-sessions`, requestBodyCardWithANI)
+              .then((res) => res.headers.get("location"));
         - lang: python
           source: |
             # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
@@ -9505,6 +9745,21 @@ paths:
               }
             }
             exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_mx)
+            exchange.headers['location']
+            # Checkout.com with Account Name Inquiry (ANI) Example
+            request_body_card_with_ani = {
+              '_links': {
+                'exchange-partner': {
+                  'href': 'https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850'
+                }
+              },
+              'cardDetails': {
+                'firstName': 'John',
+                'lastName': 'Doe',
+                'accountNameInquiry': True
+              }
+            }
+            exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_card_with_ani)
             exchange.headers['location']
         - lang: php
           source: |
@@ -9561,6 +9816,21 @@ paths:
             }
             exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_mx
             exchange.response_headers[:location]
+            # Checkout.com with Account Name Inquiry (ANI) Example
+            request_body_card_with_ani = {
+              _links: {
+                'exchange-partner': {
+                  href: "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850"
+                }
+              },
+              cardDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                accountNameInquiry: true
+              }
+            }
+            exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_card_with_ani
+            exchange.response_headers[:location]
       parameters:
         - name: id
           in: path
@@ -9578,6 +9848,7 @@ paths:
               oneOf:
                 - $ref: '#/components/schemas/CreateCustomerExchangeSessionWithRedirect'
                 - $ref: '#/components/schemas/CreateCustomerExchangeSessionForWeb'
+                - $ref: '#/components/schemas/CreateCustomerExchangeSessionForCard'
       responses:
         '201':
           description: created
@@ -10377,6 +10648,14 @@ components:
                   type: string
                   description: Postal code or ZIP code
                   example: '50310'
+            dateOfBirth:
+              type: string
+              description: Cardholder date of birth in `YYYY-MM-DD` format. Only present if it was supplied when the card funding source was created or updated.
+              example: '1990-01-15'
+            countryOfBirth:
+              type: string
+              description: Cardholder country of birth as a two-letter country code (ISO 3166-1 alpha-2). Only present if it was supplied when the card funding source was created or updated.
+              example: US
     FundingSources:
       title: FundingSources
       type: object
@@ -12818,6 +13097,49 @@ components:
                   type: string
                   description: Postal code or ZIP code
                   example: '76034'
+            dateOfBirth:
+              type: string
+              description: |
+                Optional. Cardholder date of birth in `YYYY-MM-DD` format.
+                Supplying this value reduces the number of sanctions screening alerts raised when the card is registered and processed.
+              example: '1990-01-15'
+            countryOfBirth:
+              type: string
+              description: |
+                Optional. Cardholder country of birth as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+                Supplying this value reduces the number of sanctions screening alerts raised when the card is registered and processed.
+              minLength: 2
+              maxLength: 2
+              example: US
+            identification:
+              type: object
+              description: |
+                Optional. A government identification document for the cardholder.
+                Supplying this value reduces the number of sanctions screening alerts raised when the card is registered and processed.
+              required:
+                - type
+                - number
+                - country
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - passport
+                    - license
+                    - idCard
+                    - taxId
+                  description: The kind of government identification document provided.
+                  example: passport
+                number:
+                  type: string
+                  description: The identification document number.
+                  example: P123456
+                country:
+                  type: string
+                  description: Country that issued the identification document, as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+                  minLength: 2
+                  maxLength: 2
+                  example: GB
     CreateCustomerFundingSource:
       title: Create Customer Funding Source
       description: |
@@ -13058,6 +13380,117 @@ components:
         name:
           type: string
           example: Jane Doe’s Checking
+    UpdateCardFundingSource:
+      title: UpdateCardFundingSource
+      description: |
+        Request body for updating a debit card funding source.
+
+        Every field is optional, but you must provide at least one. Only the fields you send are
+        changed; omitted fields keep their current values. Use this operation to add or update the
+        optional cardholder identity fields - `dateOfBirth`, `countryOfBirth`, and `identification` -
+        on a card funding source that already exists.
+
+        Card funding sources cannot be updated with bank fields such as `routingNumber`,
+        `accountNumber`, `bankAccountType`, or `bankAccountHolderType`.
+      type: object
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          description: Arbitrary nickname for the debit card funding source. Must be 50 characters or less.
+          example: My Visa Debit Card
+        cardDetails:
+          type: object
+          description: Cardholder details to add or update. Provide only the fields you want to change.
+          minProperties: 1
+          properties:
+            firstName:
+              type: string
+              description: Cardholder first name
+              example: Jane
+            lastName:
+              type: string
+              description: Cardholder last name
+              example: Doe
+            billingAddress:
+              type: object
+              description: |
+                The billing address associated with the card. When you include `billingAddress`,
+                `postalCode` is required.
+              required:
+                - postalCode
+              properties:
+                address1:
+                  type: string
+                  description: First line of the street address. Must be 50 characters or less.
+                  example: 123 Main St
+                address2:
+                  type: string
+                  description: Second line of the street address (optional). Must be 100 characters or less.
+                  example: Apt 4B
+                address3:
+                  type: string
+                  description: Third line of the street address (optional). Must be 100 characters or less.
+                  example: Unit 101
+                city:
+                  type: string
+                  description: City name. Must be 50 characters or less.
+                  example: Dallas
+                stateProvinceRegion:
+                  type: string
+                  description: Two-letter state, province, or region code.
+                  example: TX
+                country:
+                  type: string
+                  description: Two-letter country code (ISO 3166-1 alpha-2)
+                  example: US
+                postalCode:
+                  type: string
+                  description: Postal code or ZIP code
+                  example: '76034'
+            dateOfBirth:
+              type: string
+              description: |
+                Cardholder date of birth in `YYYY-MM-DD` format.
+                Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
+              example: '1990-01-15'
+            countryOfBirth:
+              type: string
+              description: |
+                Cardholder country of birth as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+                Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
+              minLength: 2
+              maxLength: 2
+              example: US
+            identification:
+              type: object
+              description: |
+                A government identification document for the cardholder.
+                Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
+              required:
+                - type
+                - number
+                - country
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - passport
+                    - license
+                    - idCard
+                    - taxId
+                  description: The kind of government identification document provided.
+                  example: passport
+                number:
+                  type: string
+                  description: The identification document number.
+                  example: P123456
+                country:
+                  type: string
+                  description: Country that issued the identification document, as a two-letter country code (ISO 3166-1 alpha-2). Must be exactly 2 characters.
+                  minLength: 2
+                  maxLength: 2
+                  example: GB
     RemoveBank:
       title: RemoveBank
       description: Request body for removing a bank funding source
@@ -13068,6 +13501,50 @@ components:
         removed:
           type: boolean
           example: true
+    UpdateFundingSourceValidationError:
+      title: UpdateFundingSourceValidationError
+      type: object
+      description: |
+        Validation error returned when an update request cannot be applied. The specific problem is
+        described by the embedded error's `code`, `message`, and `path`. Common cases:
+        - no updateable field was provided (`Invalid` at `/`)
+        - bank fields were sent to a card funding source (`NotAllowed` at `/routingNumber`)
+        - card fields were sent to a bank funding source (`NotAllowed` at `/cardDetails`)
+        - a `cardDetails` value failed validation, such as `countryOfBirth` not being exactly 2 characters
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Card funding sources cannot be updated with bank fields
+                  path:
+                    type: string
+                    example: /routingNumber
     VerifyMicroDeposits:
       title: VerifyMicroDeposits
       description: Request body for verifying micro-deposits
@@ -16211,6 +16688,29 @@ components:
           type: string
           format: date-time
           example: '2022-07-23T00:18:21.419Z'
+        cardDetails:
+          type: object
+          description: |
+            Card-specific details. Only present for card exchanges where an Account Name Inquiry (ANI)
+            was requested on the exchange session.
+          properties:
+            accountNameInquiry:
+              type: string
+              description: |
+                The result of comparing the expected cardholder name supplied on the exchange session
+                against the name the card issuer has on file.
+                - `full-match`: the expected name matched the name on file.
+                - `partial-match`: part of the expected name matched, for example the last name only.
+                - `no-match`: the expected name did not match the name on file.
+                - `not-performed`: ANI was not requested, or the check did not run.
+                - `not-supported`: the card issuer or network does not support ANI.
+              enum:
+                - full-match
+                - partial-match
+                - no-match
+                - not-performed
+                - not-supported
+              example: full-match
     Exchanges:
       title: Exchanges
       type: object
@@ -16468,6 +16968,56 @@ components:
                   type: string
                   format: uri
                   example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+    CreateCustomerExchangeSessionForCard:
+      title: CreateCustomerExchangeSessionForCard
+      description: |
+        Create an exchange session for debit card capture with Checkout.com (Push to Card).
+
+        Optionally opt into Account Name Inquiry (ANI) by passing `cardDetails` with the cardholder
+        name you expect on the card. The name-match result is returned on the resulting Exchange as
+        `cardDetails.accountNameInquiry`, giving you an early signal of fraudulent card usage before
+        you create a funding source.
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
+          required:
+            - exchange-partner
+          properties:
+            exchange-partner:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  description: URL of the Checkout.com (Cards) exchange partner. Use `GET /exchange-partners` to locate it.
+                  example: https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850
+        cardDetails:
+          type: object
+          description: |
+            Optional. Opt into Account Name Inquiry (ANI) for this session by providing the expected
+            cardholder name. Retrieve the resulting match on the Exchange with `GET /exchanges/{id}`.
+          required:
+            - firstName
+            - lastName
+            - accountNameInquiry
+          properties:
+            firstName:
+              type: string
+              description: The cardholder first name you expect on the card.
+              example: John
+            lastName:
+              type: string
+              description: The cardholder last name you expect on the card.
+              example: Doe
+            accountNameInquiry:
+              type: boolean
+              description: Set to `true` to request an Account Name Inquiry (ANI) name-match check on the card.
+              example: true
     ExchangeSession:
       title: ExchangeSession
       description: |

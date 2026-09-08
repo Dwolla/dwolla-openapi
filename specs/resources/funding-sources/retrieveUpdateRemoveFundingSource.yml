@@ -2,7 +2,7 @@ get:
   tags:
     - funding sources
   summary: Retrieve a funding source
-  description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name.
+  description: Returns detailed information for a specific funding source, including its type, status, and verification details. Supports bank accounts (via Open Banking), debit card funding sources, and Dwolla balance (verified customers only). Debit card funding sources include masked card details such as brand, last four digits, expiration date, and cardholder name, along with `dateOfBirth` and `countryOfBirth` when those optional identity fields were supplied.
   operationId: getFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: get
@@ -146,6 +146,8 @@ get:
                     stateProvinceRegion: "IA"
                     country: "US"
                     postalCode: "50310"
+                  dateOfBirth: "1990-01-15"
+                  countryOfBirth: "US"
     '404':
       description: not found
       headers: {}
@@ -164,12 +166,27 @@ post:
   tags:
     - funding sources
   summary: Update or remove a funding source
-  description: Updates a bank funding source's details or soft deletes it. When updating, you can change the name (any status) or modify routing/account numbers and account type (unverified status only). When removing, the funding source is soft deleted and can still be accessed but marked as removed.
+  description: |
+    Updates a bank or debit card funding source's details, or soft deletes it.
+
+    For **bank** funding sources you can change the name (any status), or modify routing/account
+    numbers and account type (unverified status only).
+
+    For **debit card** funding sources you can change the name and any field within `cardDetails`,
+    including the optional cardholder identity fields `dateOfBirth`, `countryOfBirth`, and
+    `identification`. This is how you add or update those identity values on a card funding source
+    that already exists.
+
+    You must provide at least one updateable field. Bank funding sources cannot be updated with
+    card fields, and card funding sources cannot be updated with bank fields.
+
+    When removing, the funding source is soft deleted and can still be accessed but marked as removed.
   operationId: updateOrRemoveFundingSource
   x-speakeasy-group: fundingSources
   x-speakeasy-name-override: updateOrRemove
   x-codeSamples:
     - lang: bash
+      label: Update Bank Funding Source
       source: |
         POST https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c
         Accept: application/vnd.dwolla.v1.hal+json
@@ -179,7 +196,27 @@ post:
         {
           "name": "Test Checking - 1234"
         }
+    - lang: bash
+      label: Update Card Funding Source
+      source: |
+        POST https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        {
+          "cardDetails": {
+            "dateOfBirth": "1990-01-15",
+            "countryOfBirth": "US",
+            "identification": {
+              "type": "passport",
+              "number": "P123456",
+              "country": "GB"
+            }
+          }
+        }
     - lang: javascript
+      label: Update Bank Funding Source
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
         var fundingSourceUrl =
@@ -189,7 +226,29 @@ post:
         };
 
         dwolla.post(fundingSourceUrl, requestBody).then((res) => res.body.name); // => "Test Checking - 1234"
+    - lang: javascript
+      label: Update Card Funding Source
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var fundingSourceUrl =
+          "https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261";
+        var requestBody = {
+          cardDetails: {
+            dateOfBirth: "1990-01-15",
+            countryOfBirth: "US",
+            identification: {
+              type: "passport",
+              number: "P123456",
+              country: "GB",
+            },
+          },
+        };
+
+        dwolla
+          .post(fundingSourceUrl, requestBody)
+          .then((res) => res.body.cardDetails.countryOfBirth); // => "US"
     - lang: python
+      label: Update Bank Funding Source
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
         funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
@@ -199,12 +258,32 @@ post:
 
         funding_source = app_token.post(funding_source_url, request_body)
         funding_source.body['name'] # => 'Test Checking - 1234'
+    - lang: python
+      label: Update Card Funding Source
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261'
+        request_body = {
+          'cardDetails': {
+            'dateOfBirth': '1990-01-15',
+            'countryOfBirth': 'US',
+            'identification': {
+              'type': 'passport',
+              'number': 'P123456',
+              'country': 'GB'
+            }
+          }
+        }
+
+        funding_source = app_token.post(funding_source_url, request_body)
+        funding_source.body['cardDetails']['countryOfBirth'] # => 'US'
     - lang: php
       source: |
         /**
          *  No example for this language yet. Coming soon.
          **/
     - lang: ruby
+      label: Update Bank Funding Source
       source: |
         # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
         funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/692486f8-29f6-4516-a6a5-c69fd2ce854c'
@@ -214,6 +293,25 @@ post:
 
         funding_source = app_token.post "#{funding_source_url}", request_body
         funding_source.name # => "Test Checking - 1234"
+    - lang: ruby
+      label: Update Card Funding Source
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        funding_source_url = 'https://api-sandbox.dwolla.com/funding-sources/12fb2f3c-39c7-40cf-99e2-b0311ba39261'
+        request_body = {
+          cardDetails: {
+            dateOfBirth: "1990-01-15",
+            countryOfBirth: "US",
+            identification: {
+              type: "passport",
+              number: "P123456",
+              country: "GB"
+            }
+          }
+        }
+
+        funding_source = app_token.post "#{funding_source_url}", request_body
+        funding_source.cardDetails.countryOfBirth # => "US"
   parameters:
     - name: id
       in: path
@@ -231,6 +329,7 @@ post:
           oneOf:
             - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/UpdateUnverifiedBank'
             - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/UpdateVerifiedBank'
+            - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/UpdateCardFundingSource'
             - $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/RemoveBank'
   responses:
     '200':
@@ -246,14 +345,48 @@ post:
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: validationError
-              message:
-                type: string
-                example: "Only funding sources of type='bank' can be updated."
+            $ref: '../../schemas/funding-sources/UpdateFundingSource.yml#/UpdateFundingSourceValidationError'
+          examples:
+            no_fields_to_update:
+              summary: No updateable fields provided
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Invalid
+                      message: At least one field must be provided for update
+                      path: /
+            card_updated_with_bank_fields:
+              summary: Bank fields sent to a card funding source
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: NotAllowed
+                      message: Card funding sources cannot be updated with bank fields
+                      path: /routingNumber
+            bank_updated_with_card_fields:
+              summary: Card fields sent to a bank funding source
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: NotAllowed
+                      message: Bank funding sources cannot be updated with card fields
+                      path: /cardDetails
+            invalid_country_of_birth:
+              summary: Invalid country of birth
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: InvalidFormat
+                      message: Card details country of birth must be exactly 2 characters.
+                      path: /cardDetails/countryOfBirth
     '403':
       description: forbidden
       headers: {}

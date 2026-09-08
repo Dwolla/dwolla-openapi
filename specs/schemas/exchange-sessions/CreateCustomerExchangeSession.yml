@@ -54,3 +54,53 @@ CreateCustomerExchangeSessionForWeb:
               type: string
               format: uri
               example: https://api.dwolla.com/exchange-partners/292317ec-e252-47d8-93c3-2d128e037aa4
+CreateCustomerExchangeSessionForCard:
+  title: CreateCustomerExchangeSessionForCard
+  description: |
+    Create an exchange session for debit card capture with Checkout.com (Push to Card).
+
+    Optionally opt into Account Name Inquiry (ANI) by passing `cardDetails` with the cardholder
+    name you expect on the card. The name-match result is returned on the resulting Exchange as
+    `cardDetails.accountNameInquiry`, giving you an early signal of fraudulent card usage before
+    you create a funding source.
+  type: object
+  required:
+    - _links
+  properties:
+    _links:
+      type: object
+      required:
+        - exchange-partner
+      properties:
+        exchange-partner:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+              description: URL of the Checkout.com (Cards) exchange partner. Use `GET /exchange-partners` to locate it.
+              example: https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850
+    cardDetails:
+      type: object
+      description: |
+        Optional. Opt into Account Name Inquiry (ANI) for this session by providing the expected
+        cardholder name. Retrieve the resulting match on the Exchange with `GET /exchanges/{id}`.
+      required:
+        - firstName
+        - lastName
+        - accountNameInquiry
+      properties:
+        firstName:
+          type: string
+          description: The cardholder first name you expect on the card.
+          example: John
+        lastName:
+          type: string
+          description: The cardholder last name you expect on the card.
+          example: Doe
+        accountNameInquiry:
+          type: boolean
+          description: Set to `true` to request an Account Name Inquiry (ANI) name-match check on the card.
+          example: true

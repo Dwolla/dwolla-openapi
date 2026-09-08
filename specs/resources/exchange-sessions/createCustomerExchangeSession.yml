@@ -87,6 +87,25 @@ post:
             }
           }
         }
+
+        # Checkout.com with Account Name Inquiry (ANI) Example
+        POST https://api-sandbox.dwolla.com/customers/bb0e1dc7-f2ea-4cca-b053-4049d49a1c0d/exchange-sessions
+        Accept: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer your_dwolla_access_token
+
+        {
+          "_links": {
+            "exchange-partner": {
+              "href": "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850"
+            }
+          },
+          "cardDetails": {
+            "firstName": "John",
+            "lastName": "Doe",
+            "accountNameInquiry": true
+          }
+        }
     - lang: javascript
       source: |
         // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
@@ -142,6 +161,22 @@ post:
         dwolla
           .post(`${customerUrl}/exchange-sessions`, requestBodyMX)
           .then((res) => res.headers.get("location"));
+        // Checkout.com with Account Name Inquiry (ANI) Example
+        var requestBodyCardWithANI = {
+          _links: {
+            "exchange-partner": {
+              href: "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850",
+            },
+          },
+          cardDetails: {
+            firstName: "John",
+            lastName: "Doe",
+            accountNameInquiry: true,
+          },
+        };
+        dwolla
+          .post(`${customerUrl}/exchange-sessions`, requestBodyCardWithANI)
+          .then((res) => res.headers.get("location"));
     - lang: python
       source: |
         # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
@@ -191,6 +226,21 @@ post:
           }
         }
         exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_mx)
+        exchange.headers['location']
+        # Checkout.com with Account Name Inquiry (ANI) Example
+        request_body_card_with_ani = {
+          '_links': {
+            'exchange-partner': {
+              'href': 'https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850'
+            }
+          },
+          'cardDetails': {
+            'firstName': 'John',
+            'lastName': 'Doe',
+            'accountNameInquiry': True
+          }
+        }
+        exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_card_with_ani)
         exchange.headers['location']
     - lang: php
       source: |
@@ -247,6 +297,21 @@ post:
         }
         exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_mx
         exchange.response_headers[:location]
+        # Checkout.com with Account Name Inquiry (ANI) Example
+        request_body_card_with_ani = {
+          _links: {
+            'exchange-partner': {
+              href: "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850"
+            }
+          },
+          cardDetails: {
+            firstName: "John",
+            lastName: "Doe",
+            accountNameInquiry: true
+          }
+        }
+        exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_card_with_ani
+        exchange.response_headers[:location]
   parameters:
     - name: id
       in: path
@@ -264,6 +329,7 @@ post:
           oneOf:
             - $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSessionWithRedirect'
             - $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSessionForWeb'
+            - $ref: '../../schemas/exchange-sessions/CreateCustomerExchangeSession.yml#/CreateCustomerExchangeSessionForCard'
   responses:
     '201':
       description: created
