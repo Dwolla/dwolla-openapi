@@ -29,6 +29,8 @@ Exchange:
       description: |
         Card-specific details. Only present for card exchanges where an Account Name Inquiry (ANI)
         was requested on the exchange session.
+      required:
+        - accountNameInquiry
       properties:
         accountNameInquiry:
           type: string

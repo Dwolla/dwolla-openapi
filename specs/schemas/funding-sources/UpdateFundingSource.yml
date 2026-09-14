@@ -107,6 +107,7 @@ UpdateCardFundingSource:
               example: '76034'
         dateOfBirth:
           type: string
+          format: date
           description: |
             Cardholder date of birth in `YYYY-MM-DD` format.
             Supplying this value reduces the number of sanctions screening alerts raised when the card is processed.
