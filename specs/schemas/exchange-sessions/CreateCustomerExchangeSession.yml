@@ -57,7 +57,7 @@ CreateCustomerExchangeSessionForWeb:
 CreateCustomerExchangeSessionForCard:
   title: CreateCustomerExchangeSessionForCard
   description: |
-    Create an exchange session for debit card capture with Checkout.com (Push to Card).
+    Create an exchange session for debit card capture (Push to Card).
 
     Optionally opt into Account Name Inquiry (ANI) by passing `cardDetails` with the cardholder
     name you expect on the card. The name-match result is returned on the resulting Exchange as
@@ -80,7 +80,7 @@ CreateCustomerExchangeSessionForCard:
             href:
               type: string
               format: uri
-              description: URL of the Checkout.com (Cards) exchange partner. Use `GET /exchange-partners` to locate it.
+              description: URL of the cards exchange partner. Use `GET /exchange-partners` to locate it.
               example: https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850
     cardDetails:
       type: object

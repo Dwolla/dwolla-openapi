@@ -88,7 +88,7 @@ post:
           }
         }
 
-        # Checkout.com with Account Name Inquiry (ANI) Example
+        # Debit Card with Account Name Inquiry (ANI) Example
         POST https://api-sandbox.dwolla.com/customers/bb0e1dc7-f2ea-4cca-b053-4049d49a1c0d/exchange-sessions
         Accept: application/vnd.dwolla.v1.hal+json
         Content-Type: application/vnd.dwolla.v1.hal+json
@@ -161,7 +161,7 @@ post:
         dwolla
           .post(`${customerUrl}/exchange-sessions`, requestBodyMX)
           .then((res) => res.headers.get("location"));
-        // Checkout.com with Account Name Inquiry (ANI) Example
+        // Debit Card with Account Name Inquiry (ANI) Example
         var requestBodyCardWithANI = {
           _links: {
             "exchange-partner": {
@@ -227,7 +227,7 @@ post:
         }
         exchange = app_token.post('%s/exchange-sessions' % customer_url, request_body_mx)
         exchange.headers['location']
-        # Checkout.com with Account Name Inquiry (ANI) Example
+        # Debit Card with Account Name Inquiry (ANI) Example
         request_body_card_with_ani = {
           '_links': {
             'exchange-partner': {
@@ -297,7 +297,7 @@ post:
         }
         exchange = app_token.post "#{customer_url}/exchange-sessions", request_body_mx
         exchange.response_headers[:location]
-        # Checkout.com with Account Name Inquiry (ANI) Example
+        # Debit Card with Account Name Inquiry (ANI) Example
         request_body_card_with_ani = {
           _links: {
             'exchange-partner': {
