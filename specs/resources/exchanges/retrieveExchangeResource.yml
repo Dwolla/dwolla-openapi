@@ -2,7 +2,15 @@ get:
   tags:
     - exchanges
   summary: Retrieve exchange resource
-  description: Returns details for a specific exchange connection between Dwolla and an open banking partner for a customer's bank account. Includes exchange status, creation date, and links to the associated customer and exchange partner.
+  description: |
+    Returns details for a specific exchange connection between Dwolla and an open banking partner
+    for a customer's bank account. Includes exchange status, creation date, and links to the
+    associated customer and exchange partner.
+
+    For card exchanges created from an exchange session that requested an Account Name Inquiry
+    (ANI), the response also includes `cardDetails.accountNameInquiry` with the name-match result.
+    Read this value before creating a card funding source to get an early signal of fraudulent
+    card usage.
   operationId: getExchange
   x-speakeasy-name-override: get
   x-codeSamples:
@@ -30,6 +38,35 @@ get:
             "id": "e5e9f2d3-a96c-4abd-a097-8ec7ae28aa8a",
             "status": "active",
             "created": "2022-10-21T21:41:03.283Z"
+        }
+
+        # Card exchange with an Account Name Inquiry (ANI) result
+
+        GET https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-sandbox.dwolla.com/exchanges/d46b028c-244b-4054-b19b-72f09cd1dc04",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange"
+                },
+                "exchange-partner": {
+                    "href": "https://api-sandbox.dwolla.com/exchange-partners/d652517d-9c02-4ea4-87af-2977e6cf3850",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "exchange-partner"
+                }
+            },
+            "id": "d46b028c-244b-4054-b19b-72f09cd1dc04",
+            "status": "active",
+            "created": "2026-02-20T10:14:02.118Z",
+            "cardDetails": {
+                "accountNameInquiry": "full-match"
+            }
         }
     - lang: javascript
       source: |

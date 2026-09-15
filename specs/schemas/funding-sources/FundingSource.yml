@@ -112,3 +112,11 @@ FundingSource:
               type: string
               description: "Postal code or ZIP code"
               example: "50310"
+        dateOfBirth:
+          type: string
+          description: "Cardholder date of birth in `YYYY-MM-DD` format. Only present if it was supplied when the card funding source was created or updated."
+          example: "1990-01-15"
+        countryOfBirth:
+          type: string
+          description: "Cardholder country of birth as a two-letter country code (ISO 3166-1 alpha-2). Only present if it was supplied when the card funding source was created or updated."
+          example: "US"

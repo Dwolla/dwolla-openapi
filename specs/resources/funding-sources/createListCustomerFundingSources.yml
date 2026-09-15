@@ -142,6 +142,13 @@ post:
               "stateProvinceRegion": "TX",
               "country": "US",
               "postalCode": "76034"
+            },
+            "dateOfBirth": "1990-01-15",
+            "countryOfBirth": "US",
+            "identification": {
+              "type": "passport",
+              "number": "P123456",
+              "country": "GB"
             }
           }
         }
@@ -184,6 +191,13 @@ post:
               stateProvinceRegion: "TX",
               country: "US",
               postalCode: "76034"
+            },
+            dateOfBirth: "1990-01-15",
+            countryOfBirth: "US",
+            identification: {
+              type: "passport",
+              number: "P123456",
+              country: "GB"
             }
           }
         };
@@ -227,6 +241,13 @@ post:
               'stateProvinceRegion': 'TX',
               'country': 'US',
               'postalCode': '76034'
+            },
+            'dateOfBirth': '1990-01-15',
+            'countryOfBirth': 'US',
+            'identification': {
+              'type': 'passport',
+              'number': 'P123456',
+              'country': 'GB'
             }
           }
         }
@@ -272,6 +293,13 @@ post:
               "stateProvinceRegion" => "TX",
               "country" => "US",
               "postalCode" => "76034"
+            ],
+            "dateOfBirth" => "1990-01-15",
+            "countryOfBirth" => "US",
+            "identification" => [
+              "type" => "passport",
+              "number" => "P123456",
+              "country" => "GB"
             ]
           ]
         ], "https://api-sandbox.dwolla.com/customers/AB443D36-3757-44C1-A1B4-29727FB3111C");
@@ -313,6 +341,13 @@ post:
               stateProvinceRegion: 'TX',
               country: 'US',
               postalCode: '76034'
+            },
+            dateOfBirth: '1990-01-15',
+            countryOfBirth: 'US',
+            identification: {
+              type: 'passport',
+              number: 'P123456',
+              country: 'GB'
             }
           }
         }
