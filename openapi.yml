@@ -4943,7 +4943,7 @@ paths:
                           example: ABC_123 Remittance Data
                 instantDetails:
                   type: object
-                  description: Instant Payments specific transaction details for both RTP and FedNow networks.
+                  description: Instant Payments specific transaction details for both RTP and FedNow networks. Only destination is supported; there is no sender-side remittance field. Use destination.remittanceData to convey payment context to the receiver. The metadata and correlationId fields are for your own reconciliation and are not transmitted over the payment network.
                   properties:
                     destination:
                       type: object
@@ -5626,6 +5626,11 @@ paths:
                     "correlationId": "ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841",
                     "processingChannel": {
                       "destination": "instant"
+                    },
+                    "instantDetails": {
+                      "destination": {
+                        "remittanceData": "ABC_123 Remittance Data"
+                      }
                     }
                   },
                   {
@@ -5705,6 +5710,11 @@ paths:
                   processingChannel: {
                     destination: "instant",
                   },
+                  instantDetails: {
+                    destination: {
+                      remittanceData: "ABC_123 Remittance Data",
+                    },
+                  },
                 },
                 {
                   _links: {
@@ -5782,6 +5792,11 @@ paths:
                   },
                   'processingChannel': {
                     'destination': 'instant'
+                  },
+                  'instantDetails': {
+                    'destination': {
+                      'remittanceData': 'ABC_123 Remittance Data'
+                    }
                   }
                 },
                 {
@@ -5875,6 +5890,11 @@ paths:
                   ],
                   'processingChannel' => [
                     'destination' => 'instant'
+                  ],
+                  'instantDetails' => [
+                    'destination' => [
+                      'remittanceData' => 'ABC_123 Remittance Data'
+                    ]
                   ]
                 ],
                 [
@@ -5962,6 +5982,11 @@ paths:
                   },
                   :processingChannel => {
                     :destination => "instant"
+                  },
+                  :instantDetails => {
+                    :destination => {
+                      :remittanceData => "ABC_123 Remittance Data"
+                    }
                   }
                 },
                 {
@@ -6068,6 +6093,20 @@ paths:
                                     items:
                                       type: string
                                       example: XYZ987_AddendaValue
+                      instantDetails:
+                        type: object
+                        description: Instant Payments specific transaction details for both RTP and FedNow networks. Applies to items where processingChannel.destination is set to instant or real-time-payments. Only destination is supported; there is no sender-side remittance field. Use destination.remittanceData to convey payment context to the receiver. The metadata and correlationId fields are for your own reconciliation and are not transmitted over the payment network.
+                        properties:
+                          destination:
+                            type: object
+                            description: Instant payment details for the destination
+                            properties:
+                              remittanceData:
+                                type: string
+                                description: 'Remittance information for Instant Payments (RTP/FedNow), providing context about the payment purpose. Acceptable characters: alphanumeric (0-9, a-z, A-Z), space, and special characters (#,.''&/-@!$%*()_+={}|:;`[]^~\")'
+                                maxLength: 140
+                                pattern: '^[0-9a-zA-Z #,.''&/\-@!$%*()_+={}|:;`\[\]\^\~\\"]+$'
+                                example: ABC_123 Remittance Data
                       correlationId:
                         type: string
                         example: ad6ca82d-59f7-45f0-a8d2-94c2cd4e8841
