@@ -411,7 +411,7 @@ post:
                       example: "ABC_123 Remittance Data"
             instantDetails:
               type: object
-              description: "Instant Payments specific transaction details for both RTP and FedNow networks."
+              description: "Instant Payments specific transaction details for both RTP and FedNow networks. Only destination is supported; there is no sender-side remittance field. Use destination.remittanceData to convey payment context to the receiver. The metadata and correlationId fields are for your own reconciliation and are not transmitted over the payment network."
               properties:
                 destination:
                   type: object
