@@ -3955,7 +3955,7 @@ paths:
       tags:
         - funding sources
       summary: Retrieve micro-deposits details
-      description: Returns the status and details of micro-deposits for a funding source to check verification eligibility. Includes deposit status (pending, processed, failed), creation timestamp, and failure details with ACH return codes if deposits failed. Use this endpoint to determine when micro-deposits are ready for verification.
+      description: Returns the status and details of micro-deposits for a funding source to check verification eligibility. Includes deposit status (pending, processed, failed), creation timestamp, failure details with ACH return codes if deposits failed, and ACH trace IDs for each deposit when available. Use this endpoint to determine when micro-deposits are ready for verification.
       operationId: getMicroDeposits
       x-speakeasy-group: fundingSources.microDeposits
       x-speakeasy-override: get
@@ -4034,6 +4034,30 @@ paths:
                       description:
                         type: string
                         example: No Account/Unable to locate account
+                  achDetails:
+                    type: object
+                    description: ACH details for each micro-deposit. Optional; only returned when ACH details are available for the micro-deposits. `deposit1` or `deposit2` may be omitted if details for that deposit are unavailable.
+                    properties:
+                      deposit1:
+                        type: object
+                        description: ACH details for the first micro-deposit
+                        required:
+                          - traceId
+                        properties:
+                          traceId:
+                            type: string
+                            description: A unique identifier for tracing the ACH transaction through the banking network. Used for transaction tracking and reconciliation purposes
+                            example: '273976360000105'
+                      deposit2:
+                        type: object
+                        description: ACH details for the second micro-deposit
+                        required:
+                          - traceId
+                        properties:
+                          traceId:
+                            type: string
+                            description: A unique identifier for tracing the ACH transaction through the banking network. Used for transaction tracking and reconciliation purposes
+                            example: '273976360000106'
         '404':
           description: not found
           headers: {}
