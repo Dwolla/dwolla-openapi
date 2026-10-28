@@ -1,0 +1,171 @@
+get:
+  tags:
+    - alerts
+  summary: Retrieve alert
+  description: |
+    Returns a single alert for your Dwolla account. Alerts notify you of activity that may need your attention, such as unusual transfer activity for one of your Customers. When an alert needs a response from you, it includes an `actionRequired` object whose `description` explains what to do.
+
+    Alerts are in active development and must be enabled for your account. If alerts aren't enabled, listing alerts returns an empty list. To enable alerts, please [reach out to Dwolla](https://www.dwolla.com/contact?b=apidocs).
+
+    Requires an application access token for your account. Returns a `404 NotFound` error if the alert doesn't exist.
+  operationId: getAlert
+  x-speakeasy-name-override: get
+  x-codeSamples:
+    - lang: bash
+      source: |
+        GET https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+        Accept: application/vnd.dwolla.v1.hal+json
+        Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+        ...
+
+        {
+          "_links": {
+            "self": {
+              "href": "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+              "type": "application/vnd.dwolla.v1.hal+json",
+              "resource-type": "alert"
+            },
+            "customer": {
+              "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c",
+              "type": "application/vnd.dwolla.v1.hal+json",
+              "resource-type": "customer"
+            },
+            "transfers": {
+              "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers",
+              "type": "application/vnd.dwolla.v1.hal+json",
+              "resource-type": "transfer"
+            }
+          },
+          "id": "d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+          "type": "unusual-transfer-activity",
+          "status": "open",
+          "description": "Unusual transfer activity was detected for one of your customers.",
+          "actionRequired": {
+            "description": "Your feedback is required to complete this customer's review. Please review the activity and email risk@dwolla.com to confirm the appropriate action.\n\nApprove Transfers: Activity is expected.\nSuspend Customer: Activity is not expected.\n\nPlease include the customer ID and provide an explanation for the proposed action. We will reach out if we require more information."
+          },
+          "created": "2026-10-14T16:32:08.000Z",
+          "lastUpdated": "2026-10-14T16:32:08.000Z",
+          "unusualTransferActivity": {
+            "transferCount": 12,
+            "totalAmount": {
+              "value": "48250.00",
+              "currency": "USD"
+            }
+          }
+        }
+    - lang: javascript
+      source: |
+        // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+        var alertUrl =
+          "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42";
+
+        dwolla.get(alertUrl).then((res) => res.body.status); // => 'open'
+    - lang: python
+      source: |
+        # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+        alert_url = 'https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42'
+
+        alert = app_token.get(alert_url)
+        alert.body['status'] # => 'open'
+    - lang: php
+      source: |
+        /**
+         * No example for this language yet.
+         **/
+    - lang: ruby
+      source: |
+        # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+        alert_url = 'https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42'
+
+        alert = app_token.get alert_url
+        alert.status # => "open"
+  parameters:
+    - name: id
+      in: path
+      description: The alert's unique identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+    - $ref: '../../schemas/common.yml#/components/parameters/Accept'
+  responses:
+    '200':
+      description: successful operation
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/alerts/Alert.yml#/Alert'
+          examples:
+            open_unusual_transfer_activity:
+              summary: Open unusual transfer activity alert
+              value:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: alert
+                  customer:
+                    href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: customer
+                  transfers:
+                    href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: transfer
+                id: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                type: unusual-transfer-activity
+                status: open
+                description: Unusual transfer activity was detected for one of your customers.
+                actionRequired:
+                  description: |-
+                    Your feedback is required to complete this customer's review. Please review the activity and email risk@dwolla.com to confirm the appropriate action.
+
+                    Approve Transfers: Activity is expected.
+                    Suspend Customer: Activity is not expected.
+
+                    Please include the customer ID and provide an explanation for the proposed action. We will reach out if we require more information.
+                created: '2026-10-14T16:32:08.000Z'
+                lastUpdated: '2026-10-14T16:32:08.000Z'
+                unusualTransferActivity:
+                  transferCount: 12
+                  totalAmount:
+                    value: '48250.00'
+                    currency: USD
+    '401':
+      description: Unauthorized
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidScope
+              message:
+                type: string
+                example: Missing or invalid scopes for requested endpoint.
+    '403':
+      description: Forbidden
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: InvalidTokenType
+              message:
+                type: string
+                example: The requested endpoint requires an account token.
+    '404':
+      description: Not Found
+      headers: {}
+      content:
+        application/vnd.dwolla.v1.hal+json:
+          schema:
+            $ref: '../../schemas/common.yml#/components/schemas/NotFoundError'

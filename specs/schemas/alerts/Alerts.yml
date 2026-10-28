@@ -1,0 +1,47 @@
+Alerts:
+  title: Alerts
+  description: A page of alerts, newest first.
+  type: object
+  required:
+    - _links
+    - _embedded
+  properties:
+    _links:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: The URI of the alerts collection.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+        next:
+          description: Link to the next page of older alerts. Omitted on the last page. Use the URL as-is.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts?cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+        prev:
+          description: Link to the previous page of newer alerts. Omitted on the first page. Use the URL as-is.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts?cursor=Jq5nR1sU8wF0tGh6KdM3xVyP
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+    _embedded:
+      type: object
+      required:
+        - alerts
+      properties:
+        alerts:
+          type: array
+          description: Up to 10 alerts, newest first. Empty when the account has no alerts.
+          items:
+            $ref: './Alert.yml#/Alert'
