@@ -8021,6 +8021,10 @@ paths:
         The `next` and `prev` link URLs contain an opaque cursor. Use them exactly as returned; don't build, parse, or modify them. A modified cursor returns a `400 InvalidQueryParameter` error.
       operationId: listAlerts
       x-speakeasy-name-override: list
+      x-speakeasy-pagination:
+        type: url
+        outputs:
+          nextUrl: $._links.next.href
       x-codeSamples:
         - lang: bash
           source: |
