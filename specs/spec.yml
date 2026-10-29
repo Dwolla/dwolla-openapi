@@ -104,6 +104,10 @@ paths:
     $ref: './resources/events/listEvents.yml'
   /events/{id}:
     $ref: './resources/events/retrieveEvent.yml'
+  /alerts:
+    $ref: './resources/alerts/listAlerts.yml'
+  /alerts/{id}:
+    $ref: './resources/alerts/retrieveAlert.yml'
   /webhook-subscriptions:
     $ref: './resources/webhook-subscriptions/createListWebhookSubscriptions.yml'
   /webhook-subscriptions/{id}:
@@ -176,6 +180,8 @@ tags:
     description: Operations related to Mass Payments
   - name: events
     description: Operations related to Events
+  - name: alerts
+    description: Operations related to Alerts
   - name: webhook subscriptions
     description: Operations related to Webhook Subscriptions
   - name: webhooks
