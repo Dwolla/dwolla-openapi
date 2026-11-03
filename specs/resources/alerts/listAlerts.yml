@@ -15,6 +15,11 @@ get:
     - Follow the `prev` link in `_links` to go back to the previous page of newer alerts. `prev` is omitted on the first page.
 
     The `next` and `prev` link URLs contain an opaque cursor. Use them exactly as returned; don't build, parse, or modify them. A modified cursor returns a `400 InvalidQueryParameter` error.
+
+    **Filtering by status** — To list only `open` or only `resolved` alerts, add the `status` query parameter to your first request, such as `GET /alerts?status=open`. Omit `status` to list every alert.
+    - The `next` and `prev` links keep the filter. Their URLs include `status` along with the cursor, so follow them as returned.
+    - A cursor belongs to the filtered list it came from. Sending a cursor with a different or missing `status` returns a `400 ValidationError` error.
+    - To change the filter, start again from `GET /alerts?status=…` without a cursor.
   operationId: listAlerts
   x-speakeasy-name-override: list
   x-speakeasy-pagination:
@@ -138,6 +143,17 @@ get:
         alerts = app_token.get "alerts"
         alerts._embedded['alerts'][0].status # => "open"
   parameters:
+    - name: status
+      in: query
+      description: |
+        Filter by alert status. Case-insensitive. Specify at most once. Omit to list every alert. The `next` and `prev` links keep this filter.
+      required: false
+      schema:
+        type: string
+        enum:
+          - open
+          - resolved
+        example: open
     - $ref: '../../schemas/common.yml#/components/parameters/Accept'
   responses:
     '200':
@@ -219,20 +235,104 @@ get:
                         totalAmount:
                           value: '15600.00'
                           currency: USD
+            open_alerts_page:
+              summary: A later page of open alerts (status=open)
+              value:
+                _links:
+                  self:
+                    href: https://api-sandbox.dwolla.com/alerts?status=open&cursor=Vb7tK2mQ9xR4wLp8NcZ6hJ3s
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: alert
+                  next:
+                    href: https://api-sandbox.dwolla.com/alerts?status=open&cursor=Hd5gW1nY8eT3qAk6PrX0uB9f
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: alert
+                  prev:
+                    href: https://api-sandbox.dwolla.com/alerts?status=open&cursor=Ms4cE7jU2vF9yDo1LbG8wK5z
+                    type: application/vnd.dwolla.v1.hal+json
+                    resource-type: alert
+                _embedded:
+                  alerts:
+                    - _links:
+                        self:
+                          href: https://api-sandbox.dwolla.com/alerts/2a9e6c41-0d7b-4f3a-a8e5-6b1c9d2f4e70
+                          type: application/vnd.dwolla.v1.hal+json
+                          resource-type: alert
+                        customer:
+                          href: https://api-sandbox.dwolla.com/customers/c3d5e7f9-4a6b-4c8d-9e0f-2a4b6c8d0e1f
+                          type: application/vnd.dwolla.v1.hal+json
+                          resource-type: customer
+                        transfers:
+                          href: https://api-sandbox.dwolla.com/customers/c3d5e7f9-4a6b-4c8d-9e0f-2a4b6c8d0e1f/transfers
+                          type: application/vnd.dwolla.v1.hal+json
+                          resource-type: transfer
+                      id: 2a9e6c41-0d7b-4f3a-a8e5-6b1c9d2f4e70
+                      type: unusual-transfer-activity
+                      status: open
+                      description: Unusual transfer activity was detected for one of your customers.
+                      actionRequired:
+                        description: |-
+                          Your feedback is required to complete this customer's review. Please review the activity and email risk@dwolla.com to confirm the appropriate action.
+
+                          Approve Transfers: Activity is expected.
+                          Suspend Customer: Activity is not expected.
+
+                          Please include the customer ID and provide an explanation for the proposed action. We will reach out if we require more information.
+                      created: '2026-09-21T11:48:27.000Z'
+                      lastUpdated: '2026-09-21T11:48:27.000Z'
+                      unusualTransferActivity:
+                        transferCount: 8
+                        totalAmount:
+                          value: '31475.00'
+                          currency: USD
     '400':
       description: Bad Request
       headers: {}
       content:
         application/vnd.dwolla.v1.hal+json:
           schema:
-            type: object
-            properties:
-              code:
-                type: string
-                example: InvalidQueryParameter
-              message:
-                type: string
-                example: Invalid cursor.
+            oneOf:
+              - $ref: '../../schemas/alerts/Alerts.yml#/InvalidCursorError'
+              - $ref: '../../schemas/alerts/Alerts.yml#/ListAlertsValidationError'
+          examples:
+            invalid_cursor:
+              summary: Modified or malformed cursor
+              value:
+                code: InvalidQueryParameter
+                message: Invalid cursor.
+            invalid_status:
+              summary: Invalid or empty status
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Invalid
+                      message: 'Status must be one of: open, resolved.'
+                      path: /status
+                      _links: {}
+            repeated_status:
+              summary: More than one status
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Invalid
+                      message: Only one status may be specified.
+                      path: /status
+                      _links: {}
+            status_does_not_match_cursor:
+              summary: Status changed or dropped while paging
+              value:
+                code: ValidationError
+                message: Validation error(s) present. See embedded errors list for more details.
+                _embedded:
+                  errors:
+                    - code: Invalid
+                      message: Status does not match the cursor. Follow the next or prev link as returned, or omit the cursor to start a new list.
+                      path: /status
+                      _links: {}
     '401':
       description: Unauthorized
       headers: {}

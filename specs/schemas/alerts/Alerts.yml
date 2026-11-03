@@ -12,7 +12,7 @@ Alerts:
         - self
       properties:
         self:
-          description: The URI of the alerts collection.
+          description: The URI of this page, as requested.
           allOf:
             - $ref: '../common.yml#/components/schemas/HalLink'
           example:
@@ -20,7 +20,7 @@ Alerts:
             type: application/vnd.dwolla.v1.hal+json
             resource-type: alert
         next:
-          description: Link to the next page of older alerts. Omitted on the last page. Use the URL as-is.
+          description: Link to the next page of older alerts. Keeps the `status` filter, if any. Omitted on the last page. Use the URL as-is.
           allOf:
             - $ref: '../common.yml#/components/schemas/HalLink'
           example:
@@ -28,7 +28,7 @@ Alerts:
             type: application/vnd.dwolla.v1.hal+json
             resource-type: alert
         prev:
-          description: Link to the previous page of newer alerts. Omitted on the first page. Use the URL as-is.
+          description: Link to the previous page of newer alerts. Keeps the `status` filter, if any. Omitted on the first page. Use the URL as-is.
           allOf:
             - $ref: '../common.yml#/components/schemas/HalLink'
           example:
@@ -45,3 +45,78 @@ Alerts:
           description: Up to 10 alerts, newest first. Empty when the account has no alerts.
           items:
             $ref: './Alert.yml#/Alert'
+InvalidCursorError:
+  title: InvalidCursorError
+  description: The cursor in a `next` or `prev` link was modified or is malformed.
+  type: object
+  example:
+    code: InvalidQueryParameter
+    message: Invalid cursor.
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      enum:
+        - InvalidQueryParameter
+      example: InvalidQueryParameter
+    message:
+      type: string
+      example: Invalid cursor.
+ListAlertsValidationError:
+  title: ListAlertsValidationError
+  description: |
+    The `status` query parameter is invalid. Common cases:
+    - `status` isn't `open` or `resolved`, or is empty
+    - `status` is specified more than once
+    - `status` doesn't match the cursor, because it was changed or dropped while paging
+  type: object
+  example:
+    code: ValidationError
+    message: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      errors:
+        - code: Invalid
+          message: 'Status must be one of: open, resolved.'
+          path: /status
+          _links: {}
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: 'Status must be one of: open, resolved.'
+              path:
+                type: string
+                example: /status
+              _links:
+                type: object
+                example: {}
