@@ -5,7 +5,7 @@ get:
   description: |
     Returns a single alert for your Dwolla account. Alerts notify you of activity that may need your attention, such as unusual transfer activity for one of your Customers. When an alert needs a response from you, it includes an `actionRequired` object whose `description` explains what to do.
 
-    Alerts are in active development and must be enabled for your account. If alerts aren't enabled, listing alerts returns an empty list. To enable alerts, please [reach out to Dwolla](https://www.dwolla.com/contact?b=apidocs).
+    Alerts are in active development and must be enabled for your account. To enable alerts, please [reach out to Dwolla](https://www.dwolla.com/contact?b=apidocs).
 
     Requires an application access token for your account. Returns a `404 NotFound` error if the alert doesn't exist.
   operationId: getAlert
