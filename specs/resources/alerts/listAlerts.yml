@@ -9,12 +9,14 @@ get:
 
     Requires an application access token for your account.
 
-    **Pagination** — Alerts are returned 10 per page using cursor-based pagination:
-    - Request `GET /alerts` to get the first page, which contains your newest alerts.
+    **Pagination** — Alerts are returned using cursor-based pagination. Each page holds up to `limit` alerts (25 by default, 200 at most):
+    - Request `GET /alerts` to get the first page, which contains your newest alerts. Add `limit` to choose the page size, such as `GET /alerts?limit=50`.
     - Follow the `next` link in `_links` to get the next page of older alerts. `next` is omitted on the last page.
     - Follow the `prev` link in `_links` to go back to the previous page of newer alerts. `prev` is omitted on the first page.
 
-    The `next` and `prev` link URLs contain an opaque cursor. Use them exactly as returned; don't build, parse, or modify them. A modified cursor returns a `400 InvalidQueryParameter` error.
+    The `next` and `prev` link URLs contain an opaque cursor. Use the cursor exactly as returned; don't build, parse, or modify it. A modified cursor returns a `400 InvalidQueryParameter` error.
+
+    **Page size** — The `next` and `prev` links always include `limit`, even if your request omitted it, so following them keeps the same page size. To change the page size partway through, send the `next` or `prev` link with a different `limit` value; the new page size is honored. `limit` is the only parameter you may change between pages.
 
     **Filtering by status** — To list only `open` or only `resolved` alerts, add the `status` query parameter to your first request, such as `GET /alerts?status=open`. Omit `status` to list every alert.
     - The `next` and `prev` links keep the filter. Their URLs include `status` along with the cursor, so follow them as returned.
@@ -43,7 +45,7 @@ get:
               "resource-type": "alert"
             },
             "next": {
-              "href": "https://api-sandbox.dwolla.com/alerts?cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H",
+              "href": "https://api-sandbox.dwolla.com/alerts?limit=25&cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H",
               "type": "application/vnd.dwolla.v1.hal+json",
               "resource-type": "alert"
             }
@@ -143,6 +145,17 @@ get:
         alerts = app_token.get "alerts"
         alerts._embedded['alerts'][0].status # => "open"
   parameters:
+    - name: limit
+      in: query
+      description: Maximum number of results to return
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 200
+        default: 25
+        example: 25
     - name: status
       in: query
       description: |
@@ -173,7 +186,7 @@ get:
                     type: application/vnd.dwolla.v1.hal+json
                     resource-type: alert
                   next:
-                    href: https://api-sandbox.dwolla.com/alerts?cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H
+                    href: https://api-sandbox.dwolla.com/alerts?limit=25&cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H
                     type: application/vnd.dwolla.v1.hal+json
                     resource-type: alert
                 _embedded:
@@ -240,15 +253,15 @@ get:
               value:
                 _links:
                   self:
-                    href: https://api-sandbox.dwolla.com/alerts?status=open&cursor=Vb7tK2mQ9xR4wLp8NcZ6hJ3s
+                    href: https://api-sandbox.dwolla.com/alerts?status=open&limit=25&cursor=Vb7tK2mQ9xR4wLp8NcZ6hJ3s
                     type: application/vnd.dwolla.v1.hal+json
                     resource-type: alert
                   next:
-                    href: https://api-sandbox.dwolla.com/alerts?status=open&cursor=Hd5gW1nY8eT3qAk6PrX0uB9f
+                    href: https://api-sandbox.dwolla.com/alerts?status=open&limit=25&cursor=Hd5gW1nY8eT3qAk6PrX0uB9f
                     type: application/vnd.dwolla.v1.hal+json
                     resource-type: alert
                   prev:
-                    href: https://api-sandbox.dwolla.com/alerts?status=open&cursor=Ms4cE7jU2vF9yDo1LbG8wK5z
+                    href: https://api-sandbox.dwolla.com/alerts?status=open&limit=25&cursor=Ms4cE7jU2vF9yDo1LbG8wK5z
                     type: application/vnd.dwolla.v1.hal+json
                     resource-type: alert
                 _embedded:
@@ -292,7 +305,7 @@ get:
         application/vnd.dwolla.v1.hal+json:
           schema:
             oneOf:
-              - $ref: '../../schemas/alerts/Alerts.yml#/InvalidCursorError'
+              - $ref: '../../schemas/alerts/Alerts.yml#/ListAlertsInvalidQueryParameterError'
               - $ref: '../../schemas/alerts/Alerts.yml#/ListAlertsValidationError'
           examples:
             invalid_cursor:
@@ -300,6 +313,16 @@ get:
               value:
                 code: InvalidQueryParameter
                 message: Invalid cursor.
+            limit_out_of_range:
+              summary: limit is less than 1 or greater than 200
+              value:
+                code: InvalidQueryParameter
+                message: Limit must be > 0 and <= 200.
+            limit_not_an_integer:
+              summary: limit isn't an integer
+              value:
+                code: InvalidQueryParameter
+                message: 'Invalid query parameter: limit'
             invalid_status:
               summary: Invalid or empty status
               value:

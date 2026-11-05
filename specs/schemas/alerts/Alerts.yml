@@ -20,19 +20,19 @@ Alerts:
             type: application/vnd.dwolla.v1.hal+json
             resource-type: alert
         next:
-          description: Link to the next page of older alerts. Keeps the `status` filter, if any. Omitted on the last page. Use the URL as-is.
+          description: Link to the next page of older alerts. Keeps the `status` filter, if any, and always includes `limit`. Omitted on the last page. Use the URL as-is, changing only `limit` if you want a different page size.
           allOf:
             - $ref: '../common.yml#/components/schemas/HalLink'
           example:
-            href: https://api.dwolla.com/alerts?cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H
+            href: https://api.dwolla.com/alerts?limit=25&cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H
             type: application/vnd.dwolla.v1.hal+json
             resource-type: alert
         prev:
-          description: Link to the previous page of newer alerts. Keeps the `status` filter, if any. Omitted on the first page. Use the URL as-is.
+          description: Link to the previous page of newer alerts. Keeps the `status` filter, if any, and always includes `limit`. Omitted on the first page. Use the URL as-is, changing only `limit` if you want a different page size.
           allOf:
             - $ref: '../common.yml#/components/schemas/HalLink'
           example:
-            href: https://api.dwolla.com/alerts?cursor=Jq5nR1sU8wF0tGh6KdM3xVyP
+            href: https://api.dwolla.com/alerts?limit=25&cursor=Jq5nR1sU8wF0tGh6KdM3xVyP
             type: application/vnd.dwolla.v1.hal+json
             resource-type: alert
     _embedded:
@@ -42,12 +42,16 @@ Alerts:
       properties:
         alerts:
           type: array
-          description: Up to 10 alerts, newest first. Empty when the account has no alerts.
+          description: Up to `limit` alerts (25 by default), newest first. Empty when the account has no alerts.
           items:
             $ref: './Alert.yml#/Alert'
-InvalidCursorError:
-  title: InvalidCursorError
-  description: The cursor in a `next` or `prev` link was modified or is malformed.
+ListAlertsInvalidQueryParameterError:
+  title: ListAlertsInvalidQueryParameterError
+  description: |
+    A query parameter is invalid. Common cases:
+    - The cursor in a `next` or `prev` link was modified or is malformed (`Invalid cursor.`)
+    - `limit` is less than 1 or greater than 200 (`Limit must be > 0 and <= 200.`)
+    - `limit` isn't an integer (`Invalid query parameter: limit`)
   type: object
   example:
     code: InvalidQueryParameter
