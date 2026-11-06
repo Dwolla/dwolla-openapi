@@ -1,0 +1,121 @@
+Alert:
+  title: Alert
+  description: A notification about activity on your account that may need your attention.
+  type: object
+  required:
+    - _links
+    - id
+    - type
+    - status
+    - description
+    - created
+    - lastUpdated
+  properties:
+    _links:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: The alert's resource URI.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+        customer:
+          description: The Customer the alert is about. Present only when the alert is related to a Customer.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: customer
+        transfers:
+          description: The Customer's transfers. Present only when the alert is related to a Customer's transfers.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: transfer
+    id:
+      type: string
+      format: uuid
+      description: The alert's unique identifier.
+      example: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+    type:
+      type: string
+      description: |
+        The kind of alert. Currently the only value is `unusual-transfer-activity`. More types may be added in the future, so handle values you don't recognize.
+      enum:
+        - unusual-transfer-activity
+      x-speakeasy-unknown-values: allow
+      example: unusual-transfer-activity
+    status:
+      type: string
+      description: Whether the alert is still `open` or has been `resolved`.
+      enum:
+        - open
+        - resolved
+      example: open
+    description:
+      type: string
+      description: A human-readable description of the alert.
+      example: Unusual transfer activity was detected for one of your customers.
+    actionRequired:
+      $ref: '#/ActionRequired'
+    created:
+      type: string
+      format: date-time
+      description: When the alert was created.
+      example: '2026-10-14T16:32:08.000Z'
+    lastUpdated:
+      type: string
+      format: date-time
+      description: When the alert last changed.
+      example: '2026-10-14T16:32:08.000Z'
+    resolved:
+      type: string
+      format: date-time
+      description: When the alert was resolved. Omitted while the alert is unresolved.
+      example: '2026-10-16T09:12:44.000Z'
+    unusualTransferActivity:
+      $ref: '#/UnusualTransferActivity'
+ActionRequired:
+  title: ActionRequired
+  description: What you need to do to address the alert. Present only while action is required from you. More members may be added to this object in the future.
+  type: object
+  required:
+    - description
+  properties:
+    description:
+      type: string
+      description: Instructions for addressing the alert, as plain text (not markdown). Paragraphs are separated by blank lines.
+      example: |-
+        Your feedback is required to complete this customer's review. Please review the activity and email risk@dwolla.com to confirm the appropriate action.
+
+        Approve Transfers: Activity is expected.
+        Suspend Customer: Activity is not expected.
+
+        Please include the customer ID and provide an explanation for the proposed action. We will reach out if we require more information.
+UnusualTransferActivity:
+  title: UnusualTransferActivity
+  description: Details of the transfer activity that triggered an `unusual-transfer-activity` alert. Omitted for alerts without these details.
+  type: object
+  required:
+    - transferCount
+    - totalAmount
+  properties:
+    transferCount:
+      type: integer
+      description: The number of transfers involved in the activity.
+      example: 12
+    totalAmount:
+      description: The total amount of the transfers involved in the activity.
+      allOf:
+        - $ref: '../common.yml#/components/schemas/TransferAmount'
+      example:
+        value: '48250.00'
+        currency: USD

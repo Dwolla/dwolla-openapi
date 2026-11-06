@@ -1,0 +1,126 @@
+Alerts:
+  title: Alerts
+  description: A page of alerts, newest first.
+  type: object
+  required:
+    - _links
+    - _embedded
+  properties:
+    _links:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: The URI of this page, as requested.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+        next:
+          description: Link to the next page of older alerts. Keeps the `status` filter, if any, and always includes `limit`. Omitted on the last page. Use the URL as-is, changing only `limit` if you want a different page size.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts?limit=25&cursor=aZ3kQ9vX7pLmN2rTb8WcYe4H
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+        prev:
+          description: Link to the previous page of newer alerts. Keeps the `status` filter, if any, and always includes `limit`. Omitted on the first page. Use the URL as-is, changing only `limit` if you want a different page size.
+          allOf:
+            - $ref: '../common.yml#/components/schemas/HalLink'
+          example:
+            href: https://api.dwolla.com/alerts?limit=25&cursor=Jq5nR1sU8wF0tGh6KdM3xVyP
+            type: application/vnd.dwolla.v1.hal+json
+            resource-type: alert
+    _embedded:
+      type: object
+      required:
+        - alerts
+      properties:
+        alerts:
+          type: array
+          description: Up to `limit` alerts (25 by default), newest first. Empty when the account has no alerts.
+          items:
+            $ref: './Alert.yml#/Alert'
+ListAlertsInvalidQueryParameterError:
+  title: ListAlertsInvalidQueryParameterError
+  description: |
+    A query parameter is invalid. Common cases:
+    - The cursor in a `next` or `prev` link was modified or is malformed (`Invalid cursor.`)
+    - `limit` is less than 1 or greater than 200 (`Limit must be > 0 and <= 200.`)
+    - `limit` isn't an integer (`Invalid query parameter: limit`)
+  type: object
+  example:
+    code: InvalidQueryParameter
+    message: Invalid cursor.
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: string
+      enum:
+        - InvalidQueryParameter
+      example: InvalidQueryParameter
+    message:
+      type: string
+      example: Invalid cursor.
+ListAlertsValidationError:
+  title: ListAlertsValidationError
+  description: |
+    The `status` query parameter is invalid. Common cases:
+    - `status` isn't `open` or `resolved`, or is empty
+    - `status` is specified more than once
+    - `status` doesn't match the cursor, because it was changed or dropped while paging
+  type: object
+  example:
+    code: ValidationError
+    message: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      errors:
+        - code: Invalid
+          message: 'Status must be one of: open, resolved.'
+          path: /status
+          _links: {}
+  required:
+    - code
+    - message
+    - _embedded
+  properties:
+    code:
+      type: string
+      enum:
+        - ValidationError
+      example: ValidationError
+    message:
+      type: string
+      example: Validation error(s) present. See embedded errors list for more details.
+    _embedded:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: Invalid
+              message:
+                type: string
+                example: 'Status must be one of: open, resolved.'
+              path:
+                type: string
+                example: /status
+              _links:
+                type: object
+                example: {}
