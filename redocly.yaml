@@ -4,3 +4,11 @@ extends:
 rules:
   security-defined: off
 
+apis:
+  full:
+    root: specs/spec.yml
+  public:
+    root: specs/spec.yml
+    decorators:
+      remove-x-internal: on
+

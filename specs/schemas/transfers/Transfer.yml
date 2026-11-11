@@ -67,9 +67,12 @@ Transfer:
               example: "John Doe"
             companyEntryDescription:
               type: string
-              description: "Describes the purpose of the transaction"
-              example: "PAYMENT"
-              enum:
+              x-internal: true
+              description: >
+                Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters).
+                Values are not limited to the examples below.
+              example: "PURCHASE"
+              examples:
                 - REVERSAL
                 - RECLAIM
                 - NO CHECK
@@ -124,9 +127,12 @@ Transfer:
               example: "Jane Smith"
             companyEntryDescription:
               type: string
-              description: "Describes the purpose of the transaction"
-              example: "PAYMENT"
-              enum:
+              x-internal: true
+              description: >
+                Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters).
+                Values are not limited to the examples below.
+              example: "PURCHASE"
+              examples:
                 - REVERSAL
                 - RECLAIM
                 - NO CHECK

@@ -4560,7 +4560,7 @@ paths:
       tags:
         - transfers
       summary: Initiate a transfer
-      description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), Push-to-Debit Card, and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records and processing channels. Returns the location of the created transfer resource for tracking and management.
+      description: Initiate a transfer between funding sources from a Dwolla Account or API Customer resource. Supports ACH, Instant Payments (RTP/FedNow), Push-to-Debit Card, and wire transfers with optional expedited clearing, facilitator fees, metadata, and correlation IDs for enhanced traceability. Includes idempotency key support to prevent duplicate transfers and extensive customization options for addenda records, optional ACH Company Entry Description (CED) on bank statements, and processing channels. Returns the location of the created transfer resource for tracking and management.
       operationId: initiateTransfer
       x-speakeasy-name-override: create
       x-codeSamples:
@@ -4936,6 +4936,21 @@ paths:
                     source:
                       type: object
                       properties:
+                        companyEntryDescription:
+                          type: string
+                          x-internal: true
+                          description: |
+                            Optional custom Company Entry Description (CED) for the source ACH entry, up to 10 characters. Appears on the bank statement to briefly describe the transaction purpose. Values are not limited to the examples below.
+                          maxLength: 10
+                          example: PURCHASE
+                          examples:
+                            - PURCHASE
+                            - INVOICE
+                            - LOANPYMT
+                            - REFUND
+                            - PAYROLL
+                            - DEPOSIT
+                            - GIFTCARD
                         addenda:
                           type: object
                           properties:
@@ -4946,6 +4961,21 @@ paths:
                     destination:
                       type: object
                       properties:
+                        companyEntryDescription:
+                          type: string
+                          x-internal: true
+                          description: |
+                            Optional custom Company Entry Description (CED) for the destination ACH entry, up to 10 characters. Appears on the bank statement to briefly describe the transaction purpose. Values are not limited to the examples below.
+                          maxLength: 10
+                          example: PAYROLL
+                          examples:
+                            - PURCHASE
+                            - INVOICE
+                            - LOANPYMT
+                            - REFUND
+                            - PAYROLL
+                            - DEPOSIT
+                            - GIFTCARD
                         addenda:
                           type: object
                           properties:
@@ -11367,9 +11397,11 @@ components:
                   example: John Doe
                 companyEntryDescription:
                   type: string
-                  description: Describes the purpose of the transaction
-                  example: PAYMENT
-                  enum:
+                  x-internal: true
+                  description: |
+                    Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters). Values are not limited to the examples below.
+                  example: PURCHASE
+                  examples:
                     - REVERSAL
                     - RECLAIM
                     - NO CHECK
@@ -11424,9 +11456,11 @@ components:
                   example: Jane Smith
                 companyEntryDescription:
                   type: string
-                  description: Describes the purpose of the transaction
-                  example: PAYMENT
-                  enum:
+                  x-internal: true
+                  description: |
+                    Describes the purpose of the transaction as shown on the bank statement (typically up to 10 characters). Values are not limited to the examples below.
+                  example: PURCHASE
+                  examples:
                     - REVERSAL
                     - RECLAIM
                     - NO CHECK
