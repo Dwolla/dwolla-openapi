@@ -107,7 +107,7 @@ paths:
   /alerts:
     $ref: './resources/alerts/listAlerts.yml'
   /alerts/{id}:
-    $ref: './resources/alerts/retrieveAlert.yml'
+    $ref: './resources/alerts/retrieveUpdateAlert.yml'
   /webhook-subscriptions:
     $ref: './resources/webhook-subscriptions/createListWebhookSubscriptions.yml'
   /webhook-subscriptions/{id}:
