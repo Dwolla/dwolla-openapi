@@ -8072,6 +8072,11 @@ paths:
                         "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers",
                         "type": "application/vnd.dwolla.v1.hal+json",
                         "resource-type": "transfer"
+                      },
+                      "resolve": {
+                        "href": "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+                        "type": "application/vnd.dwolla.v1.hal+json",
+                        "resource-type": "alert"
                       }
                     },
                     "id": "d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
@@ -8208,6 +8213,10 @@ paths:
                               href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
                               type: application/vnd.dwolla.v1.hal+json
                               resource-type: transfer
+                            resolve:
+                              href: https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                              type: application/vnd.dwolla.v1.hal+json
+                              resource-type: alert
                           id: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
                           type: unusual-transfer-activity
                           status: open
@@ -8283,6 +8292,10 @@ paths:
                               href: https://api-sandbox.dwolla.com/customers/c3d5e7f9-4a6b-4c8d-9e0f-2a4b6c8d0e1f/transfers
                               type: application/vnd.dwolla.v1.hal+json
                               resource-type: transfer
+                            resolve:
+                              href: https://api-sandbox.dwolla.com/alerts/2a9e6c41-0d7b-4f3a-a8e5-6b1c9d2f4e70
+                              type: application/vnd.dwolla.v1.hal+json
+                              resource-type: alert
                           id: 2a9e6c41-0d7b-4f3a-a8e5-6b1c9d2f4e70
                           type: unusual-transfer-activity
                           status: open
@@ -8398,6 +8411,8 @@ paths:
 
         Alerts are in active development and must be enabled for your account. To enable alerts, please [reach out to Dwolla](https://www.dwolla.com/contact?b=apidocs).
 
+        If you can resolve the alert, its `_links` include a `resolve` link. To resolve it, send `{"status": "resolved"}` to `POST /alerts/{id}`.
+
         Requires an application access token for your account. Returns a `404 NotFound` error if the alert doesn't exist.
       operationId: getAlert
       x-speakeasy-name-override: get
@@ -8426,6 +8441,11 @@ paths:
                   "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers",
                   "type": "application/vnd.dwolla.v1.hal+json",
                   "resource-type": "transfer"
+                },
+                "resolve": {
+                  "href": "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+                  "type": "application/vnd.dwolla.v1.hal+json",
+                  "resource-type": "alert"
                 }
               },
               "id": "d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
@@ -8506,6 +8526,10 @@ paths:
                         href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
                         type: application/vnd.dwolla.v1.hal+json
                         resource-type: transfer
+                      resolve:
+                        href: https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: alert
                     id: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
                     type: unusual-transfer-activity
                     status: open
@@ -8525,6 +8549,232 @@ paths:
                       totalAmount:
                         value: '48250.00'
                         currency: USD
+        '401':
+          description: Unauthorized
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidScope
+                  message:
+                    type: string
+                    example: Missing or invalid scopes for requested endpoint.
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidTokenType
+                  message:
+                    type: string
+                    example: The requested endpoint requires an account token.
+        '404':
+          description: Not Found
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    post:
+      tags:
+        - alerts
+      summary: Update alert
+      description: |
+        Resolves an alert for your Dwolla account by setting its `status` to `resolved`. Returns the updated alert, with `status` set to `resolved`, the `resolved` timestamp set, and no `resolve` link.
+
+        You can only resolve an alert that has a `resolve` link in its `_links`. The link is present only while the alert is `open` and can be resolved, so check for it before resolving an alert.
+
+        Resolving an alert changes only the alert's status. It doesn't release holds on transfers or change the Customer. If the alert includes `actionRequired`, follow its instructions separately.
+
+        Resolving an alert that's already resolved, or that you can't resolve, returns a `400 ValidationError` error with the embedded code `NotAllowed`, and the alert isn't changed.
+
+        Alerts are in active development and must be enabled for your account. To enable alerts, please [reach out to Dwolla](https://www.dwolla.com/contact?b=apidocs).
+
+        Requires an application access token for your account. Returns a `404 NotFound` error if the alert doesn't exist.
+      operationId: updateAlert
+      x-speakeasy-name-override: update
+      x-codeSamples:
+        - lang: bash
+          source: |
+            POST https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+            Content-Type: application/vnd.dwolla.v1.hal+json
+            Accept: application/vnd.dwolla.v1.hal+json
+            Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
+
+            {
+              "status": "resolved"
+            }
+
+            ...
+
+            {
+              "_links": {
+                "self": {
+                  "href": "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+                  "type": "application/vnd.dwolla.v1.hal+json",
+                  "resource-type": "alert"
+                },
+                "customer": {
+                  "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c",
+                  "type": "application/vnd.dwolla.v1.hal+json",
+                  "resource-type": "customer"
+                },
+                "transfers": {
+                  "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers",
+                  "type": "application/vnd.dwolla.v1.hal+json",
+                  "resource-type": "transfer"
+                }
+              },
+              "id": "d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+              "type": "unusual-transfer-activity",
+              "status": "resolved",
+              "description": "Unusual transfer activity was detected for one of your customers.",
+              "created": "2026-10-14T16:32:08.000Z",
+              "lastUpdated": "2026-10-16T09:12:44.000Z",
+              "resolved": "2026-10-16T09:12:44.000Z",
+              "unusualTransferActivity": {
+                "transferCount": 12,
+                "totalAmount": {
+                  "value": "48250.00",
+                  "currency": "USD"
+                }
+              }
+            }
+        - lang: javascript
+          source: |
+            // Using dwolla-v2 - https://github.com/Dwolla/dwolla-v2-node
+            var alertUrl =
+              "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42";
+            var requestBody = {
+              status: "resolved",
+            };
+
+            dwolla.post(alertUrl, requestBody).then((res) => res.body.status); // => 'resolved'
+        - lang: python
+          source: |
+            # Using dwollav2 - https://github.com/Dwolla/dwolla-v2-python
+            alert_url = 'https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42'
+            request_body = {
+              'status': 'resolved'
+            }
+
+            alert = app_token.post(alert_url, request_body)
+            alert.body['status'] # => 'resolved'
+        - lang: php
+          source: |
+            /**
+             * No example for this language yet.
+             **/
+        - lang: ruby
+          source: |
+            # Using dwolla_v2 - https://github.com/Dwolla/dwolla-v2-ruby
+            alert_url = 'https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42'
+            request_body = {
+              "status" => "resolved"
+            }
+
+            alert = app_token.post alert_url, request_body
+            alert.status # => "resolved"
+      parameters:
+        - name: id
+          in: path
+          description: The alert's unique identifier.
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+        - $ref: '#/components/parameters/Accept'
+      requestBody:
+        required: true
+        description: Parameters to resolve an alert
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAlert'
+            examples:
+              resolve:
+                summary: Resolve an alert
+                value:
+                  status: resolved
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+              examples:
+                resolved_unusual_transfer_activity:
+                  summary: Resolved unusual transfer activity alert
+                  value:
+                    _links:
+                      self:
+                        href: https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: alert
+                      customer:
+                        href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: customer
+                      transfers:
+                        href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
+                        type: application/vnd.dwolla.v1.hal+json
+                        resource-type: transfer
+                    id: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                    type: unusual-transfer-activity
+                    status: resolved
+                    description: Unusual transfer activity was detected for one of your customers.
+                    created: '2026-10-14T16:32:08.000Z'
+                    lastUpdated: '2026-10-16T09:12:44.000Z'
+                    resolved: '2026-10-16T09:12:44.000Z'
+                    unusualTransferActivity:
+                      transferCount: 12
+                      totalAmount:
+                        value: '48250.00'
+                        currency: USD
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/vnd.dwolla.v1.hal+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UpdateAlertStatusInvalidError'
+                  - $ref: '#/components/schemas/UpdateAlertStatusNotAllowedError'
+              examples:
+                status_invalid:
+                  summary: status is missing or isn't resolved
+                  value:
+                    code: ValidationError
+                    message: Validation error(s) present. See embedded errors list for more details.
+                    _embedded:
+                      errors:
+                        - code: Invalid
+                          message: Status invalid.
+                          path: /status
+                          _links: {}
+                status_not_allowed:
+                  summary: Alert is already resolved or can't be resolved
+                  value:
+                    code: ValidationError
+                    message: Validation error(s) present. See embedded errors list for more details.
+                    _embedded:
+                      errors:
+                        - code: NotAllowed
+                          message: Status not allowed.
+                          path: /status
+                          _links: {}
         '401':
           description: Unauthorized
           headers: {}
@@ -16902,6 +17152,14 @@ components:
                 href: https://api.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
                 type: application/vnd.dwolla.v1.hal+json
                 resource-type: transfer
+            resolve:
+              description: 'Resolves the alert. Present only while the alert is `open` and can be resolved. To resolve the alert, send a `POST` request to this link with `{"status": "resolved"}`. Check for this link before resolving an alert.'
+              allOf:
+                - $ref: '#/components/schemas/HalLink'
+              example:
+                href: https://api.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                type: application/vnd.dwolla.v1.hal+json
+                resource-type: alert
         id:
           type: string
           format: uuid
@@ -17065,6 +17323,128 @@ components:
                   message:
                     type: string
                     example: 'Status must be one of: open, resolved.'
+                  path:
+                    type: string
+                    example: /status
+                  _links:
+                    type: object
+                    example: {}
+    UpdateAlert:
+      title: UpdateAlert
+      description: Parameters to update an alert. Currently, the only supported update is resolving the alert.
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: The alert's new status. Must be `resolved`.
+          const: resolved
+          example: resolved
+    UpdateAlertStatusInvalidError:
+      title: UpdateAlertStatusInvalidError
+      description: The request body's `status` is missing or isn't `resolved`.
+      type: object
+      example:
+        code: ValidationError
+        message: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          errors:
+            - code: Invalid
+              message: Status invalid.
+              path: /status
+              _links: {}
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          enum:
+            - ValidationError
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    enum:
+                      - Invalid
+                    example: Invalid
+                  message:
+                    type: string
+                    example: Status invalid.
+                  path:
+                    type: string
+                    example: /status
+                  _links:
+                    type: object
+                    example: {}
+    UpdateAlertStatusNotAllowedError:
+      title: UpdateAlertStatusNotAllowedError
+      description: The alert can't be resolved, such as when it's already resolved or doesn't have a `resolve` link.
+      type: object
+      example:
+        code: ValidationError
+        message: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          errors:
+            - code: NotAllowed
+              message: Status not allowed.
+              path: /status
+              _links: {}
+      required:
+        - code
+        - message
+        - _embedded
+      properties:
+        code:
+          type: string
+          enum:
+            - ValidationError
+          example: ValidationError
+        message:
+          type: string
+          example: Validation error(s) present. See embedded errors list for more details.
+        _embedded:
+          type: object
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - code
+                  - message
+                  - path
+                properties:
+                  code:
+                    type: string
+                    enum:
+                      - NotAllowed
+                    example: NotAllowed
+                  message:
+                    type: string
+                    example: Status not allowed.
                   path:
                     type: string
                     example: /status
