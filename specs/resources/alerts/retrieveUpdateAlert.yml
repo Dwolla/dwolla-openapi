@@ -189,7 +189,7 @@ post:
 
     You can only resolve an alert that has a `resolve` link in its `_links`. The link is present only while the alert is `open` and can be resolved, so check for it before resolving an alert.
 
-    Resolving an alert changes only the alert's status. It doesn't release holds on transfers or change the Customer. If the alert includes `actionRequired`, follow its instructions separately.
+    Resolving an alert changes only the alert itself: its `status` becomes `resolved`, and `actionRequired` is removed when no further action is needed. It doesn't release holds on transfers or change the Customer, and it doesn't take the action described in `actionRequired` for you.
 
     Resolving an alert that's already resolved, or that you can't resolve, returns a `400 ValidationError` error with the embedded code `NotAllowed`, and the alert isn't changed.
 
