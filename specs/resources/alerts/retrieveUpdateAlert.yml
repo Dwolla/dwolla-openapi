@@ -202,7 +202,7 @@ post:
     - lang: bash
       source: |
         POST https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
-        Content-Type: application/vnd.dwolla.v1.hal+json
+        Content-Type: application/json
         Accept: application/vnd.dwolla.v1.hal+json
         Authorization: Bearer pBA9fVDBEyYZCEsLf/wKehyh1RTpzjUj5KzIRfDi0wKTii7DqY
 

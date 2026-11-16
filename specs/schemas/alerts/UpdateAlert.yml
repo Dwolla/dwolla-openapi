@@ -30,8 +30,6 @@ UpdateAlertStatusInvalidError:
   properties:
     code:
       type: string
-      enum:
-        - ValidationError
       example: ValidationError
     message:
       type: string
@@ -85,8 +83,6 @@ UpdateAlertStatusNotAllowedError:
   properties:
     code:
       type: string
-      enum:
-        - ValidationError
       example: ValidationError
     message:
       type: string
