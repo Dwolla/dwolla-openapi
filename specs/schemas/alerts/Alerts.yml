@@ -62,8 +62,6 @@ ListAlertsInvalidQueryParameterError:
   properties:
     code:
       type: string
-      enum:
-        - InvalidQueryParameter
       example: InvalidQueryParameter
     message:
       type: string
@@ -92,8 +90,6 @@ ListAlertsValidationError:
   properties:
     code:
       type: string
-      enum:
-        - ValidationError
       example: ValidationError
     message:
       type: string
