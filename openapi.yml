@@ -17009,8 +17009,6 @@ components:
       properties:
         code:
           type: string
-          enum:
-            - InvalidQueryParameter
           example: InvalidQueryParameter
         message:
           type: string
@@ -17039,8 +17037,6 @@ components:
       properties:
         code:
           type: string
-          enum:
-            - ValidationError
           example: ValidationError
         message:
           type: string
