@@ -68,6 +68,11 @@ get:
                     "href": "https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers",
                     "type": "application/vnd.dwolla.v1.hal+json",
                     "resource-type": "transfer"
+                  },
+                  "resolve": {
+                    "href": "https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
+                    "type": "application/vnd.dwolla.v1.hal+json",
+                    "resource-type": "alert"
                   }
                 },
                 "id": "d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42",
@@ -204,6 +209,10 @@ get:
                           href: https://api-sandbox.dwolla.com/customers/b0e1c5a6-2f3d-4e7a-8c9b-1d2e3f4a5b6c/transfers
                           type: application/vnd.dwolla.v1.hal+json
                           resource-type: transfer
+                        resolve:
+                          href: https://api-sandbox.dwolla.com/alerts/d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
+                          type: application/vnd.dwolla.v1.hal+json
+                          resource-type: alert
                       id: d4bd3a1e-7c6e-4e8a-9a5c-3b2f9d7e1a42
                       type: unusual-transfer-activity
                       status: open
@@ -279,6 +288,10 @@ get:
                           href: https://api-sandbox.dwolla.com/customers/c3d5e7f9-4a6b-4c8d-9e0f-2a4b6c8d0e1f/transfers
                           type: application/vnd.dwolla.v1.hal+json
                           resource-type: transfer
+                        resolve:
+                          href: https://api-sandbox.dwolla.com/alerts/2a9e6c41-0d7b-4f3a-a8e5-6b1c9d2f4e70
+                          type: application/vnd.dwolla.v1.hal+json
+                          resource-type: alert
                       id: 2a9e6c41-0d7b-4f3a-a8e5-6b1c9d2f4e70
                       type: unusual-transfer-activity
                       status: open
