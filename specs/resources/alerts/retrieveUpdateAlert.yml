@@ -183,7 +183,7 @@ get:
 post:
   tags:
     - alerts
-  summary: Update alert
+  summary: Resolve alert
   description: |
     Resolves an alert for your Dwolla account by setting its `status` to `resolved`. Returns the updated alert, with `status` set to `resolved`, the `resolved` timestamp set, and no `resolve` link.
 

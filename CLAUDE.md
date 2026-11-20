@@ -27,7 +27,7 @@ code:
   example: ValidationError
 ```
 
-Why: Speakeasy's PHP generator casts the error `code` to `int` when it builds the exception. If `code` is an enum, PHPStan fails and dwolla-php regeneration breaks (see #59). Every error schema in the spec follows this rule.
+Why: Speakeasy's PHP generator casts the error `code` to `int` when it builds the exception. If `code` is an enum, PHPStan fails and dwolla-php regeneration breaks (see [#59](https://github.com/Dwolla/dwolla-openapi/pull/59)). Every error schema in the spec follows this rule.
 
 You **can** use enums on the embedded error codes (`_embedded.errors[].code`) to tell `oneOf` branches apart, for example `Invalid` and `NotAllowed` in `UpdateAlertStatusInvalidError` and `UpdateAlertStatusNotAllowedError`. The cast doesn't touch those. List every embedded code the API can return for that path. If the API returns a code you didn't list, typed SDKs can't match it to any branch.
 
